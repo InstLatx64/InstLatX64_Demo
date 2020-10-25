@@ -1,0 +1,174 @@
+Vendor: "GenuineIntel"
+Family:6 Model:150 Stepping:0 (90660)
+Brand: " Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz"
+---GPR----------    
+RDTSC               : supported
+RDTSCP              : supported
+CMOV                : supported
+CMPX8               : supported
+CMPX16              : supported
+AMD64               : supported
+LAHF                : supported
+MOVBE               : supported
+ABM                 : unsupported
+POPCNT              : supported
+RDRAND              : supported
+RDSEED              : supported
+ADX                 : unsupported
+BMI                 : unsupported
+BMI2                : unsupported
+MOVDIRI             : unsupported
+MOVDIR64B           : unsupported
+---SIMD---------    
+SSE                 : supported
+SSE2                : supported
+SSE3                : supported
+SSSE3               : supported
+SSE41               : supported
+SSE42               : supported
+SSE4A               : unsupported
+CLMUL               : supported
+AES                 : supported
+SHA                 : supported
+AVX                 : unsupported
+AVX2                : unsupported
+FMA                 : unsupported
+F16C                : unsupported
+GFNI                : supported
+VAES                : unsupported
+VPCLMULQDQ          : unsupported
+KEYLOCK             : unsupported
+AVX_VNNI            : unsupported
+---AVX512-------    
+AVX512F             : unsupported
+AVX512CD            : unsupported
+AVX512ER            : unsupported
+AVX512PF            : unsupported
+AVX512BW            : unsupported
+AVX512DQ            : unsupported
+AVX512VL            : unsupported
+AVX512VBMI          : unsupported
+AVX512IFMA          : unsupported
+AVX512VNNI          : unsupported
+AVX512_4VNNIW       : unsupported
+AVX512_4FMAPS       : unsupported
+AVX512_VPOPCNTDQ    : unsupported
+AVX512_BITALG       : unsupported
+AVX512_VBMI2        : unsupported
+AVX512_BF16         : unsupported
+AVX512_VP2INTERSECT : unsupported
+AVX512_FP16         : unsupported
+---AMX----------    
+AMX-BF16            : unsupported
+AMX-INT8            : unsupported
+AMX-TILE            : unsupported
+---CacheLine----    
+PREFETCHW           : unsupported
+PREFETCHWT1         : unsupported
+CLFLUSH             : supported
+CLFLUSHOPT          : supported
+CLWB                : supported
+CLZERO              : unsupported
+CLDEMOTE            : unsupported
+---Misc---------    
+LNOP                : supported
+SERIALIZE           : unsupported
+HYBRID              : unsupported
+---Deprecated---    
+X87                 : supported
+MMX                 : supported
+MMX+                : unsupported
+3DNow!              : unsupported
+3DNow!+             : unsupported
+XOP                 : unsupported
+FMA4                : unsupported
+TBM                 : unsupported
+-----------------------------------
+x128                ff7f3f1f0f070301 80c0e0f0f8fcfeff	x128                ff7f3f1f0f070301 80c0e0f0f8fcfeff	x128                ff7f3f1f0f070301 80c0e0f0f8fcfeff
+0:_mm_ror_gfni_epi8 ff7f3f1f0f070301 80c0e0f0f8fcfeff 	0:_mm_srl_gfni_epi8 ff7f3f1f0f070301 80c0e0f0f8fcfeff	0:_mm_sra_gfni_epi8 ff7f3f1f0f070301 80c0e0f0f8fcfeff
+1:_mm_ror_gfni_epi8 ffbf9f8f87838180 406070787c7e7fff 	1:_mm_srl_gfni_epi8 7f3f1f0f07030100 406070787c7e7f7f	1:_mm_sra_gfni_epi8 ff3f1f0f07030100 c0e0f0f8fcfeffff
+2:_mm_ror_gfni_epi8 ffdfcfc7c3c1c040 2030383c3e3fbfff 	2:_mm_srl_gfni_epi8 3f1f0f0703010000 2030383c3e3f3f3f	2:_mm_sra_gfni_epi8 ff1f0f0703010000 e0f0f8fcfeffffff
+3:_mm_ror_gfni_epi8 ffefe7e3e1e06020 10181c1e1f9fdfff 	3:_mm_srl_gfni_epi8 1f0f070301000000 10181c1e1f1f1f1f	3:_mm_sra_gfni_epi8 ff0f070301000000 f0f8fcfeffffffff
+4:_mm_ror_gfni_epi8 fff7f3f1f0703010 080c0e0f8fcfefff 	4:_mm_srl_gfni_epi8 0f07030100000000 080c0e0f0f0f0f0f	4:_mm_sra_gfni_epi8 ff07030100000000 f8fcfeffffffffff
+5:_mm_ror_gfni_epi8 fffbf9f878381808 04060787c7e7f7ff 	5:_mm_srl_gfni_epi8 0703010000000000 0406070707070707	5:_mm_sra_gfni_epi8 ff03010000000000 fcfeffffffffffff
+6:_mm_ror_gfni_epi8 fffdfc7c3c1c0c04 020383c3e3f3fbff 	6:_mm_srl_gfni_epi8 0301000000000000 0203030303030303	6:_mm_sra_gfni_epi8 ff01000000000000 feffffffffffffff
+7:_mm_ror_gfni_epi8 fffe7e3e1e0e0602 0181c1e1f1f9fdff 	7:_mm_srl_gfni_epi8 0100000000000000 0101010101010101	7:_mm_sra_gfni_epi8 ff00000000000000 ffffffffffffffff
+8:_mm_ror_gfni_epi8 ff7f3f1f0f070301 80c0e0f0f8fcfeff 	8:_mm_srl_gfni_epi8 0000000000000000 0000000000000000	8:_mm_sra_gfni_epi8 ff00000000000000 ffffffffffffffff
+0:_mm_rol_gfni_epi8 ff7f3f1f0f070301 80c0e0f0f8fcfeff 	0:_mm_sll_gfni_epi8 ff7f3f1f0f070301 80c0e0f0f8fcfeff	0:_mm_sla_gfni_epi8 ff7f3f1f0f070301 80c0e0f0f8fcfeff
+1:_mm_rol_gfni_epi8 fffe7e3e1e0e0602 0181c1e1f1f9fdff 	1:_mm_sll_gfni_epi8 fefe7e3e1e0e0602 0080c0e0f0f8fcfe	1:_mm_sla_gfni_epi8 ffff7f3f1f0f0703 0080c0e0f0f8fcff
+2:_mm_rol_gfni_epi8 fffdfc7c3c1c0c04 020383c3e3f3fbff 	2:_mm_sll_gfni_epi8 fcfcfc7c3c1c0c04 000080c0e0f0f8fc	2:_mm_sla_gfni_epi8 ffffff7f3f1f0f07 000080c0e0f0f8ff
+3:_mm_rol_gfni_epi8 fffbf9f878381808 04060787c7e7f7ff 	3:_mm_sll_gfni_epi8 f8f8f8f878381808 00000080c0e0f0f8	3:_mm_sla_gfni_epi8 ffffffff7f3f1f0f 00000080c0e0f0ff
+4:_mm_rol_gfni_epi8 fff7f3f1f0703010 080c0e0f8fcfefff 	4:_mm_sll_gfni_epi8 f0f0f0f0f0703010 0000000080c0e0f0	4:_mm_sla_gfni_epi8 ffffffffff7f3f1f 0000000080c0e0ff
+5:_mm_rol_gfni_epi8 ffefe7e3e1e06020 10181c1e1f9fdfff 	5:_mm_sll_gfni_epi8 e0e0e0e0e0e06020 000000000080c0e0	5:_mm_sla_gfni_epi8 ffffffffffff7f3f 000000000080c0ff
+6:_mm_rol_gfni_epi8 ffdfcfc7c3c1c040 2030383c3e3fbfff 	6:_mm_sll_gfni_epi8 c0c0c0c0c0c0c040 00000000000080c0	6:_mm_sla_gfni_epi8 ffffffffffffff7f 00000000000080ff
+7:_mm_rol_gfni_epi8 ffbf9f8f87838180 406070787c7e7fff 	7:_mm_sll_gfni_epi8 8080808080808080 0000000000000080	7:_mm_sla_gfni_epi8 ffffffffffffffff 00000000000000ff
+8:_mm_rol_gfni_epi8 ff7f3f1f0f070301 80c0e0f0f8fcfeff 	8:_mm_sll_gfni_epi8 0000000000000000 0000000000000000	8:_mm_sla_gfni_epi8 ffffffffffffffff 00000000000000ff
+-----------------------------------                       -----------------------------------
+x128                  ff7f3f1f0f070301 80c0e0f0f8fcfeff   x128                          ff7f3f1f0f070301 80c0e0f0f8fcfeff
+_mm_revbit_epi8       fffefcf8f0e0c080 0103070f1f3f7fff   _mm_rotate_8x8                0103070f1f3f7fff fffefcf8f0e0c080
+-----------------------------------						  -----------------------------------
+x128                  ff7f3f1f0f070301 80c0e0f0f8fcfeff   x128                          aa55cc33a050c031 030c050a33cc55aa
+_mm_bcstbit_epi8      ffffffffffffffff 00000000000000ff   _mm_mirror_8x8                8a090605aa996655 559966aa509060a0
+-----------------------------------						  -----------------------------------
+x128                  ff7f3f1f0f070301 80c0e0f0f8fcfeff   x128                          080808ff08080808 8142241818244281
+_mm_prefix_xor_epi8   55d515f505fd01ff 8040a050a854aa55   _mm_multiplication_8x8 xx     fffffff7ffffffff 0000000000000000
+-----------------------------------						  _mm_multiplication_8x8 xu     080808ff08080808 8142241818244281
+x128                  ff7f3f1f0f070301 80c0e0f0f8fcfeff	  _mm_multiplication_8x8 ux     080808ff08080808 8142241818244281
+_mm_inverse_epi8      0080c0e0f0f8fcfe 7f3f1f0f07030100
+----------------------------------- 
+x128                  ff7f3f1f0f070301 80c0e0f0f8fcfeff 
+_mm_set1_gfni_epi8    bdbdbdbdbdbdbdbd bdbdbdbdbdbdbdbd
+----------------------------------- 
+x128                          f6573f9e78d3e9b5 36becae7f3cf1a7d 
+_mm_prefix_xor_clmul_si128    5232ea8a284ea76c ed95b9a2aebaf62b 
+
+
+/* Rotating bit in qwords around center  */			/* Mirror bits in qwords, through the    */			/* Multiplication 8x8 bits in qwords */
+/*                                       */			/* 07-16-25-34-43-52-61-70 diagonal axis */			/*                                   */
+/*           In[i,j] -> Out[j,7-i]       */			/*                                       */			/*              7                    */
+/*                                       */			/*           In[i,j] -> Out[7-j,7-i]     */			/* res[i][j] = XOR(a[i][k],b[k][j])  */
+/* In  : MSB 77 76 75 74 73 72 71 70     */			/*                                       */			/*             k=0                   */
+/*           67 66 65 64 63 62 61 60     */			/* In  : MSB 77 76 75 74 73 72 71 70     */
+/*           57 56 55 54 53 52 51 50     */			/*           67 66 65 64 63 62 61 60     */
+/*           47 46 45 44 43 42 41 40     */			/*           57 56 55 54 53 52 51 50     */
+/*           37 36 35 34 33 32 31 30     */			/*           47 46 45 44 43 42 41 40     */
+/*           27 26 25 24 23 22 21 20     */			/*           37 36 35 34 33 32 31 30     */
+/*           17 16 15 14 13 12 11 10     */			/*           27 26 25 24 23 22 21 20     */
+/*           07 06 05 04 03 02 01 00 LSB */			/*           17 16 15 14 13 12 11 10     */
+/*                                       */			/*           07 06 05 04 03 02 01 00 LSB */
+/* Out : MSB 07 17 27 37 47 57 67 77     */			/*                                       */
+/*           06 16 26 36 46 56 66 76     */			/* Out : MSB 00 10 20 30 40 50 60 70     */
+/*           05 15 25 35 45 55 65 75     */			/*           01 11 21 31 41 51 61 71     */
+/*           04 14 24 34 44 54 64 74     */			/*           02 12 22 32 42 52 62 72     */
+/*           03 13 23 33 43 53 63 73     */			/*           03 13 23 33 43 53 63 73     */
+/*           02 12 22 32 42 52 62 72     */			/*           04 14 24 34 44 54 64 74     */
+/*           01 11 21 31 41 51 61 71     */			/*           05 15 25 35 45 55 65 75     */
+/*           00 10 20 30 40 50 60 70 LSB */			/*           06 16 26 36 46 56 66 76     */
+													/*           07 17 27 37 47 57 67 77 LSB */
+
+/* Pospopcount u8  */									/* Pospopcount u16  */
+/* In  : MSB        77 76 75 74 73 72 71 70      */		/* In:  MSB 7F 7E 7D 7C 7B 7A 79 78 77 76 75 74 73 72 71 70     */
+/*                  67 66 65 64 63 62 61 60      */		/*          6F 6E 6D 6C 6B 6A 69 68 67 66 65 64 63 62 61 60     */
+/*                  57 56 55 54 53 52 51 50      */		/*          5F 5E 5D 5C 5B 5A 59 58 57 56 55 54 53 52 51 50     */
+/*                  47 46 45 44 43 42 41 40      */		/*          4F 4E 4D 4C 4B 4A 49 48 47 46 45 44 43 42 41 40     */
+/*                  37 36 35 34 33 32 31 30      */		/*          3F 3E 3D 3C 3B 3A 39 38 37 36 35 34 33 32 31 30     */
+/*                  27 26 25 24 23 22 21 20      */		/*          2F 2E 2D 2C 2B 2A 29 28 27 26 25 24 23 22 21 20     */
+/*                  17 16 15 14 13 12 11 10      */		/*          1F 1E 1D 1C 1B 1A 19 18 17 16 15 14 13 12 11 10     */
+/*                  07 06 05 04 03 02 01 00 LSB  */		/*          0F 0E 0D 0C 0B 0A 09 08 07 06 05 04 03 02 01 00 LSB */
+/*                                               */		/*                                              */
+/* Out : MSB popcnt(77,67,57,47,37,27,17,07)     */		/* Out: MSB popcnt(7F,6F,5F,4F,3F,2F,1F,0F)     */
+/*           popcnt(76,66,56,46,36,26,16,06)     */		/*          popcnt(7E,6E,5E,4E,3E,2E,1E,0E)     */
+/*           popcnt(75,65,55,45,35,25,15,05)     */		/*          popcnt(7D,6D,5D,4D,3D,2D,1D,0D)     */
+/*           popcnt(74,64,54,44,34,24,14,04)     */		/*          popcnt(7C,6C,5C,4C,3C,2C,1C,0C)     */
+/*           popcnt(73,63,53,43,33,23,13,03)     */		/*          popcnt(7B,6B,5B,4B,3B,2B,1B,0B)     */
+/*           popcnt(72,62,52,42,32,22,12,02)     */		/*          popcnt(7A,6A,5A,4A,3A,2A,1A,0A)     */
+/*           popcnt(71,61,51,41,31,21,11,01)     */		/*          popcnt(79,69,59,49,39,29,19,09)     */
+/*           popcnt(70,60,50,40,30,20,10,00) LSB */		/*          popcnt(78,68,58,48,38,28,18,08)     */
+														/*          popcnt(77,67,57,47,37,27,17,07)     */
+														/*          popcnt(76,66,56,46,36,26,16,06)     */
+														/*          popcnt(75,65,55,45,35,25,15,05)     */
+														/*          popcnt(74,64,54,44,34,24,14,04)     */ 
+														/*          popcnt(73,63,53,43,33,23,13,03)     */
+														/*          popcnt(72,62,52,42,32,22,12,02)     */
+														/*          popcnt(71,61,51,41,31,21,11,01)     */
+														/*          popcnt(70,60,50,40,30,20,10,00) LSB */

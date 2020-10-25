@@ -1,0 +1,43 @@
+#pragma once
+
+#define _mm_ror_vbmi2_epi16(a, cnt)					_mm_shrdi_epi16(a, a, cnt)
+#define _mm_mask_ror_vbmi2_epi16(a, k, b, cnt)		_mm_mask_shrdi_epi16(a, k, b, b, cnt)
+#define _mm_maskz_ror_vbmi2_epi16(k, a, cnt)		_mm_maskz_shrdi_epi16(k, a, a, cnt)
+#define _mm256_ror_vbmi2_epi16(a, cnt)				_mm256_shrdi_epi16(a, a, cnt)
+#define _mm256_mask_ror_vbmi2_epi16(a, k, b, cnt)	_mm256_mask_shrdi_epi16(a, k, b, b, cnt)
+#define _mm256_maskz_ror_vbmi2_epi16(k, a, cnt)		_mm256_maskz_shrdi_epi16(k, a, a, cnt)
+#define _mm512_ror_vbmi2_epi16(a, cnt)				_mm512_shrdi_epi16(a, a, cnt)
+#define _mm512_mask_ror_vbmi2_epi16(a, k, b, cnt)	_mm512_mask_shrdi_epi16(a, k, b, b, cnt)
+#define _mm512_maskz_ror_vbmi2_epi16(k, a, cnt)		_mm512_maskz_shrdi_epi16(k, a, a, cnt)
+
+#define _mm_rol_vbmi2_epi16(a, cnt)					_mm_shldi_epi16(a, a, cnt)
+#define _mm_mask_rol_vbmi2_epi16(a, k, b, cnt)		_mm_mask_shldi_epi16(a, k, b, b, cnt)
+#define _mm_maskz_rol_vbmi2_epi16(k, a, cnt)		_mm_maskz_shldi_epi16(k, a, a, cnt)
+#define _mm256_rol_vbmi2_epi16(a, cnt)				_mm256_shldi_epi16(a, a, cnt)
+#define _mm256_mask_rol_vbmi2_epi16(a, k, b, cnt)	_mm256_mask_shldi_epi16(a, k, b, b, cnt)
+#define _mm256_maskz_rol_vbmi2_epi16(k, a, cnt)		_mm256_maskz_shldi_epi16(k, a, a, cnt)
+#define _mm512_rol_vbmi2_epi16(a, cnt)				_mm512_shldi_epi16(a, a, cnt)
+#define _mm512_mask_rol_vbmi2_epi16(a, k, b, cnt)	_mm512_mask_shldi_epi16(a, k, b, b, cnt)
+#define _mm512_maskz_rol_vbmi2_epi16(k, a, cnt)		_mm512_maskz_shldi_epi16(k, a, a, cnt)
+
+#define _mm_rorv_vbmi2_epi16(a, cnt)				_mm_shrdv_epi16(a, a, cnt)
+#define _mm_mask_rorv_vbmi2_epi16(a, k, b, cnt)		_mm_mask_blend_epi16(k, a, _mm_shrdv_epi16(b, b, cnt))
+#define _mm_maskz_rorv_vbmi2_epi16(k, a, cnt)		_mm_maskz_shrdv_epi16(k, a, a, cnt)
+#define _mm256_rorv_vbmi2_epi16(a, cnt)				_mm256_shrdv_epi16(a, a, cnt)
+#define _mm256_mask_rorv_vbmi2_epi16(a, k, b, cnt)	_mm256_mask_blend_epi16(k, a, _mm256_shrdv_epi16(b, b, cnt))
+#define _mm256_maskz_rorv_vbmi2_epi16(k, a, cnt)	_mm256_maskz_shrdv_epi16(k, a, a, cnt)
+#define _mm512_rorv_vbmi2_epi16(a, cnt)				_mm512_shrdv_epi16(a, a, cnt)
+#define _mm512_mask_rorv_vbmi2_epi16(a, k, b, cnt)	_mm512_mask_blend_epi16(k, a, _mm512_shrdv_epi16(b, b, cnt))
+#define _mm512_maskz_rorv_vbmi2_epi16(k, a, cnt)	_mm512_maskz_shrdv_epi16(k, a, a, cnt)
+
+#define _mm_rolv_vbmi2_epi16(a, cnt)				_mm_shldv_epi16(a, a, cnt)
+#define _mm_mask_rolv_vbmi2_epi16(a, k, b, cnt)		_mm_mask_blend_epi16(k, a, _mm_shldv_epi16(b, b, cnt))
+#define _mm_maskz_rolv_vbmi2_epi16(k, a, cnt)		_mm_maskz_shldv_epi16(k, a, a, cnt)
+#define _mm256_rolv_vbmi2_epi16(a, cnt)				_mm256_shldv_epi16(a, a, cnt)
+#define _mm256_mask_rolv_vbmi2_epi16(a, k, b, cnt)	_mm256_mask_blend_epi16(k, a, _mm256_shldv_epi16(b, b, cnt))
+#define _mm256_maskz_rolv_vbmi2_epi16(k, a, cnt)	_mm256_maskz_shldv_epi16(k, a, a, cnt)
+#define _mm512_rolv_vbmi2_epi16(a, cnt)				_mm512_shldv_epi16(a, a, cnt)
+#define _mm512_mask_rolv_vbmi2_epi16(a, k, b, cnt)	_mm512_mask_blend_epi16(k, a, _mm512_shldv_epi16(b, b, cnt))
+#define _mm512_maskz_rolv_vbmi2_epi16(k, a, cnt)	_mm512_maskz_shldv_epi16(k, a, a, cnt)
+
+void VBMI2_Demo(void);
