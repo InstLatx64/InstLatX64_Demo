@@ -29,7 +29,7 @@ void VPCLMULQDQ_Demo_prefix_xor(void) {
 	printRes("x128                          ", x128);
 	printRes("_mm_prefix_xor_clmul_si128    ", _mm_prefix_xor_clmul_si128(x128));
 	
-#if defined(__AVX__)
+#if defined(__AVX2__)
 	if (cpu_props.IsFeat(ISA_AVX) && cpu_props.IsFeat(ISA_VPCLMULQDQ)) {
 		unsigned long long q64_2 = 0, q64_3 = 0;
 #if !defined(_M_X64)

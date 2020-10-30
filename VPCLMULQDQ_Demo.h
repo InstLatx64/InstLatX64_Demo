@@ -4,7 +4,7 @@
 
 __m128i _mm_prefix_xor_clmul_si128(__m128i a);
 
-#if defined(__AVX__)
+#if defined(__AVX2__)
 __m256i _mm256_prefix_xor_clmul_si256(__m256i a);
 #endif
 

@@ -30,7 +30,7 @@ void GFNI_Demo_rotate_epi8(void) {
 #endif
 	}
 
-#if defined(__AVX__)
+#if defined(__AVX2__)
 	__m256i x256	= _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 	for (int r = 0; r < maxrot; r++) {
 		__m256i test256	= _mm256_xor_si256(x256, _mm256_ror_gfni_epi8(_mm256_rol_gfni_epi8(x256, r), r));
@@ -101,7 +101,7 @@ void GFNI_Demo_shifti_epi8(void) {
 #endif
 	}
 
-#if defined(__AVX__)
+#if defined(__AVX2__)
 	__m256i x256	= _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 	for (int r = 0; r < maxrot; r++) {
 		__m256i temp256 = _mm256_or_si256(_mm256_srli_gfni_epi8(x256, r), _mm256_slli_gfni_epi8(x256, 8 - r));
@@ -174,7 +174,7 @@ void GFNI_Demo_shift_epi8(void) {
 #endif
 	}
 
-#if defined(__AVX__)
+#if defined(__AVX2__)
 	__m256i x256	= _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 	for (int r = 0; r < maxrot; r++) {
 		__m256i temp256 = _mm256_or_si256(_mm256_srl_gfni_epi8(x256, _mm_cvtsi32_si128(r)), _mm256_sll_gfni_epi8(x256, _mm_cvtsi32_si128(8 - r)));
@@ -247,7 +247,7 @@ void GFNI_Demo_arith_shifti_epi8(void) {
 #endif
 	}
 
-#if defined(__AVX__)
+#if defined(__AVX2__)
 	__m256i x256	= _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 	//for (int r = 0; r < maxrot; r++) {
 	//	__m256i temp256 = _mm256_or_si256(_mm256_srai_gfni_epi8(x256, r), _mm256_slai_gfni_epi8(x256, 8 - r));
@@ -320,7 +320,7 @@ void GFNI_Demo_arith_shift_epi8(void) {
 #endif
 	}
 
-#if defined(__AVX__)
+#if defined(__AVX2__)
 	__m256i x256	= _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 	//for (int r = 0; r < maxrot; r++) {
 	//	__m256i temp256 = _mm256_or_si256(_mm256_sra_gfni_epi8(x256, _mm_cvtsi32_si128(r)), _mm256_sla_gfni_epi8(x256, _mm_cvtsi32_si128(8 - r)));
@@ -381,7 +381,7 @@ void GFNI_Demo_inverse_epi8(void) {
 		printRes("_mm_mask_inverse_epi8         ", _mm_mask_inverse_epi8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 	}
 #endif
-#if defined(__AVX__)
+#if defined(__AVX2__)
 	if (cpu_props.IsFeat(ISA_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 		__m256i test256	= _mm256_xor_si256(x256, _mm256_inverse_epi8(_mm256_inverse_epi8(x256)));
@@ -422,7 +422,7 @@ void GFNI_Demo_set1_epi8(void) {
 		printRes("_mm_mask_set1_gfni_epi8       ", _mm_mask_set1_gfni_epi8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, 0xbd));
 	}
 #endif
-#if defined(__AVX__)
+#if defined(__AVX2__)
 	if (cpu_props.IsFeat(ISA_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 		//__m256i test256	= _mm256_xor_si256(x256, _mm256_set1_gfni_epi8(_mm256_set1_gfni_epi8(x256)));
@@ -463,7 +463,7 @@ void GFNI_Demo_revbit_epi8(void) {
 		printRes("_mm_mask_revbit_epi8          ", _mm_mask_revbit_epi8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 	}
 #endif
-#if defined(__AVX__)
+#if defined(__AVX2__)
 	if (cpu_props.IsFeat(ISA_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 		__m256i test256	= _mm256_xor_si256(x256,  _mm256_revbit_epi8(_mm256_revbit_epi8(x256)));
@@ -502,7 +502,7 @@ void GFNI_Demo_bcstbit_epi8(void) {
 		printRes("_mm_mask_bcstbit_epi8         ", _mm_mask_bcstbit_epi8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128, 0));
 	}
 #endif
-#if defined(__AVX__)
+#if defined(__AVX2__)
 	if (cpu_props.IsFeat(ISA_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 
@@ -538,7 +538,7 @@ void GFNI_Demo_rotate_8x8(void) {
 		printRes("_mm_mask_rotate_8x8           ", _mm_mask_rotate_8x8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 	}
 #endif
-#if defined(__AVX__)
+#if defined(__AVX2__)
 	if (cpu_props.IsFeat(ISA_AVX)) {
 		__m256i x256	= _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_04, _INSTLATX64_DEMO_TESTVECT_05), y256 = _mm256_set1_epi8(0x7f);
 		__m256i test256 = _mm256_xor_si256(x256, _mm256_rotate_8x8(_mm256_rotate_8x8(_mm256_rotate_8x8(_mm256_rotate_8x8(x256)))));
@@ -579,7 +579,7 @@ void GFNI_Demo_mirror_8x8(void) {
 	}
 #endif
 
-#if defined(__AVX__)
+#if defined(__AVX2__)
 	if (cpu_props.IsFeat(ISA_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03, _INSTLATX64_DEMO_TESTVECT_04, _INSTLATX64_DEMO_TESTVECT_05), y256 = _mm256_set1_epi8(0x7f);
 		__m256i test256 = _mm256_xor_si256(x256, _mm256_mirror_8x8(_mm256_mirror_8x8(x256)));
@@ -620,7 +620,7 @@ void GFNI_Demo_multiplication_8x8(void) {
 	}
 #endif
 
-#if defined(__AVX__)
+#if defined(__AVX2__)
 	if (cpu_props.IsFeat(ISA_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_04, _INSTLATX64_DEMO_TESTVECT_05, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f), z256 = _mm256_set1_epi64x(0x0102040810204080), w256 = _mm256_set1_epi64x(0x8040201008040201);
 		printRes("x256                            ", x256);
@@ -653,7 +653,7 @@ void GFNI_Demo_prefix_xor_epi8(void) {
 	}
 #endif
 
-#if defined(__AVX__)
+#if defined(__AVX2__)
 	if (cpu_props.IsFeat(ISA_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 		printRes("x256                          ", x256);

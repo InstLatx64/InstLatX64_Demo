@@ -46,6 +46,8 @@ experimental implementation of entire register (128/256/512b, xmm/ymm/zmm) prefi
 
 # Compiler_Intrinsic_Test.cpp  
 for testing Visual Studio AVX512 capabilities
+# PEXT_PDEP_Emu.cpp  
+Faster PEXT and PDEP emulation for AMD Excavator/Zen/Zen+/Zen2 based on Zach Wegner's ZP7 (Zach's Peppy Parallel-Prefix-Popcountin' PEXT/PDEP Polyfill)
 # CPU_Props.* 
 detection of CPU properties for dispatching code paths
 
@@ -53,3 +55,5 @@ detection of CPU properties for dispatching code paths
 *  Geoff Langdale [Why Ice Lake is Important (a bit-basher’s perspective)](https://branchfree.org/2019/05/29/why-ice-lake-is-important-a-bit-bashers-perspective/)
 *  Marcus D. R. Klarqvist, Wojciech Muła, Daniel Lemire [Efficient Computation of Positional Population Counts Using SIMD Instructions](https://arxiv.org/abs/1911.02696)
 *  Wojciech Muła [AVX512VBMI — remove spaces from text](http://0x80.pl/articles/avx512-galois-field-for-bit-shuffling.html)
+*  Zach Wegner [ZP7 (Zach's Peppy Parallel-Prefix-Popcountin' PEXT/PDEP Polyfill)](https://github.com/zwegner/zp7)
+

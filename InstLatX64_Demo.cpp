@@ -75,6 +75,14 @@ int main()
 	}
 #endif
 
+#if defined(__AVX2__)
+	if (cpu_props.IsFeat(ISA_BMI2)) {
+		PEXT_PDEP_Emu_Test();
+	}
+	else {
+		cout << "BMI2 unspported." << endl;
+	}
+#endif
 
 	cout << "===================================" << endl;
 

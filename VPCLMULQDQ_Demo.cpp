@@ -12,7 +12,7 @@ __m128i _mm_prefix_xor_clmul_si128(__m128i a) {
 	return				_mm_unpacklo_epi64(clmul0_63, clmul64_127);
 }
 
-#if defined(__AVX__)
+#if defined(__AVX2__)
 __m256i _mm256_prefix_xor_clmul_si256(__m256i a) {
 	const __m256i full	= _mm256_set1_epi32(0xffffffff);
 	__m256i clmul0_63	= _mm256_clmulepi64_epi128(a, full, 0x00);
