@@ -28,6 +28,7 @@
 //Visual Studio 2019 version 16.5	1925
 //Visual Studio 2019 version 16.6	1926
 //Visual Studio 2019 version 16.7	1927
+//Visual Studio 2019 version 16.8	1928
 
 void AVX512_InstrincTest(void)
 {
@@ -141,23 +142,26 @@ void InstrincTest(void) {
 //TSXLDTRK
 	_xresldtrk();													//XRESLDTRK
 	_xsusldtrk();													//XSUSLDTRK
+#if (_MSC_VER > 1927)
 //AMX-TILE
-//void _tile_loadconfig(const void *);								//LDTILECFG
-//void _tile_storeconfig(void *);									//STTILECFG
-//void _tile_loadd(__tile dst, const void *base, int stride);		//TILELOADD
-//void _tile_stream_loadd(__tile dst, const void *base, int stride);//TILELOADDT1 
-//void _tile_release(void);											//TILERELEASE 
-//void _tile_stored(__tile src, void *base, int stride);			//TILESTORED 
-//void _tile_zero(__tile dst);										//TILEZERO 
-//
-////AMX-BF16
-//void _tile_dpbf16ps(__tile dst, __tile src1, __tile src2);		//TDPBF16PS 
-//
-////AMX-INT8
-//void _tile_dpbssd(__tile dst, __tile src1, __tile src2);			//TDPBSSD 
-//void _tile_dpbsud(__tile dst, __tile src1, __tile src2);			//TDPBSUD 
-//void _tile_dpbusd(__tile dst, __tile src1, __tile src2);			//TDPBUSD 
-//void _tile_dpbuud(__tile dst, __tile src1, __tile src2);			//TDPBUUD 
+	unsigned char load_tilecfg[64], store_tilecfg[64];
+	unsigned char tile0[1024], tile1[1024];
+	_tile_loadconfig(load_tilecfg);									//LDTILECFG
+	_tile_storeconfig(store_tilecfg);								//STTILECFG
+	_tile_loadd(0, tile0, 64);										//TILELOADD
+	_tile_stream_loadd(1, tile1, 64);								//TILELOADDT1
+	_tile_stored(0, tile1, 64);										//TILESTORED
+	_tile_stored(1, tile0, 64);										//TILESTORED
+	_tile_zero(2);													//TILEZERO
+	_tile_release();												//TILERELEASE
+//AMX-BF16
+	_tile_dpbf16ps(2, 1, 0);										//TDPBF16PS
+//AMX-INT8
+	_tile_dpbssd(3, 2, 1);											//TDPBSSD
+	_tile_dpbsud(4, 3, 2);											//TDPBSUD
+	_tile_dpbusd(5, 4, 3);											//TDPBUSD
+	_tile_dpbuud(6, 5, 4);											//TDPBUUD
+#endif //_MSC_VER > 1927
 #endif //_MSC_VER > 1926
 #endif //_MSC_VER > 1920
 }
