@@ -1,0 +1,184 @@
+-----------------------------------
+x128                                ff7f3f1f0f070301 80c0e0f0f8fcfeff
+_mm_rorv_vbmi2_epi16                fff7f3f170f01030 080c0e0fcf8fffef
+_mm_ror_vbmi2_epi16                 fff7f3f170f01030 080c0e0fcf8fffef
+_mm_maskz_rorv_vbmi2_epi16          0000f3f100001030 080c0000cf8f0000
+_mm_maskz_ror_vbmi2_epi16           0000f3f100001030 080c0000cf8f0000
+_mm_mask_rorv_vbmi2_epi16           fefef3f1fefe1030 080cffffcf8fffff
+_mm_mask_ror_vbmi2_epi16            fefef3f1fefe1030 080cffffcf8fffff
+x256                                ff7f3f1f0f070301 80c0e0f0f8fcfeff aa55cc33a050c031 030c050a33cc55aa
+_mm256_rorv_vbmi2_epi16             7fff1f3f070f0103 c080f0e0fcf8fffe 55aa33cc50a031c0 0c030a05cc33aa55
+_mm256_ror_vbmi2_epi16              7fff1f3f070f0103 c080f0e0fcf8fffe 55aa33cc50a031c0 0c030a05cc33aa55
+_mm256_maskz_rorv_vbmi2_epi16       00001f3f00000103 c0800000fcf80000 000033cc50a031c0 0c030a05cc330000
+_mm256_maskz_ror_vbmi2_epi16        00001f3f00000103 c0800000fcf80000 000033cc50a031c0 0c030a05cc330000
+_mm256_mask_rorv_vbmi2_epi16        fefe1f3ffefe0103 c080fffffcf8ffff fefe33cc50a031c0 0c030a05cc33ffff
+_mm256_mask_ror_vbmi2_epi16         fefe1f3ffefe0103 c080fffffcf8ffff fefe33cc50a031c0 0c030a05cc33ffff
+x512                                ff7f3f1f0f070301 80c0e0f0f8fcfeff aa55cc33a050c031 030c050a33cc55aa ff7f3f1f0f070301 80c0e0f0f8fcfeff aa55cc33a050c031 030c050a33cc55aa
+_mm512_rorv_vbmi2_epi16             ff7f3f1f0f070301 80c0e0f0f8fcfeff aa55cc33a050c031 030c050a33cc55aa ff7f3f1f0f070301 80c0e0f0f8fcfeff aa55cc33a050c031 030c050a33cc55aa
+_mm512_ror_vbmi2_epi16              ff7f3f1f0f070301 80c0e0f0f8fcfeff aa55cc33a050c031 030c050a33cc55aa ff7f3f1f0f070301 80c0e0f0f8fcfeff aa55cc33a050c031 030c050a33cc55aa
+_mm512_maskz_rorv_vbmi2_epi16       00003f1f00000301 80c00000f8fc0000 0000cc33a050c031 030c050a33cc0000 000000000f070301 80c0e0f000000000 000000000000c031 030c000000000000
+_mm512_maskz_ror_vbmi2_epi16        00003f1f00000301 80c00000f8fc0000 0000cc33a050c031 030c050a33cc0000 000000000f070301 80c0e0f000000000 000000000000c031 030c000000000000
+_mm512_mask_rorv_vbmi2_epi16        fefe3f1ffefe0301 80c0fffff8fcffff fefecc33a050c031 030c050a33ccffff fefefefe0f070301 80c0e0f0ffffffff fefefefefefec031 030cffffffffffff
+_mm512_mask_ror_vbmi2_epi16         fefe3f1ffefe0301 80c0fffff8fcffff fefecc33a050c031 030c050a33ccffff fefefefe0f070301 80c0e0f0ffffffff fefefefefefec031 030cffffffffffff
+-----------------------------------
+x128                       7fbfdfeff7fbfdf7 8040201008040201
+00:_mm_rol_vbmi2_epi8      7fbfdfeff7fbfdf7 8040201008040201
+01:_mm_rol_vbmi2_epi8      fe7fbfdfeff7fbef 0180402010080402
+02:_mm_rol_vbmi2_epi8      fdfe7fbfdfeff7df 0201804020100804
+03:_mm_rol_vbmi2_epi8      fbfdfe7fbfdfefbf 0402018040201008
+04:_mm_rol_vbmi2_epi8      f7fbfdfe7fbfdf7f 0804020180402010
+05:_mm_rol_vbmi2_epi8      eff7fbfdfe7fbffe 1008040201804020
+06:_mm_rol_vbmi2_epi8      dfeff7fbfdfe7ffd 2010080402018040
+07:_mm_rol_vbmi2_epi8      bfdfeff7fbfdfefb 4020100804020180
+08:_mm_rol_vbmi2_epi8      7fbfdfeff7fbfdf7 8040201008040201
+09:_mm_rol_vbmi2_epi8      fe7fbfdfeff7fbef 0180402010080402
+0a:_mm_rol_vbmi2_epi8      fdfe7fbfdfeff7df 0201804020100804
+0b:_mm_rol_vbmi2_epi8      fbfdfe7fbfdfefbf 0402018040201008
+0c:_mm_rol_vbmi2_epi8      f7fbfdfe7fbfdf7f 0804020180402010
+0d:_mm_rol_vbmi2_epi8      eff7fbfdfe7fbffe 1008040201804020
+0e:_mm_rol_vbmi2_epi8      dfeff7fbfdfe7ffd 2010080402018040
+0f:_mm_rol_vbmi2_epi8      bfdfeff7fbfdfefb 4020100804020180
+10:_mm_rol_vbmi2_epi8      7fbfdfeff7fbfdf7 8040201008040201
+80:_mm_rol_vbmi2_epi8      7fbfdfeff7fbfdf7 8040201008040201
+ff:_mm_rol_vbmi2_epi8      bfdfeff7fbfdfefb 4020100804020180
+00:_mm_ror_vbmi2_epi8      7fbfdfeff7fbfdf7 8040201008040201
+01:_mm_ror_vbmi2_epi8      bfdfeff7fbfdfefb 4020100804020180
+02:_mm_ror_vbmi2_epi8      dfeff7fbfdfe7ffd 2010080402018040
+03:_mm_ror_vbmi2_epi8      eff7fbfdfe7fbffe 1008040201804020
+04:_mm_ror_vbmi2_epi8      f7fbfdfe7fbfdf7f 0804020180402010
+05:_mm_ror_vbmi2_epi8      fbfdfe7fbfdfefbf 0402018040201008
+06:_mm_ror_vbmi2_epi8      fdfe7fbfdfeff7df 0201804020100804
+07:_mm_ror_vbmi2_epi8      fe7fbfdfeff7fbef 0180402010080402
+08:_mm_ror_vbmi2_epi8      7fbfdfeff7fbfdf7 8040201008040201
+09:_mm_ror_vbmi2_epi8      bfdfeff7fbfdfefb 4020100804020180
+0a:_mm_ror_vbmi2_epi8      dfeff7fbfdfe7ffd 2010080402018040
+0b:_mm_ror_vbmi2_epi8      eff7fbfdfe7fbffe 1008040201804020
+0c:_mm_ror_vbmi2_epi8      f7fbfdfe7fbfdf7f 0804020180402010
+0d:_mm_ror_vbmi2_epi8      fbfdfe7fbfdfefbf 0402018040201008
+0e:_mm_ror_vbmi2_epi8      fdfe7fbfdfeff7df 0201804020100804
+0f:_mm_ror_vbmi2_epi8      fe7fbfdfeff7fbef 0180402010080402
+10:_mm_ror_vbmi2_epi8      7fbfdfeff7fbfdf7 8040201008040201
+80:_mm_ror_vbmi2_epi8      7fbfdfeff7fbfdf7 8040201008040201
+ff:_mm_ror_vbmi2_epi8      fe7fbfdfeff7fbef 0180402010080402
+_mm_mask_ror_vbmi2_epi8    f7fbffffffffdf7f 08ff02ffff40ff10
+_mm_maskz_ror_vbmi2_epi8   f7fb00000000df7f 0800020000400010
+_mm_mask_rol_vbmi2_epi8    f7fbffffffffdf7f 08ff02ffff40ff10
+_mm_maskz_rol_vbmi2_epi8   f7fb00000000df7f 0800020000400010
+-----------------------------------
+x128                       7fbfdfeff7fbfdf7 8040201008040201
+00:_mm_slli_vbmi2_epi8     7fbfdfeff7fbfdf7 8040201008040201
+01:_mm_slli_vbmi2_epi8     fe7ebedeeef6faee 0080402010080402
+02:_mm_slli_vbmi2_epi8     fcfc7cbcdcecf4dc 0000804020100804
+03:_mm_slli_vbmi2_epi8     f8f8f878b8d8e8b8 0000008040201008
+04:_mm_slli_vbmi2_epi8     f0f0f0f070b0d070 0000000080402010
+05:_mm_slli_vbmi2_epi8     e0e0e0e0e060a0e0 0000000000804020
+06:_mm_slli_vbmi2_epi8     c0c0c0c0c0c040c0 0000000000008040
+07:_mm_slli_vbmi2_epi8     8080808080808080 0000000000000080
+08:_mm_slli_vbmi2_epi8     0000000000000000 0000000000000000
+09:_mm_slli_vbmi2_epi8     0000000000000000 0000000000000000
+0a:_mm_slli_vbmi2_epi8     0000000000000000 0000000000000000
+0b:_mm_slli_vbmi2_epi8     0000000000000000 0000000000000000
+0c:_mm_slli_vbmi2_epi8     0000000000000000 0000000000000000
+0d:_mm_slli_vbmi2_epi8     0000000000000000 0000000000000000
+0e:_mm_slli_vbmi2_epi8     0000000000000000 0000000000000000
+0f:_mm_slli_vbmi2_epi8     0000000000000000 0000000000000000
+10:_mm_slli_vbmi2_epi8     0000000000000000 0000000000000000
+80:_mm_slli_vbmi2_epi8     0000000000000000 0000000000000000
+ff:_mm_slli_vbmi2_epi8     0000000000000000 0000000000000000
+00:_mm_srli_vbmi2_epi8     7fbfdfeff7fbfdf7 8040201008040201
+01:_mm_srli_vbmi2_epi8     3f5f6f777b7d7e7b 4020100804020100
+02:_mm_srli_vbmi2_epi8     1f2f373b3d3e3f3d 2010080402010000
+03:_mm_srli_vbmi2_epi8     0f171b1d1e1f1f1e 1008040201000000
+04:_mm_srli_vbmi2_epi8     070b0d0e0f0f0f0f 0804020100000000
+05:_mm_srli_vbmi2_epi8     0305060707070707 0402010000000000
+06:_mm_srli_vbmi2_epi8     0102030303030303 0201000000000000
+07:_mm_srli_vbmi2_epi8     0001010101010101 0100000000000000
+08:_mm_srli_vbmi2_epi8     0000000000000000 0000000000000000
+09:_mm_srli_vbmi2_epi8     0000000000000000 0000000000000000
+0a:_mm_srli_vbmi2_epi8     0000000000000000 0000000000000000
+0b:_mm_srli_vbmi2_epi8     0000000000000000 0000000000000000
+0c:_mm_srli_vbmi2_epi8     0000000000000000 0000000000000000
+0d:_mm_srli_vbmi2_epi8     0000000000000000 0000000000000000
+0e:_mm_srli_vbmi2_epi8     0000000000000000 0000000000000000
+0f:_mm_srli_vbmi2_epi8     0000000000000000 0000000000000000
+10:_mm_srli_vbmi2_epi8     0000000000000000 0000000000000000
+80:_mm_srli_vbmi2_epi8     0000000000000000 0000000000000000
+ff:_mm_srli_vbmi2_epi8     0000000000000000 0000000000000000
+00:_mm_srai_vbmi2_epi8     7fbfdfeff7fbfdf7 8040201008040201
+01:_mm_srai_vbmi2_epi8     3fdfeff7fbfdfefb c020100804020100
+02:_mm_srai_vbmi2_epi8     1feff7fbfdfefffd e010080402010000
+03:_mm_srai_vbmi2_epi8     0ff7fbfdfefffffe f008040201000000
+04:_mm_srai_vbmi2_epi8     07fbfdfeffffffff f804020100000000
+05:_mm_srai_vbmi2_epi8     03fdfeffffffffff fc02010000000000
+06:_mm_srai_vbmi2_epi8     01feffffffffffff fe01000000000000
+07:_mm_srai_vbmi2_epi8     00ffffffffffffff ff00000000000000
+08:_mm_srai_vbmi2_epi8     00ffffffffffffff ff00000000000000
+09:_mm_srai_vbmi2_epi8     00ffffffffffffff ff00000000000000
+0a:_mm_srai_vbmi2_epi8     00ffffffffffffff ff00000000000000
+0b:_mm_srai_vbmi2_epi8     00ffffffffffffff ff00000000000000
+0c:_mm_srai_vbmi2_epi8     00ffffffffffffff ff00000000000000
+0d:_mm_srai_vbmi2_epi8     00ffffffffffffff ff00000000000000
+0e:_mm_srai_vbmi2_epi8     00ffffffffffffff ff00000000000000
+0f:_mm_srai_vbmi2_epi8     00ffffffffffffff ff00000000000000
+10:_mm_srai_vbmi2_epi8     00ffffffffffffff ff00000000000000
+80:_mm_srai_vbmi2_epi8     00ffffffffffffff ff00000000000000
+ff:_mm_srai_vbmi2_epi8     00ffffffffffffff ff00000000000000
+-----------------------------------
+x128                               7fbfdfeff7fbfdfe 8040201008040201
+y128                               fffefdfcfbfaf9f8 f7f6f5f4f3f2f1f0
+_mm_rorv_vbmi2_epi8(x128, y128)    fefefefefefefefe 0101010101010101
+_mm_rolv_vbmi2_epi8(x128, y128)    dfdffdfddfdffdfd 2020020220200202
+_mm_maskz_rorv_vbmi2_epi8          fe00fe00fe00fe00 0001000100010001
+_mm_mask_rorv_vbmi2_epi8           fefffefffefffeff ff01ff01ff01ff01
+_mm_maskz_rolv_vbmi2_epi8          df00fd00dfdf0000 0000020200200002
+_mm_mask_rolv_vbmi2_epi8           dffffdffdfdfffff ffff0202ff20ff02
+x256                               7fbfdfeff7fbfdfe 8040201008040201 0102040810204080 fefdfbf7efdfbf7f
+y256                               fffefdfcfbfaf9f8 f7f6f5f4f3f2f1f0 0f0e0d0c0b0a0908 0706050403020100
+_mm256_rorv_vbmi2_epi8(x256, y256) fefefefefefefefe 0101010101010101 0208208002082080 fdf7df7ffdf7df7f
+_mm256_rolv_vbmi2_epi8(x256, y256) bfeffbfebfeffbfe 4010040140100401 8080808080808080 7f7f7f7f7f7f7f7f
+_mm256_maskz_rorv_vbmi2_epi8       fefe0000fefe0000 0000010100000101 0200200002002000 00f7007f00f7007f
+_mm256_mask_rorv_vbmi2_epi8        fefefffffefeffff ffff0101ffff0101 02ff20ff02ff20ff fff7ff7ffff7ff7f
+_mm256_maskz_rolv_vbmi2_epi8       0000fbfe00ef00fe 4010040100000000 8000800000800080 000000007f7f7f7f
+_mm256_mask_rolv_vbmi2_epi8        fffffbfeffeffffe 40100401ffffffff 80ff80ffff80ff80 ffffffff7f7f7f7f
+x512                               7fbfdfeff7fbfdfe 8040201008040201 0102040810204080 fefdfbf7efdfbf7f 7fbfdfeff7fbfdfe 8040201008040201 0102040810204080 fefdfbf7efdfbf7f
+y512                               fffefdfcfbfaf9f8 f7f6f5f4f3f2f1f0 efeeedecebeae9e8 e7e6e5e4e3e2e1e0 1f1e1d1c1b1a1918 1716151413121110 0f0e0d0c0b0a0908 0706050403020100
+_mm512_rorv_vbmi2_epi8(x512, y512) fefefefefefefefe 0101010101010101 0208208002082080 fdf7df7ffdf7df7f fefefefefefefefe 0101010101010101 0208208002082080 fdf7df7ffdf7df7f
+_mm512_rolv_vbmi2_epi8(x512, y512) bfeffbfebfeffbfe 4010040140100401 8080808080808080 7f7f7f7f7f7f7f7f bfeffbfebfeffbfe 4010040140100401 8080808080808080 7f7f7f7f7f7f7f7f
+_mm512_maskz_rorv_vbmi2_epi8       fefe0000fefe0000 0000010100000101 0200200002002000 00f7007f00f7007f fefe0000fefe0000 0000010100000101 0200200002002000 00f7007f00f7007f
+_mm512_mask_rorv_vbmi2_epi8        fefefffffefeffff ffff0101ffff0101 02ff20ff02ff20ff fff7ff7ffff7ff7f fefefffffefeffff ffff0101ffff0101 02ff20ff02ff20ff fff7ff7ffff7ff7f
+_mm512_maskz_rolv_vbmi2_epi8       bfeffbfe00000000 0000000040100401 8000800080008000 007f007f007f007f 0000fbfe0000fbfe 4010000040100000 8080808080808080 0000000000000000
+_mm512_mask_rolv_vbmi2_epi8        bfeffbfeffffffff ffffffff40100401 80ff80ff80ff80ff ff7fff7fff7fff7f fffffbfefffffbfe 4010ffff4010ffff 8080808080808080 ffffffffffffffff
+-----------------------------------
+x128                               7fbfdfeff7fbfdfe 8040201008040201
+y128                               0807060504030201 0706050403020100
+_mm_sllv_vbmi2_epi8(x128, y128)    0080c0e070d8f4fc 0000000040100401
+_mm_srlv_vbmi2_epi8(x128, y128)    000103070f1f3f7f 0101010101010101
+_mm_srav_vbmi2_epi8(x128, y128)    00ffffffffffffff ff01010101010101
+_mm_maskz_sllv_vbmi2_epi8          0000c00070d80000 0000000000100001
+_mm_mask_sllv_vbmi2_epi8           00ffc0ff70d8ffff ffff0000ff10ff01
+_mm_maskz_srlv_vbmi2_epi8          000003000f003f00 0001000100010001
+_mm_mask_srlv_vbmi2_epi8           00ff03ff0fff3fff ff01ff01ff01ff01
+_mm_maskz_srav_vbmi2_epi8          0000ff00ff00ff00 0001000100010001
+_mm_mask_srav_vbmi2_epi8           00ffffffffffffff ff01ff01ff01ff01
+x256                               7fbfdfeff7fbfdfe 8040201008040201 0102040810204080 fefdfbf7efdfbf7f
+y256                               fffefdfcfbfaf9f8 f7f6f5f4f3f2f1f0 0f0e0d0c0b0a0908 0706050403020100
+_mm256_sllv_vbmi2_epi8(x256, y256) 0000000000000000 0000000000000000 0000000000000000 00406070787c7e7f
+_mm256_srlv_vbmi2_epi8(x256, y256) 0000000000000000 0000000000000000 0000000000000000 0103070f1d375f7f
+_mm256_srav_vbmi2_epi8(x256, y256) 00ffffffffffffff ff00000000000000 00000000000000ff fffffffffdf7df7f
+_mm256_maskz_sllv_vbmi2_epi8       0000000000000000 0000000000000000 0000000000000000 00000000787c7e7f
+_mm256_mask_sllv_vbmi2_epi8        ffff0000ff00ff00 00000000ffffffff 00ff00ffff00ff00 ffffffff787c7e7f
+_mm256_maskz_srlv_vbmi2_epi8       0000000000000000 0000000000000000 0000000000000000 000000001d375f7f
+_mm256_mask_srlv_vbmi2_epi8        ffff0000ff00ff00 00000000ffffffff 00ff00ffff00ff00 ffffffff1d375f7f
+_mm256_maskz_srav_vbmi2_epi8       0000ffff00ff00ff ff00000000000000 00000000000000ff 00000000fdf7df7f
+_mm256_mask_srav_vbmi2_epi8        ffffffffffffffff ff000000ffffffff 00ff00ffff00ffff fffffffffdf7df7f
+x512                               7fbfdfeff7fbfdfe 8040201008040201 0102040810204080 fefdfbf7efdfbf7f 7fbfdfeff7fbfdfe 8040201008040201 0102040810204080 fefdfbf7efdfbf7f
+y512                               0706050403020100 0605040302010007 0504030201000706 0403020100070605 0302010007060504 0201000706050403 0100070605040302 0007060504030201
+_mm512_sllv_vbmi2_epi8(x512, y512) 80c0e0f0b8ecfafe 0000008020080280 2020202020200000 e0e8eceeef80c0e0 f8fcbeef80c0a0e0 0080200000802008 0202000000000000 fe80c0e0f0f8fcfe
+_mm512_srlv_vbmi2_epi8(x512, y512) 0002060e1e3e7efe 0202020202020200 0000000208200002 0f1f3e7bef010203 0f2f6fef0103070f 2020200000000000 0002000000020820 fe0103070e1b2f3f
+_mm512_srav_vbmi2_epi8(x512, y512) 00fefefefefefefe fe02020202020200 00000002082000fe fffffefbeffffe03 0fefefefffffffff e020200000000000 00020000000208e0 fefffffffefbef3f
+_mm512_maskz_sllv_vbmi2_epi8       80c0e0f000000000 0000000020080280 2000200020000000 00e800ee008000e0 0000beef0000a0e0 0080000000800000 0202000000000000 0000000000000000
+_mm512_mask_sllv_vbmi2_epi8        80c0e0f0ffffffff ffffffff20080280 20ff20ff20ff00ff ffe8ffeeff80ffe0 ffffbeefffffa0e0 0080ffff0080ffff 0202000000000000 ffffffffffffffff
+_mm512_maskz_srlv_vbmi2_epi8       0002060e00000000 0000000002020200 0000000008000000 001f007b00010003 00006fef0000070f 2020000000000000 0002000000020820 0000000000000000
+_mm512_mask_srlv_vbmi2_epi8        0002060effffffff ffffffff02020200 00ff00ff08ff00ff ff1fff7bff01ff03 ffff6fefffff070f 2020ffff0000ffff 0002000000020820 ffffffffffffffff
+_mm512_maskz_srav_vbmi2_epi8       00fefefe00000000 0000000002020200 0000000008000000 00ff00fb00ff0003 0000efef0000ffff e020000000000000 00020000000208e0 0000000000000000
+_mm512_mask_srav_vbmi2_epi8        00fefefeffffffff ffffffff02020200 00ff00ff08ff00ff fffffffbffffff03 ffffefefffffffff e020ffff0000ffff 00020000000208e0 ffffffffffffffff

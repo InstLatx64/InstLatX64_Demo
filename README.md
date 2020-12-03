@@ -35,6 +35,11 @@ wrapper header for VPSHLDW/VPSHRDW/VPSHLDVW/VPSHRDVW instructions for substituti
 ```    
     _(mm|mm256|mm512)(|_mask|_maskz)_(ror|rol)_vbmi2_epi16
 ```    
+wrapper header for emulating the missing byte-garnularity shift and rotate instructions in variable versions too
+```    
+    _(mm|mm256|mm512)(|_mask|_maskz)_(slli|srli|srai|ror|rol)_vbmi2_epi8
+    _(mm|mm256|mm512)(|_mask|_maskz)_(sllv|srlv|srav|rorv|rolv)_vbmi2_epi8
+```    
 
 # VPCLMULQDQ_Demo.h  
 experimental implementation of entire register (128/256/512b, xmm/ymm/zmm) prefix-xor operation with the VPCLMULQDQ extension
