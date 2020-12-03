@@ -143,6 +143,7 @@ void InstrincTest(void) {
 	_xresldtrk();													//XRESLDTRK
 	_xsusldtrk();													//XSUSLDTRK
 #if (_MSC_VER > 1927)
+#if defined (_M_X64)
 //AMX-TILE
 	unsigned char load_tilecfg[64], store_tilecfg[64];
 	unsigned char tile0[1024], tile1[1024];
@@ -161,6 +162,7 @@ void InstrincTest(void) {
 	_tile_dpbsud(4, 3, 2);											//TDPBSUD
 	_tile_dpbusd(5, 4, 3);											//TDPBUSD
 	_tile_dpbuud(6, 5, 4);											//TDPBUUD
+#endif // defined (_M_X64)
 #endif //_MSC_VER > 1927
 #endif //_MSC_VER > 1926
 #endif //_MSC_VER > 1920
