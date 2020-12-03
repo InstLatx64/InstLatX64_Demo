@@ -138,7 +138,7 @@
 #define _mm512_mask_sla_gfni_epi8(s, k, a, b)		_mm512_mask_gf2p8affine_epi64_epi8(s, k, a, _mm512_set1_epi64(_GFNI_DEMO_SLA(_mm_cvtsi128_si32(b))), 0)
 #define _mm512_maskz_sla_gfni_epi8(k, a, b)			_mm512_maskz_gf2p8affine_epi64_epi8(k, a, _mm512_set1_epi64(_GFNI_DEMO_SLA(_mm_cvtsi128_si32(b))), 0)
 
-/* Rotate right by imm8 mod 7 */
+/* Rotate right by imm8 mod 8 */
 
 #define _mm_ror_gfni_epi8(a, cnt)					_mm_gf2p8affine_epi64_epi8(a, _mm_set1_epi64x(_GFNI_DEMO_ROR(cnt)), 0)
 #define _mm_mask_ror_gfni_epi8(s, k, a, cnt)		_mm_mask_gf2p8affine_epi64_epi8(s, k, a, _mm_set1_epi64x(_GFNI_DEMO_ROR(cnt)), 0)
@@ -152,7 +152,7 @@
 #define _mm512_mask_ror_gfni_epi8(s, k, a, cnt)		_mm512_mask_gf2p8affine_epi64_epi8(s, k, a, _mm512_set1_epi64(_GFNI_DEMO_ROR(cnt)), 0)
 #define _mm512_maskz_ror_gfni_epi8(k, a, cnt)		_mm512_maskz_gf2p8affine_epi64_epi8(k, a, _mm512_set1_epi64(_GFNI_DEMO_ROR(cnt)), 0)
 
-/* Rotate left by imm8 mod 7 */
+/* Rotate left by imm8 mod 8 */
 
 #define _mm_rol_gfni_epi8(a, cnt)					_mm_gf2p8affine_epi64_epi8(a, _mm_set1_epi64x(_GFNI_DEMO_ROL(cnt)), 0)
 #define _mm_mask_rol_gfni_epi8(s, k, a, cnt)		_mm_mask_gf2p8affine_epi64_epi8(s, k, a, _mm_set1_epi64x(_GFNI_DEMO_ROL(cnt)), 0)
