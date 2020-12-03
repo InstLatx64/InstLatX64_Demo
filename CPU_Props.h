@@ -4,7 +4,7 @@
 
 enum ISAs {
 //	GPR							//Introduced by..
-	ISA_GPR,
+	ISA_GROUP_GPR,
 	ISA_RDTSC,					//Pentium
 	ISA_RDTSCP,					//AMD K8 E rev
 	ISA_CMOV,					//Pentium Pro
@@ -23,7 +23,7 @@ enum ISAs {
 	ISA_MOVDIRI,				//Tremont
 	ISA_MOVDIR64B,				//Tremont
 //SIMD
-	ISA_SIMD,
+	ISA_GROUP_SIMD,
 	ISA_SSE,					//Pentium III
 	ISA_SSE2,					//Willamette
 	ISA_SSE3,					//Pentium 4 Prescott
@@ -44,7 +44,7 @@ enum ISAs {
 	ISA_KEYLOCK,				//Tiger Lake
 	ISA_AVX_VNNI,				//AlderLake
 //AVX512
-	ISA_AVX512,
+	ISA_GROUP_AVX512,
 	ISA_AVX512F,				//Knights Landing
 	ISA_AVX512CD,				//Knights Landing
 	ISA_AVX512ER,				//Knights Landing
@@ -64,12 +64,12 @@ enum ISAs {
 	ISA_AVX512_VP2INTERSECT,	//Tiger Lake
 	ISA_AVX512_FP16,			//?
 //AMX
-	ISA_AMX,
+	ISA_GROUP_AMX,
 	ISA_AMX_BF16,				//Sapphire Rapids
 	ISA_AMX_INT8,				//Sapphire Rapids
 	ISA_AMX_TILE,				//Sapphire Rapids
 //cacheline
-	ISA_CACHELINE,
+	ISA_GROUP_CACHELINE,
 	ISA_PREFETCHW,				//K6
 	ISA_PREFETCHWT1,			//Knights Landing
 	ISA_CLFLUSH,				//Willamette
@@ -78,12 +78,12 @@ enum ISAs {
 	ISA_CLZERO,					//Zen1, AMD Only
 	ISA_CLDEMOTE,				//Tremont
 //Misc
-	ISA_MISC,
+	ISA_GROUP_MISC,
 	ISA_LNOP,					//Pentium Pro, K7
 	ISA_SERIALIZE,				//Sapphire Rapids
 	ISA_HYBRID,					//Lakefield
 //Deprecated
-	ISA_DEPRECATED,
+	ISA_GROUP_DEPRECATED,
 	ISA_X87,					//8087
 	ISA_MMX,					//Pentium MMX
 	ISA_MMXP,					//AMD only, AMD K7
