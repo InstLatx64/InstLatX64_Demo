@@ -1,0 +1,14 @@
+-----------------------------------
+_mm_ror_gfni_epi8(x128, 6)           :  606263 clks min (fee04f042d1d63e0)
+_mm256_ror_gfni_epi8(x256, 6)        :  606259 clks min (fee04f042d1d63e0)
+_mm512_ror_gfni_epi8(x512, 6)        :  606253 clks min (fee04f042d1d63e0)
+_mm_mask_ror_gfni_epi8(x128, 6)      :  606253 clks min (fe004f002d006300)
+_mm256_mask_ror_gfni_epi8(x256, 6)   : 1010356 clks min (fe004f002d006300)
+_mm512_mask_ror_gfni_epi8(x512, 6)   : 1010422 clks min (fe004f002d006300)
+-----------------------------------
+_mm_ror_vbmi2_epi8(x128, 6)           :  442743 clks min (fee04f042d1d63e0)
+_mm256_ror_vbmi2_epi8(x256, 6)        :  442616 clks min (fee04f042d1d63e0)
+_mm512_ror_vbmi2_epi8(x512, 6)        :  505204 clks min (fee04f042d1d63e0)
+_mm_mask_ror_vbmi2_epi8(x128, 6)      :  505204 clks min (fe004f002d006300)
+_mm256_mask_ror_vbmi2_epi8(x256, 6)   :  714650 clks min (fe004f002d006300)
+_mm512_mask_ror_vbmi2_epi8(x512, 6)   :  808316 clks min (fe004f002d006300)

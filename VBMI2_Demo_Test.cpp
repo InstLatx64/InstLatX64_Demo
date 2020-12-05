@@ -368,6 +368,80 @@ void VBMI2_Demo_shift_epi8(void) {
 	printRes(255, "_mm_srai_vbmi2_epi8    ", _mm_srai_vbmi2_epi8(x128, 255));
 }
 
+void VBMI2SpeedTest(void) {
+	unsigned int AUX = 0;
+	volatile unsigned __int64 minres = ULONG_MAX, rdtscp = ULONG_MAX, start = 0;
+
+	const int maxRetry = 100;
+	const int maxRepeat = 100000;
+
+	__m128i x128	= _mm_set_epi64x(0x7fbfdfeff7fbfdf7, 0xfefdfbf7efdfbf7f);
+	__m256i x256	= _mm256_set_epi64x(0x7fbfdfeff7fbfdfe, 0x8040201008040201, 0x0102040810204080, 0xfefdfbf7efdfbf7f);
+	__m512i x512	= _mm512_set_epi64(0x7fbfdfeff7fbfdfe, 0x8040201008040201, 0x0102040810204080, 0xfefdfbf7efdfbf7f, 0x7fbfdfeff7fbfdfe, 0x8040201008040201, 0x0102040810204080, 0xfefdfbf7efdfbf7f);
+	__mmask8 k8 = 0xaa;
+	__mmask16 k16 = 0xaaaa;
+	__mmask32 k32 = 0xaaaaaaaa;
+	__mmask64 k64 = 0xaaaaaaaaaaaaaaaa;
+
+	for (int retry = 0; retry < maxRetry; retry++) {
+		start = __rdtscp(&AUX);
+		for (int rep = 0; rep < maxRepeat; rep++) {
+			x128 = _mm_add_epi8(_mm_ror_vbmi2_epi8(x128, 6), x128);
+		}
+		minres = min(minres, __rdtscp(&AUX) - start);
+	}
+	printf("_mm_ror_vbmi2_epi8(x128, 6)           :%8I64d clks min (%016Ix)\r\n", minres, x128.m128i_u64[0]);
+
+	minres = ULONG_MAX;
+	for (int retry = 0; retry < maxRetry; retry++) {
+		start = __rdtscp(&AUX);
+		for (int rep = 0; rep < maxRepeat; rep++) {
+			x256 = _mm256_add_epi8(_mm256_ror_vbmi2_epi8(x256, 6), x256);
+		}
+		minres = min(minres, __rdtscp(&AUX) - start);
+	}
+	printf("_mm256_ror_vbmi2_epi8(x256, 6)        :%8I64d clks min (%016Ix)\r\n", minres, x256.m256i_u64[0]);
+
+	minres = ULONG_MAX;
+	for (int retry = 0; retry < maxRetry; retry++) {
+		start = __rdtscp(&AUX);
+		for (int rep = 0; rep < maxRepeat; rep++) {
+			x512 = _mm512_add_epi8(_mm512_ror_vbmi2_epi8(x512, 6), x512);
+		}
+		minres = min(minres, __rdtscp(&AUX) - start);
+	}
+	printf("_mm512_ror_vbmi2_epi8(x512, 6)        :%8I64d clks min (%016Ix)\r\n", minres, x512.m512i_u64[0]);
+
+	for (int retry = 0; retry < maxRetry; retry++) {
+		start = __rdtscp(&AUX);
+		for (int rep = 0; rep < maxRepeat; rep++) {
+			x128 = _mm_add_epi8(_mm_mask_ror_vbmi2_epi8(x128, k16, x128, 6), x128);
+		}
+		minres = min(minres, __rdtscp(&AUX) - start);
+	}
+	printf("_mm_mask_ror_vbmi2_epi8(x128, 6)      :%8I64d clks min (%016Ix)\r\n", minres, x128.m128i_u64[0]);
+
+	minres = ULONG_MAX;
+	for (int retry = 0; retry < maxRetry; retry++) {
+		start = __rdtscp(&AUX);
+		for (int rep = 0; rep < maxRepeat; rep++) {
+			x256 = _mm256_add_epi8(_mm256_mask_ror_vbmi2_epi8(x256, k32, x256, 6), x256);
+		}
+		minres = min(minres, __rdtscp(&AUX) - start);
+	}
+	printf("_mm256_mask_ror_vbmi2_epi8(x256, 6)   :%8I64d clks min (%016Ix)\r\n", minres, x256.m256i_u64[0]);
+
+	minres = ULONG_MAX;
+	for (int retry = 0; retry < maxRetry; retry++) {
+		start = __rdtscp(&AUX);
+		for (int rep = 0; rep < maxRepeat; rep++) {
+			x512 = _mm512_add_epi8(_mm512_mask_ror_vbmi2_epi8(x512, k64, x512, 6), x512);
+		}
+		minres = min(minres, __rdtscp(&AUX) - start);
+	}
+	printf("_mm512_mask_ror_vbmi2_epi8(x512, 6)   :%8I64d clks min (%016Ix)\r\n", minres, x512.m512i_u64[0]);
+};
+
 void VBMI2_Demo(void) {
 	cout << "-----------------------------------" << endl;
 	VBMI2_Demo_rotate_epi16();
@@ -379,6 +453,8 @@ void VBMI2_Demo(void) {
 	VBMI2_Demo_rotatev_epi8();
 	cout << "-----------------------------------" << endl;
 	VBMI2_Demo_shiftv_epi8();
+	cout << "-----------------------------------" << endl;
+	VBMI2SpeedTest();
 }
 
 #endif
