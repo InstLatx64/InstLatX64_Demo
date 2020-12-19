@@ -29,21 +29,21 @@ void printRes(const char * name, __m512i res) {
 }
 
 void printRes(int r, const char * name, __m128i res) {
-	cout << r << ':' << setw(24) << left << setfill(' ') << name;
+	cout << setw(2) << r << ':' << setw(24) << left << setfill(' ') << name;
 	for (int i = sizeof(__m128i) / sizeof(long long) - 1; i >= 0; i--)
 		cout << hex << setw(16) << setfill('0') << right << *((unsigned __int64*)&res + i) << ' ';
 	cout << endl;
 	}
 
 void printRes(int r, const char * name, __m256i res) {
-	cout << r << ':' << setw(24) << left << setfill(' ') << name;
+	cout << setw(2) << r << ':' << setw(24) << left << setfill(' ') << name;
 	for (int i = sizeof(__m256i) / sizeof(long long) - 1; i >= 0; i--)
 		cout << hex << setw(16) << setfill('0') << right << *((unsigned __int64*)&res + i) << ' ';
 	cout << endl;
 	}
 
 void printRes(int r, const char * name, __m512i res) {
-	cout << r << ':' << setw(24) << left << setfill(' ') << name;
+	cout << setw(2) << r << ':' << setw(24) << left << setfill(' ') << name;
 	for (int i = sizeof(__m512i) / sizeof(long long) - 1; i >= 0; i--)
 		cout << hex << setw(16) << setfill('0') << right << *((unsigned __int64*)&res + i) << ' ';
 	cout << endl;
@@ -61,7 +61,7 @@ int main()
 		cout << "GFNI unspported." << endl;
 	}
 
-	if (cpu_props.IsFeat(ISA_VPCLMULQDQ) | cpu_props.IsFeat(ISA_CLMUL)) {
+	if (cpu_props.IsFeat(ISA_VPCLMULQDQ) || cpu_props.IsFeat(ISA_CLMUL)) {
 		VPCLMULQDQ_Demo();
 	} else {
 		cout << "(VP)CLMUL(QDQ) unspported." << endl;
@@ -81,6 +81,15 @@ int main()
 	}
 	else {
 		cout << "BMI2 unspported." << endl;
+	}
+#endif
+
+#if defined(__AVX2__) && (_M_X64)
+	if (cpu_props.IsFeat(ISA_AVX2) && cpu_props.IsFeat(ISA_RDTSCP) && cpu_props.IsFeat(ISA_VAES) && cpu_props.IsFeat(ISA_VPCLMULQDQ)) {
+		Zen3_Demo();
+	}
+	else {
+		cout << "AVX2 unspported." << endl;
 	}
 #endif
 

@@ -42,6 +42,9 @@
     <ClCompile Include="PEXT_PDEP_Emu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Zen3_Demo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -68,5 +71,16 @@
     <ClInclude Include="PEXT_PDEP_Emu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Zen3_Demo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="Zen3_Demo_Asm_x64.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="Zen3_Demo_Asm_Ucode_x64.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
   </ItemGroup>
 </Project>

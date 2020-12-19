@@ -55,6 +55,8 @@ for testing Visual Studio AVX512 capabilities
 Faster PEXT and PDEP emulation for AMD Excavator/Zen/Zen+/Zen2 based on Zach Wegner's ZP7 (Zach's Peppy Parallel-Prefix-Popcountin' PEXT/PDEP Polyfill)
 # CPU_Props.* 
 detection of CPU properties for dispatching code paths
+# Zen3_Demo.* 
+code for examinig of the issue ports AVX instructions in AMD Zen3/Vermeer CPU (CPUID A20F10). Output example: \Results\Zen3_Demo.txt
 
 ## References
 *  Geoff Langdale [Why Ice Lake is Important (a bit-basher’s perspective)](https://branchfree.org/2019/05/29/why-ice-lake-is-important-a-bit-bashers-perspective/)
