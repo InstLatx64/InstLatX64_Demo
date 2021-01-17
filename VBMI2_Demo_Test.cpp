@@ -390,7 +390,7 @@ void VBMI2SpeedTest(void) {
 		}
 		minres = min(minres, __rdtscp(&AUX) - start);
 	}
-	printf("_mm_ror_vbmi2_epi8(x128, 6)           :%8I64d clks min (%016Ix)\r\n", minres, x128.m128i_u64[0]);
+	printf("_mm_ror_vbmi2_epi8(x128, 6)           :%8I64d clks min (%016I64x)\r\n", minres, x128.m128i_u64[0]);
 
 	minres = ULONG_MAX;
 	for (int retry = 0; retry < maxRetry; retry++) {
@@ -400,7 +400,7 @@ void VBMI2SpeedTest(void) {
 		}
 		minres = min(minres, __rdtscp(&AUX) - start);
 	}
-	printf("_mm256_ror_vbmi2_epi8(x256, 6)        :%8I64d clks min (%016Ix)\r\n", minres, x256.m256i_u64[0]);
+	printf("_mm256_ror_vbmi2_epi8(x256, 6)        :%8I64d clks min (%016I64x)\r\n", minres, x256.m256i_u64[0]);
 
 	minres = ULONG_MAX;
 	for (int retry = 0; retry < maxRetry; retry++) {
@@ -410,7 +410,7 @@ void VBMI2SpeedTest(void) {
 		}
 		minres = min(minres, __rdtscp(&AUX) - start);
 	}
-	printf("_mm512_ror_vbmi2_epi8(x512, 6)        :%8I64d clks min (%016Ix)\r\n", minres, x512.m512i_u64[0]);
+	printf("_mm512_ror_vbmi2_epi8(x512, 6)        :%8I64d clks min (%016I64x)\r\n", minres, x512.m512i_u64[0]);
 
 	for (int retry = 0; retry < maxRetry; retry++) {
 		start = __rdtscp(&AUX);
@@ -419,7 +419,7 @@ void VBMI2SpeedTest(void) {
 		}
 		minres = min(minres, __rdtscp(&AUX) - start);
 	}
-	printf("_mm_mask_ror_vbmi2_epi8(x128, 6)      :%8I64d clks min (%016Ix)\r\n", minres, x128.m128i_u64[0]);
+	printf("_mm_mask_ror_vbmi2_epi8(x128, 6)      :%8I64d clks min (%016I64x)\r\n", minres, x128.m128i_u64[0]);
 
 	minres = ULONG_MAX;
 	for (int retry = 0; retry < maxRetry; retry++) {
@@ -429,7 +429,7 @@ void VBMI2SpeedTest(void) {
 		}
 		minres = min(minres, __rdtscp(&AUX) - start);
 	}
-	printf("_mm256_mask_ror_vbmi2_epi8(x256, 6)   :%8I64d clks min (%016Ix)\r\n", minres, x256.m256i_u64[0]);
+	printf("_mm256_mask_ror_vbmi2_epi8(x256, 6)   :%8I64d clks min (%016I64x)\r\n", minres, x256.m256i_u64[0]);
 
 	minres = ULONG_MAX;
 	for (int retry = 0; retry < maxRetry; retry++) {
@@ -439,7 +439,7 @@ void VBMI2SpeedTest(void) {
 		}
 		minres = min(minres, __rdtscp(&AUX) - start);
 	}
-	printf("_mm512_mask_ror_vbmi2_epi8(x512, 6)   :%8I64d clks min (%016Ix)\r\n", minres, x512.m512i_u64[0]);
+	printf("_mm512_mask_ror_vbmi2_epi8(x512, 6)   :%8I64d clks min (%016I64x)\r\n", minres, x512.m512i_u64[0]);
 };
 
 void VBMI2_Demo(void) {
