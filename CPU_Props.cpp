@@ -241,3 +241,11 @@ bool CPU_Props::IsFeat(int feat) const {
 	const unsigned __int64 f_high	= (feat & ~0x3f) >> 6;
 	return ((f[f_high] & f_low) == f_low);
 }
+
+bool CPU_Props::IsZen2(void) const {
+	return (family == 0x17) && (vendor_num[1] == 0x69746e65);
+}
+
+bool CPU_Props::IsZen3(void) const {
+	return (family == 0x19) && (vendor_num[1] == 0x69746e65);
+}

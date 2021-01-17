@@ -22,3 +22,6 @@
 #include "VBMI2_Demo.h"
 #include "PEXT_PDEP_Emu.h"
 #include "Zen3_Demo.h"
+#include "Zen3_Demo_AVX.h"
+#include "Zen3_Demo_SSE.h"
+#include "Zen3_Demo_UCode.h"

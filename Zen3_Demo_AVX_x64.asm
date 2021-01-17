@@ -1,3 +1,6 @@
+INCLUDE InstLatX64_PortMacros.h
+INCLUDE InstLatX64_LatMacros.h
+
 .data
 
 memop0	dq				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -6,6 +9,13 @@ memop2	dq				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 memop3	dq				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
 .code 
+
+zen3_8clks_gpr_m macro
+	REPEAT 8
+	ror					r13, 1
+	ror					r14, 1
+	ENDM
+endm
 
 zen3_8clks_port0_m macro
 	vpbroadcastq		ymm0, xmm0
@@ -29,6 +39,17 @@ zen3_8clks_port1_m macro
 	fcom				st(0)
 endm
 
+zen3_8clks_port2_m macro
+	vmovd				xmm0, eax
+	vmovd				xmm1, edx
+	vmovd				xmm2, ebx
+	vmovd				xmm3, r8d
+	vmovd				xmm4, r9d
+	vmovd				xmm5, r10d
+	vmovd				xmm6, r11d
+	vmovd				xmm7, r12d
+endm
+
 zen3_8clks_port01_m macro
 	vpabsd				ymm0, ymm0
 	vpabsd				ymm1, ymm1
@@ -46,22 +67,6 @@ zen3_8clks_port01_m macro
 	vpabsd				ymm5, ymm5
 	vpabsd				ymm6, ymm6
 	vpabsd				ymm7, ymm7
-	;paddsb				mm0, mm0
-	;paddsb				mm1, mm1
-	;paddsb				mm2, mm2
-	;paddsb				mm3, mm3
-	;paddsb				mm4, mm4
-	;paddsb				mm5, mm5
-	;paddsb				mm6, mm6
-	;paddsb				mm7, mm7
-	;paddsb				mm0, mm0
-	;paddsb				mm1, mm1
-	;paddsb				mm2, mm2
-	;paddsb				mm3, mm3
-	;paddsb				mm4, mm4
-	;paddsb				mm5, mm5
-	;paddsb				mm6, mm6
-	;paddsb				mm7, mm7
 endm
 
 zen3_8clks_port03_m macro
@@ -81,22 +86,6 @@ zen3_8clks_port03_m macro
 	vpmaddwd			ymm5, ymm5, ymm5
 	vpmaddwd			ymm6, ymm6, ymm6
 	vpmaddwd			ymm7, ymm7, ymm7
-	;pmaddwd			mm0, mm0
-	;pmaddwd			mm1, mm1
-	;pmaddwd			mm2, mm2
-	;pmaddwd			mm3, mm3
-	;pmaddwd			mm4, mm4
-	;pmaddwd			mm5, mm5
-	;pmaddwd			mm6, mm6
-	;pmaddwd			mm7, mm7
-	;pmaddwd			mm0, mm0
-	;pmaddwd			mm1, mm1
-	;pmaddwd			mm2, mm2
-	;pmaddwd			mm3, mm3
-	;pmaddwd			mm4, mm4
-	;pmaddwd			mm5, mm5
-	;pmaddwd			mm6, mm6
-	;pmaddwd			mm7, mm7
 endm
 
 zen3_8clks_port12_m macro
@@ -116,33 +105,6 @@ zen3_8clks_port12_m macro
 	vpermilpd			ymm5, ymm5, 1
 	vpermilpd			ymm6, ymm6, 0
 	vpermilpd			ymm7, ymm7, 1
-	;psrlq			mm0, 0
-	;psrlq			mm1, 0
-	;psrlq			mm2, 0
-	;psrlq			mm3, 0
-	;psrlq			mm4, 0
-	;psrlq			mm5, 0
-	;psrlq			mm6, 0
-	;psrlq			mm7, 0
-	;psrlq			mm0, 0
-	;psrlq			mm1, 0
-	;psrlq			mm2, 0
-	;psrlq			mm3, 0
-	;psrlq			mm4, 0
-	;psrlq			mm5, 0
-	;psrlq			mm6, 0
-	;psrlq			mm7, 0
-endm
-
-zen3_8clks_port2_m macro
-	vmovd			xmm0, eax
-	vmovd			xmm1, eax
-	vmovd			xmm2, edx
-	vmovd			xmm3, ebx
-	vmovd			xmm4, esp
-	vmovd			xmm5, ebp
-	vmovd			xmm6, esi
-	vmovd			xmm7, edi
 endm
 
 zen3_8clks_port23_m macro
@@ -207,777 +169,6 @@ zen3_8clks_LDs_m macro
 	vmovapd				ymm7,	[memop1 + 160h] 
 endm
 
-zen3_domain macro REGISTER, DOMAIN
-	IF DOMAIN EQ 1
-		vpor				REGISTER, REGISTER, REGISTER
-	ELSEIF DOMAIN EQ 2
-		vorpd				REGISTER, REGISTER, REGISTER
-	ENDIF
-endm
-
-zen3_empty_lat macro INST, DOMAINSTART, DOMAINEND
-endm
-
-zen3_xmm2xmm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			xmm0, xmm0
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_ymm2ymm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		ymm0, DOMAINSTART
-	INST			ymm0, ymm0
-	zen3_domain		ymm0, DOMAINEND
-endm
-
-zen3_xmm2xmm1_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			xmm0, xmm0
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_ymm2ymm1_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		ymm0, DOMAINSTART
-	INST			ymm0, ymm0
-	zen3_domain		ymm0, DOMAINEND
-endm
-
-zen3_xmm2ymm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		ymm0, DOMAINSTART
-	INST			ymm0, xmm0
-	zen3_domain		ymm0, DOMAINEND
-endm
-
-zen3_ymm2xmm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			xmm0, ymm0
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_xmmymmi2ymm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		ymm0, DOMAINSTART
-	INST			ymm0, ymm0, xmm0, 1
-	zen3_domain		ymm0, DOMAINEND
-endm
-
-zen3_ymmi2xmm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			xmm0, ymm0, 1
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_2xmm2xmm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			xmm0, xmm0, xmm0
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_2ymm2ymm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		ymm0, DOMAINSTART
-	INST			ymm0, ymm0, ymm0
-	zen3_domain		ymm0, DOMAINEND
-endm
-
-zen3_2xmm2xmmRot_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			xmm0, xmm0, xmm1
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_2ymm2ymmRot_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		ymm0, DOMAINSTART
-	INST			ymm0, ymm0, ymm1
-	zen3_domain		ymm0, DOMAINEND
-endm
-
-zen3_2xmm2xmm1_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_2xmm2xmm_lat INST, DOMAINSTART, DOMAINEND
-endm
-
-zen3_2ymm2ymm1_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_2ymm2ymm_lat INST, DOMAINSTART, DOMAINEND
-endm
-
-zen3_2xmm2xmm2_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_2xmm2xmm_lat INST, DOMAINSTART, DOMAINEND
-endm
-
-zen3_2ymm2ymm2_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_2ymm2ymm_lat INST, DOMAINSTART, DOMAINEND
-endm
-
-zen3_xmmi2xmm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			xmm0, xmm0, 0
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_xmmi2ymm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			ymm0, xmm0, 0
-	zen3_domain		ymm0, DOMAINEND
-endm
-
-zen3_ymmi2ymm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		ymm0, DOMAINSTART
-	INST			ymm0, ymm0, 0
-	zen3_domain		ymm0, DOMAINEND
-endm
-
-zen3_ymmi2xmm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			xmm0, ymm0, 0
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_2xmmi2xmm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			xmm0, xmm0, xmm0, 0
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_2ymmi2ymm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		ymm0, DOMAINSTART
-	INST			ymm0, ymm0, ymm0, 0
-	zen3_domain		ymm0, DOMAINEND
-endm
-
-zen3_3xmm2xmm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			xmm0, xmm0, xmm0, xmm0
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_3ymm2ymm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		ymm0, DOMAINSTART
-	INST			ymm0, ymm0, ymm0, ymm0
-	zen3_domain		ymm0, DOMAINEND
-endm
-
-zen3_3xmm2xmmRot_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			xmm0, xmm0, xmm1, xmm2
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_3ymm2ymmRot_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		ymm0, DOMAINSTART
-	INST			ymm0, ymm0, ymm1, ymm2
-	zen3_domain		ymm0, DOMAINEND
-endm
-
-zen3_xmm2F_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			xmm0, xmm0
-	cmove			eax, edx
-	vmovd			xmm0, eax
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_ymm2F_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		ymm0, DOMAINSTART
-	INST			ymm0, ymm0
-	cmove			eax, edx
-	vmovd			xmm0, eax
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_xmm2gpr32_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			eax, xmm0
-	vmovd			xmm0, eax
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_xmm2gpr64_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			rax, xmm0
-	vmovd			xmm0, rax
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_xmmi2gpr32_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			eax, xmm0, 0
-	vmovd			xmm0, eax
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_xmmi2gpr64_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			rax, xmm0, 0
-	vmovd			xmm0, rax
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_ymm2gpr32_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		ymm0, DOMAINSTART
-	INST			eax, ymm0
-	vmovd			xmm0, eax
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_ymm2gpr64_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		ymm0, DOMAINSTART
-	INST			rax, ymm0
-	vmovd			xmm0, rax
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_gpr32_2xmm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	vmovd			eax, xmm0
-	INST			xmm0, eax
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_gpr64_2xmm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	vmovd			rax, xmm0
-	INST			xmm0, rax
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_gpr32xmm2xmm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	vmovd			eax, xmm0
-	INST			xmm0, xmm0, eax
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_gpr64xmm2xmm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	vmovd			rax, xmm0
-	INST			xmm0, xmm0, rax
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_gpr32i2xmm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	vmovd			eax, xmm0
-	INST			xmm0, xmm0, eax, 0
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_gpr64i2xmm_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	vmovd			rax, xmm0
-	INST			xmm0, xmm0, rax, 0
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_noop_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_noop1_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_x87_1op_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST	st(0)
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_x87_2op_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			st(0), st(0)
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_x87_2op1_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_x87_2op_lat INST, DOMAINSTART, DOMAINEND
-endm
-
-zen3_x87_2opR_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_x87_2op_lat INST, DOMAINSTART, DOMAINEND
-endm
-
-zen3_x87_fstp_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST	
-	fstp			st(0)
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_x87_1op_fstp_lat macro INST, DOMAINSTART, DOMAINEND
-	zen3_domain		xmm0, DOMAINSTART
-	INST			st(0)
-	fstp			st(0)
-	zen3_domain		xmm0, DOMAINEND
-endm
-
-zen3_empty_port macro INST, DOMAINSTART, DOMAINEND
-endm
-
-zen3_xmm2gpr32_port macro INST, DOMAINSTART, DOMAINEND
-	INST			eax, xmm8
-	INST			edx, xmm9
-	INST			ebx, xmm10
-	INST			r8d, xmm11
-	INST			r9d, xmm12
-	INST			r10d, xmm13
-	INST			r11d, xmm14
-	INST			r12d, xmm15
-endm
-
-zen3_xmmi2gpr32_port macro INST, DOMAINSTART, DOMAINEND
-	INST			eax, xmm8, 0
-	INST			edx, xmm9, 1
-	INST			ebx, xmm10, 0
-	INST			r8d, xmm11, 1
-	INST			r9d, xmm12, 0
-	INST			r10d, xmm13, 1
-	INST			r11d, xmm14, 0
-	INST			r12d, xmm15, 1
-endm
-
-zen3_xmm2gpr64_port macro INST, DOMAINSTART, DOMAINEND
-	INST			rax, xmm8
-	INST			rdx, xmm9
-	INST			rbx, xmm10
-	INST			r8, xmm11
-	INST			r9, xmm12
-	INST			r10, xmm13
-	INST			r11, xmm14
-	INST			r12, xmm15
-endm
-
-zen3_xmmi2gpr64_port macro INST, DOMAINSTART, DOMAINEND
-	INST			rax, xmm8, 0
-	INST			rdx, xmm9, 1
-	INST			rbx, xmm10, 0
-	INST			r8, xmm11, 1
-	INST			r9, xmm12, 0
-	INST			r10, xmm13, 1
-	INST			r11, xmm14, 0
-	INST			r12, xmm15, 1
-endm
-
-zen3_ymm2gpr32_port macro INST, DOMAINSTART, DOMAINEND
-	INST			eax, ymm8
-	INST			edx, ymm9
-	INST			ebx, ymm10
-	INST			r8d, ymm11
-	INST			r9d, ymm12
-	INST			r10d, ymm13
-	INST			r11d, ymm14
-	INST			r12d, ymm15
-endm
-
-zen3_ymm2gpr64_port macro INST, DOMAINSTART, DOMAINEND
-	INST			rax, ymm8
-	INST			rdx, ymm9
-	INST			rbx, ymm10
-	INST			r8, ymm11
-	INST			r9, ymm12
-	INST			r10, ymm13
-	INST			r11, ymm14
-	INST			r12, ymm15
-endm
-
-zen3_gpr32_2xmm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm8, eax
-	INST			xmm9, edx
-	INST			xmm10, ebx
-	INST			xmm11, r8d
-	INST			xmm12, r9d
-	INST			xmm13, r10d
-	INST			xmm14, r11d
-	INST			xmm15, r12d
-endm
-
-zen3_gpr64_2xmm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm8, rax
-	INST			xmm9, rdx
-	INST			xmm10, rbx
-	INST			xmm11, r8
-	INST			xmm12, r9
-	INST			xmm13, r10
-	INST			xmm14, r11
-	INST			xmm15, r12
-endm
-
-zen3_gpr32i2xmm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm8, xmm8, eax, 0
-	INST			xmm9, xmm9, edx, 1
-	INST			xmm10, xmm10, ebx, 0
-	INST			xmm11, xmm11, r8d, 1
-	INST			xmm12, xmm12, r9d, 0
-	INST			xmm13, xmm13, r10d, 1
-	INST			xmm14, xmm14, r11d, 0
-	INST			xmm15, xmm15, r12d, 1
-endm
-
-zen3_gpr64i2xmm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm8, xmm8, rax, 0
-	INST			xmm9, xmm9, rdx, 1
-	INST			xmm10, xmm10, rbx, 0
-	INST			xmm11, xmm11, r8, 1
-	INST			xmm12, xmm12, r9, 0
-	INST			xmm13, xmm13, r10, 1
-	INST			xmm14, xmm14, r11, 0
-	INST			xmm15, xmm15, r12, 1
-endm
-
-zen3_gpr32xmm2xmm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm8, xmm8, eax
-	INST			xmm9, xmm9, edx
-	INST			xmm10, xmm10, ebx
-	INST			xmm11, xmm11, r8d
-	INST			xmm12, xmm12, r9d
-	INST			xmm13, xmm13, r10d
-	INST			xmm14, xmm14, r11d
-	INST			xmm15, xmm15, r12d
-endm
-
-zen3_gpr64xmm2xmm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm8, xmm8, rax
-	INST			xmm9, xmm9, rdx
-	INST			xmm10, xmm10, rbx
-	INST			xmm11, xmm11, r8
-	INST			xmm12, xmm12, r9
-	INST			xmm13, xmm13, r10
-	INST			xmm14, xmm14, r11
-	INST			xmm15, xmm15, r12
-endm
-
-zen3_xmm2xmm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm8, xmm8
-	INST			xmm9, xmm9
-	INST			xmm10, xmm10
-	INST			xmm11, xmm11
-	INST			xmm12, xmm12
-	INST			xmm13, xmm13
-	INST			xmm14, xmm14
-	INST			xmm15, xmm15
-endm
-
-zen3_ymm2ymm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			ymm8, ymm8
-	INST			ymm9, ymm9
-	INST			ymm10, ymm10
-	INST			ymm11, ymm11
-	INST			ymm12, ymm12
-	INST			ymm13, ymm13
-	INST			ymm14, ymm14
-	INST			ymm15, ymm15
-endm
-
-zen3_xmm2xmm1_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm14, xmm15
-endm
-
-zen3_ymm2ymm1_port macro INST, DOMAINSTART, DOMAINEND
-	INST			ymm14, ymm15
-endm
-
-zen3_xmm2ymm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			ymm8, xmm8
-	INST			ymm9, xmm9
-	INST			ymm10, xmm10
-	INST			ymm11, xmm11
-	INST			ymm12, xmm12
-	INST			ymm13, xmm13
-	INST			ymm14, xmm14
-	INST			ymm15, xmm15
-endm
-
-zen3_ymm2xmm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm8, ymm8
-	INST			xmm9, ymm9
-	INST			xmm10, ymm10
-	INST			xmm11, ymm11
-	INST			xmm12, ymm12
-	INST			xmm13, ymm13
-	INST			xmm14, ymm14
-	INST			xmm15, ymm15
-endm
-
-zen3_xmmymmi2ymm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			ymm8, ymm8, xmm8, 1
-	INST			ymm9, ymm9, xmm9, 1
-	INST			ymm10, ymm10, xmm10, 1
-	INST			ymm11, ymm11, xmm11, 1
-	INST			ymm12, ymm12, xmm12, 1
-	INST			ymm13, ymm13, xmm13, 1
-	INST			ymm14, ymm14, xmm14, 1
-	INST			ymm15, ymm15, xmm15, 1
-endm
-
-zen3_ymmi2xmm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm8, ymm8, 1
-	INST			xmm9, ymm9, 1
-	INST			xmm10, ymm10, 1
-	INST			xmm11, ymm11, 1
-	INST			xmm12, ymm12, 1
-	INST			xmm13, ymm13, 1
-	INST			xmm14, ymm14, 1
-	INST			xmm15, ymm15, 1
-endm
-
-zen3_2xmm2xmm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm8, xmm8, xmm8
-	INST			xmm9, xmm9, xmm9
-	INST			xmm10, xmm10, xmm10
-	INST			xmm11, xmm11, xmm11
-	INST			xmm12, xmm12, xmm12
-	INST			xmm13, xmm13, xmm13
-	INST			xmm14, xmm14, xmm14
-	INST			xmm15, xmm15, xmm15
-endm
-
-zen3_2ymm2ymm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			ymm8, ymm8, ymm8
-	INST			ymm9, ymm9, ymm9
-	INST			ymm10, ymm10, ymm10
-	INST			ymm11, ymm11, ymm11
-	INST			ymm12, ymm12, ymm12
-	INST			ymm13, ymm13, ymm13
-	INST			ymm14, ymm14, ymm14
-	INST			ymm15, ymm15, ymm15
-endm
-
-zen3_2xmm2xmmRot_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm14, xmm15, xmm8
-	INST			xmm15, xmm8, xmm9
-	INST			xmm8, xmm9, xmm10
-	INST			xmm9, xmm10, xmm11
-	INST			xmm10, xmm11, xmm12
-	INST			xmm11, xmm12, xmm13
-	INST			xmm12, xmm13, xmm14
-	INST			xmm13, xmm14, xmm15
-endm
-
-zen3_2ymm2ymmRot_port macro INST, DOMAINSTART, DOMAINEND
-	INST			ymm14, ymm15, ymm8
-	INST			ymm15, ymm8, ymm9
-	INST			ymm8, ymm9, ymm10
-	INST			ymm9, ymm10, ymm11
-	INST			ymm10, ymm11, ymm12
-	INST			ymm11, ymm12, ymm13
-	INST			ymm12, ymm13, ymm14
-	INST			ymm13, ymm14, ymm15
-endm
-
-zen3_2xmm2xmm1_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm15, xmm15, xmm15
-endm
-
-zen3_2ymm2ymm1_port macro INST, DOMAINSTART, DOMAINEND
-	INST			ymm15, ymm15, ymm15
-endm
-
-zen3_2xmm2xmm2_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm13, xmm15, xmm15
-	INST			xmm14, xmm15, xmm15
-endm
-
-zen3_2ymm2ymm2_port macro INST, DOMAINSTART, DOMAINEND
-	INST			ymm13, ymm15, ymm15
-	INST			ymm14, ymm15, ymm15
-endm
-
-zen3_xmmi2xmm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm8, xmm8, 0
-	INST			xmm9, xmm9, 0
-	INST			xmm10, xmm10, 0
-	INST			xmm11, xmm11, 0
-	INST			xmm12, xmm12, 0
-	INST			xmm13, xmm13, 0
-	INST			xmm14, xmm14, 0
-	INST			xmm15, xmm15, 0
-endm
-
-zen3_xmmi2ymm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			ymm8, xmm8, 0
-	INST			ymm9, xmm9, 0
-	INST			ymm10, xmm10, 0
-	INST			ymm11, xmm11, 0
-	INST			ymm12, xmm12, 0
-	INST			ymm13, xmm13, 0
-	INST			ymm14, xmm14, 0
-	INST			ymm15, xmm15, 0
-endm
-
-zen3_ymmi2ymm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			ymm8, ymm8, 0
-	INST			ymm9, ymm9, 0
-	INST			ymm10, ymm10, 0
-	INST			ymm11, ymm11, 0
-	INST			ymm12, ymm12, 0
-	INST			ymm13, ymm13, 0
-	INST			ymm14, ymm14, 0
-	INST			ymm15, ymm15, 0
-endm
-
-zen3_ymmi2xmm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm8, ymm8, 0
-	INST			xmm9, ymm9, 0
-	INST			xmm10, ymm10, 0
-	INST			xmm11, ymm11, 0
-	INST			xmm12, ymm12, 0
-	INST			xmm13, ymm13, 0
-	INST			xmm14, ymm14, 0
-	INST			xmm15, ymm15, 0
-endm
-
-zen3_2xmmi2xmm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm8, xmm8, xmm8, 0
-	INST			xmm9, xmm9, xmm9, 0
-	INST			xmm10, xmm10, xmm10, 0
-	INST			xmm11, xmm11, xmm11, 0
-	INST			xmm12, xmm12, xmm12, 0
-	INST			xmm13, xmm13, xmm13, 0
-	INST			xmm14, xmm14, xmm14, 0
-	INST			xmm15, xmm15, xmm15, 0
-endm
-
-zen3_2ymmi2ymm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			ymm8, ymm8, ymm8, 0
-	INST			ymm9, ymm9, ymm9, 0
-	INST			ymm10, ymm10, ymm10, 0
-	INST			ymm11, ymm11, ymm11, 0
-	INST			ymm12, ymm12, ymm12, 0
-	INST			ymm13, ymm13, ymm13, 0
-	INST			ymm14, ymm14, ymm14, 0
-	INST			ymm15, ymm15, ymm15, 0
-endm
-
-zen3_3xmm2xmm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm8, xmm8, xmm8, xmm8
-	INST			xmm9, xmm9, xmm9, xmm9
-	INST			xmm10, xmm10, xmm10, xmm10
-	INST			xmm11, xmm11, xmm11, xmm11
-	INST			xmm12, xmm12, xmm12, xmm12
-	INST			xmm13, xmm13, xmm13, xmm13
-	INST			xmm14, xmm14, xmm14, xmm14
-	INST			xmm15, xmm15, xmm15, xmm15
-endm
-
-zen3_3xmm2xmmRot_port macro INST, DOMAINSTART, DOMAINEND
-	INST			xmm14, xmm15, xmm8, xmm9
-	INST			xmm15, xmm8, xmm9, xmm10
-	INST			xmm8, xmm9, xmm10, xmm11
-	INST			xmm9, xmm10, xmm11, xmm12
-	INST			xmm10, xmm11, xmm12, xmm13
-	INST			xmm11, xmm12, xmm13, xmm14
-	INST			xmm12, xmm13, xmm14, xmm15
-	INST			xmm13, xmm14, xmm15, xmm8
-endm
-
-zen3_3ymm2ymm_port macro INST, DOMAINSTART, DOMAINEND
-	INST			ymm8, ymm8, ymm8, ymm8
-	INST			ymm9, ymm9, ymm9, ymm9
-	INST			ymm10, ymm10, ymm10, ymm10
-	INST			ymm11, ymm11, ymm11, ymm11
-	INST			ymm12, ymm12, ymm12, ymm12
-	INST			ymm13, ymm13, ymm13, ymm13
-	INST			ymm14, ymm14, ymm14, ymm14
-	INST			ymm15, ymm15, ymm15, ymm15
-endm
-
-zen3_3ymm2ymmRot_port macro INST, DOMAINSTART, DOMAINEND
-	INST			ymm14, ymm15, ymm8, ymm9
-	INST			ymm15, ymm8, ymm9, ymm10
-	INST			ymm8, ymm9, ymm10, ymm11
-	INST			ymm9, ymm10, ymm11, ymm12
-	INST			ymm10, ymm11, ymm12, ymm13
-	INST			ymm11, ymm12, ymm13, ymm14
-	INST			ymm12, ymm13, ymm14, ymm15
-	INST			ymm13, ymm14, ymm15, ymm8
-endm
-
-zen3_xmm2F_port macro INST, DOMAINSTART, DOMAINEND
-	zen3_xmm2xmm_port INST
-endm
-
-zen3_ymm2F_port macro INST, DOMAINSTART, DOMAINEND
-	zen3_ymm2ymm_port INST
-endm
-
-zen3_noop_port macro INST, DOMAINSTART, DOMAINEND
-	INST
-	INST
-	INST
-	INST
-	INST
-	INST
-	INST
-	INST
-endm
-
-zen3_noop1_port macro INST, DOMAINSTART, DOMAINEND
-	fincstp
-	INST
-	fdecstp
-endm
-
-zen3_x87_1op_port macro INST, DOMAINSTART, DOMAINEND
-	INST			st(7)
-	INST			st(6)
-	INST			st(5)
-	INST			st(4)
-	INST			st(3)
-	INST			st(2)
-	INST			st(1)
-	INST			st(0) 
-endm
-
-zen3_x87_2op_port macro INST, DOMAINSTART, DOMAINEND
-	INST			st(7), st(0)
-	INST			st(6), st(0)
-	INST			st(5), st(0)
-	INST			st(4), st(0)
-	INST			st(3), st(0)
-	INST			st(2), st(0)
-	INST			st(1), st(0) 
-endm
-
-zen3_x87_2opR_port macro INST, DOMAINSTART, DOMAINEND
-	INST			st(0), st(7)
-	INST			st(0), st(6)
-	INST			st(0), st(5)
-	INST			st(0), st(4)
-	INST			st(0), st(3)
-	INST			st(0), st(2)
-	INST			st(0), st(1) 
-endm
-
-zen3_x87_2op1_port macro INST, DOMAINSTART, DOMAINEND
-	INST st(0), st(0)
-endm
-
-zen3_x87_fstp_port macro INST, DOMAINSTART, DOMAINEND
-	INST
-	fstp			st(0)
-	INST			
-	fstp			st(0)
-	INST			
-	fstp			st(0)
-	INST			
-	fstp			st(0)
-endm
-
-zen3_x87_1op_fstp_port macro INST, DOMAINSTART, DOMAINEND
-	INST			st(0)
-	fstp			st(0)
-	INST			st(0)
-	fstp			st(0)
-	INST			st(0)
-	fstp			st(0)
-	INST			st(0)
-	fstp			st(0)
-endm
-
-empty_ macro
-endm
-
 test_m macro FUNC, M1, M2, INST, DOMAINSTART, DOMAINEND, R1, R2
 LOCAL looptest
 FUNC proc
@@ -987,6 +178,8 @@ FUNC proc
 	push			r12
 	push			rbx
 	push			rsi
+	push			rdi
+
 	finit
 	fld1
 	vzeroupper
@@ -999,7 +192,7 @@ FUNC proc
 	or				rax, rdx
 	mov				rsi, rax
 
-	mov				rcx, 100000
+	mov				r15, 100000
 align 16
 looptest:
 	REPEAT R1
@@ -1009,7 +202,7 @@ looptest:
 	M2				INST, DOMAINSTART, DOMAINEND
 	endm
 
-	sub				rcx, 1
+	sub				r15, 1
 	jnz				looptest
 
 	xor				eax, eax
@@ -1020,6 +213,7 @@ looptest:
 	or				rax, rdx
 	sub				rax, rsi
 
+	pop				rdi
 	pop				rsi
 	pop				rbx
 	pop				r12
@@ -1031,27 +225,26 @@ FUNC endp
 endm
 
 zen3_wrap macro INST, OPERANDS, R1, R2
-	;test_m		FUNC,						M1,						M2,						INST, DOMAINSTART,	DOMAINEND,	R1, R2
-	test_m		&INST&_&OPERANDS&_lat,		empty_,					zen3_&OPERANDS&_lat,	INST, 0,			0,			1,	1
-	test_m		&INST&_&OPERANDS&_IIDomain,	empty_,					zen3_&OPERANDS&_lat,	INST, 1,			1,			1,	1
-	test_m		&INST&_&OPERANDS&_FFDomain,	empty_,					zen3_&OPERANDS&_lat,	INST, 2,			2,			1,	1
-	test_m		&INST&_&OPERANDS&_IFDomain,	empty_,					zen3_&OPERANDS&_lat,	INST, 1,			2,			1,	1
-	test_m		&INST&_&OPERANDS&_FIDomain,	empty_,					zen3_&OPERANDS&_lat,	INST, 2,			1,			1,	1
-	test_m		&INST&_&OPERANDS&_port0,	zen3_8clks_port0_m,		zen3_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
-	test_m		&INST&_&OPERANDS&_port1,	zen3_8clks_port1_m,		zen3_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
-	test_m		&INST&_&OPERANDS&_port01,	zen3_8clks_port01_m,	zen3_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
-	test_m		&INST&_&OPERANDS&_port03,	zen3_8clks_port03_m,	zen3_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
-	test_m		&INST&_&OPERANDS&_port2,	zen3_8clks_port2_m,		zen3_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
-	test_m		&INST&_&OPERANDS&_port12,	zen3_8clks_port12_m,	zen3_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
-	test_m		&INST&_&OPERANDS&_port23,	zen3_8clks_port23_m,	zen3_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
-	test_m		&INST&_&OPERANDS&_port0123,	zen3_8clks_port0123_m,	zen3_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
-	test_m		&INST&_&OPERANDS&_port45,	zen3_8clks_port45_m,	zen3_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
-	test_m		&INST&_&OPERANDS&_LDs,		zen3_8clks_LDs_m,		zen3_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	;test_m		FUNC,								M1,						M2,							INST, DOMAINSTART,	DOMAINEND,	R1, R2
+	test_m		Zen3_&INST&_&OPERANDS&_lat,			InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 0,			0,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_IIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 1,			1,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_FFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 2,			2,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_IFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 1,			2,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_FIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 2,			1,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_gpr,			zen3_8clks_gpr_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port0,		zen3_8clks_port0_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port1,		zen3_8clks_port1_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port01,		zen3_8clks_port01_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port03,		zen3_8clks_port03_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port2,		zen3_8clks_port2_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port12,		zen3_8clks_port12_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port23,		zen3_8clks_port23_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port0123,	zen3_8clks_port0123_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port45,		zen3_8clks_port45_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_LDs,			zen3_8clks_LDs_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
 endm
 
 ;				INST				OPERANDS			R1	R2
-zen3_wrap		empty,				empty,				1,	1
-
 zen3_wrap		vmulpd,				2xmm2xmm,			1,	2
 zen3_wrap		vmulpd,				2ymm2ymm,			1,	2
 zen3_wrap		vmulps,				2xmm2xmm,			1,	2
@@ -1319,6 +512,24 @@ zen3_wrap		vpsllvq,			2xmm2xmm,			1,	2
 zen3_wrap		vpsllvq,			2ymm2ymm,			1,	2
 zen3_wrap		vpsrlvq,			2xmm2xmm,			1,	2
 zen3_wrap		vpsrlvq,			2ymm2ymm,			1,	2
+
+zen3_wrap		vpsllw,				2xmm2xmm,			1,	2
+zen3_wrap		vpsllw,				xmmymm2ymm,			1,	2
+zen3_wrap		vpsrlw,				2xmm2xmm,			1,	2
+zen3_wrap		vpsrlw,				xmmymm2ymm,			1,	2
+zen3_wrap		vpsraw,				2xmm2xmm,			1,	2
+zen3_wrap		vpsraw,				xmmymm2ymm,			1,	2
+zen3_wrap		vpslld,				2xmm2xmm,			1,	2
+zen3_wrap		vpslld,				xmmymm2ymm,			1,	2
+zen3_wrap		vpsrld,				2xmm2xmm,			1,	2
+zen3_wrap		vpsrld,				xmmymm2ymm,			1,	2
+zen3_wrap		vpsrad,				2xmm2xmm,			1,	2
+zen3_wrap		vpsrad,				xmmymm2ymm,			1,	2
+zen3_wrap		vpsllq,				2xmm2xmm,			1,	2
+zen3_wrap		vpsllq,				xmmymm2ymm,			1,	2
+zen3_wrap		vpsrlq,				2xmm2xmm,			1,	2
+zen3_wrap		vpsrlq,				xmmymm2ymm,			1,	2
+
 zen3_wrap		vpsllw,				xmmi2xmm,			1,	2
 zen3_wrap		vpsllw,				ymmi2ymm,			1,	2
 zen3_wrap		vpsrlw,				xmmi2xmm,			1,	2
@@ -1403,6 +614,7 @@ zen3_wrap		vpbroadcastb,		xmm2xmm,			1,	2
 zen3_wrap		vpbroadcastw,		xmm2xmm,			1,	2
 zen3_wrap		vpbroadcastd,		xmm2xmm,			1,	2
 zen3_wrap		vpbroadcastq,		xmm2xmm,			1,	2
+zen3_wrap		vbroadcastss,		xmm2xmm,			1,	2
 zen3_wrap		vpmovzxbw,			xmm2xmm,			1,	2
 zen3_wrap		vpmovzxbd,			xmm2xmm,			1,	2
 zen3_wrap		vpmovzxbq,			xmm2xmm,			1,	2
@@ -1440,16 +652,28 @@ zen3_wrap		vpsadbw,			2ymm2ymm,			1,	2
 
 zen3_wrap		vinserti128,		xmmymmi2ymm,		1,	1
 zen3_wrap		vinsertf128,		xmmymmi2ymm,		1,	1
+zen3_wrap		vinserti128,		m128ymmi2ymm,		1,	1
+zen3_wrap		vinsertf128,		m128ymmi2ymm,		1,	1
 zen3_wrap		vextracti128,		ymmi2xmm,			1,	1
 zen3_wrap		vextractf128,		ymmi2xmm,			1,	1
+zen3_wrap		vextracti128,		ymmi2m128,			1,	1
+zen3_wrap		vextractf128,		ymmi2m128,			1,	1
 zen3_wrap		vperm2i128,			2ymmi2ymm,			1,	1
 zen3_wrap		vperm2f128,			2ymmi2ymm,			1,	1
-zen3_wrap		vpbroadcastq,		xmm2ymm,			1,	1
+zen3_wrap		vperm2i128,			m256ymmi2ymm,		1,	1
+zen3_wrap		vperm2f128,			m256ymmi2ymm,		1,	1
+zen3_wrap		vbroadcastss,		xmm2ymm,			1,	1
 zen3_wrap		vbroadcastsd,		xmm2ymm,			1,	1
 zen3_wrap		vpbroadcastb,		xmm2ymm,			1,	1
 zen3_wrap		vpbroadcastw,		xmm2ymm,			1,	1
 zen3_wrap		vpbroadcastd,		xmm2ymm,			1,	1
-zen3_wrap		vbroadcastss,		xmm2ymm,			1,	1
+zen3_wrap		vpbroadcastq,		xmm2ymm,			1,	1
+zen3_wrap		vbroadcastss,		m32_2ymm,			1,	1
+zen3_wrap		vbroadcastsd,		m64_2ymm,			1,	1
+zen3_wrap		vpbroadcastb,		m8_2ymm,			1,	1
+zen3_wrap		vpbroadcastw,		m16_2ymm,			1,	1
+zen3_wrap		vpbroadcastd,		m32_2ymm,			1,	1
+zen3_wrap		vpbroadcastq,		m64_2ymm,			1,	1
 
 zen3_wrap		vdivpd,				2xmm2xmm2,			1,	1
 zen3_wrap		vdivpd,				2ymm2ymm2,			1,	1
@@ -1474,12 +698,11 @@ zen3_wrap		vpextrb,			xmmi2gpr64,			1,	1
 zen3_wrap		vpextrw,			xmmi2gpr32,			1,	1
 zen3_wrap		vpextrw,			xmmi2gpr64,			1,	1
 zen3_wrap		vpextrd,			xmmi2gpr32,			1,	1
-zen3_wrap		vpextrd,			xmmi2gpr64,			1,	1
 zen3_wrap		vpextrq,			xmmi2gpr64,			1,	1
-zen3_wrap		vpinsrb,			gpr32i2xmm,			1,	1
-zen3_wrap		vpinsrw,			gpr32i2xmm,			1,	1
-zen3_wrap		vpinsrd,			gpr32i2xmm,			1,	1
-zen3_wrap		vpinsrq,			gpr64i2xmm,			1,	1
+zen3_wrap		vpinsrb,			gpr32ixmm2xmm,		1,	1
+zen3_wrap		vpinsrw,			gpr32ixmm2xmm,		1,	1
+zen3_wrap		vpinsrd,			gpr32ixmm2xmm,		1,	1
+zen3_wrap		vpinsrq,			gpr64ixmm2xmm,		1,	1
 
 zen3_wrap		vcvtss2si,			xmm2gpr32,			1,	1
 zen3_wrap		vcvtss2si,			xmm2gpr64,			1,	1
@@ -1570,26 +793,26 @@ zen3_wrap		vpclmulqdq,			2ymmi2ymm,			1,	1
 zen3_wrap		vmpsadbw,			2xmmi2xmm,			1,	1
 zen3_wrap		vmpsadbw,			2ymmi2ymm,			1,	1
 
-zen3_wrap		fadd,				x87_2op,			1,	1
-zen3_wrap		fsub,				x87_2op,			1,	1
-zen3_wrap		fmul,				x87_2op,			1,	1
-zen3_wrap		fdiv,				x87_2op1,			3,	1
-zen3_wrap		fsqrt,				noop1,				3,	1
-zen3_wrap		fxch,				x87_1op,			1,	1
-zen3_wrap		fabs,				noop,				1,	1
-zen3_wrap		fchs,				noop,				1,	1
-zen3_wrap		fxam,				noop,				1,	1
-zen3_wrap		ftst,				noop,				1,	1
-zen3_wrap		fcom,				x87_1op,			1,	1
-zen3_wrap		fcomi,				x87_2opR,			1,	1
-
-zen3_wrap		fld,				x87_1op_fstp,		1,	1
-zen3_wrap		fldz,				x87_fstp,			1,	1
-zen3_wrap		fld1,				x87_fstp,			1,	1
-zen3_wrap		fldpi,				x87_fstp,			1,	1
-zen3_wrap		fst,				x87_1op,			1,	1
-zen3_wrap		fdecstp,			noop,				1,	1
-zen3_wrap		fincstp,			noop,				1,	1
-zen3_wrap		fnop,				noop,				1,	1
-
+;zen3_wrap		fadd,				x87_2op,			1,	1
+;zen3_wrap		fsub,				x87_2op,			1,	1
+;zen3_wrap		fmul,				x87_2op,			1,	1
+;zen3_wrap		fdiv,				x87_2op1,			3,	1
+;zen3_wrap		fsqrt,				noop1,				3,	1
+;zen3_wrap		fxch,				x87_1op,			1,	1
+;zen3_wrap		fabs,				noop,				1,	1
+;zen3_wrap		fchs,				noop,				1,	1
+;zen3_wrap		fxam,				noop,				1,	1
+;zen3_wrap		ftst,				noop,				1,	1
+;zen3_wrap		fcom,				x87_1op,			1,	1
+;zen3_wrap		fcomi,				x87_2opR,			1,	1
+;
+;zen3_wrap		fld,				x87_1op_fstp,		1,	1
+;zen3_wrap		fldz,				x87_fstp,			1,	1
+;zen3_wrap		fld1,				x87_fstp,			1,	1
+;zen3_wrap		fldpi,				x87_fstp,			1,	1
+;zen3_wrap		fst,				x87_1op,			1,	1
+;zen3_wrap		fdecstp,			noop,				1,	1
+;zen3_wrap		fincstp,			noop,				1,	1
+;zen3_wrap		fnop,				noop,				1,	1
+;
 end

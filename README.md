@@ -56,7 +56,7 @@ Faster PEXT and PDEP emulation for AMD Excavator/Zen/Zen+/Zen2 based on Zach Weg
 # CPU_Props.* 
 detection of CPU properties for dispatching code paths
 # Zen3_Demo.* 
-code for examining of the issue ports AVX instructions in AMD Zen3/Vermeer CPU (CPUID A20F10). It is based on ideas from uops.info. Output example: \Results\Zen3_Demo.txt
+code for examining of the issue ports x87, MMX, SSE, AVX instructions in AMD Zen3/Vermeer CPU (CPUID A20F10). It is based on ideas from uops.info. Output example: \Results\Zen3_Demo.txt
 
 ## References
 *  Geoff Langdale [Why Ice Lake is Important (a bit-basher’s perspective)](https://branchfree.org/2019/05/29/why-ice-lake-is-important-a-bit-bashers-perspective/)

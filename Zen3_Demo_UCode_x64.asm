@@ -45,6 +45,15 @@ ENDIF
 	zen3_domain		xmm15, DOMAINEND
 endm
 
+zen3_mm2xmm_lat_m macro INST, DOMAINSTART, DOMAINEND
+	zen3_domain		xmm15, DOMAINSTART
+
+	INST			xmm15, mm0
+
+	zen3_domain		xmm15, DOMAINEND
+endm
+
+
 zen3_2xmm2xmm_lat_m macro INST, DOMAINSTART, DOMAINEND
 	zen3_domain		xmm15, DOMAINSTART
 
@@ -770,8 +779,8 @@ endm
 zen3_vdppd_port01_m macro INST, DOMAINSTART, DOMAINEND
 endm
 
-zen3_vphaddd_port0_1_23_m macro INST, DOMAINSTART, DOMAINEND
-	vphaddd 				ymm15, ymm15, ymm15
+zen3_movq2dq_port0_1_23_m macro INST, DOMAINSTART, DOMAINEND
+	movq2dq 				ymm15, ymm15, ymm15
 
 	;vpbroadcastq		ymm0, xmm0
 	;vpbroadcastq		ymm1, xmm1
@@ -785,8 +794,8 @@ zen3_vphaddd_port0_1_23_m macro INST, DOMAINSTART, DOMAINEND
 	vminpd				ymm7, ymm7, ymm7
 endm
 
-zen3_vphaddd_port01_23_m macro INST, DOMAINSTART, DOMAINEND
-	vphaddd 				ymm15, ymm15, ymm15
+zen3_movq2dq_port01_23_m macro INST, DOMAINSTART, DOMAINEND
+	movq2dq 				ymm15, ymm15, ymm15
 
 	;vpabsd				ymm0, ymm0
 	;vpabsd				ymm1, ymm1
@@ -799,8 +808,8 @@ zen3_vphaddd_port01_23_m macro INST, DOMAINSTART, DOMAINEND
 	vminpd				ymm7, ymm7, ymm7
 endm
 
-zen3_vphaddd_port03_12_m macro INST, DOMAINSTART, DOMAINEND
-	vphaddd 				ymm15, ymm15, ymm15
+zen3_movq2dq_port03_12_m macro INST, DOMAINSTART, DOMAINEND
+	movq2dq 				ymm15, ymm15, ymm15
 
 	;vpsrlvq				ymm0, ymm0, ymm0
 	;vpsllvq				ymm1, ymm1, ymm1
@@ -808,6 +817,114 @@ zen3_vphaddd_port03_12_m macro INST, DOMAINSTART, DOMAINEND
 	vpsllvq				ymm3, ymm3, ymm3
 	vpsrlvq				ymm4, ymm4, ymm4
 	vpsllvq				ymm5, ymm5, ymm5
+
+	vpmuludq			ymm6, ymm6, ymm6
+	vpmuludq			ymm7, ymm7, ymm7
+	vpmuludq			ymm8, ymm8, ymm8
+	vpmuludq			ymm9, ymm9, ymm9
+	vpmuludq			ymm10, ymm10, ymm10
+	vpmuludq			ymm11, ymm11, ymm11
+endm
+
+zen3_movq2dq_port0_m macro INST, DOMAINSTART, DOMAINEND
+endm
+
+zen3_movq2dq_port1_m macro INST, DOMAINSTART, DOMAINEND
+endm
+
+zen3_movq2dq_port01_m macro INST, DOMAINSTART, DOMAINEND
+endm
+
+zen3_vphaddd_port0_1_23_m macro INST, DOMAINSTART, DOMAINEND
+	vphaddd			ymm15, ymm15, ymm15
+
+	vpbroadcastq		ymm0, xmm0
+	vpbroadcastq		ymm1, xmm1
+	vpbroadcastq		ymm2, xmm2
+	vpbroadcastq		ymm0, xmm0
+	vpbroadcastq		ymm1, xmm1
+	vpbroadcastq		ymm2, xmm2
+	
+	;fcom				st(0)
+	;fcom				st(0)
+	fcom				st(0)
+	fcom				st(0)
+	fcom				st(0)
+	fcom				st(0)
+
+	;vminpd				ymm4, ymm4, ymm4
+	vminpd				ymm5, ymm5, ymm5
+	vminpd				ymm6, ymm6, ymm6
+	vminpd				ymm7, ymm7, ymm7
+
+	vminpd				ymm4, ymm4, ymm4
+	vminpd				ymm5, ymm5, ymm5
+	vminpd				ymm6, ymm6, ymm6
+	vminpd				ymm7, ymm7, ymm7
+	
+	vminpd				ymm4, ymm4, ymm4
+	vminpd				ymm5, ymm5, ymm5
+	vminpd				ymm6, ymm6, ymm6
+	vminpd				ymm7, ymm7, ymm7
+endm
+
+zen3_vphaddd_port01_23_m macro INST, DOMAINSTART, DOMAINEND
+	vphaddd			ymm15, ymm15, ymm15
+
+	vpabsd				ymm0, ymm0
+	vpabsd				ymm1, ymm1
+	vpabsd				ymm2, ymm2
+	vpabsd				ymm3, ymm3
+	
+	vpabsd				ymm0, ymm0
+	vpabsd				ymm1, ymm1
+	vpabsd				ymm2, ymm2
+	vpabsd				ymm3, ymm3
+
+	vpabsd				ymm0, ymm0
+	vpabsd				ymm1, ymm1
+	vpabsd				ymm2, ymm2
+	;vpabsd				ymm3, ymm3
+
+	;vminpd				ymm4, ymm4, ymm4
+	vminpd				ymm5, ymm5, ymm5
+	vminpd				ymm6, ymm6, ymm6
+	vminpd				ymm7, ymm7, ymm7
+
+	;vminpd				ymm4, ymm4, ymm4
+	vminpd				ymm5, ymm5, ymm5
+	vminpd				ymm6, ymm6, ymm6
+	vminpd				ymm7, ymm7, ymm7
+
+	vminpd				ymm4, ymm4, ymm4
+	vminpd				ymm5, ymm5, ymm5
+	vminpd				ymm6, ymm6, ymm6
+	vminpd				ymm7, ymm7, ymm7
+endm
+
+zen3_vphaddd_port03_12_m macro INST, DOMAINSTART, DOMAINEND
+	vphaddd			ymm15, ymm15, ymm15
+
+	vpsrlvq				ymm0, ymm0, ymm0
+	vpsllvq				ymm1, ymm1, ymm1
+	vpsrlvq				ymm2, ymm2, ymm2
+	vpsllvq				ymm3, ymm3, ymm3
+	vpsrlvq				ymm0, ymm0, ymm0
+	vpsllvq				ymm1, ymm1, ymm1
+
+	vpmuludq			ymm6, ymm6, ymm6
+	vpmuludq			ymm7, ymm7, ymm7
+	vpmuludq			ymm8, ymm8, ymm8
+	vpmuludq			ymm9, ymm9, ymm9
+	vpmuludq			ymm10, ymm10, ymm10
+	vpmuludq			ymm11, ymm11, ymm11
+
+	vpsrlvq				ymm2, ymm2, ymm2
+	vpsllvq				ymm3, ymm3, ymm3
+	vpsrlvq				ymm0, ymm0, ymm0
+	;vpsllvq				ymm1, ymm1, ymm1
+	;vpsrlvq				ymm2, ymm2, ymm2
+	;vpsllvq				ymm3, ymm3, ymm3
 
 	vpmuludq			ymm6, ymm6, ymm6
 	vpmuludq			ymm7, ymm7, ymm7
@@ -1757,6 +1874,120 @@ ENDM
 	;vpabsd				ymm5, ymm5
 endm
 
+zen3_movq2dq_port0_1_23_m macro INST, DOMAINSTART, DOMAINEND
+	;movq2dq 			xmm15, mm0
+	movdq2q 			mm0, xmm15
+	;
+	;movq2dq 			xmm14, mm1
+	movdq2q 			mm1, xmm14
+	;
+	;movq2dq 			xmm13, mm2
+	movdq2q 			mm2, xmm13
+	;;
+	;movq2dq 			xmm12, mm3
+	;;movdq2q 			mm4, xmm12
+	;
+	;movq2dq 			xmm11, mm4
+	;
+	;movq2dq 			xmm10, mm5
+	;
+	;movq2dq 			xmm9, mm6
+	;
+	;movq2dq 			xmm8, mm7
+
+	;fcom				st(1)
+	;fcom				st(1)
+	;fcom				st(1)
+
+	;paddd				xmm0, xmm0
+	;paddd				xmm1, xmm1
+	;paddd				xmm2, xmm2
+	;paddd				xmm3, xmm3
+
+	;paddd				xmm0, xmm0
+	;paddd				xmm1, xmm1
+	;paddd				xmm2, xmm2
+	;paddd				xmm4, xmm
+
+	;paddd				xmm0, xmm0
+	;paddd				xmm1, xmm1
+	;paddd				xmm2, xmm2
+	;paddd				xmm3, xmm3
+
+	;movd				xmm1, eax
+	;movd				xmm2, edx
+	;movd				xmm3, ebx
+
+	movd				mm1, eax
+	movd				mm2, edx
+	movd				mm3, ebx
+
+	;psrlq				xmm0, 0
+	;psllq				xmm1, 1
+	;psrlq				xmm2, 2
+	;psllq				xmm3, 3
+	;psrlq				xmm4, 4
+	;psllq				xmm5, 5
+
+	;movd				eax, xmm1
+	;movd				edx, xmm2
+	;movd				ebx, xmm3
+
+	;movd				eax, mm4
+	;movd				edx, mm5
+	;movd				ebx, mm6
+
+	;pmuludq				xmm6, xmm6
+	;pmuludq				xmm7, xmm7
+	;pmuludq				xmm8, xmm8
+	;pmuludq				xmm9, xmm9
+	;pmuludq				xmm10, xmm10
+	;pmuludq				xmm11, xmm11
+
+endm
+
+zen3_movq2dq_port01_23_m macro INST, DOMAINSTART, DOMAINEND
+	movq2dq 			xmm15, mm0
+
+	paddd				xmm0, xmm0
+	paddd				xmm1, xmm1
+	paddd				xmm2, xmm2
+	paddd				xmm3, xmm3
+
+	paddd				xmm4, xmm4
+	paddd				xmm5, xmm5
+	;paddd				xmm6, xmm6
+	;paddd				xmm7, xmm7
+endm
+
+zen3_movq2dq_port03_12_m macro INST, DOMAINSTART, DOMAINEND
+	movq2dq 			xmm15, mm0
+	movdq2q 			mm1, xmm14
+
+	psrlq				xmm0, 0
+	psllq				xmm1, 1
+	psrlq				xmm2, 2
+	psllq				xmm3, 3
+	psrlq				xmm4, 4
+	psllq				xmm5, 5
+
+	;pmuludq				xmm6, xmm6
+	;pmuludq				xmm7, xmm7
+	;pmuludq				xmm8, xmm8
+	pmuludq				xmm9, xmm9
+	pmuludq				xmm10, xmm10
+	pmuludq				xmm11, xmm11
+endm
+
+zen3_movq2dq_port0_m macro INST, DOMAINSTART, DOMAINEND
+endm
+
+zen3_movq2dq_port1_m macro INST, DOMAINSTART, DOMAINEND
+endm
+
+zen3_movq2dq_port01_m macro INST, DOMAINSTART, DOMAINEND
+endm
+
 test_m macro FUNC, M1, INST, DOMAINSTART, DOMAINEND
 LOCAL looptest
 FUNC proc
@@ -1765,6 +1996,7 @@ FUNC proc
 	push			r13
 	push			r12
 	push			rbx
+	push			rdi
 	push			rsi
 	finit
 	vzeroupper
@@ -1817,6 +2049,7 @@ looptest:
 	sub				rax, rsi
 
 	pop				rsi
+	pop				rdi
 	pop				rbx
 	pop				r12
 	pop				r13
@@ -1827,25 +2060,26 @@ FUNC endp
 endm
 
 zen3_ucoded_wrap macro INST, OPERANDS
-	test_m		&INST&_lat,			zen3_&OPERANDS&_lat_m,		INST, 0, 0
-	test_m		&INST&_IIDomain,	zen3_&OPERANDS&_lat_m,		INST, 1, 1
-	test_m		&INST&_FFDomain,	zen3_&OPERANDS&_lat_m,		INST, 2, 2
-	test_m		&INST&_IFDomain,	zen3_&OPERANDS&_lat_m,		INST, 1, 2
-	test_m		&INST&_FIDomain,	zen3_&OPERANDS&_lat_m,		INST, 2, 1
-	test_m		&INST&_Port0_1_23,	zen3_&INST&_port0_1_23_m,	INST, 0, 0
-	test_m		&INST&_Port01_23,	zen3_&INST&_port01_23_m,	INST, 0, 0
-	test_m		&INST&_Port03_12,	zen3_&INST&_port03_12_m,	INST, 0, 0
-	test_m		&INST&_Port0,		zen3_&INST&_port0_m,		INST, 0, 0
-	test_m		&INST&_Port1,		zen3_&INST&_port1_m,		INST, 0, 0
-	test_m		&INST&_Port01,		zen3_&INST&_port01_m,		INST, 0, 0
+	test_m		Zen3_&INST&_lat,		zen3_&OPERANDS&_lat_m,		INST, 0, 0
+	test_m		Zen3_&INST&_IIDomain,	zen3_&OPERANDS&_lat_m,		INST, 1, 1
+	test_m		Zen3_&INST&_FFDomain,	zen3_&OPERANDS&_lat_m,		INST, 2, 2
+	test_m		Zen3_&INST&_IFDomain,	zen3_&OPERANDS&_lat_m,		INST, 1, 2
+	test_m		Zen3_&INST&_FIDomain,	zen3_&OPERANDS&_lat_m,		INST, 2, 1
+	test_m		Zen3_&INST&_Port0_1_23,	zen3_&INST&_port0_1_23_m,	INST, 0, 0
+	test_m		Zen3_&INST&_Port01_23,	zen3_&INST&_port01_23_m,	INST, 0, 0
+	test_m		Zen3_&INST&_Port03_12,	zen3_&INST&_port03_12_m,	INST, 0, 0
+	test_m		Zen3_&INST&_Port0,		zen3_&INST&_port0_m,		INST, 0, 0
+	test_m		Zen3_&INST&_Port1,		zen3_&INST&_port1_m,		INST, 0, 0
+	test_m		Zen3_&INST&_Port01,		zen3_&INST&_port01_m,		INST, 0, 0
 endm
 
 zen3_ucoded_wrap	vpermq,				ymmi2ymm
 zen3_ucoded_wrap	vpermd,				2ymm2ymm
 zen3_ucoded_wrap	vpmovzxbq,			xmm2ymm
 zen3_ucoded_wrap	vpclmulqdq,			2ymmi2ymm
-zen3_ucoded_wrap	vmpsadbw ,			2ymmi2ymm
+zen3_ucoded_wrap	vmpsadbw,			2ymmi2ymm
 zen3_ucoded_wrap	vdppd,				2xmmi2xmm
+zen3_ucoded_wrap	movq2dq,			mm2xmm
 zen3_ucoded_wrap	vphaddd,			2ymm2ymm
 zen3_ucoded_wrap	vhaddpd,			2ymm2ymm
 zen3_ucoded_wrap	vcvtps2pd,			xmm2ymm

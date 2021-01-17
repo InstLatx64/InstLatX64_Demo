@@ -74,12 +74,30 @@
     <ClInclude Include="Zen3_Demo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Zen3_Demo_AVX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Zen3_Demo_SSE.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InstLatX64_LatMacros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InstLatX64_PortMacros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Zen3_Demo_UCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="Zen3_Demo_Asm_x64.asm">
+    <MASM Include="Zen3_Demo_AVX_x64.asm">
       <Filter>Source Files</Filter>
     </MASM>
-    <MASM Include="Zen3_Demo_Asm_Ucode_x64.asm">
+    <MASM Include="Zen3_Demo_SSE_x64.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="Zen3_Demo_UCode_x64.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>

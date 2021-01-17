@@ -85,7 +85,7 @@ int main()
 #endif
 
 #if defined(__AVX2__) && (_M_X64)
-	if (cpu_props.IsFeat(ISA_AVX2) && cpu_props.IsFeat(ISA_RDTSCP) && cpu_props.IsFeat(ISA_VAES) && cpu_props.IsFeat(ISA_VPCLMULQDQ)) {
+	if (cpu_props.IsZen3()) {
 		Zen3_Demo();
 	}
 	else {

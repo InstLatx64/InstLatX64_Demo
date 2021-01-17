@@ -268,4 +268,6 @@ public:
 	void				PrintVendor(void) const;
 	void				PrintBrand(void) const;
 	bool				IsFeat(int) const;
+	bool				IsZen2(void) const;
+	bool				IsZen3(void) const;
 };
