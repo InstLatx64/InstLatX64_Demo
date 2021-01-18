@@ -793,26 +793,4 @@ zen3_wrap		vpclmulqdq,			2ymmi2ymm,			1,	1
 zen3_wrap		vmpsadbw,			2xmmi2xmm,			1,	1
 zen3_wrap		vmpsadbw,			2ymmi2ymm,			1,	1
 
-;zen3_wrap		fadd,				x87_2op,			1,	1
-;zen3_wrap		fsub,				x87_2op,			1,	1
-;zen3_wrap		fmul,				x87_2op,			1,	1
-;zen3_wrap		fdiv,				x87_2op1,			3,	1
-;zen3_wrap		fsqrt,				noop1,				3,	1
-;zen3_wrap		fxch,				x87_1op,			1,	1
-;zen3_wrap		fabs,				noop,				1,	1
-;zen3_wrap		fchs,				noop,				1,	1
-;zen3_wrap		fxam,				noop,				1,	1
-;zen3_wrap		ftst,				noop,				1,	1
-;zen3_wrap		fcom,				x87_1op,			1,	1
-;zen3_wrap		fcomi,				x87_2opR,			1,	1
-;
-;zen3_wrap		fld,				x87_1op_fstp,		1,	1
-;zen3_wrap		fldz,				x87_fstp,			1,	1
-;zen3_wrap		fld1,				x87_fstp,			1,	1
-;zen3_wrap		fldpi,				x87_fstp,			1,	1
-;zen3_wrap		fst,				x87_1op,			1,	1
-;zen3_wrap		fdecstp,			noop,				1,	1
-;zen3_wrap		fincstp,			noop,				1,	1
-;zen3_wrap		fnop,				noop,				1,	1
-;
 end

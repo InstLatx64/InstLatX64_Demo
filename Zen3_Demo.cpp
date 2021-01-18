@@ -937,64 +937,52 @@ zen3_methods zen3_sse[] = {
 	ZEN3_FUNCDECL(CVTPD2PI m<-x,			cvtpd2pi,			xmm2mm)
 	ZEN3_FUNCDECL(CVTPI2PS x<-m,			cvtpi2ps,			mm2xmm)
 	ZEN3_FUNCDECL(CVTPI2PD x<-m,			cvtpi2pd,			mm2xmm)
-
-	ZEN3_FUNCDECL0(----------- x87 -----------)
-	ZEN3_FUNCDECL(FADD32,						fadd32,				x87_2op)
-	ZEN3_FUNCDECL(FSUB32,						fsub32,				x87_2op)
-	ZEN3_FUNCDECL(FMUL32,						fmul32,				x87_2op)
-	ZEN3_FUNCDECL(FDIV32,						fdiv32,				x87_2op1)
-	ZEN3_FUNCDECL(FSQRT32,						fsqrt32,			noop1)
-
-	ZEN3_FUNCDECL(FADD64,						fadd64,				x87_2op)
-	ZEN3_FUNCDECL(FSUB64,						fsub64,				x87_2op)
-	ZEN3_FUNCDECL(FMUL64,						fmul64,				x87_2op)
-	ZEN3_FUNCDECL(FDIV64,						fdiv64,				x87_2op1)
-	ZEN3_FUNCDECL(FSQRT64,						fsqrt64,			noop1)
-
-	ZEN3_FUNCDECL(FADD80,						fadd80,				x87_2op)
-	ZEN3_FUNCDECL(FSUB80,						fsub80,				x87_2op)
-	ZEN3_FUNCDECL(FMUL80,						fmul80,				x87_2op)
-	ZEN3_FUNCDECL(FDIV80,						fdiv80,				x87_2op1)
-	ZEN3_FUNCDECL(FSQRT80,						fsqrt80,			noop1)
-
-	ZEN3_FUNCDECL(FXCH,							fxch,				x87_1op)
-	ZEN3_FUNCDECL(FABS,							fabs,				noop)
-	ZEN3_FUNCDECL(FCHS,							fchs,				noop)
-	ZEN3_FUNCDECL(FTST,							ftst,				noop)
-	ZEN3_FUNCDECL(FCOM,							fcom,				x87_1op)
-	ZEN3_FUNCDECL(FCOMI,						fcomi,				x87_2opR)
-	ZEN3_FUNCDECL(FLD + FSTP,					fld,				x87_1op_fstp)
-	ZEN3_FUNCDECL(FLDZ + FSTP,					fldz,				x87_fstp)
-	ZEN3_FUNCDECL(FLD1 + FSTP,					fld1,				x87_fstp)
-	ZEN3_FUNCDECL(FLDPI + FSTP,					fldpi,				x87_fstp)
-	ZEN3_FUNCDECL(FST,							fst,				x87_1op)
-	ZEN3_FUNCDECL(FFREE,						ffree,				x87_1op)
-	ZEN3_FUNCDECL(FXAM,							fxam,				noop)
-	ZEN3_FUNCDECL(FDECSTP,						fdecstp,			noop)
-	ZEN3_FUNCDECL(FINCSTP,						fincstp,			noop)
-	ZEN3_FUNCDECL(FNOP,							fnop,				noop)
-
 };
 
-void Zen3_Test_SSE(int index) {
-	volatile unsigned __int64 minres = ULONG_MAX;
-	if (zen3_sse[index].funcs[0] != nullptr) {
-		cout << setw(3) << right << dec << setfill(' ') << index << '|';
-		cout << setw(27) << left << zen3_sse[index].name << '|' << right;
-		for (int f = 0; f < ZEN3_FUNCS; f++) {
-			minres = ULONG_MAX;
-			(zen3_sse[index].funcs[f])();
-			for (int rep = 0; rep < ZEN3_REPEATS; rep++) {
-				minres = min(minres, (zen3_sse[index].funcs[f])());
-			}
-			cout << setw(9) << minres << ",";
-		}
-	} else {
-		cout << "   |";
-		cout << setw(27) << left << zen3_sse[index].name << '|' << right;
-		cout << "--LATENCY--IIDOMAIN--FFDOMAIN--IFDOMAIN--FIDOMAIN-----GPR-------PORT0----PORT1-----PORT01----PORT03-----PORT2----PORT12----PORT23--PORT0123----PORT45------LDs-";
-	}
-	cout << endl;
+zen3_methods_x87 zen3_x87[] = {
+	ZEN3_X87_FUNCDECL0(----------- x87 -----------)
+	ZEN3_FUNCDECL_X87(FADD32,				fadd32,				x87_2op)
+	ZEN3_FUNCDECL_X87(FSUB32,				fsub32,				x87_2op)
+	ZEN3_FUNCDECL_X87(FMUL32,				fmul32,				x87_2op)
+	ZEN3_FUNCDECL_X87(FDIV32,				fdiv32,				x87_2op1)
+	ZEN3_FUNCDECL_X87(FSQRT32,				fsqrt32,			noop1)
+
+	ZEN3_FUNCDECL_X87(FADD64,				fadd64,				x87_2op)
+	ZEN3_FUNCDECL_X87(FSUB64,				fsub64,				x87_2op)
+	ZEN3_FUNCDECL_X87(FMUL64,				fmul64,				x87_2op)
+	ZEN3_FUNCDECL_X87(FDIV64,				fdiv64,				x87_2op1)
+	ZEN3_FUNCDECL_X87(FSQRT64,				fsqrt64,			noop1)
+
+	ZEN3_FUNCDECL_X87(FADD80,				fadd80,				x87_2op)
+	ZEN3_FUNCDECL_X87(FSUB80,				fsub80,				x87_2op)
+	ZEN3_FUNCDECL_X87(FMUL80,				fmul80,				x87_2op)
+	ZEN3_FUNCDECL_X87(FDIV80,				fdiv80,				x87_2op1)
+	ZEN3_FUNCDECL_X87(FSQRT80,				fsqrt80,			noop1)
+
+	ZEN3_FUNCDECL_X87(FXCH,					fxch,				x87_1op)
+	ZEN3_FUNCDECL_X87(FABS,					fabs,				noop)
+	ZEN3_FUNCDECL_X87(FCHS,					fchs,				noop)
+	ZEN3_FUNCDECL_X87(FTST,					ftst,				noop)
+	ZEN3_FUNCDECL_X87(FCOM,					fcom,				x87_1op)
+	ZEN3_FUNCDECL_X87(FCOMI,				fcomi,				x87_2opR)
+	ZEN3_FUNCDECL_X87(FLD + FSTP,			fld,				x87_1op_fstp)
+	ZEN3_FUNCDECL_X87(FLDZ + FSTP,			fldz,				x87_fstp)
+	ZEN3_FUNCDECL_X87(FLD1 + FSTP,			fld1,				x87_fstp)
+	ZEN3_FUNCDECL_X87(FLDPI + FSTP,			fldpi,				x87_fstp)
+	ZEN3_FUNCDECL_X87(FST,					fst,				x87_1op)
+	ZEN3_FUNCDECL_X87(FFREE,				ffree,				x87_1op)
+	ZEN3_FUNCDECL_X87(FXAM,					fxam,				noop)
+	ZEN3_FUNCDECL_X87(FDECSTP,				fdecstp,			noop)
+	ZEN3_FUNCDECL_X87(FINCSTP,				fincstp,			noop)
+	ZEN3_FUNCDECL_X87(FNOP,					fnop,				noop)
+
+	ZEN3_FUNCDECL_X87(FLD [m32],			fld,				x87_m32l)
+	ZEN3_FUNCDECL_X87(FLD [m64],			fld,				x87_m64l)
+	ZEN3_FUNCDECL_X87(FLD [m80],			fld,				x87_m80l)
+
+	ZEN3_FUNCDECL_X87(FSTP [m32],			fstp,				x87_m32s)
+	ZEN3_FUNCDECL_X87(FSTP [m64],			fstp,				x87_m64s)
+	ZEN3_FUNCDECL_X87(FSTP [m80],			fstp,				x87_m80s)
 };
 
 void Zen3_Test_AVX(int index) {
@@ -1018,7 +1006,7 @@ void Zen3_Test_AVX(int index) {
 	cout << endl;
 };
 
-void Zen3_Test_ucode(int index) {
+void Zen3_Test_uCode(int index) {
 	volatile unsigned __int64 minres = ULONG_MAX;
 	if (zen3_ucode[index].funcs[0] != nullptr) {
 		cout << setw(3) << right << index << '|';
@@ -1039,6 +1027,48 @@ void Zen3_Test_ucode(int index) {
 	cout << endl;
 };
 
+void Zen3_Test_SSE(int index) {
+	volatile unsigned __int64 minres = ULONG_MAX;
+	if (zen3_sse[index].funcs[0] != nullptr) {
+		cout << setw(3) << right << dec << setfill(' ') << index << '|';
+		cout << setw(27) << left << zen3_sse[index].name << '|' << right;
+		for (int f = 0; f < ZEN3_FUNCS; f++) {
+			minres = ULONG_MAX;
+			(zen3_sse[index].funcs[f])();
+			for (int rep = 0; rep < ZEN3_REPEATS; rep++) {
+				minres = min(minres, (zen3_sse[index].funcs[f])());
+			}
+			cout << setw(9) << minres << ",";
+		}
+	} else {
+		cout << "   |";
+		cout << setw(27) << left << zen3_sse[index].name << '|' << right;
+		cout << "--LATENCY--IIDOMAIN--FFDOMAIN--IFDOMAIN--FIDOMAIN-----GPR-------PORT0----PORT1-----PORT01----PORT03-----PORT2----PORT12----PORT23--PORT0123----PORT45------LDs-";
+	}
+	cout << endl;
+};
+
+void Zen3_Test_X87(int index) {
+	volatile unsigned __int64 minres = ULONG_MAX;
+	if (zen3_x87[index].funcs[0] != nullptr) {
+		cout << setw(3) << right << dec << setfill(' ') << index << '|';
+		cout << setw(27) << left << zen3_x87[index].name << '|' << right;
+		for (int f = 0; f < ZEN3_FUNCS_X87; f++) {
+			minres = ULONG_MAX;
+			(zen3_x87[index].funcs[f])();
+			for (int rep = 0; rep < ZEN3_REPEATS; rep++) {
+				minres = min(minres, (zen3_x87[index].funcs[f])());
+			}
+			cout << setw(9) << minres << ",";
+		}
+	} else {
+		cout << "   |";
+		cout << setw(27) << left << zen3_x87[index].name << '|' << right;
+		cout << "--LATENCY-----GPR-------PORT0----PORT1-----PORT01----PORT03-----PORT2----PORT12----PORT23--PORT0123----PORT45------LDs-";
+	}
+	cout << endl;
+};
+
 void Zen3_Demo(void)
 {
 	SetProcessAffinityMask(GetCurrentProcess(), 8);
@@ -1047,10 +1077,13 @@ void Zen3_Demo(void)
 	for (int b = 0; b < sizeof(zen3_avx) / sizeof(zen3_methods); b++) {
 		Zen3_Test_AVX(b);
 	}
+	for (int b2 = 0; b2 < sizeof(zen3_ucode) / sizeof(zen3_methods_ucode); b2++) {
+		Zen3_Test_uCode(b2);
+	}
 	for (int b = 0; b < sizeof(zen3_sse) / sizeof(zen3_methods); b++) {
 		Zen3_Test_SSE(b);
 	}
-	for (int b2 = 0; b2 < sizeof(zen3_ucode) / sizeof(zen3_methods_ucode); b2++) {
-		Zen3_Test_ucode(b2);
+	for (int b = 0; b < sizeof(zen3_x87) / sizeof(zen3_methods_x87); b++) {
+		Zen3_Test_X87(b);
 	}
 }

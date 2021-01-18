@@ -168,7 +168,7 @@ zen3_8clks_LDs_m macro
 	movapd				xmm7,	[memop1 + 070h] 
 endm
 
-test_m macro FUNC, M1, M2, INST, DOMAINSTART, DOMAINEND, R1, R2, X87PREC
+test_m macro FUNC, M1, M2, INST, DOMAINSTART, DOMAINEND, R1, R2
 LOCAL looptest
 FUNC proc
 	push			r15
@@ -179,15 +179,6 @@ FUNC proc
 	push			rsi
 	push			rdi
 	finit
-
-	fnstcw			word ptr [memop0]
-	xor				eax, eax
-	mov				ax, word ptr [memop0]
-	and				ax, 0fcffh
-	or				ax, X87PREC
-	mov				word ptr [memop0], ax
-	fldcw			word ptr [memop0]
-
 	fld1
 
 	pxor			xmm0, xmm0
@@ -248,123 +239,43 @@ FUNC endp
 endm
 
 zen3_wrap macro INST, OPERANDS, R1, R2
-	;test_m		FUNC,								M1,						M2,							INST, DOMAINSTART,	DOMAINEND,	R1, R2,	X87PREC
-	test_m		Zen3_&INST&_&OPERANDS&_lat,			InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 0,			0,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_IIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 3,			3,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_FFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 4,			4,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_IFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 3,			4,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_FIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 4,			3,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_gpr,			zen3_8clks_gpr_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port0,		zen3_8clks_port0_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port1,		zen3_8clks_port1_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port01,		zen3_8clks_port01_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port03,		zen3_8clks_port03_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port2,		zen3_8clks_port2_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port12,		zen3_8clks_port12_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port23,		zen3_8clks_port23_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port0123,	zen3_8clks_port0123_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port45,		zen3_8clks_port45_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_LDs,			zen3_8clks_LDs_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
+	;test_m		FUNC,								M1,						M2,							INST, DOMAINSTART,	DOMAINEND,	R1, R2
+	test_m		Zen3_&INST&_&OPERANDS&_lat,			InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 0,			0,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_IIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 3,			3,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_FFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 4,			4,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_IFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 3,			4,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_FIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 4,			3,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_gpr,			zen3_8clks_gpr_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port0,		zen3_8clks_port0_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port1,		zen3_8clks_port1_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port01,		zen3_8clks_port01_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port03,		zen3_8clks_port03_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port2,		zen3_8clks_port2_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port12,		zen3_8clks_port12_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port23,		zen3_8clks_port23_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port0123,	zen3_8clks_port0123_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port45,		zen3_8clks_port45_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_LDs,			zen3_8clks_LDs_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
 endm
 
 zen3_wrap2 macro INST, OPERANDS, R1, R2
-	;test_m		FUNC,								M1,						M2,							INST, DOMAINSTART,	DOMAINEND,	R1, R2,	X87PREC
-	test_m		Zen3_&INST&_&OPERANDS&_lat,			InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 0,			0,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_IIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 3,			3,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_FFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 3,			3,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_IFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 3,			3,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_FIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 3,			3,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_gpr,			zen3_8clks_gpr_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port0,		zen3_8clks_port0_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port1,		zen3_8clks_port1_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port01,		zen3_8clks_port01_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port03,		zen3_8clks_port03_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port2,		zen3_8clks_port2_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port12,		zen3_8clks_port12_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port23,		zen3_8clks_port23_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port0123,	zen3_8clks_port0123_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port45,		zen3_8clks_port45_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_LDs,			zen3_8clks_LDs_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-endm
-
-zen3_wrap3 macro INST, OPERANDS, R1, R2
-	;test_m		FUNC,								M1,						M2,							INST, DOMAINSTART,	DOMAINEND,	R1, R2,	X87PREC
-	test_m		Zen3_&INST&_&OPERANDS&_lat,			InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 0,			0,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_IIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_FFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_IFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_FIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0
-	test_m		Zen3_&INST&_&OPERANDS&_gpr,			zen3_8clks_gpr_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port0,		zen3_8clks_port0_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port1,		zen3_8clks_port1_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port01,		zen3_8clks_port01_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port03,		zen3_8clks_port03_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port2,		zen3_8clks_port2_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port12,		zen3_8clks_port12_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port23,		zen3_8clks_port23_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port0123,	zen3_8clks_port0123_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_port45,		zen3_8clks_port45_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-	test_m		Zen3_&INST&_&OPERANDS&_LDs,			zen3_8clks_LDs_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0
-endm
-
-zen3_wrap32 macro INST, OPERANDS, R1, R2
-	;test_m		FUNC,								M1,						M2,							INST, DOMAINSTART,	DOMAINEND,	R1, R2,	X87PREC
-	test_m		Zen3_&INST&32_&OPERANDS&_lat,		InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 0,			0,			1,	1,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_IIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_FFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_IFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_FIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_gpr,		zen3_8clks_gpr_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_port0,		zen3_8clks_port0_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_port1,		zen3_8clks_port1_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_port01,	zen3_8clks_port01_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_port03,	zen3_8clks_port03_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_port2,		zen3_8clks_port2_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_port12,	zen3_8clks_port12_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_port23,	zen3_8clks_port23_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_port0123,	zen3_8clks_port0123_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_port45,	zen3_8clks_port45_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0000h
-	test_m		Zen3_&INST&32_&OPERANDS&_LDs,		zen3_8clks_LDs_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0000h
-endm
-
-zen3_wrap64 macro INST, OPERANDS, R1, R2
-	;test_m		FUNC,								M1,						M2,							INST, DOMAINSTART,	DOMAINEND,	R1, R2,	X87PREC
-	test_m		Zen3_&INST&64_&OPERANDS&_lat,		InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 0,			0,			1,	1,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_IIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_FFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_IFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_FIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_gpr,		zen3_8clks_gpr_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_port0,		zen3_8clks_port0_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_port1,		zen3_8clks_port1_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_port01,	zen3_8clks_port01_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_port03,	zen3_8clks_port03_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_port2,		zen3_8clks_port2_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_port12,	zen3_8clks_port12_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_port23,	zen3_8clks_port23_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_port0123,	zen3_8clks_port0123_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_port45,	zen3_8clks_port45_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0200h
-	test_m		Zen3_&INST&64_&OPERANDS&_LDs,		zen3_8clks_LDs_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0200h
-endm
-
-zen3_wrap80 macro INST, OPERANDS, R1, R2
-	;test_m		FUNC,								M1,						M2,							INST, DOMAINSTART,	DOMAINEND,	R1, R2,	X87PREC
-	test_m		Zen3_&INST&80_&OPERANDS&_lat,		InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 0,			0,			1,	1,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_IIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_FFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_IFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_FIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 5,			5,			1,	1,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_gpr,		zen3_8clks_gpr_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_port0,		zen3_8clks_port0_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_port1,		zen3_8clks_port1_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_port01,	zen3_8clks_port01_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_port03,	zen3_8clks_port03_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_port2,		zen3_8clks_port2_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_port12,	zen3_8clks_port12_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_port23,	zen3_8clks_port23_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_port0123,	zen3_8clks_port0123_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_port45,	zen3_8clks_port45_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0300h
-	test_m		Zen3_&INST&80_&OPERANDS&_LDs,		zen3_8clks_LDs_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2,	0300h
+	;test_m		FUNC,								M1,						M2,							INST, DOMAINSTART,	DOMAINEND,	R1, R2
+	test_m		Zen3_&INST&_&OPERANDS&_lat,			InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 0,			0,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_IIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 3,			3,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_FFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 3,			3,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_IFDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 3,			3,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_FIDomain,	InstLatX64_empty_port,	InstLatX64_&OPERANDS&_lat,	INST, 3,			3,			1,	1
+	test_m		Zen3_&INST&_&OPERANDS&_gpr,			zen3_8clks_gpr_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port0,		zen3_8clks_port0_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port1,		zen3_8clks_port1_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port01,		zen3_8clks_port01_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port03,		zen3_8clks_port03_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port2,		zen3_8clks_port2_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port12,		zen3_8clks_port12_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port23,		zen3_8clks_port23_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port0123,	zen3_8clks_port0123_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_port45,		zen3_8clks_port45_m,	InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
+	test_m		Zen3_&INST&_&OPERANDS&_LDs,			zen3_8clks_LDs_m,		InstLatX64_&OPERANDS&_port,	INST, 0,			0,			R1,	R2
 endm
 
 ;				INST				OPERANDS			R1	R2
@@ -379,9 +290,6 @@ zen3_wrap		rsqrtss,			xmm2xmm,			1,	2
 zen3_wrap		pblendvb,			xmm0_2xmm,			1,	2
 zen3_wrap		blendvpd,			xmm0_2xmm,			1,	2
 zen3_wrap		blendvps,			xmm0_2xmm,			1,	2
-;zen3_wrap		pblendvb,			3xmm2xmmRot,		1,	2
-;zen3_wrap		blendvpd,			3xmm2xmmRot,		1,	2
-;zen3_wrap		blendvps,			3xmm2xmmRot,		1,	2
 
 zen3_wrap		addpd,				xmm2xmm,			1,	2
 zen3_wrap		addps,				xmm2xmm,			1,	2
@@ -729,41 +637,5 @@ zen3_wrap2		cvtps2pi,			xmm2mm,				1,	1
 zen3_wrap2		cvtpd2pi,			xmm2mm,				1,	1
 zen3_wrap2		cvtpi2ps,			mm2xmm,				1,	1
 zen3_wrap2		cvtpi2pd,			mm2xmm,				1,	1
-
-zen3_wrap32		fadd,				x87_2op,			1,	1
-zen3_wrap32		fsub,				x87_2op,			1,	1
-zen3_wrap32		fmul,				x87_2op,			1,	1
-zen3_wrap32		fdiv,				x87_2op1,			3,	1
-zen3_wrap32		fsqrt,				noop1,				3,	1
-
-zen3_wrap64		fadd,				x87_2op,			1,	1
-zen3_wrap64		fsub,				x87_2op,			1,	1
-zen3_wrap64		fmul,				x87_2op,			1,	1
-zen3_wrap64		fdiv,				x87_2op1,			3,	1
-zen3_wrap64		fsqrt,				noop1,				3,	1
-
-zen3_wrap80		fadd,				x87_2op,			1,	1
-zen3_wrap80		fsub,				x87_2op,			1,	1
-zen3_wrap80		fmul,				x87_2op,			1,	1
-zen3_wrap80		fdiv,				x87_2op1,			3,	1
-zen3_wrap80		fsqrt,				noop1,				3,	1
-
-zen3_wrap3		fxch,				x87_1op,			1,	1
-zen3_wrap3		fabs,				noop,				1,	1
-zen3_wrap3		fchs,				noop,				1,	1
-zen3_wrap3		fxam,				noop,				1,	1
-zen3_wrap3		ftst,				noop,				1,	1
-zen3_wrap3		fcom,				x87_1op,			1,	1
-zen3_wrap3		fcomi,				x87_2opR,			1,	1
-
-zen3_wrap3		fld,				x87_1op_fstp,		1,	1
-zen3_wrap3		fldz,				x87_fstp,			1,	1
-zen3_wrap3		fld1,				x87_fstp,			1,	1
-zen3_wrap3		fldpi,				x87_fstp,			1,	1
-zen3_wrap3		fst,				x87_1op,			1,	1
-zen3_wrap3		ffree,				x87_1op,			1,	1
-zen3_wrap3		fdecstp,			noop,				1,	1
-zen3_wrap3		fincstp,			noop,				1,	1
-zen3_wrap3		fnop,				noop,				1,	1
 
 end

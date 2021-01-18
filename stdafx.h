@@ -24,4 +24,5 @@
 #include "Zen3_Demo.h"
 #include "Zen3_Demo_AVX.h"
 #include "Zen3_Demo_SSE.h"
+#include "Zen3_Demo_X87.h"
 #include "Zen3_Demo_UCode.h"

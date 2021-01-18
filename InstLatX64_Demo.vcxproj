@@ -567,10 +567,11 @@
     <ClInclude Include="Zen3_Demo_AVX.h" />
     <ClInclude Include="Zen3_Demo_SSE.h" />
     <ClInclude Include="Zen3_Demo_UCode.h" />
+    <ClInclude Include="Zen3_Demo_X87.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InstLatX64_PortMacros.h" />
-    <MASM Include="Zen3_Demo_SSE_x64.asm">
+    <MASM Include="Zen3_Demo_SSE.asm">
       <AssembledCodeListingFile Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|x64'">
       </AssembledCodeListingFile>
       <AssembledCodeListingFile Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|x64'">
@@ -582,7 +583,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
     </MASM>
-    <MASM Include="Zen3_Demo_UCode_x64.asm">
+    <MASM Include="Zen3_Demo_UCode.asm">
       <AssembledCodeListingFile Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|x64'">
       </AssembledCodeListingFile>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
@@ -592,7 +593,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
     </MASM>
-    <MASM Include="Zen3_Demo_AVX_x64.asm">
+    <MASM Include="Zen3_Demo_AVX.asm">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>
@@ -605,6 +606,15 @@
       </AssembledCodeListingFile>
       <AssembledCodeListingFile Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|x64'">
       </AssembledCodeListingFile>
+    </MASM>
+    <MASM Include="Zen3_Demo_X87.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
+      <AssembledCodeListingFile Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|x64'">$(IntDir)%(FileName).lst</AssembledCodeListingFile>
     </MASM>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
