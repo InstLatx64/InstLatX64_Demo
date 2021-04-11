@@ -256,7 +256,7 @@ private:
 		int				brand_num[4][4]  = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 	};
 	int					family;
-	int					modell;
+	int					model;
 	int					stepping;
 	int					hexID;
 	int					fms;

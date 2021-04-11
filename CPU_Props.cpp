@@ -121,7 +121,7 @@ CPU_Props::CPU_Props() : family(0), modell(0), stepping(0), hexID(0), fms(0) {
 	vendor_num[2] = level00[_REG_ECX];
 
 	family		= ((level01[_REG_EAX] >> 8) & 0xf) + ((level01[_REG_EAX] >> 20) & 0xf);
-	modell		= (((level01[_REG_EAX] >> 4) & 0xf) | ((level01[_REG_EAX] >> 12) & 0xf0));
+	model		= (((level01[_REG_EAX] >> 4) & 0xf) | ((level01[_REG_EAX] >> 12) & 0xf0));
 	stepping	= (level01[_REG_EAX] & 0xf);
 	hexID		= level01[_REG_EAX];
 
@@ -178,7 +178,7 @@ using namespace std;
 void CPU_Props::PrintVendor(void) const {
 	cout << "Vendor: \"" << std::setw(VENDOR_STRING_SIZE) << vendor_string << "\"" << endl;
 	cout << "Family:" << family;
-	cout << " Model:" << modell;
+	cout << " Model:" << model;
 	cout << " Stepping:" << stepping;
 	cout << " (" << hex << hexID << ')';
 	cout << endl;
