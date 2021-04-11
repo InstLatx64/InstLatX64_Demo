@@ -86,7 +86,7 @@ const _EXT CPU_Props::exts[ISA_LAST] = {
 	{"TBM",					_XCR0_EMPTY,	_EFEAT01_ECX_TBM},
 };
 
-CPU_Props::CPU_Props() : family(0), modell(0), stepping(0), hexID(0), fms(0) {
+CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 	int level00[4]			= {0, 0, 0, 0};
 	int level01[4]			= {0, 0, 0, 0};
 	int level07[4]			= {0, 0, 0, 0};
@@ -249,3 +249,167 @@ bool CPU_Props::IsZen2(void) const {
 bool CPU_Props::IsZen3(void) const {
 	return (family == 0x19) && (vendor_num[1] == 0x69746e65);
 }
+
+int CPU_Props::GetFamMod(void) const {
+	return fms & 0xfffffff0;
+}
+
+int CPU_Props::GetStepping(void) const {
+	return fms & 0xf;
+}
+
+bool CPU_Props::IsInBrand(const char * str) const {
+	return (0 != strstr(brand_string, str));
+}
+
+bool CPU_Props::IsIntel() const {
+	return 
+	(vendor_num[0] == 0x756E6547) && 
+	(vendor_num[1] == 0x49656E69) && 
+	(vendor_num[2] == 0x6C65746E);
+}
+
+#if defined (_M_X64)
+void CPU_Props::Print_512bFPU_DP_Ports(void) const {
+	cout << left << setw(FEAT_NAME_SIZE) << "512b FPU DP ports" << ": ";
+	cout << Get_512bFPU_DP_Ports() <<endl;
+}
+
+//based on 
+//https://github.com/jeffhammond/vpu-count
+//https://ark.intel.com/content/www/us/en/ark/products/codename/37572/skylake.html#@Server
+//https://ark.intel.com/content/www/us/en/ark/products/codename/124664/cascade-lake.html
+//https://ark.intel.com/content/www/us/en/ark/products/codename/189143/cooper-lake.html
+//https://ark.intel.com/content/www/us/en/ark/products/codename/74979/ice-lake.html
+//06_55h / CPUID 6065x stepping info:
+//https://software.intel.com/security-software-guidance/processors-affected-transient-execution-attack-mitigation-product-cpu-model
+//Future CPUIDs:
+//https://www.reddit.com/user/Komachi_ENSAKA/comments/iy9avs/memo/
+//CPU notation:
+//https://github.com/torvalds/linux/blob/master/arch/x86/include/asm/intel-family.h
+//Jintide CPUs:
+//https://www.montage-tech.com/Jintide_Platform/Jintide_CPU 
+//https://old.hotchips.org/hc31/HC31_2.11_Jintide_Server_CPU_final_r6.0.pdf
+
+// Actual Intel brand strings CPUID 80000003h-80000005h
+// 00000000001111111111222222222233333333334444444
+// 01234567890123456789012345678901234567890123456
+//"Intel(R) Core(TM) i9-7980XE CPU @ 2.60GHz"
+//"Intel(R) Core(TM) i9-7900X CPU @ 3.30GHz"
+//"Intel(R) Core(TM) i7-7820X CPU @ 3.60GHz"
+//"Intel(R) Core(TM) i7-7800X CPU @ 3.50GHz"
+//"Intel(R) Xeon(R) Platinum 8268 CPU @ 2.90GHz"
+//"Intel(R) Xeon(R) Platinum 8180 CPU @ 2.50GHz"
+//"Intel(R) Xeon(R) Platinum 8176 CPU @ 2.10GHz"
+//"Intel(R) Xeon(R) Platinum 8170 CPU @ 2.10GHz"
+//"Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz"
+//"Intel(R) Xeon(R) Gold 6250 CPU @ 3.90GHz"
+//"Intel(R) Xeon(R) Gold 6240C CPU @ 2.60GHz"
+//"Intel(R) Xeon(R) Gold 6212U CPU @ 2.40GHz"
+//"Intel(R) Xeon(R) Gold 6154 CPU @ 3.00GHz"
+//"Intel(R) Xeon(R) Gold 6154 CPU @ 3.00GHz"
+//"Intel(R) Xeon(R) Gold 6149 CPU @ 3.10GHz"
+//"Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz"
+//"Intel(R) Xeon(R) Gold 5220R CPU @ 2.20GHz"
+//"Intel(R) Xeon(R) Gold 5218 CPU @ 2.30GHz"
+//"Intel(R) Xeon(R) Gold 5215 CPU @ 2.50GHz"
+//                       ^^^^
+// 00000000001111111111222222222233333333334444444
+// 01234567890123456789012345678901234567890123456
+//"Intel(R) Xeon(R) Silver 4214 CPU @ 2.20GHz"
+//"Intel(R) Xeon(R) Silver 4108 CPU @ 1.80GHz"
+//"Intel(R) Xeon(R) Bronze 3104 CPU @ 1.70GHz"
+//"Intel(R) Xeon(R) D-2183IT CPU @ 2.20GHz"
+//"Intel(R) Xeon(R) W-3275 CPU @ 2.50GHz"
+//"Intel(R) Xeon(R) W-3175X CPU @ 3.10GHz"
+//"Intel(R) Xeon(R) W-2295 CPU @ 3.00GHz"
+//"Intel(R) Xeon(R) W-2191B CPU @ 2.30GHz"
+//"Intel(R) Xeon(R) W-2155 CPU @ 3.30GHz"
+//"Intel(R) Xeon(R) W-2125 CPU @ 4.00GHz"
+//                  ^   ^
+// 00000000001111111111222222222233333333334444444
+// 01234567890123456789012345678901234567890123456
+//"Montage(R) Jintide(R) C2460 1"
+//"Genuine Intel(R) CPU 0000%@"
+//"" <empty>
+
+int CPU_Props::Get_512bFPU_DP_Ports(void) const { //v0100
+	if (IsFeat(ISA_AVX512F) && IsIntel()) {
+		switch(GetFamMod()) {
+			case 0x00050650: {	//SKYLAKE_X
+					switch (GetStepping()) {
+						case 0: case 1: case 2:		//SkyLake-X/W/D/SP ES
+						case 3: case 4:				//SkyLake-X/W/D/SP
+						case 5: case 6: case 7: {	//Cascade Lake-X/W/D/SP
+							if (IsInBrand("Core"))
+								return 2;
+							else if (IsInBrand("Xeon")) 
+								if (IsInBrand("Platinum"))
+									return 2;
+								else if (IsInBrand("Silver") ||	IsInBrand("Bronze"))
+									return 1;
+								else if (IsInBrand("Gold"))
+									if (brand_string[22] == '5')  {
+										if ((10 * (brand_string[24] - '0')) + (brand_string[25] - '0') == 22) 
+											return 2; //Xeon Gold 5222, 5122
+										else
+											return 1;
+									} else {//Xoen Gold 6xxx
+										return 2;
+									}
+								else
+									switch (brand_string[17]) {
+										case 'W':
+											if (brand_string[21] == '0') //Xeon W-2104, W-2102
+												return 1;
+											else 
+												return 2;
+										case 'D':
+											return 1;
+										default: //unknown Xeon
+											return 2;
+									}
+							else //unknown brand string, 
+								//e.g.1 "Genuine Intel(R) CPU 0000%@"
+								//e.g.2 "Montage(R) Jintide(R) C2460 1", 
+								return Get_512bFPU_DP_Ports_FromOptimGuide();
+								//return 2;
+						}
+						case 0xa: case 0xb: //Cooper Lake
+						default: 
+							return 2;
+					}
+				} break;
+			case 0x00060660:	//Palm Cove    / CANNONLAKE_L 
+			case 0x00060670:	//Palm Cove    / CANNONLAKE - cancelled ?
+			case 0x000606C0:	//Sunny Cove   / ICELAKE_D
+			case 0x000706D0: 	//Sunny Cove   / ICELAKE - cancelled ?
+			case 0x000706E0: 	//Sunny Cove   / ICELAKE_L
+			case 0x00080650:	//Silvermont   / XEON_PHI_KNM 1 for DP, 2 for SP
+			case 0x000806C0: 	//Willow Cove  / TIGERLAKE_L
+			case 0x000806D0: 	//Willow Cove  / TIGERLAKE
+			case 0x000A0670: 	//Cypress Cove / ROCKETLAKE
+			case 0x000A0680: 	//Cypress Cove / ROCKETLAKE_L - cancelled ?
+				return 1;
+			case 0x00050670:	//Silvermont   / XEON_PHI_KNL
+			case 0x000606A0:	//Sunny Cove   / ICELAKE_X
+				return 2;
+			//future
+			//case 0x000806F0:	//Golden Cove  / SAPPHIRERAPIDS_X
+			//case 0x00090670:	//Golden Cove  / ALDERLAKE
+			//case 0x000906A0:	//Golden Cove  / ALDERLAKE_L
+			//case 0x000906D0:	//Sunny Cove   / ICELAKE_NNPI / Spring Hill - cancelled ?
+			//case 0x000906F0:	//Sunny Cove   / ICELAKE_R ?
+			//case 0x000A06A0:	//Redwood Cove?/ METEORLAKE_L
+			//case 0x000A06C0:	//Redwood Cove?/ METEORLAKE
+			//case 0x000A06D0:	//Redwood Cove?/ GRANITERAPIDS_X
+			case 0x000806A0:	//Sunny Cove   / LAKEFIELD, AVX512 disabled
+			default:			//on other cores, AVX512F unsupported
+				return 0;
+		}
+	} else {
+		return 0;
+	}
+}
+
+#endif

@@ -45,6 +45,9 @@
     <ClCompile Include="Zen3_Demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="512bFPU_DP_Ports.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -95,6 +98,9 @@
     <ClInclude Include="Zen2_Demo_X87.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="512bFPU_DP_Ports.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MASM Include="Zen3_Demo_X87.asm">
@@ -107,6 +113,9 @@
       <Filter>Source Files</Filter>
     </MASM>
     <MASM Include="Zen3_Demo_UCode.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="512bFPU_DP_Ports_Asm.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>

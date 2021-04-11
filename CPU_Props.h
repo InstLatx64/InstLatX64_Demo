@@ -267,7 +267,15 @@ public:
 	void				PrintFeats(void) const;
 	void				PrintVendor(void) const;
 	void				PrintBrand(void) const;
+	void				Print_512bFPU_DP_Ports(void) const;
 	bool				IsFeat(int) const;
 	bool				IsZen2(void) const;
 	bool				IsZen3(void) const;
+	int					GetFamMod(void) const;
+	int					GetStepping(void) const;
+	bool				IsInBrand(const char* str) const;
+	bool				IsIntel() const;
+#if defined (_M_X64)
+	int					Get_512bFPU_DP_Ports(void) const;
+#endif
 };

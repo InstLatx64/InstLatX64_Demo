@@ -53,6 +53,9 @@ int main()
 {
 	cpu_props.PrintVendor();
 	cpu_props.PrintBrand();
+#if defined (_M_X64)
+	cpu_props.Print_512bFPU_DP_Ports();
+#endif
 	cpu_props.PrintFeats();
 
 	if (cpu_props.IsFeat(ISA_GFNI)) {

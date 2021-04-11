@@ -15,6 +15,7 @@
 #include <assert.h>
 
 #include "InstLatX64_Demo.h"
+#include "512bFPU_DP_Ports.h"
 #include "CPU_Props.h"
 
 #include "GFNI_Demo.h"
