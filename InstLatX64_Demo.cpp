@@ -92,7 +92,7 @@ int main()
 		Zen3_Demo();
 	}
 	else {
-		cout << "AVX2 unspported." << endl;
+		cout << "No Zen3." << endl;
 	}
 #endif
 

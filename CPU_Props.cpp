@@ -354,7 +354,7 @@ int CPU_Props::Get_512bFPU_DP_Ports(void) const { //v0100
 											return 2; //Xeon Gold 5222, 5122
 										else
 											return 1;
-									} else {//Xoen Gold 6xxx
+									} else {//Xeon Gold 6xxx
 										return 2;
 									}
 								else
