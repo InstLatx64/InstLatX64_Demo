@@ -18,6 +18,8 @@
 #include "512bFPU_DP_Ports.h"
 #include "CPU_Props.h"
 
+#include "Byte2Byte.h"
+
 #include "GFNI_Demo.h"
 #include "VPCLMULQDQ_Demo.h"
 #include "VBMI2_Demo.h"

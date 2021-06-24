@@ -465,6 +465,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Byte2Byte.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="CPU_Props.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">Use</PrecompiledHeader>
@@ -563,6 +571,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="512bFPU_DP_Ports.h" />
+    <ClInclude Include="Byte2Byte.h" />
     <ClInclude Include="CPU_Props.h" />
     <ClInclude Include="GFNI_Demo.h" />
     <ClInclude Include="InstLatX64_Demo.h" />
@@ -588,6 +597,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
     </MASM>
     <ClInclude Include="InstLatX64_PortMacros.h" />
+    <MASM Include="Byte2Byte_Asm.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
+    </MASM>
     <MASM Include="Zen3_Demo_SSE.asm">
       <AssembledCodeListingFile Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|x64'">
       </AssembledCodeListingFile>
