@@ -1,6 +1,6 @@
 Vendor: "GenuineIntel"
-Family:6 Model:140 Stepping:1 (806c1)
-Brand: "  11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz"
+Family:6 Model:167 Stepping:1 (a0671)
+Brand: "  11th Gen Intel(R) Core(TM) i9-11900K @ 3.50GHz"
 512b FPU DP ports   : 1
 ---GPR----------    
 RDTSC               : supported
@@ -18,8 +18,8 @@ RDSEED              : supported
 ADX                 : supported
 BMI                 : supported
 BMI2                : supported
-MOVDIRI             : supported
-MOVDIR64B           : supported
+MOVDIRI             : unsupported
+MOVDIR64B           : unsupported
 ---SIMD---------    
 SSE                 : supported
 SSE2                : supported
@@ -38,7 +38,7 @@ F16C                : supported, OS enabled
 GFNI                : supported
 VAES                : supported
 VPCLMULQDQ          : supported
-KEYLOCK             : supported, OS disabled
+KEYLOCK             : unsupported
 AVX_VNNI            : unsupported
 ---AVX512-------    
 AVX512F             : supported, OS enabled
@@ -57,7 +57,7 @@ AVX512_VPOPCNTDQ    : supported, OS enabled
 AVX512_BITALG       : supported, OS enabled
 AVX512_VBMI2        : supported, OS enabled
 AVX512_BF16         : unsupported
-AVX512_VP2INTERSECT : supported, OS enabled
+AVX512_VP2INTERSECT : unsupported
 AVX512_FP16         : unsupported
 ---AMX----------    
 AMX-BF16            : unsupported
@@ -68,7 +68,7 @@ PREFETCHW           : supported
 PREFETCHWT1         : unsupported
 CLFLUSH             : supported
 CLFLUSHOPT          : supported
-CLWB                : supported
+CLWB                : unsupported
 CLZERO              : unsupported
 CLDEMOTE            : unsupported
 ---Misc---------    
@@ -85,7 +85,8 @@ XOP                 : unsupported
 FMA4                : unsupported
 TBM                 : unsupported
 --- AVX512VBMI Byte2Byte mapping ---
-Masked VPERMI2B pair          :12152950
-VPERMI2B pair + kreg + TERNLOG:8998682
-VPERMI2B pair + GFNI + TERNLOG:8567316
+Masked VPERMI2B pair            :10.0858
+VPERMI2B pair + kreg + TERNLOG  :8.95898
+VPERMI2B pair + GFNI + TERNLOG  :8.49166
+VPERMI2B pair + VPSHRQ + TERNLOG:8.67294
 ===================================

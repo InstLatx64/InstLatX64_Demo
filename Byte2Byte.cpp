@@ -6,9 +6,10 @@ using namespace std;
 
 void Byte2ByteTest(void) {
 	cout << "--- AVX512VBMI Byte2Byte mapping ---" << dec << right << endl;
-	cout << "Masked VPERMI2B pair          :" << Byte2Byte01() << endl;
-	cout << "VPERMI2B pair + kreg + TERNLOG:" << Byte2Byte02() << endl;
+	cout << "Masked VPERMI2B pair            :" << (double)Byte2Byte01() / (double)REPEATS << endl;
+	cout << "VPERMI2B pair + kreg + TERNLOG  :" << (double)Byte2Byte02() / (double)REPEATS << endl;
 	if (cpu_props.IsFeat(ISA_GFNI)) {
-		cout << "VPERMI2B pair + GFNI + TERNLOG:" << Byte2Byte03() << endl;
+		cout << "VPERMI2B pair + GFNI + TERNLOG  :" << (double)Byte2Byte03() / (double)REPEATS << endl;
 	}
+	cout << "VPERMI2B pair + VPSHRQ + TERNLOG:" << (double)Byte2Byte04() / (double)REPEATS << endl;
 }
