@@ -51,6 +51,9 @@
     <ClCompile Include="Byte2Byte.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TZCNT_Demo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -98,13 +101,13 @@
     <ClInclude Include="Zen3_Demo_X87.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Zen2_Demo_X87.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="512bFPU_DP_Ports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Byte2Byte.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TZCNT_Demo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -125,6 +128,9 @@
       <Filter>Source Files</Filter>
     </MASM>
     <MASM Include="Byte2Byte_Asm.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="TZCNT_Demo_Asm.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>
