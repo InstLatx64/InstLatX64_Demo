@@ -1,0 +1,120 @@
+Vendor: "GenuineIntel"
+Family:6 Model:167 Stepping:1 (a0671)
+Brand: "  11th Gen Intel(R) Core(TM) i9-11900K @ 3.50GHz"
+512b FPU DP ports   : 1
+---GPR----------    
+RDTSC               : supported
+RDTSCP              : supported
+CMOV                : supported
+CMPX8               : supported
+CMPX16              : supported
+AMD64               : supported
+LAHF                : supported
+MOVBE               : supported
+ABM                 : supported
+POPCNT              : supported
+RDRAND              : supported
+RDSEED              : supported
+ADX                 : supported
+BMI                 : supported
+BMI2                : supported
+MOVDIRI             : unsupported
+MOVDIR64B           : unsupported
+---SIMD---------    
+SSE                 : supported
+SSE2                : supported
+SSE3                : supported
+SSSE3               : supported
+SSE41               : supported
+SSE42               : supported
+SSE4A               : unsupported
+CLMUL               : supported
+AES                 : supported
+SHA                 : supported
+AVX                 : supported, OS enabled
+AVX2                : supported, OS enabled
+FMA                 : supported, OS enabled
+F16C                : supported, OS enabled
+GFNI                : supported
+VAES                : supported
+VPCLMULQDQ          : supported
+KEYLOCK             : unsupported
+AVX_VNNI            : unsupported
+---AVX512-------    
+AVX512F             : supported, OS enabled
+AVX512CD            : supported, OS enabled
+AVX512ER            : unsupported
+AVX512PF            : unsupported
+AVX512BW            : supported, OS enabled
+AVX512DQ            : supported, OS enabled
+AVX512VL            : supported, OS enabled
+AVX512VBMI          : supported, OS enabled
+AVX512IFMA          : supported, OS enabled
+AVX512VNNI          : supported, OS enabled
+AVX512_4VNNIW       : unsupported
+AVX512_4FMAPS       : unsupported
+AVX512_VPOPCNTDQ    : supported, OS enabled
+AVX512_BITALG       : supported, OS enabled
+AVX512_VBMI2        : supported, OS enabled
+AVX512_BF16         : unsupported
+AVX512_VP2INTERSECT : unsupported
+AVX512_FP16         : unsupported
+---AMX----------    
+AMX-BF16            : unsupported
+AMX-INT8            : unsupported
+AMX-TILE            : unsupported
+---CacheLine----    
+PREFETCHW           : supported
+PREFETCHWT1         : unsupported
+CLFLUSH             : supported
+CLFLUSHOPT          : supported
+CLWB                : unsupported
+CLZERO              : unsupported
+CLDEMOTE            : unsupported
+---Misc---------    
+LNOP                : supported
+SERIALIZE           : unsupported
+HYBRID              : unsupported
+---Deprecated---    
+X87                 : supported
+MMX                 : supported
+MMX+                : unsupported
+3DNow!              : unsupported
+3DNow!+             : unsupported
+XOP                 : unsupported
+FMA4                : unsupported
+TBM                 : unsupported
+--- AVX512_BITALG & AVX512_VPOPCNTDQ SIMD TZCNT ---
+x128                         :0000000100020004 1000200040008000 
+_mm_tzcnt_epi8               :0808080008010802 0408050806080708 
+_mm_tzcnt_epi16              :0010000000010002 000c000d000e000f 
+_mm_tzcnt_epi32              :0000000000000002 0000000d0000000f 
+_mm_tzcnt_epi64              :0000000000000002 000000000000000f 
+x256                         :0000000100020004 1000200040008000 7f007e007c007800 7000600040000000 
+_mm256_tzcnt_epi8            :0808080008010802 0408050806080708 0008010802080308 0408050806080808 
+_mm256_tzcnt_epi16           :0010000000010002 000c000d000e000f 00080009000a000b 000c000d000e0010 
+_mm256_tzcnt_epi32           :0000000000000002 0000000d0000000f 000000090000000b 0000000d0000001e 
+_mm256_tzcnt_epi64           :0000000000000002 000000000000000f 000000000000000b 000000000000001e 
+x512                         :0000000100020004 1000200040008000 7f007e007c007800 7000600000000000 fffffffefffcfff8 fff0ffe0ffc0ff80 ff00fe00fc00f800 f000e000c0008000 
+_mm512_tzcnt_epi8            :0808080008010802 0408050806080708 0008010802080308 0408050808080808 0000000100020003 0004000500060007 0008010802080308 0408050806080708 
+_mm512_tzcnt_epi16           :0010000000010002 000c000d000e000f 00080009000a000b 000c000d00100010 0000000100020003 0004000500060007 00080009000a000b 000c000d000e000f 
+_mm512_tzcnt_epi32           :0000000000000002 0000000d0000000f 000000090000000b 0000000d00000020 0000000100000003 0000000500000007 000000090000000b 0000000d0000000f 
+_mm512_tzcnt_epi64           :0000000000000002 000000000000000f 000000000000000b 000000000000002d 0000000000000003 0000000000000007 000000000000000b 000000000000000f 
+TSC CLKs:----------------------
+_mm_tzcnt_epi8_asm            :5.01382
+_mm_tzcnt_epi16_asm           :5.00762
+_mm_tzcnt_epi32_asm           :5.00959
+_mm_tzcnt_epi64_asm           :5.01166
+_mm256_tzcnt_epi8_asm         :5.00704
+_mm256_tzcnt_epi16_asm        :5.00701
+_mm256_tzcnt_epi32_asm        :5.00662
+_mm256_tzcnt_epi64_asm        :5.009
+_mm512_tzcnt_epi8_asm         :5.01387
+_mm512_tzcnt_epi16_asm        :5.01192
+_mm512_tzcnt_epi32_asm        :5.00803
+_mm512_tzcnt_epi64_asm        :5.00779
+_mm256_tzcnt_epi32_lzcnt_asm  :8.80157
+_mm512_tzcnt_epi32_lzcnt_asm  :8.07228
+_mm256_tzcnt_epi64_lzcnt_asm  :8.82087
+_mm512_tzcnt_epi64_lzcnt_asm  :8.05901
+===================================

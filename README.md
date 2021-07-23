@@ -51,6 +51,8 @@ experimental implementation of entire register (128/256/512b, xmm/ymm/zmm) prefi
 
 # Compiler_Intrinsic_Test.cpp  
 for testing Visual Studio AVX512 capabilities
+# TZCNT_Demo.cpp  
+SIMD TZCNT routines
 # PEXT_PDEP_Emu.cpp  
 Faster PEXT and PDEP emulation for AMD Excavator/Zen/Zen+/Zen2 based on Zach Wegner's ZP7 (Zach's Peppy Parallel-Prefix-Popcountin' PEXT/PDEP Polyfill)
 # CPU_Props.* 
@@ -64,3 +66,4 @@ code for examining of the issue ports x87, MMX, SSE, AVX instructions in AMD Zen
 *  Wojciech Muła [AVX512VBMI — remove spaces from text](http://0x80.pl/articles/avx512-galois-field-for-bit-shuffling.html)
 *  Zach Wegner [ZP7 (Zach's Peppy Parallel-Prefix-Popcountin' PEXT/PDEP Polyfill)](https://github.com/zwegner/zp7)
 *  Abel, Andreas and Reineke, Jan [uops.info: Characterizing Latency, Throughput, and Port Usage of Instructions on Intel Microarchitectures](https://arxiv.org/pdf/1810.04610.pdf)
+*  PerforatedBlob [TZCNT - TERNLOG->ANDN](https://twitter.com/PerforatedBlob/status/1418421045447454724)

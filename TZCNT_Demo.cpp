@@ -2,8 +2,8 @@
 /*
 SIMD TZCNT proposal: POPCNT vs LZCNT:
 - Byte/Word support too, not just DWord/QWord
-- faster (const 5 vs 8/9 clks on TGL)
-- tzcnt(a) = popcnt(tzmsk(a)) = popcnt(~a & (a-1)) = popcnt(ternlog(a, a, a-1, 0x22))
+- faster (const 5 vs 8/9 clks on TGL, RKL)
+- tzcnt(a) = popcnt(tzmsk(a)) = popcnt(~a & (a-1)) = popcnt(andn(a, a-1)) = popcnt(andn(a, a+(-1))) (thx, @PerforatedBlob! https://twitter.com/PerforatedBlob/status/1418421045447454724)
 - only 1 const
 - zero case handled
 */
@@ -13,63 +13,51 @@ extern CPU_Props cpu_props;
 using namespace std;
 
 __m128i _mm_tzcnt_epi8(__m128i a) {
-	const __m128i one = _mm_sub_epi8(_mm_setzero_si128(), _mm_ternarylogic_epi32(_mm_setzero_si128(), _mm_setzero_si128(), _mm_setzero_si128(), 0xff));
-	return _mm_popcnt_epi8(_mm_ternarylogic_epi32(a, a, _mm_sub_epi8(a, one), 0x22));
+	return _mm_popcnt_epi8(_mm_andnot_si128(a, _mm_add_epi8(a, _mm_cmpeq_epi8(_mm_undefined_si128(), _mm_undefined_si128()))));
 }
 
 __m256i _mm256_tzcnt_epi8(__m256i a) {
-	const __m256i one = _mm256_sub_epi8(_mm256_setzero_si256(), _mm256_ternarylogic_epi32(_mm256_setzero_si256(), _mm256_setzero_si256(), _mm256_setzero_si256(), 0xff));
-	return _mm256_popcnt_epi8(_mm256_ternarylogic_epi32(a, a, _mm256_sub_epi8(a, one), 0x22));
+	return _mm256_popcnt_epi8(_mm256_andnot_si256(a, _mm256_add_epi8(a, _mm256_cmpeq_epi8(_mm256_undefined_si256(), _mm256_undefined_si256()))));
 }
 
 __m512i _mm512_tzcnt_epi8(__m512i a) {
-	const __m512i one = _mm512_sub_epi8(_mm512_setzero_si512(), _mm512_ternarylogic_epi32(_mm512_setzero_si512(), _mm512_setzero_si512(), _mm512_setzero_si512(), 0xff));
-	return _mm512_popcnt_epi8(_mm512_ternarylogic_epi32(a, a, _mm512_sub_epi8(a, one), 0x22));
+	return _mm512_popcnt_epi8(_mm512_andnot_si512(a, _mm512_add_epi8(a, _mm512_ternarylogic_epi32(_mm512_undefined_epi32(), _mm512_undefined_epi32(), _mm512_undefined_epi32(), 0xff))));
 }
 
 __m128i _mm_tzcnt_epi16(__m128i a) {
-	const __m128i one = _mm_sub_epi16(_mm_setzero_si128(), _mm_ternarylogic_epi32(_mm_setzero_si128(), _mm_setzero_si128(), _mm_setzero_si128(), 0xff));
-	return _mm_popcnt_epi16(_mm_ternarylogic_epi32(a, a, _mm_sub_epi16(a, one), 0x22));
+	return _mm_popcnt_epi16(_mm_andnot_si128(a, _mm_add_epi16(a, _mm_cmpeq_epi16(_mm_undefined_si128(), _mm_undefined_si128()))));
 }
 
 __m256i _mm256_tzcnt_epi16(__m256i a) {
-	const __m256i one = _mm256_sub_epi16(_mm256_setzero_si256(), _mm256_ternarylogic_epi32(_mm256_setzero_si256(), _mm256_setzero_si256(), _mm256_setzero_si256(), 0xff));
-	return _mm256_popcnt_epi16(_mm256_ternarylogic_epi32(a, a, _mm256_sub_epi16(a, one), 0x22));
+	return _mm256_popcnt_epi16(_mm256_andnot_si256(a,_mm256_add_epi16(a, _mm256_cmpeq_epi16(_mm256_undefined_si256(), _mm256_undefined_si256()))));
 }
 
 __m512i _mm512_tzcnt_epi16(__m512i a) {
-	const __m512i one = _mm512_sub_epi16(_mm512_setzero_si512(), _mm512_ternarylogic_epi32(_mm512_setzero_si512(), _mm512_setzero_si512(), _mm512_setzero_si512(), 0xff));
-	return _mm512_popcnt_epi16(_mm512_ternarylogic_epi32(a, a, _mm512_sub_epi16(a, one), 0x22));
+	return _mm512_popcnt_epi16(_mm512_andnot_si512(a, _mm512_add_epi16(a, _mm512_ternarylogic_epi32(_mm512_undefined_epi32(), _mm512_undefined_epi32(), _mm512_undefined_epi32(), 0xff))));
 }
 
 __m128i _mm_tzcnt_epi32(__m128i a) {
-	const __m128i one = _mm_sub_epi32(_mm_setzero_si128(), _mm_ternarylogic_epi32(_mm_setzero_si128(), _mm_setzero_si128(), _mm_setzero_si128(), 0xff));
-	return _mm_popcnt_epi32(_mm_ternarylogic_epi32(a, a, _mm_sub_epi32(a, one), 0x22));
+	return _mm_popcnt_epi32(_mm_andnot_si128(a, _mm_add_epi32(a, _mm_cmpeq_epi32(_mm_undefined_si128(), _mm_undefined_si128()))));
 }
 
 __m256i _mm256_tzcnt_epi32(__m256i a) {
-	const __m256i one = _mm256_sub_epi32(_mm256_setzero_si256(), _mm256_ternarylogic_epi32(_mm256_setzero_si256(), _mm256_setzero_si256(), _mm256_setzero_si256(), 0xff));
-	return _mm256_popcnt_epi32(_mm256_ternarylogic_epi32(a, a, _mm256_sub_epi32(a, one), 0x22));
+	return _mm256_popcnt_epi32(_mm256_andnot_si256(a, _mm256_add_epi32(a, _mm256_cmpeq_epi32(_mm256_undefined_si256(), _mm256_undefined_si256()))));
 }
 
 __m512i _mm512_tzcnt_epi32(__m512i a) {
-	const __m512i one = _mm512_sub_epi32(_mm512_setzero_si512(), _mm512_ternarylogic_epi32(_mm512_setzero_si512(), _mm512_setzero_si512(), _mm512_setzero_si512(), 0xff));
-	return _mm512_popcnt_epi32(_mm512_ternarylogic_epi32(a, a, _mm512_sub_epi32(a, one), 0x22));
+	return _mm512_popcnt_epi32(_mm512_andnot_si512(a, _mm512_add_epi32(a, _mm512_ternarylogic_epi32(_mm512_undefined_epi32(), _mm512_undefined_epi32(), _mm512_undefined_epi32(), 0xff))));
 }
 
 __m128i _mm_tzcnt_epi64(__m128i a) {
-	const __m128i one = _mm_sub_epi64(_mm_setzero_si128(), _mm_ternarylogic_epi64(_mm_setzero_si128(), _mm_setzero_si128(), _mm_setzero_si128(), 0xff));
-	return _mm_popcnt_epi64(_mm_ternarylogic_epi64(a, a, _mm_sub_epi64(a, one), 0x22));
+	return _mm_popcnt_epi64(_mm_andnot_si128(a, _mm_add_epi64(a, _mm_cmpeq_epi64(_mm_undefined_si128(), _mm_undefined_si128()))));
 }
 
 __m256i _mm256_tzcnt_epi64(__m256i a) {
-	const __m256i one = _mm256_sub_epi64(_mm256_setzero_si256(), _mm256_ternarylogic_epi64(_mm256_setzero_si256(), _mm256_setzero_si256(), _mm256_setzero_si256(), 0xff));
-	return _mm256_popcnt_epi64(_mm256_ternarylogic_epi64(a, a, _mm256_sub_epi64(a, one), 0x22));
+	return _mm256_popcnt_epi64(_mm256_andnot_si256(a, _mm256_add_epi64(a, _mm256_cmpeq_epi64(_mm256_undefined_si256(), _mm256_undefined_si256()))));
 }
 
 __m512i _mm512_tzcnt_epi64(__m512i a) {
-	const __m512i one = _mm512_sub_epi64(_mm512_setzero_si512(), _mm512_ternarylogic_epi64(_mm512_setzero_si512(), _mm512_setzero_si512(), _mm512_setzero_si512(), 0xff));
-	return _mm512_popcnt_epi64(_mm512_ternarylogic_epi64(a, a, _mm512_sub_epi64(a, one), 0x22));
+	return _mm512_popcnt_epi64(_mm512_andnot_si512(a, _mm512_add_epi64(a, _mm512_ternarylogic_epi64(_mm512_undefined_epi32(), _mm512_undefined_epi32(), _mm512_undefined_epi32(), 0xff))));
 }
 
 void TZCNT_Test(void) {

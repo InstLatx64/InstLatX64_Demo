@@ -28,9 +28,7 @@ _mm_tzcnt_epi8_asm proc
 	push			rdi
 	push			rsi
 
-	vpxor			xmm0, xmm0, xmm0
-	vpternlogd		xmm1, xmm1, xmm1, 0ffh
-	vpsubb			xmm1, xmm0, xmm1	;const 0x0101010101010101
+	vpcmpeqb		xmm1, xmm1, xmm1
 
 	vmovdqu64		xmm0, xmmword ptr [bytetest_00]
 
@@ -44,8 +42,8 @@ _mm_tzcnt_epi8_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubb			xmm2, xmm0, xmm1		;(a - 1)
-	vpternlogd		xmm0, xmm0, xmm2, 22h	;~a & (a - 1)
+	vpaddb			xmm2, xmm0, xmm1
+	vpandn			xmm0, xmm0, xmm2
 	vpopcntb		xmm0, xmm0
 
 	dec				ecx
@@ -73,9 +71,7 @@ _mm_tzcnt_epi16_asm proc
 	push			rdi
 	push			rsi
 
-	vpxor			xmm0, xmm0, xmm0
-	vpternlogd		xmm1, xmm1, xmm1, 0ffh
-	vpsubw			xmm1, xmm0, xmm1	;const 0x0001000100010001
+	vpcmpeqw		xmm1, xmm1, xmm1
 
 	vmovdqu64		xmm0, xmmword ptr [wordtest_00]
 
@@ -89,8 +85,8 @@ _mm_tzcnt_epi16_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubw			xmm2, xmm0, xmm1		;(a - 1)
-	vpternlogd		xmm0, xmm0, xmm2, 22h	;~a & (a - 1)
+	vpaddw			xmm2, xmm0, xmm1
+	vpandn			xmm0, xmm0, xmm2
 	vpopcntw		xmm0, xmm0
 
 	dec				ecx
@@ -118,9 +114,7 @@ _mm_tzcnt_epi32_asm proc
 	push			rdi
 	push			rsi
 
-	vpxor			xmm0, xmm0, xmm0
-	vpternlogd		xmm1, xmm1, xmm1, 0ffh
-	vpsubd			xmm1, xmm0, xmm1	;const 0x0000000100000001
+	vpcmpeqd		xmm1, xmm1, xmm1
 
 	vmovdqu64		xmm0, xmmword ptr [dwordtest_00]
 
@@ -134,8 +128,8 @@ _mm_tzcnt_epi32_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubd			xmm2, xmm0, xmm1		;(a - 1)
-	vpternlogd		xmm0, xmm0, xmm2, 22h	;~a & (a - 1)
+	vpaddd			xmm2, xmm0, xmm1
+	vpandn			xmm0, xmm0, xmm2
 	vpopcntd		xmm0, xmm0
 
 	dec				ecx
@@ -163,9 +157,7 @@ _mm_tzcnt_epi64_asm proc
 	push			rdi
 	push			rsi
 
-	vpxor			xmm0, xmm0, xmm0
-	vpternlogq		xmm1, xmm1, xmm1, 0ffh
-	vpsubq			xmm1, xmm0, xmm1	;const 0x0000000000000001
+	vpcmpeqq		xmm1, xmm0, xmm1	;const 0x0000000000000001
 
 	vmovdqu64		xmm0, xmmword ptr [qwordtest_00]
 
@@ -179,8 +171,8 @@ _mm_tzcnt_epi64_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubq			xmm2, xmm0, xmm1		;(a - 1)
-	vpternlogq		xmm0, xmm0, xmm2, 22h	;~a & (a - 1)
+	vpaddq			xmm2, xmm0, xmm1
+	vpandn			xmm0, xmm0, xmm2
 	vpopcntq		xmm0, xmm0
 
 	dec				ecx
@@ -208,9 +200,7 @@ _mm256_tzcnt_epi8_asm proc
 	push			rdi
 	push			rsi
 
-	vpxor			xmm0, xmm0, xmm0
-	vpternlogd		ymm1, ymm1, ymm1, 0ffh
-	vpsubb			ymm1, ymm0, ymm1	;const 0x0101010101010101
+	vpcmpeqb		ymm1, ymm1, ymm1
 
 	vmovdqu64		ymm0, ymmword ptr [bytetest_00]
 
@@ -224,8 +214,8 @@ _mm256_tzcnt_epi8_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubb			ymm2, ymm0, ymm1		;(a - 1)
-	vpternlogd		ymm0, ymm0, ymm2, 22h	;~a & (a - 1)
+	vpaddb			ymm2, ymm0, ymm1
+	vpandn			ymm0, ymm0, ymm2
 	vpopcntb		ymm0, ymm0
 
 	dec				ecx
@@ -253,9 +243,7 @@ _mm256_tzcnt_epi16_asm proc
 	push			rdi
 	push			rsi
 
-	vpxor			xmm0, xmm0, xmm0
-	vpternlogd		ymm1, ymm1, ymm1, 0ffh
-	vpsubw			ymm1, ymm0, ymm1	;const 0x0001000100010001
+	vpcmpeqw		ymm1, ymm1, ymm1
 
 	vmovdqu64		ymm0, ymmword ptr [wordtest_00]
 
@@ -269,8 +257,8 @@ _mm256_tzcnt_epi16_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubw			ymm2, ymm0, ymm1		;(a - 1)
-	vpternlogd		ymm0, ymm0, ymm2, 22h	;~a & (a - 1)
+	vpaddw			ymm2, ymm0, ymm1
+	vpandn			ymm0, ymm0, ymm2
 	vpopcntw		ymm0, ymm0
 
 	dec				ecx
@@ -298,9 +286,7 @@ _mm256_tzcnt_epi32_asm proc
 	push			rdi
 	push			rsi
 
-	vpxor			xmm0, xmm0, xmm0
-	vpternlogd		ymm1, ymm1, ymm1, 0ffh
-	vpsubd			ymm1, ymm0, ymm1	;const 0x0000000100000001
+	vpcmpeqd		ymm1, ymm1, ymm1
 
 	vmovdqu64		ymm0, ymmword ptr [dwordtest_00]
 
@@ -314,8 +300,8 @@ _mm256_tzcnt_epi32_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubd			ymm2, ymm0, ymm1		;(a - 1)
-	vpternlogd		ymm0, ymm0, ymm2, 22h	;~a & (a - 1)
+	vpaddd			ymm2, ymm0, ymm1
+	vpandn			ymm0, ymm0, ymm2
 	vpopcntd		ymm0, ymm0
 
 	dec				ecx
@@ -343,9 +329,7 @@ _mm256_tzcnt_epi64_asm proc
 	push			rdi
 	push			rsi
 
-	vpxor			xmm0, xmm0, xmm0
-	vpternlogq		ymm1, ymm1, ymm1, 0ffh
-	vpsubq			ymm1, ymm0, ymm1	;const 0x0000000000000001
+	vpcmpeqq		ymm1, ymm1, ymm1
 
 	vmovdqu64		ymm0, ymmword ptr [qwordtest_00]
 
@@ -359,8 +343,8 @@ _mm256_tzcnt_epi64_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubq			ymm2, ymm0, ymm1		;(a - 1)
-	vpternlogq		ymm0, ymm0, ymm2, 22h	;~a & (a - 1)
+	vpaddq			ymm2, ymm0, ymm1
+	vpandn			ymm0, ymm0, ymm2
 	vpopcntq		ymm0, ymm0
 
 	dec				ecx
@@ -388,9 +372,7 @@ _mm512_tzcnt_epi8_asm proc
 	push			rdi
 	push			rsi
 
-	vpxor			xmm0, xmm0, xmm0
 	vpternlogd		zmm1, zmm1, zmm1, 0ffh
-	vpsubb			zmm1, zmm0, zmm1	;const 0x0101010101010101
 
 	vmovdqu64		zmm0, zmmword ptr [bytetest_00]
 
@@ -404,8 +386,8 @@ _mm512_tzcnt_epi8_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubb			zmm2, zmm0, zmm1		;(a - 1)
-	vpternlogd		zmm0, zmm0, zmm2, 22h	;~a & (a - 1)
+	vpaddb			zmm2, zmm0, zmm1
+	vpandnd			zmm0, zmm0, zmm2
 	vpopcntb		zmm0, zmm0
 
 	dec				ecx
@@ -433,9 +415,7 @@ _mm512_tzcnt_epi16_asm proc
 	push			rdi
 	push			rsi
 
-	vpxor			xmm0, xmm0, xmm0
 	vpternlogd		zmm1, zmm1, zmm1, 0ffh
-	vpsubw			zmm1, zmm0, zmm1	;const 0x0001000100010001
 
 	vmovdqu64		zmm0, zmmword ptr [wordtest_00]
 
@@ -449,8 +429,8 @@ _mm512_tzcnt_epi16_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubw			zmm2, zmm0, zmm1		;(a - 1)
-	vpternlogd		zmm0, zmm0, zmm2, 22h	;~a & (a - 1)
+	vpaddw			zmm2, zmm0, zmm1
+	vpandnd			zmm0, zmm0, zmm2
 	vpopcntw		zmm0, zmm0
 
 	dec				ecx
@@ -478,9 +458,7 @@ _mm512_tzcnt_epi32_asm proc
 	push			rdi
 	push			rsi
 
-	vpxor			xmm0, xmm0, xmm0
 	vpternlogd		zmm1, zmm1, zmm1, 0ffh
-	vpsubd			zmm1, zmm0, zmm1	;const 0x0000000100000001
 
 	vmovdqu64		zmm0, zmmword ptr [dwordtest_00]
 
@@ -494,8 +472,8 @@ _mm512_tzcnt_epi32_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubd			zmm2, zmm0, zmm1		;(a - 1)
-	vpternlogd		zmm0, zmm0, zmm2, 22h	;~a & (a - 1)
+	vpaddd			zmm2, zmm0, zmm1
+	vpandnd			zmm0, zmm0, zmm2
 	vpopcntd		zmm0, zmm0
 
 	dec				ecx
@@ -523,9 +501,7 @@ _mm512_tzcnt_epi64_asm proc
 	push			rdi
 	push			rsi
 
-	vpxor			xmm0, xmm0, xmm0
 	vpternlogq		zmm1, zmm1, zmm1, 0ffh
-	vpsubq			zmm1, zmm0, zmm1 ;const 0x0000000000000001
 
 	vmovdqu64		zmm0, zmmword ptr [qwordtest_00]
 
@@ -539,8 +515,8 @@ _mm512_tzcnt_epi64_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubq			zmm2, zmm0, zmm1		;(a - 1)
-	vpternlogq		zmm0, zmm0, zmm2, 22h	;~a & (a - 1)
+	vpaddq			zmm2, zmm0, zmm1
+	vpandnq			zmm0, zmm0, zmm2
 	vpopcntq		zmm0, zmm0
 
 	dec				ecx
@@ -570,9 +546,7 @@ _mm256_tzcnt_epi32_lzcnt_asm proc
 
 	mov				eax, 020h
 	vpbroadcastd	ymm3, eax
-	vpxor			xmm0, xmm0, xmm0
-	vpternlogd		ymm1, ymm1, ymm1, 0ffh
-	vpsubd			ymm1, ymm0, ymm1 ;const 0x0000000100000001
+	vpcmpeqd		ymm1, ymm1, ymm1
 
 	vmovdqu64		ymm0, ymmword ptr [dwordtest_00]
 
@@ -586,8 +560,8 @@ _mm256_tzcnt_epi32_lzcnt_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubd			ymm2, ymm0, ymm1		;(a - 1)
-	vpternlogd		ymm0, ymm0, ymm2, 22h	;~a & (a - 1)
+	vpaddd			ymm2, ymm0, ymm1
+	vpandn			ymm0, ymm0, ymm2
 	vplzcntd		ymm0, ymm0
 	vpsubd			ymm0, ymm3, ymm0
 
@@ -618,9 +592,7 @@ _mm512_tzcnt_epi32_lzcnt_asm proc
 
 	mov				eax, 020h
 	vpbroadcastd	zmm3, eax
-	vpxor			xmm0, xmm0, xmm0
 	vpternlogd		zmm1, zmm1, zmm1, 0ffh
-	vpsubd			zmm1, zmm0, zmm1 ;const 0x0000000100000001
 
 	vmovdqu64		zmm0, zmmword ptr [dwordtest_00]
 
@@ -634,8 +606,8 @@ _mm512_tzcnt_epi32_lzcnt_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubd			zmm2, zmm0, zmm1		;(a - 1)
-	vpternlogd		zmm0, zmm0, zmm2, 22h	;~a & (a - 1)
+	vpaddd			zmm2, zmm0, zmm1
+	vpandnd			zmm0, zmm0, zmm2
 	vplzcntd		zmm0, zmm0
 	vpsubd			zmm0, zmm3, zmm0
 
@@ -666,9 +638,7 @@ _mm256_tzcnt_epi64_lzcnt_asm proc
 
 	mov				eax, 040h
 	vpbroadcastq	ymm3, rax
-	vpxor			xmm0, xmm0, xmm0
 	vpternlogq		ymm1, ymm1, ymm1, 0ffh
-	vpsubq			ymm1, ymm0, ymm1 ;const 0x0000000000000001
 
 	vmovdqu64		ymm0, ymmword ptr [qwordtest_00]
 
@@ -682,8 +652,8 @@ _mm256_tzcnt_epi64_lzcnt_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubq			ymm2, ymm0, ymm1		;(a - 1)
-	vpternlogq		ymm0, ymm0, ymm2, 22h	;~a & (a - 1)
+	vpaddq			ymm2, ymm0, ymm1
+	vpandnq			ymm0, ymm0, ymm2
 	vplzcntq		ymm0, ymm0
 	vpsubq			ymm0, ymm3, ymm0
 
@@ -714,9 +684,7 @@ _mm512_tzcnt_epi64_lzcnt_asm proc
 
 	mov				eax, 040h
 	vpbroadcastq	zmm3, rax
-	vpxor			xmm0, xmm0, xmm0
 	vpternlogq		zmm1, zmm1, zmm1, 0ffh
-	vpsubq			zmm1, zmm0, zmm1 ;const 0x0000000000000001
 
 	vmovdqu64		zmm0, zmmword ptr [qwordtest_00]
 
@@ -730,8 +698,8 @@ _mm512_tzcnt_epi64_lzcnt_asm proc
 	mov				ecx, repeats
 
 startlabel:
-	vpsubq			zmm2, zmm0, zmm1		;(a - 1)
-	vpternlogq		zmm0, zmm0, zmm2, 22h	;~a & (a - 1)
+	vpaddq			zmm2, zmm0, zmm1
+	vpandnq			zmm0, zmm0, zmm2
 	vplzcntq		zmm0, zmm0
 	vpsubq			zmm0, zmm3, zmm0
 
