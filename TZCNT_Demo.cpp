@@ -13,51 +13,63 @@ extern CPU_Props cpu_props;
 using namespace std;
 
 __m128i _mm_tzcnt_epi8(__m128i a) {
-	return _mm_popcnt_epi8(_mm_andnot_si128(a, _mm_add_epi8(a, _mm_cmpeq_epi8(_mm_undefined_si128(), _mm_undefined_si128()))));
+	__m128i u = _mm_undefined_si128();
+	return _mm_popcnt_epi8(_mm_andnot_si128(a, _mm_add_epi8(a, _mm_cmpeq_epi8(u, u))));
 }
 
 __m256i _mm256_tzcnt_epi8(__m256i a) {
-	return _mm256_popcnt_epi8(_mm256_andnot_si256(a, _mm256_add_epi8(a, _mm256_cmpeq_epi8(_mm256_undefined_si256(), _mm256_undefined_si256()))));
+	__m256i u = _mm256_undefined_si256();
+	return _mm256_popcnt_epi8(_mm256_andnot_si256(a, _mm256_add_epi8(a, _mm256_cmpeq_epi8(u, u))));
 }
 
 __m512i _mm512_tzcnt_epi8(__m512i a) {
-	return _mm512_popcnt_epi8(_mm512_andnot_si512(a, _mm512_add_epi8(a, _mm512_ternarylogic_epi32(_mm512_undefined_epi32(), _mm512_undefined_epi32(), _mm512_undefined_epi32(), 0xff))));
+	__m512i u = _mm512_undefined_epi32();
+	return _mm512_popcnt_epi8(_mm512_andnot_si512(a, _mm512_add_epi8(a, _mm512_ternarylogic_epi32(u, u, u, 0xff))));
 }
 
 __m128i _mm_tzcnt_epi16(__m128i a) {
-	return _mm_popcnt_epi16(_mm_andnot_si128(a, _mm_add_epi16(a, _mm_cmpeq_epi16(_mm_undefined_si128(), _mm_undefined_si128()))));
+	__m128i u = _mm_undefined_si128();
+	return _mm_popcnt_epi16(_mm_andnot_si128(a, _mm_add_epi16(a, _mm_cmpeq_epi16(u, u))));
 }
 
 __m256i _mm256_tzcnt_epi16(__m256i a) {
-	return _mm256_popcnt_epi16(_mm256_andnot_si256(a,_mm256_add_epi16(a, _mm256_cmpeq_epi16(_mm256_undefined_si256(), _mm256_undefined_si256()))));
+	__m256i u = _mm256_undefined_si256();
+	return _mm256_popcnt_epi16(_mm256_andnot_si256(a,_mm256_add_epi16(a, _mm256_cmpeq_epi16(u, u))));
 }
 
 __m512i _mm512_tzcnt_epi16(__m512i a) {
-	return _mm512_popcnt_epi16(_mm512_andnot_si512(a, _mm512_add_epi16(a, _mm512_ternarylogic_epi32(_mm512_undefined_epi32(), _mm512_undefined_epi32(), _mm512_undefined_epi32(), 0xff))));
+	__m512i u = _mm512_undefined_epi32();
+	return _mm512_popcnt_epi16(_mm512_andnot_si512(a, _mm512_add_epi16(a, _mm512_ternarylogic_epi32(u, u, u, 0xff))));
 }
 
 __m128i _mm_tzcnt_epi32(__m128i a) {
-	return _mm_popcnt_epi32(_mm_andnot_si128(a, _mm_add_epi32(a, _mm_cmpeq_epi32(_mm_undefined_si128(), _mm_undefined_si128()))));
+	__m128i u = _mm_undefined_si128();
+	return _mm_popcnt_epi32(_mm_andnot_si128(a, _mm_add_epi32(a, _mm_cmpeq_epi32(u, u))));
 }
 
 __m256i _mm256_tzcnt_epi32(__m256i a) {
-	return _mm256_popcnt_epi32(_mm256_andnot_si256(a, _mm256_add_epi32(a, _mm256_cmpeq_epi32(_mm256_undefined_si256(), _mm256_undefined_si256()))));
+	__m256i u = _mm256_undefined_si256();
+	return _mm256_popcnt_epi32(_mm256_andnot_si256(a, _mm256_add_epi32(a, _mm256_cmpeq_epi32(u, u))));
 }
 
 __m512i _mm512_tzcnt_epi32(__m512i a) {
-	return _mm512_popcnt_epi32(_mm512_andnot_si512(a, _mm512_add_epi32(a, _mm512_ternarylogic_epi32(_mm512_undefined_epi32(), _mm512_undefined_epi32(), _mm512_undefined_epi32(), 0xff))));
+	__m512i u = _mm512_undefined_epi32();
+	return _mm512_popcnt_epi32(_mm512_andnot_si512(a, _mm512_add_epi32(a, _mm512_ternarylogic_epi32(u, u, u, 0xff))));
 }
 
 __m128i _mm_tzcnt_epi64(__m128i a) {
-	return _mm_popcnt_epi64(_mm_andnot_si128(a, _mm_add_epi64(a, _mm_cmpeq_epi64(_mm_undefined_si128(), _mm_undefined_si128()))));
+	__m128i u = _mm_undefined_si128();
+	return _mm_popcnt_epi64(_mm_andnot_si128(a, _mm_add_epi64(a, _mm_cmpeq_epi64(u, u))));
 }
 
 __m256i _mm256_tzcnt_epi64(__m256i a) {
-	return _mm256_popcnt_epi64(_mm256_andnot_si256(a, _mm256_add_epi64(a, _mm256_cmpeq_epi64(_mm256_undefined_si256(), _mm256_undefined_si256()))));
+	__m256i u = _mm256_undefined_si256();
+	return _mm256_popcnt_epi64(_mm256_andnot_si256(a, _mm256_add_epi64(a, _mm256_cmpeq_epi64(u, u))));
 }
 
 __m512i _mm512_tzcnt_epi64(__m512i a) {
-	return _mm512_popcnt_epi64(_mm512_andnot_si512(a, _mm512_add_epi64(a, _mm512_ternarylogic_epi64(_mm512_undefined_epi32(), _mm512_undefined_epi32(), _mm512_undefined_epi32(), 0xff))));
+	__m512i u = _mm512_undefined_epi32();
+	return _mm512_popcnt_epi64(_mm512_andnot_si512(a, _mm512_add_epi64(a, _mm512_ternarylogic_epi64(u, u, u, 0xff))));
 }
 
 void TZCNT_Test(void) {
