@@ -67,3 +67,4 @@ code for examining of the issue ports x87, MMX, SSE, AVX instructions in AMD Zen
 *  Zach Wegner [ZP7 (Zach's Peppy Parallel-Prefix-Popcountin' PEXT/PDEP Polyfill)](https://github.com/zwegner/zp7)
 *  Abel, Andreas and Reineke, Jan [uops.info: Characterizing Latency, Throughput, and Port Usage of Instructions on Intel Microarchitectures](https://arxiv.org/pdf/1810.04610.pdf)
 *  PerforatedBlob [TZCNT - TERNLOG->ANDN](https://twitter.com/PerforatedBlob/status/1418421045447454724)
+*  TravisDowns [Scalar/HW GPR PDEP/PEXT reference code](https://twitter.com/trav_downs/status/1418616866080116742)

@@ -54,7 +54,10 @@
     <ClCompile Include="TZCNT_Demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
+      <ClCompile Include="SIMD_PEXT_PDEP_Demo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+</ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
@@ -110,7 +113,10 @@
     <ClInclude Include="TZCNT_Demo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
+      <ClInclude Include="SIMD_PEXT_PDEP_Demo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+</ItemGroup>
   <ItemGroup>
     <MASM Include="Zen3_Demo_X87.asm">
       <Filter>Source Files</Filter>

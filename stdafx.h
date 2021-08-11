@@ -24,6 +24,7 @@
 #include "VPCLMULQDQ_Demo.h"
 #include "VBMI2_Demo.h"
 #include "PEXT_PDEP_Emu.h"
+#include "SIMD_PEXT_PDEP_Demo.h"
 #include "TZCNT_Demo.h"
 
 #include "Zen3_Demo.h"

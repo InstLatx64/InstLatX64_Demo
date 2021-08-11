@@ -1,5 +1,8 @@
 #pragma once
 
+void printRes32(const char * name, __m128i res);
+void printRes32(const char * name, __m256i res);
+void printRes32(const char * name, __m512i res);
 void printRes(const char * name, __m128i res);
 void printRes(const char * name, __m256i res);
 void printRes(const char * name, __m512i res);
