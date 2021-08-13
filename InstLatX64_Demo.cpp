@@ -78,6 +78,7 @@ int main()
 	cpu_props.Print_512bFPU_DP_Ports();
 #endif
 	cpu_props.PrintFeats();
+	cpu_props.PrintHybridMasks();
 
 	if (cpu_props.IsFeat(ISA_GFNI)) {
 		GFNI_Demo();
