@@ -1,0 +1,103 @@
+Vendor: "GenuineIntel"
+Family:6 Model:138 Stepping:1 (806a1)
+Brand: "        Intel(R) Core(TM) i5-L16G7 CPU @ 1.40GHz"
+512b FPU DP ports              : 0
+---GPR----------               
+RDTSC                          : supported
+RDTSCP                         : supported
+CMOV                           : supported
+CMPX8                          : supported
+CMPX16                         : supported
+AMD64                          : supported
+LAHF                           : supported
+MOVBE                          : supported
+ABM                            : unsupported
+POPCNT                         : supported
+RDRAND                         : supported
+RDSEED                         : supported
+ADX                            : unsupported
+BMI                            : unsupported
+BMI2                           : unsupported
+MOVDIRI                        : unsupported
+MOVDIR64B                      : unsupported
+---SIMD---------               
+SSE                            : supported
+SSE2                           : supported
+SSE3                           : supported
+SSSE3                          : supported
+SSE41                          : supported
+SSE42                          : supported
+SSE4A                          : unsupported
+CLMUL                          : supported
+AES                            : supported
+SHA                            : supported
+AVX                            : unsupported
+AVX2                           : unsupported
+FMA                            : unsupported
+F16C                           : unsupported
+GFNI                           : supported
+VAES                           : unsupported
+VPCLMULQDQ                     : unsupported
+KEYLOCK                        : unsupported
+AVX_VNNI                       : unsupported
+---AVX512-------               
+AVX512F                        : unsupported
+AVX512CD                       : unsupported
+AVX512ER                       : unsupported
+AVX512PF                       : unsupported
+AVX512BW                       : unsupported
+AVX512DQ                       : unsupported
+AVX512VL                       : unsupported
+AVX512VBMI                     : unsupported
+AVX512IFMA                     : unsupported
+AVX512VNNI                     : unsupported
+AVX512_4VNNIW                  : unsupported
+AVX512_4FMAPS                  : unsupported
+AVX512_VPOPCNTDQ               : unsupported
+AVX512_BITALG                  : unsupported
+AVX512_VBMI2                   : unsupported
+AVX512_BF16                    : unsupported
+AVX512_VP2INTERSECT            : unsupported
+AVX512_FP16                    : unsupported
+---AMX----------               
+AMX-BF16                       : unsupported
+AMX-INT8                       : unsupported
+AMX-TILE                       : unsupported
+---CacheLine----               
+PREFETCHW                      : supported
+PREFETCHWT1                    : unsupported
+CLFLUSH                        : supported
+CLFLUSHOPT                     : supported
+CLWB                           : supported
+CLZERO                         : unsupported
+CLDEMOTE                       : unsupported
+---uCode--------               
+Enh REP MOVSB/STOSB            : supported
+Fast short REP MOV             : unsupported
+Fast zero-length MOVSB         : unsupported
+Fast short STOSB               : unsupported
+Fast short CMPSB, SCASB        : unsupported
+---Uncategorized               
+LNOP                           : supported
+SERIALIZE                      : unsupported
+HYBRID                         : supported
+RDPID                          : unsupported
+RDPRU                          : unsupported
+MCOMMIT                        : unsupported
+---Deprecated---               
+X87                            : supported
+MMX                            : supported
+MMX+                           : unsupported
+3DNow!                         : unsupported
+3DNow!+                        : unsupported
+XOP                            : unsupported
+FMA4                           : unsupported
+TBM                            : unsupported
+MPX                            : unsupported
+HLE                            : unsupported
+PCOMMIT                        : unsupported
+--Hybrid info--
+systemAffinityMask: 0x000000000000001f
+littleCoreMask    : 0x000000000000000f
+bigCoreMask       : 0x0000000000000010
+===================================

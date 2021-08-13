@@ -281,6 +281,50 @@ bool CPU_Props::IsIntel() const {
 	(vendor_num[2] == 0x6C65746E);
 }
 
+bool CPU_Props::HybridMasks(DWORD_PTR &bigCoreMask, DWORD_PTR &littleCoreMask, DWORD_PTR &systemMask) const {
+	DWORD_PTR processMask = 0, systemAffMask = 0;
+	BOOL affFlag = GetProcessAffinityMask(GetCurrentProcess(), &processMask, &systemAffMask);
+	if (affFlag != 0) {
+		systemMask = systemAffMask;
+#if defined (_M_X64)
+		const DWORD_PTR threads = _mm_popcnt_u64(systemAffMask);
+#else
+		const DWORD_PTR threads = _mm_popcnt_u32(systemAffMask);
+#endif
+		DWORD_PTR origThreadMask = SetThreadAffinityMask(GetCurrentThread(), 1);
+		for (unsigned int th = 0; th < threads; th++) {
+			DWORD_PTR testMask = ((DWORD_PTR) 1 << th);
+			SetThreadAffinityMask(GetCurrentThread(), testMask);
+			Sleep(0);
+			int level1A[4] = {0, 0, 0, 0};
+			__cpuid(level1A, 0x1A);
+			switch (level1A[_REG_EAX] >> 24) {
+				case 0x20: littleCoreMask	|= testMask;  break;
+				case 0x40: bigCoreMask		|= testMask; break;
+				default:break;
+			}
+		}
+		SetThreadAffinityMask(GetCurrentThread(), origThreadMask);
+		return true;
+	} else {
+		return false;
+	}
+}
+
+void CPU_Props::PrintHybridMasks(void) const {
+	if (IsFeat(ISA_HYBRID)) {
+		cout << "--Hybrid info--" << endl;
+		DWORD_PTR systemAffMask		= 0;
+		DWORD_PTR littleCoreMask	= 0;
+		DWORD_PTR bigCoreMask		= 0;
+		if (HybridMasks(bigCoreMask, littleCoreMask, systemAffMask)) {
+			cout << "systemAffinityMask: 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << systemAffMask << endl;
+			cout << "littleCoreMask    : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << littleCoreMask << endl;
+			cout << "bigCoreMask       : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << bigCoreMask << endl;
+		}
+	}
+}
+
 #if defined (_M_X64)
 void CPU_Props::Print_512bFPU_DP_Ports(void) const {
 	cout << left << setw(FEAT_NAME_SIZE) << "512b FPU DP ports" << ": ";

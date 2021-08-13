@@ -284,12 +284,14 @@ private:
 	int					fms;
 	void				PrintSupportStatus(bool) const;
 	void				PrintOSStatus(bool) const;
+	bool				HybridMasks(DWORD_PTR &bigCoreMask, DWORD_PTR &littleCoreMask, DWORD_PTR &systemAffMask) const;
 public:
 	CPU_Props();
 	void				PrintFeats(void) const;
 	void				PrintVendor(void) const;
 	void				PrintBrand(void) const;
 	void				Print_512bFPU_DP_Ports(void) const;
+	void				PrintHybridMasks(void) const;
 	bool				IsFeat(int) const;
 	bool				IsZen2(void) const;
 	bool				IsZen3(void) const;
