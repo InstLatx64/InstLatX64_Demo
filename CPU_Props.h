@@ -83,7 +83,7 @@ enum ISAs {
 	ISA_FSRM_FAST_SHORT_RRP_MOV,		//IceLake-U/Y
 	ISA_FZLM_FAST_ZERO_LEN_MOVSB,		//Sapphire Rapids
 	ISA_FSS_FAST_SHORT_STOSB,			//Sapphire Rapids
-	ISA_FSCS_FAST_SHORT_CMPSB_SCASB,	//Sapphire Rapids/
+	ISA_FSCS_FAST_SHORT_CMPSB_SCASB,	//Sapphire Rapids
 //Uncategorized
 	ISA_GROUP_UNCATEGORIZED,
 	ISA_LNOP,							//Pentium Pro, K7
