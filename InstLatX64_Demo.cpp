@@ -99,7 +99,13 @@ int main()
 	}
 #endif
 
-#if defined(__AVX2__)
+#if defined(__AVX512F__)
+	if (cpu_props.IsFeat(ISA_VPCLMULQDQ)) {
+		PEXT_PDEP_Emu_Test();
+	} else {
+		cout << "VPCLMULQDQ unspported." << endl;
+	}
+#elif defined(__AVX2__)
 	if (cpu_props.IsFeat(ISA_BMI2)) {
 		PEXT_PDEP_Emu_Test();
 	}
