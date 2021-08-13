@@ -139,5 +139,8 @@
     <MASM Include="TZCNT_Demo_Asm.asm">
       <Filter>Source Files</Filter>
     </MASM>
+    <MASM Include="SIMD_PEXT_PDEP_Demo_Asm.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
   </ItemGroup>
 </Project>
