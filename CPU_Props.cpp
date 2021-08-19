@@ -449,16 +449,16 @@ int CPU_Props::Get_512bFPU_DP_Ports(void) const { //v0100
 				return 1;
 			case 0x00050670:	//Silvermont   / XEON_PHI_KNL
 			case 0x000606A0:	//Sunny Cove   / ICELAKE_X
+			case 0x000806F0:	//Golden Cove  / SAPPHIRERAPIDS_X
 				return 2;
 			//future
-			//case 0x000806F0:	//Golden Cove  / SAPPHIRERAPIDS_X
-			//case 0x00090670:	//Golden Cove  / ALDERLAKE
-			//case 0x000906A0:	//Golden Cove  / ALDERLAKE_L
 			//case 0x000906D0:	//Sunny Cove   / ICELAKE_NNPI / Spring Hill - cancelled ?
 			//case 0x000906F0:	//Sunny Cove   / ICELAKE_R ?
 			//case 0x000A06A0:	//Redwood Cove?/ METEORLAKE_L
 			//case 0x000A06C0:	//Redwood Cove?/ METEORLAKE
 			//case 0x000A06D0:	//Redwood Cove?/ GRANITERAPIDS_X
+			case 0x00090670:	//Golden Cove  / ALDERLAKE
+			case 0x000906A0:	//Golden Cove  / ALDERLAKE_L
 			case 0x000806A0:	//Sunny Cove   / LAKEFIELD, AVX512 disabled
 			default:			//on other cores, AVX512F unsupported
 				return 0;
