@@ -160,10 +160,11 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 		switch (place) {
 			case _FEAT_SKIP:
 				continue;
-			case CPUID_NOPLACE: //special LNOP detection
-				if ((family == 0x6) || (family == 0x7) || (family == 0xf))
+			case CPUID_NOPLACE: {//special LNOP detection
+				unsigned int fam = (level01[_REG_EAX] >> 8) & 0xf;
+				if ((fam == 0x6) || (fam == 0x7) || (fam == 0xf))
 					f[f_high] |= f_low;
-				break;
+				} break;
 			case CPUID_FEAT19_EBX:
 				if ((c.cpuid_res[CPUID_FEAT07_ECX] & fbit) != 0)
 					if ((c.cpuid_res[CPUID_FEAT19_EBX] & _FEAT19_EBX_AESKL) != 0)
