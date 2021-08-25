@@ -1,0 +1,99 @@
+Vendor: "AuthenticAMD"
+Family:25 Model:16 Stepping:0 (a10f00)
+---GPR----------               
+RDTSC                          : supported
+RDTSCP                         : supported
+CMOV                           : supported
+CMPX8                          : supported
+CMPX16                         : supported
+AMD64                          : supported
+LAHF                           : supported
+MOVBE                          : supported
+ABM                            : supported
+POPCNT                         : supported
+RDRAND                         : supported
+RDSEED                         : supported
+ADX                            : supported
+BMI                            : supported
+BMI2                           : supported
+MOVDIRI                        : unsupported
+MOVDIR64B                      : unsupported
+---SIMD---------               
+SSE                            : supported
+SSE2                           : supported
+SSE3                           : supported
+SSSE3                          : supported
+SSE41                          : supported
+SSE42                          : supported
+SSE4A                          : supported
+CLMUL                          : supported
+AES                            : supported
+SHA                            : supported
+AVX                            : supported, OS enabled
+AVX2                           : supported, OS enabled
+FMA                            : supported, OS enabled
+F16C                           : supported, OS enabled
+GFNI                           : supported
+VAES                           : supported
+VPCLMULQDQ                     : supported
+AVX_VNNI                       : unsupported
+---AVX512-------               
+AVX512F                        : supported, OS enabled
+AVX512CD                       : supported, OS enabled
+AVX512ER                       : unsupported
+AVX512PF                       : unsupported
+AVX512BW                       : supported, OS enabled
+AVX512DQ                       : supported, OS enabled
+AVX512VL                       : supported, OS enabled
+AVX512VBMI                     : supported, OS enabled
+AVX512IFMA                     : supported, OS enabled
+AVX512VNNI                     : supported, OS enabled
+AVX512_4VNNIW                  : unsupported
+AVX512_4FMAPS                  : unsupported
+AVX512_VPOPCNTDQ               : supported, OS enabled
+AVX512_BITALG                  : supported, OS enabled
+AVX512_VBMI2                   : supported, OS enabled
+AVX512_BF16                    : supported, OS enabled
+AVX512_VP2INTERSECT            : unsupported
+AVX512_FP16                    : unsupported
+---AMX----------               
+AMX-BF16                       : unsupported
+AMX-INT8                       : unsupported
+AMX-TILE                       : unsupported
+---CacheLine----               
+PREFETCHW                      : supported
+PREFETCHWT1                    : unsupported
+CLFLUSH                        : supported
+CLFLUSHOPT                     : supported
+CLWB                           : supported
+CLZERO                         : supported
+CLDEMOTE                       : unsupported
+---uCode--------               
+Enh REP MOVSB/STOSB            : supported
+Fast short REP MOV             : supported
+Fast zero-length MOVSB         : unsupported
+Fast short STOSB               : unsupported
+Fast short CMPSB, SCASB        : unsupported
+---Keylocker                   
+KEYLOCK                        : unsupported
+AESKLE                         : unsupported
+WIDE_KL                        : unsupported
+---Uncategorized               
+LNOP                           : supported
+SERIALIZE                      : unsupported
+HYBRID                         : unsupported
+RDPID                          : supported
+RDPRU                          : supported
+MCOMMIT                        : unsupported
+---Deprecated---               
+X87                            : supported
+MMX                            : supported
+MMX+                           : supported
+3DNow!                         : unsupported
+3DNow!+                        : unsupported
+XOP                            : unsupported
+FMA4                           : unsupported
+TBM                            : unsupported
+MPX                            : unsupported
+HLE                            : unsupported
+PCOMMIT                        : unsupported
