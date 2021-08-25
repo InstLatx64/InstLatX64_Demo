@@ -41,7 +41,6 @@ enum ISAs {
 	ISA_GFNI,							//Tremont
 	ISA_VAES,							//IceLake-U/Y
 	ISA_VPCLMULQDQ,						//IceLake-U/Y
-	ISA_KEYLOCK,						//Tiger Lake
 	ISA_AVX_VNNI,						//AlderLake
 //AVX512
 	ISA_GROUP_AVX512,
@@ -84,6 +83,11 @@ enum ISAs {
 	ISA_FZLM_FAST_ZERO_LEN_MOVSB,		//Sapphire Rapids
 	ISA_FSS_FAST_SHORT_STOSB,			//Sapphire Rapids
 	ISA_FSCS_FAST_SHORT_CMPSB_SCASB,	//Sapphire Rapids
+//KeyLocker
+	ISA_GROUP_KEYLOCKER,
+	ISA_KEYLOCK,						//Tiger Lake
+	ISA_AESKLE,							//Tiger Lake
+	ISA_WIDE_KL,						//Tiger Lake
 //Uncategorized
 	ISA_GROUP_UNCATEGORIZED,
 	ISA_LNOP,							//Pentium Pro, K7
@@ -198,8 +202,8 @@ enum _XCR0 {
 #define _FEAT07_ECX_AVX512_VNNI						((1ULL << 11) | (CPUID_FEAT07_ECX << 32))
 #define _FEAT07_ECX_AVX512_BITALG					((1ULL << 12) | (CPUID_FEAT07_ECX << 32))
 #define _FEAT07_ECX_AVX512_VPOPCNTDQ				((1ULL << 14) | (CPUID_FEAT07_ECX << 32))
-#define _FEAT07_ECX_RDPID							((1ULL << 22) | (CPUID_FEAT19_EBX << 32))
-#define _FEAT07_ECX_KEYLOCK							((1ULL << 23) | (CPUID_FEAT19_EBX << 32))
+#define _FEAT07_ECX_RDPID							((1ULL << 22) | (CPUID_FEAT07_ECX << 32))
+#define _FEAT07_ECX_KEYLOCK							((1ULL << 23) | (CPUID_FEAT07_ECX << 32))
 #define _FEAT07_ECX_CLDEMOTE						((1ULL << 25) | (CPUID_FEAT07_ECX << 32))
 #define _FEAT07_ECX_MOVDIRI							((1ULL << 27) | (CPUID_FEAT07_ECX << 32))
 #define _FEAT07_ECX_MOVDIR64B						((1ULL << 28) | (CPUID_FEAT07_ECX << 32))
@@ -218,7 +222,8 @@ enum _XCR0 {
 #define _FEAT07_EDX_AMX_INT8						((1ULL << 24) | (CPUID_FEAT07_EDX << 32))
 #define _FEAT07_EDX_AMX_TILE						((1ULL << 25) | (CPUID_FEAT07_EDX << 32))
 
-#define _FEAT19_EBX_AESKL							((1ULL << 0) | (CPUID_FEAT19_EBX << 32))
+#define _FEAT19_EBX_AESKLE							((1ULL << 0) | (CPUID_FEAT19_EBX << 32))
+#define _FEAT19_EBX_WIDE_KL							((1ULL << 2) | (CPUID_FEAT19_EBX << 32))
 
 #define _FEAT0701_EAX_AVX_VNNI						((1ULL <<  4) | (CPUID_FEAT0701_EAX << 32))
 #define _FEAT0701_EAX_AVX512_BF16					((1ULL <<  5) | (CPUID_FEAT0701_EAX << 32))

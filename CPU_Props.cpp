@@ -38,7 +38,6 @@ const _EXT CPU_Props::exts[ISA_LAST] = {
 	{"GFNI",					_XCR0_EMPTY,	_FEAT07_ECX_GFNI},
 	{"VAES",					_XCR0_EMPTY,	_FEAT07_ECX_VAES},
 	{"VPCLMULQDQ",				_XCR0_EMPTY,	_FEAT07_ECX_VPCLMULQDQ},
-	{"KEYLOCK",					_KEYLOCK,		_FEAT07_ECX_KEYLOCK},
 	{"AVX_VNNI",				_XCR0_AVX,		_FEAT0701_EAX_AVX_VNNI},
 	{"---AVX512-------",		_XCR0_EMPTY,	_FEAT_SKIP},
 	{"AVX512F",					_XCR0_AVX512,	_FEAT07_EBX_AVX512F},
@@ -77,6 +76,10 @@ const _EXT CPU_Props::exts[ISA_LAST] = {
 	{"Fast zero-length MOVSB",	_XCR0_EMPTY,	_FEAT0701_EAX_FZLM_FAST_ZERO_LEN_MOVSB},
 	{"Fast short STOSB",		_XCR0_EMPTY,	_FEAT0701_EAX_FSS_FAST_SHORT_STOSB},
 	{"Fast short CMPSB, SCASB",	_XCR0_EMPTY,	_FEAT0701_EAX_FSCS_FAST_SHORT_CMPSB_SCASB},
+	{"---Keylocker----",		_XCR0_EMPTY,	_FEAT_SKIP},
+	{"KEYLOCK",					_XCR0_EMPTY,	_FEAT07_ECX_KEYLOCK},
+	{"AESKLE",					_KEYLOCK,		_FEAT19_EBX_AESKLE},
+	{"WIDE_KL",					_KEYLOCK,		_FEAT19_EBX_WIDE_KL},
 	{"---Uncategorized",		_XCR0_EMPTY,	_FEAT_SKIP},
 	{"LNOP",					_XCR0_EMPTY,	_FEAT_NOFEAT},
 	{"SERIALIZE",				_XCR0_EMPTY,	_FEAT07_EDX_SERIALIZE},
@@ -165,23 +168,25 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 				if ((fam == 0x6) || (fam == 0x7) || (fam == 0xf))
 					f[f_high] |= f_low;
 				} break;
-			case CPUID_FEAT19_EBX:
-				if ((c.cpuid_res[CPUID_FEAT07_ECX] & fbit) != 0)
-					if ((c.cpuid_res[CPUID_FEAT19_EBX] & _FEAT19_EBX_AESKL) != 0)
-						f[f_high] |= f_low;
-					else
-						f_disabled[f_high] |= f_low;
-				break;
 			default:
 				if ((c.cpuid_res[place] & fbit) == fbit) {
-					if (exts[featInd].xcr0 == _XCR0_EMPTY)
+					switch (exts[featInd].xcr0) {
+						case _XCR0_EMPTY:
+							f[f_high] |= f_low;
+							break;
+						case _KEYLOCK:
+							if (IsFeat(ISA_KEYLOCK))
 						f[f_high] |= f_low;
-					else
+				break;
+			default:
 						if ((c.xcr0 & exts[featInd].xcr0) == exts[featInd].xcr0)
 							f[f_high] |= f_low;
 						else
 							f_disabled[f_high] |= f_low;
+							break;
+					}
 				}
+				break;
 		}
 	}
 }
