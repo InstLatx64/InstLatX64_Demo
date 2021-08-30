@@ -141,6 +141,12 @@ int main()
 		SIMD_PEXT_PDEP_Test();
 	}
 #endif
+
+#if defined(__AVX512F__) && defined (_M_X64)
+	if (cpu_props.IsFeat(ISA_AVX512BW)) {
+		Kmov_Test();
+	}
+#endif
 	cout << "===================================" << endl;
 
 }

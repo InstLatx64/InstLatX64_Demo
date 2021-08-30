@@ -19,6 +19,7 @@
 #include "CPU_Props.h"
 
 #include "Byte2Byte.h"
+#include "KmovTest.h"
 
 #include "GFNI_Demo.h"
 #include "VPCLMULQDQ_Demo.h"
