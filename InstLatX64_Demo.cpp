@@ -79,6 +79,7 @@ int main()
 #endif
 	cpu_props.PrintFeats();
 	cpu_props.PrintHybridMasks();
+	cpu_props.ForcedAVX512();
 
 	if (cpu_props.IsFeat(ISA_GFNI)) {
 		GFNI_Demo();

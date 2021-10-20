@@ -297,6 +297,7 @@ public:
 	void				PrintBrand(void) const;
 	void				Print_512bFPU_DP_Ports(void) const;
 	void				PrintHybridMasks(void) const;
+	void				ForcedAVX512(void) const;
 	bool				IsFeat(int) const;
 	bool				IsZen2(void) const;
 	bool				IsZen3(void) const;

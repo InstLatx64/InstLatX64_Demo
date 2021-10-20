@@ -317,6 +317,30 @@ bool CPU_Props::HybridMasks(DWORD_PTR &bigCoreMask, DWORD_PTR &littleCoreMask, D
 	}
 }
 
+void CPU_Props::ForcedAVX512(void) const {
+	if (IsFeat(ISA_AVX512F)) {
+		DWORD_PTR processMask = 0, systemAffMask = 0;
+		BOOL affFlag = GetProcessAffinityMask(GetCurrentProcess(), &processMask, &systemAffMask);
+		if (affFlag != 0) {
+#if defined (_M_X64)
+			const DWORD_PTR threads = _mm_popcnt_u64(systemAffMask);
+#else
+			const DWORD_PTR threads = _mm_popcnt_u32(systemAffMask);
+#endif
+			DWORD_PTR origThreadMask = SetThreadAffinityMask(GetCurrentThread(), 1);
+			for (unsigned int th = 0; th < threads; th++) {
+				DWORD_PTR testMask = ((DWORD_PTR) 1 << th);
+				SetThreadAffinityMask(GetCurrentThread(), testMask);
+				Sleep(0);
+				__m512i test =  _mm512_set1_epi32(th);
+				cout << "AVX512F VPBROADCASTD zmm, gpr executed on thread " << test.m512i_u32[0] << endl;
+			}
+			SetThreadAffinityMask(GetCurrentThread(), origThreadMask);
+			return;
+		}
+	}
+}
+
 void CPU_Props::PrintHybridMasks(void) const {
 	if (IsFeat(ISA_HYBRID)) {
 		cout << "--Hybrid info--" << endl;
