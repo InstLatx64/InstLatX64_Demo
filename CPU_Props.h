@@ -295,7 +295,7 @@ public:
 	void				PrintFeats(void) const;
 	void				PrintVendor(void) const;
 	void				PrintBrand(void) const;
-	void				Print_512bFPU_DP_Ports(void) const;
+	void				Print_512bFMA_DP_Ports(void) const;
 	void				PrintHybridMasks(void) const;
 	void				ForcedAVX512(void) const;
 	bool				IsFeat(int) const;
@@ -306,6 +306,6 @@ public:
 	bool				IsInBrand(const char* str) const;
 	bool				IsIntel() const;
 #if defined (_M_X64)
-	int					Get_512bFPU_DP_Ports(void) const;
+	int					Get_512bFMA_DP_Ports(void) const;
 #endif
 };

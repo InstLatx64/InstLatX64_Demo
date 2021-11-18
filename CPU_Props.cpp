@@ -356,9 +356,9 @@ void CPU_Props::PrintHybridMasks(void) const {
 }
 
 #if defined (_M_X64)
-void CPU_Props::Print_512bFPU_DP_Ports(void) const {
+void CPU_Props::Print_512bFMA_DP_Ports(void) const {
 	cout << left << setw(FEAT_NAME_SIZE) << "512b FPU DP ports" << ": ";
-	cout << Get_512bFPU_DP_Ports() <<endl;
+	cout << Get_512bFMA_DP_Ports() <<endl;
 }
 
 //based on 
@@ -419,7 +419,7 @@ void CPU_Props::Print_512bFPU_DP_Ports(void) const {
 //"Genuine Intel(R) CPU 0000%@"
 //"" <empty>
 
-int CPU_Props::Get_512bFPU_DP_Ports(void) const { //v0100
+int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 	if (IsFeat(ISA_AVX512F) && IsIntel()) {
 		switch(GetFamMod()) {
 			case 0x00050650: {	//SKYLAKE_X
@@ -458,7 +458,7 @@ int CPU_Props::Get_512bFPU_DP_Ports(void) const { //v0100
 							else //unknown brand string, 
 								//e.g.1 "Genuine Intel(R) CPU 0000%@"
 								//e.g.2 "Montage(R) Jintide(R) C2460 1", 
-								return Get_512bFPU_DP_Ports_FromOptimGuide();
+								return Get_512bFMA_DP_Ports_FromOptimGuide();
 								//return 2;
 						}
 						case 0xa: case 0xb: //Cooper Lake

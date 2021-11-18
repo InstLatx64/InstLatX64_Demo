@@ -4,7 +4,7 @@
 //18.21 SERVERS WITH A SINGLE FMA UNIT
 //https://software.intel.com/content/dam/develop/public/us/en/documents/64-ia-32-architectures-optimization-manual.pdf
 
-int Get_512bFPU_DP_Ports_FromOptimGuide(void) {
+int Get_512bFMA_DP_Ports_FromOptimGuide(void) {
 	uint64_t fma_shuf_tpt_test[3];
 	uint64_t fma_shuf_tpt_test_min;
 	uint64_t fma_only_tpt_test[3];

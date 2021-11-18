@@ -457,7 +457,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="512bFPU_DP_Ports.cpp">
+    <ClCompile Include="512bFMA_DP_Ports.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>
@@ -594,7 +594,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="512bFPU_DP_Ports.h" />
+    <ClInclude Include="512bFMA_DP_Ports.h" />
     <ClInclude Include="Byte2Byte.h" />
     <ClInclude Include="CPU_Props.h" />
     <ClInclude Include="GFNI_Demo.h" />
@@ -615,7 +615,7 @@
     <ClInclude Include="Zen3_Demo_X87.h" />
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="512bFPU_DP_Ports_Asm.asm">
+    <MASM Include="512bFMA_DP_Ports_Asm.asm">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>

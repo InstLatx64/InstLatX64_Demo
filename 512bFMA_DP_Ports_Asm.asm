@@ -9,7 +9,7 @@ shuf		dd	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
 ;18.21 SERVERS WITH A SINGLE FMA UNIT
 ;https://software.intel.com/content/dam/develop/public/us/en/documents/64-ia-32-architectures-optimization-manual.pdf
 
-fma_shuffle_tpt proc 
+fma_shuffle_tpt proc
 	vbroadcastsd		zmm0, [one_dp]
 	vbroadcastsd		zmm1, [one_dp]
 	vbroadcastsd		zmm2, [one_dp]
