@@ -474,6 +474,8 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 			case 0x00080650:	//Silvermont   / XEON_PHI_KNM 1 for DP, 2 for SP
 			case 0x000806C0: 	//Willow Cove  / TIGERLAKE_L
 			case 0x000806D0: 	//Willow Cove  / TIGERLAKE
+			case 0x00090670:	//Golden Cove  / ALDERLAKE
+			case 0x000906A0:	//Golden Cove  / ALDERLAKE_L
 			case 0x000A0670: 	//Cypress Cove / ROCKETLAKE
 			case 0x000A0680: 	//Cypress Cove / ROCKETLAKE_L - cancelled ?
 				return 1;
@@ -482,8 +484,6 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 			case 0x000806F0:	//Golden Cove  / SAPPHIRERAPIDS_X
 				return 2;
 			case 0x000806A0:	//Sunny Cove   / LAKEFIELD, AVX512 disabled
-			case 0x00090670:	//Golden Cove  / ALDERLAKE
-			case 0x000906A0:	//Golden Cove  / ALDERLAKE_L
 			case 0x000A06C0:	//Crestmont?   / METEORLAKE_N
 			case 0x000B06E0:	//Gracemont?   / ALDERLAKE_N
 			default:			//on other cores, AVX512F unsupported
