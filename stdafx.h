@@ -33,3 +33,5 @@
 #include "Zen3_Demo_SSE.h"
 #include "Zen3_Demo_X87.h"
 #include "Zen3_Demo_UCode.h"
+
+#include "AMX_Demo.h"

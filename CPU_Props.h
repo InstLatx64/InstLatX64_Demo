@@ -255,6 +255,7 @@ enum _XCR0 {
 #define VENDOR_STRING_SIZE							12
 #define VENDOR_NUM_SIZE								4
 #define BRAND_SIZE									(4 * 4 * 4)
+#define MAX_AMX_PALETTE								1
 
 typedef struct {
 	unsigned __int64	xcr0;
@@ -269,9 +270,26 @@ typedef struct _EXT_Tag {
 
 extern UINT64 ISA[2];
 
+struct _AMX_palette {
+	uint16_t	total_tile_bytes;
+	uint16_t	bytes_per_tile;
+	uint16_t	bytes_per_row;
+	uint16_t	max_names;
+	uint16_t	max_rows;
+	_AMX_palette() : total_tile_bytes(0), bytes_per_tile(0), bytes_per_row(0), max_names(0), max_rows(0) {};
+};
+
+struct _AMX_TMUL {
+	uint8_t		tmul_maxk;
+	uint8_t		tmul_maxn;
+	_AMX_TMUL() : tmul_maxk(0), tmul_maxn(0) {};
+};
+
 class CPU_Props {
 private:
 	static const _EXT	exts[ISA_LAST];
+	_AMX_palette		AMX_palette[MAX_AMX_PALETTE];
+	_AMX_TMUL			AMX_TMUL;
 	UINT64				f[FEATSIZE]				= {0ULL, 0ULL};
 	UINT64				f_disabled[FEATSIZE]	= {0ULL, 0ULL};
 	union {
@@ -305,6 +323,10 @@ public:
 	int					GetStepping(void) const;
 	bool				IsInBrand(const char* str) const;
 	bool				IsIntel() const;
+	unsigned int		GetAMXPalette_TotalTileBytes(unsigned int p) const;
+	unsigned int		GetAMXPalette_MaxName(unsigned int p) const;
+	unsigned int		GetAMXRows() const;
+	unsigned int		GetAMXCols() const;
 #if defined (_M_X64)
 	int					Get_512bFMA_DP_Ports(void) const;
 #endif

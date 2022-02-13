@@ -107,6 +107,8 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 	int level07[4]			= {0, 0, 0, 0};
 	int level0701[4]		= {0, 0, 0, 0};
 	int level19[4]			= {0, 0, 0, 0};
+	int level1D[4]			= {0, 0, 0, 0};
+	int level1E[4]			= {0, 0, 0, 0};
 	int extLevel00[4]		= {0, 0, 0, 0};
 	int extLevel01[4]		= {0, 0, 0, 0};
 	int extLevel08[4]		= {0, 0, 0, 0};
@@ -121,6 +123,32 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 		__cpuidex(level0701, 0x7, 1);
 	if (level00[_REG_EAX] >= 0x19)
 		__cpuid(level19, 0x19);
+	if (level00[_REG_EAX] >= 0x1D) {
+		__cpuid(level1D, 0x1D);
+		const unsigned int maxPalette = level1D[_REG_EAX];
+		for (unsigned int p = 0; p < maxPalette; p++) {
+			__cpuidex(level1D, 0x1D, p + 1);
+			AMX_palette[p].total_tile_bytes	= level1D[_REG_EAX] & 0xffff;
+			AMX_palette[p].bytes_per_tile	= level1D[_REG_EAX] >> 16;
+			AMX_palette[p].bytes_per_row	= level1D[_REG_EBX] & 0xffff;
+			AMX_palette[p].max_names		= level1D[_REG_EBX] >> 16;
+			AMX_palette[p].max_rows			= level1D[_REG_ECX] & 0xffff;
+
+			std::cout << std::dec;
+			std::cout << "AMX_palette[" << p <<"].total_tile_bytes: " << AMX_palette[p].total_tile_bytes << std::endl;
+			std::cout << "AMX_palette[" << p <<"].bytes_per_tile:   " << AMX_palette[p].bytes_per_tile << std::endl;
+			std::cout << "AMX_palette[" << p <<"].bytes_per_row:    " << AMX_palette[p].bytes_per_row << std::endl;
+			std::cout << "AMX_palette[" << p <<"].max_names:        " << AMX_palette[p].max_names << std::endl;
+			std::cout << "AMX_palette[" << p <<"].max_rows:         " << AMX_palette[p].max_rows << std::endl;
+		}
+		if (level00[_REG_EAX] >= 0x1E) {
+			__cpuid(level1E, 0x1E);
+			AMX_TMUL.tmul_maxk	= level1E[_REG_EBX] & 0xff;
+			AMX_TMUL.tmul_maxn	= (level1E[_REG_EBX] >> 8) & 0xffff;
+			std::cout << "AMX_TMUL.tmul_maxk: " << (unsigned int)AMX_TMUL.tmul_maxk << std::endl;
+			std::cout << "AMX_TMUL.tmul_maxn: " << (unsigned int)AMX_TMUL.tmul_maxn << std::endl;
+		}
+	}
 	
 	__cpuid(extLevel00, 0x80000000);
 	if (extLevel00[_REG_EAX] >= 0x80000001)
@@ -286,6 +314,22 @@ bool CPU_Props::IsIntel() const {
 	(vendor_num[1] == 0x49656E69) && 
 	(vendor_num[2] == 0x6C65746E);
 }
+
+unsigned int CPU_Props::GetAMXPalette_TotalTileBytes(unsigned int p = 0) const {
+	return AMX_palette[p].total_tile_bytes;
+};
+
+unsigned int CPU_Props::GetAMXPalette_MaxName(unsigned int p = 0) const {
+	return AMX_palette[p].max_names;
+};
+
+unsigned int CPU_Props::GetAMXRows() const {
+	return AMX_TMUL.tmul_maxk;
+};
+
+unsigned int CPU_Props::GetAMXCols() const {
+	return AMX_TMUL.tmul_maxn;
+};
 
 bool CPU_Props::HybridMasks(DWORD_PTR &bigCoreMask, DWORD_PTR &littleCoreMask, DWORD_PTR &systemMask) const {
 	DWORD_PTR processMask = 0, systemAffMask = 0;

@@ -60,6 +60,9 @@
     <ClCompile Include="Kmov_Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+      <ClCompile Include="AMX_Demo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
 </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -120,6 +123,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KmovTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AMX_Demo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
 </ItemGroup>

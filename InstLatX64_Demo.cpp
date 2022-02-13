@@ -148,6 +148,13 @@ int main()
 		Kmov_Test();
 	}
 #endif
+
+#if defined (_M_X64)
+	if (cpu_props.IsFeat(ISA_AMX_BF16) && cpu_props.IsFeat(ISA_AMX_TILE) && cpu_props.IsFeat(ISA_AMX_INT8)) {
+		AMX_Test();
+	}
+#endif
+
 	cout << "===================================" << endl;
 
 }
