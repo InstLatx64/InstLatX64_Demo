@@ -31,6 +31,8 @@
 //Visual Studio 2019 version 16.8	1928
 //Visual Studio 2019 version 16.9	1928
 //Visual Studio 2019 version 16.10	1929
+//Visual Studio 2022 version 17.0	1930
+//Visual Studio 2022 version 17.1	1931
 
 void AVX512_InstrincTest(void)
 {
@@ -108,10 +110,10 @@ void AVX512_InstrincTest(void)
 	fl32accu_512 = _mm512_dpbf16_ps(fl32accu_512, bf16_512res, bf16_512res);	//VDPBF16PS
 	std::cout << fl32accu_512.m512_f32[0] << bf16_256res.m256i_u64[0];
 //AVX512_FP16
-//#if (_MSC_VER > 1929)
-//	__m512h		halfprec = _mm512_setzero_ph();
-//	__m512h		halfprec2 = _mm512_add_ph(halfprec, halfprec);					//VADDPH
-//#endif
+#if (_MSC_VER > 1930)
+	__m512h		halfprec = _mm512_castps_ph(_mm512_setzero_ps());
+	__m512h		halfprec2 = _mm512_add_ph(halfprec, halfprec);					//VADDPH
+#endif
 #endif
 }
 
