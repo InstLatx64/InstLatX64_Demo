@@ -143,10 +143,12 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 		}
 		if (level00[_REG_EAX] >= 0x1E) {
 			__cpuid(level1E, 0x1E);
-			AMX_TMUL.tmul_maxk	= level1E[_REG_EBX] & 0xff;
-			AMX_TMUL.tmul_maxn	= (level1E[_REG_EBX] >> 8) & 0xffff;
-			std::cout << "AMX_TMUL.tmul_maxk: " << (unsigned int)AMX_TMUL.tmul_maxk << std::endl;
-			std::cout << "AMX_TMUL.tmul_maxn: " << (unsigned int)AMX_TMUL.tmul_maxn << std::endl;
+			if (level1E[_REG_EBX] != 0) {
+				AMX_TMUL.tmul_maxk	= level1E[_REG_EBX] & 0xff;
+				AMX_TMUL.tmul_maxn	= (level1E[_REG_EBX] >> 8) & 0xffff;
+				std::cout << "AMX_TMUL.tmul_maxk: " << (unsigned int)AMX_TMUL.tmul_maxk << std::endl;
+				std::cout << "AMX_TMUL.tmul_maxn: " << (unsigned int)AMX_TMUL.tmul_maxn << std::endl;
+			}
 		}
 	}
 	
