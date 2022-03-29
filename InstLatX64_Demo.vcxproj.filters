@@ -63,6 +63,9 @@
       <ClCompile Include="AMX_Demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AVX512_DecimalPrint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
 </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -128,6 +131,9 @@
     <ClInclude Include="AMX_Demo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AVX512_DecimalPrint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
 </ItemGroup>
   <ItemGroup>
     <MASM Include="Zen3_Demo_X87.asm">
@@ -155,6 +161,12 @@
       <Filter>Source Files</Filter>
     </MASM>
     <MASM Include="KmovTest_Asm.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="AVX512IFMA_DecimalPrint_Asm.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="AVX512F_DecimalPrint_Asm.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>

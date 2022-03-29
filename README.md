@@ -59,6 +59,8 @@ Faster PEXT and PDEP emulation for AMD Excavator/Zen/Zen+/Zen2 based on Zach Weg
 detection of CPU properties for dispatching code paths
 # Zen3_Demo.* 
 code for examining of the issue ports x87, MMX, SSE, AVX instructions in AMD Zen3/Vermeer CPU (CPUID A20F10). It is based on ideas from uops.info. Output example: \Results\Zen3_Demo.txt
+# AVX512_DecimalPrint.* 
+AVX512F, AVX512IFMA based implementation of _ultoa, _ltoa, _ui64toa, _i64toa functions.
 
 ## References
 *  Geoff Langdale [Why Ice Lake is Important (a bit-basher’s perspective)](https://branchfree.org/2019/05/29/why-ice-lake-is-important-a-bit-bashers-perspective/)
@@ -68,3 +70,4 @@ code for examining of the issue ports x87, MMX, SSE, AVX instructions in AMD Zen
 *  Abel, Andreas and Reineke, Jan [uops.info: Characterizing Latency, Throughput, and Port Usage of Instructions on Intel Microarchitectures](https://arxiv.org/pdf/1810.04610.pdf)
 *  PerforatedBlob [TZCNT - TERNLOG->ANDN](https://twitter.com/PerforatedBlob/status/1418421045447454724)
 *  TravisDowns [Scalar/HW GPR PDEP/PEXT reference code](https://twitter.com/trav_downs/status/1418616866080116742)
+*  Daniel Lemire [Converting integers to decimal strings faster with AVX-512](https://lemire.me/blog/2022/03/28/converting-integers-to-decimal-strings-faster-with-avx-512/)
