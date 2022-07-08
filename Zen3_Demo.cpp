@@ -1071,9 +1071,7 @@ void Zen3_Test_X87(int index) {
 
 void Zen3_Demo(void)
 {
-	SetProcessAffinityMask(GetCurrentProcess(), 8);
-	SetThreadAffinityMask(GetCurrentThread(), 8);
-	Sleep(0);
+	SetThread(3);
 	for (int b = 0; b < sizeof(zen3_avx) / sizeof(zen3_methods); b++) {
 		Zen3_Test_AVX(b);
 	}

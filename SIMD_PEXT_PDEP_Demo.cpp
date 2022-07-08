@@ -122,8 +122,7 @@ void SIMD_PEXT_PDEP_Time(int method) {
 }
 
 void SIMD_PEXT_PDEP_Test() {
-	SetProcessAffinityMask(GetCurrentProcess(), 2);
-	SetThreadAffinityMask(GetCurrentThread(), 2);
+	SetThread(2);
 	SIMD_PEXT_PDEP_Check64();
 	SIMD_PEXT_PDEP_Check32();
 

@@ -66,6 +66,9 @@
     <ClCompile Include="AVX512_DecimalPrint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
 </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -132,6 +135,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AVX512_DecimalPrint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+     <ClInclude Include="Misc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
 </ItemGroup>

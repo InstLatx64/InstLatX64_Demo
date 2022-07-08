@@ -14,6 +14,7 @@
 
 #include <assert.h>
 
+#include "Misc.h"
 #include "InstLatX64_Demo.h"
 #include "512bFMA_DP_Ports.h"
 #include "CPU_Props.h"

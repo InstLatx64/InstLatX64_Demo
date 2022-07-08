@@ -744,32 +744,6 @@ void ConstGen(void) {
 //#endif
 //}
 
-//  Intel SDM 32546276.pdf p.1739
-inline uint64_t serialized_tsc(void) {
-	uint64_t tsc;
-	uint32_t tsc_aux;
-	_mm_mfence();
-	tsc = __rdtscp(&tsc_aux);
-	_mm_lfence();
-	return tsc;
-}
-
-void random_wrap(unsigned int * random) {
-	while (!_rdrand32_step(random));
-}
-
-void random_wrap(signed int * random) {
-	while (!_rdrand32_step((unsigned int *)random));
-					}
-
-void random_wrap(unsigned long long * random) {
-	while (!_rdrand64_step(random));
-				}
-
-void random_wrap(signed long long * random) {
-	while (!_rdrand64_step((unsigned long long *)random));
-}
-
 template <typename T_FUNC, typename T_DATA, int N>
 bool print_check(AVX512_decimalprint_methods<T_FUNC> (&table)[N], T_DATA data, bool chop = false, bool print = false) {
 	T_DATA testCases[]                   = {
@@ -1081,8 +1055,7 @@ void avx512f_print_test(void) {
 }
 
 void AVX512_DecimalPrint_Test(void) {
-	SetProcessAffinityMask(GetCurrentProcess(), 4);
-	SetThreadAffinityMask(GetCurrentThread(), 4);
+	SetThread(2);
 
 	//avx512ifma_print_test();
 	//avx512f_print_test();

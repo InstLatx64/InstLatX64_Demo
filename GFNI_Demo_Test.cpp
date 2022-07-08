@@ -733,60 +733,61 @@ void GFNISpeedTest(void) {
 	__mmask64 k64 = 0xaaaaaaaaaaaaaaaa;
 
 	for (int retry = 0; retry < maxRetry; retry++) {
-		start = __rdtscp(&AUX);
+		start = serialized_tsc();
 		for (int rep = 0; rep < maxRepeat; rep++) {
 			x128 = _mm_add_epi8(_mm_ror_gfni_epi8(x128, 6), x128);
 		}
-		minres = min(minres, __rdtscp(&AUX) - start);
+		minres = min(minres, serialized_tsc() - start);
 	}
 	printf("_mm_ror_gfni_epi8(x128, 6)           :%8I64d clks min (%016Ix)\r\n", minres, x128.m128i_u64[0]);
 
 	minres = ULONG_MAX;
 	for (int retry = 0; retry < maxRetry; retry++) {
-		start = __rdtscp(&AUX);
+		start = serialized_tsc();
 		for (int rep = 0; rep < maxRepeat; rep++) {
 			x256 = _mm256_add_epi8(_mm256_ror_gfni_epi8(x256, 6), x256);
 		}
-		minres = min(minres, __rdtscp(&AUX) - start);
+		minres = min(minres, serialized_tsc() - start);
 	}
 	printf("_mm256_ror_gfni_epi8(x256, 6)        :%8I64d clks min (%016Ix)\r\n", minres, x256.m256i_u64[0]);
 
 	minres = ULONG_MAX;
 	for (int retry = 0; retry < maxRetry; retry++) {
-		start = __rdtscp(&AUX);
+		start = serialized_tsc();
 		for (int rep = 0; rep < maxRepeat; rep++) {
 			x512 = _mm512_add_epi8(_mm512_ror_gfni_epi8(x512, 6), x512);
 		}
-		minres = min(minres, __rdtscp(&AUX) - start);
+		minres = min(minres, serialized_tsc() - start);
 	}
 	printf("_mm512_ror_gfni_epi8(x512, 6)        :%8I64d clks min (%016Ix)\r\n", minres, x512.m512i_u64[0]);
 
+	minres = ULONG_MAX;
 	for (int retry = 0; retry < maxRetry; retry++) {
-		start = __rdtscp(&AUX);
+		start = serialized_tsc();
 		for (int rep = 0; rep < maxRepeat; rep++) {
 			x128 = _mm_add_epi8(_mm_mask_ror_gfni_epi8(x128, k16, x128, 6), x128);
 		}
-		minres = min(minres, __rdtscp(&AUX) - start);
+		minres = min(minres, serialized_tsc() - start);
 	}
 	printf("_mm_mask_ror_gfni_epi8(x128, 6)      :%8I64d clks min (%016Ix)\r\n", minres, x128.m128i_u64[0]);
 
 	minres = ULONG_MAX;
 	for (int retry = 0; retry < maxRetry; retry++) {
-		start = __rdtscp(&AUX);
+		start = serialized_tsc();
 		for (int rep = 0; rep < maxRepeat; rep++) {
 			x256 = _mm256_add_epi8(_mm256_mask_ror_gfni_epi8(x256, k32, x256, 6), x256);
 		}
-		minres = min(minres, __rdtscp(&AUX) - start);
+		minres = min(minres, serialized_tsc() - start);
 	}
 	printf("_mm256_mask_ror_gfni_epi8(x256, 6)   :%8I64d clks min (%016Ix)\r\n", minres, x256.m256i_u64[0]);
 
 	minres = ULONG_MAX;
 	for (int retry = 0; retry < maxRetry; retry++) {
-		start = __rdtscp(&AUX);
+		start = serialized_tsc();
 		for (int rep = 0; rep < maxRepeat; rep++) {
 			x512 = _mm512_add_epi8(_mm512_mask_ror_gfni_epi8(x512, k64, x512, 6), x512);
 		}
-		minres = min(minres, __rdtscp(&AUX) - start);
+		minres = min(minres, serialized_tsc() - start);
 	}
 	printf("_mm512_mask_ror_gfni_epi8(x512, 6)   :%8I64d clks min (%016Ix)\r\n", minres, x512.m512i_u64[0]);
 };

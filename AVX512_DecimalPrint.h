@@ -37,4 +37,6 @@ extern "C" void _i64toa_avx512f_asm(int64_t, char*);
 extern "C" void to_string_avx512ifma_asm(uint64_t, char*);
 extern "C" void to_string_avx512f_asm(uint64_t, char*);
 
+extern inline uint64_t serialized_tsc(void);
+
 void AVX512_DecimalPrint_Test(void);
