@@ -96,6 +96,7 @@ enum ISAs {
 	ISA_RDPID,							//Goldmont
 	ISA_RDPRU,							//Zen2
 	ISA_MCOMMIT,						//Zen2
+	ISA_PCONFIG,						//IceLake-X
 //Deprecated
 	ISA_GROUP_DEPRECATED,
 	ISA_X87,							//8087
@@ -217,6 +218,7 @@ enum _XCR0 {
 #define _FEAT07_EDX_AVX512_VP2INTERSECT				((1ULL <<  8) | (CPUID_FEAT07_EDX << 32))
 #define _FEAT07_EDX_SERIALIZE						((1ULL << 14) | (CPUID_FEAT07_EDX << 32))
 #define _FEAT07_EDX_HYBRID							((1ULL << 15) | (CPUID_FEAT07_EDX << 32))
+#define _FEAT07_EDX_PCONFIG							((1ULL << 18) | (CPUID_FEAT07_EDX << 32))
 #define _FEAT07_EDX_AMX_BF16						((1ULL << 22) | (CPUID_FEAT07_EDX << 32))
 #define _FEAT07_EDX_AVX512_FP16						((1ULL << 23) | (CPUID_FEAT07_EDX << 32))
 #define _FEAT07_EDX_AMX_INT8						((1ULL << 24) | (CPUID_FEAT07_EDX << 32))
