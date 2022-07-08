@@ -251,6 +251,10 @@ void CPU_Props::PrintOSStatus(bool enadisa) const {
 		cout << ", OS disabled";
 }
 
+void CPU_Props::PrintFeat(uint64_t f) const {
+	cout << left << exts[f].name;
+}
+
 void CPU_Props::PrintFeats(void) const {
 	for (int featInd = 0; featInd < sizeof(exts) / sizeof(_EXT); featInd++) {
 		cout << left << std::setw(FEAT_NAME_SIZE) << exts[featInd].name;
@@ -404,8 +408,7 @@ void CPU_Props::PrintHybridMasks(void) const {
 
 #if defined (_M_X64)
 void CPU_Props::Print_512bFMA_DP_Ports(void) const {
-	cout << left << setw(FEAT_NAME_SIZE) << "512b FPU DP ports" << ": ";
-	cout << Get_512bFMA_DP_Ports() <<endl;
+	cout << "512b FPU DP ports: " << Get_512bFMA_DP_Ports() << endl;
 }
 
 //based on 

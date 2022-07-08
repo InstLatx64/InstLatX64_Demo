@@ -313,6 +313,7 @@ private:
 public:
 	CPU_Props();
 	void				PrintFeats(void) const;
+	void				PrintFeat(uint64_t) const;
 	void				PrintVendor(void) const;
 	void				PrintBrand(void) const;
 	void				Print_512bFMA_DP_Ports(void) const;

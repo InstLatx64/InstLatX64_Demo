@@ -15,9 +15,9 @@
 #include <assert.h>
 
 #include "Misc.h"
+#include "CPU_Props.h"
 #include "InstLatX64_Demo.h"
 #include "512bFMA_DP_Ports.h"
-#include "CPU_Props.h"
 
 #include "Byte2Byte.h"
 #include "KmovTest.h"
@@ -37,4 +37,4 @@
 
 #include "AMX_Demo.h"
 #include "AVX512_DecimalPrint.h"
-
+#include "Args.h"
