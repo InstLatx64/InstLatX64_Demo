@@ -542,7 +542,7 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 			//case 0x000A06C0:	//Redwood Cove?/ METEORLAKE
 			//case 0x000A06D0:	//Redwood Cove?/ GRANITERAPIDS_X
 			//case 0x000B0670:	//Raptor Cove? / RAPTORLAKE
-			//case 0x000B06A0:	//Raptor Cove? / RAPTORLAKE_L
+			//case 0x000B06A0:	//Raptor Cove? / RAPTORLAKE_P
 		}
 	} else {
 		return 0;
