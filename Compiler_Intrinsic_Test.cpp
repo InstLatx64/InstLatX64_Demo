@@ -47,10 +47,10 @@ void AVX512_InstrincTest(void)
 	__mmask8	m8 = 0;
 
 //AVX512PF
-	int *base = 0;
-	_mm512_prefetch_i64gather_pd(x, base, 8, _MM_HINT_T1);						//VGATHERPF0DPD
+	//int *base = 0;
+	//_mm512_prefetch_i64gather_pd(x, base, 8, _MM_HINT_T1);					//VGATHERPF0DPD
 //AVX512ER
-	__m512d b = _mm512_rcp28_round_pd(a, 0);									//VRCP28PD
+	//__m512d b = _mm512_rcp28_round_pd(a, 0);									//VRCP28PD
 //AVX512_4FMAPS 
 	//__m512ix4 c;
 	//__m512 c = _mm512_4fmadd_ps();											//V4FMADDPS
