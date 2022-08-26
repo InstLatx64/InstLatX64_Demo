@@ -38,3 +38,4 @@
 
 #include "AMX_Demo.h"
 #include "AVX512_DecimalPrint.h"
+#include "Compiler_Intrinsic_Test.h"

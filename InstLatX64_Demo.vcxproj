@@ -618,6 +618,7 @@
     <ClInclude Include="AVX512_DecimalPrint.h" />
     <ClInclude Include="AVX512_String_Table.h" />
     <ClInclude Include="Byte2Byte.h" />
+    <ClInclude Include="Compiler_Intrinsic_Test.h" />
     <ClInclude Include="CPU_Props.h" />
     <ClInclude Include="GFNI_Demo.h" />
     <ClInclude Include="InstLatX64_Demo.h" />

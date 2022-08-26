@@ -16,6 +16,7 @@ const demoTypeList demos[] = {
 	{"Zen3",				"Zen3",		DEMO_ZEN3,				ISA_AVX2,				true,	Zen3_Demo,					"AMD Zen3 SIMD Port analysis"},
 #endif
 #if defined(__AVX512F__)
+	{"Intrinsics",			"Intrin",	DEMO_INTRINSICS,		ISA_AVX512F,			true,	AVX512_InstrincTest,		"Visual Studio Compiler Intrinsics Test"},
 	{"VBMI2",				"",			DEMO_VBMI2,				ISA_AVX512_VBMI2,		true,	VBMI2_Demo,					"SIMD variable rots and shifts for words and bytes"},
 	{"Byte2Byte",			"B2B",		DEMO_BYTE2BYTE,			ISA_AVX512VBMI,			true,	Byte2ByteTest,				"Fastest Byte2Byte SIMD replacemant"},
 	{"TZCNT",				"",			DEMO_TZCNT,				ISA_AVX512_VPOPCNTDQ,	true,	TZCNT_Test,					"Missing SIMD TZCNT emulation"},
@@ -79,7 +80,6 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	//AVX512_InstrincTest();
 	return 0;
 }
 

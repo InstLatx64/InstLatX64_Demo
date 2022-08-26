@@ -146,6 +146,9 @@
      <ClInclude Include="Misc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Compiler_Intrinsic_Test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
 </ItemGroup>
   <ItemGroup>
     <MASM Include="Zen3_Demo_X87.asm">
