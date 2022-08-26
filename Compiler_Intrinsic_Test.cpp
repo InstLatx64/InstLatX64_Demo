@@ -115,6 +115,11 @@ void AVX512_InstrincTest(void)
 #if (_MSC_VER > 1930)
 	__m512h		halfprec = _mm512_castps_ph(_mm512_setzero_ps());
 	__m512h		halfprec2 = _mm512_add_ph(halfprec, halfprec);					//VADDPH
+#if (_MSC_VER >= 1933)
+	__bfloat16 bf16 = _mm_cvtness_sbh(1234.56f);
+	float f = _mm_cvtsbh_ss(bf16);
+	std::cout << f << std::endl;
+#endif
 #endif
 #endif
 }
