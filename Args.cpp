@@ -5,7 +5,10 @@ const paramsType Args::params[] = {
 	{false,	"version",	'v',	ARG_VERSION,	NULL,				"version info"},
 	{false,	"list",		'l',	ARG_DEMOLIST,	NULL,				"list of demo types"},
 	{false,	"cpu",		'c',	ARG_CPUPROPS,	NULL,				"list of CPU properties"},
+	{false,	"pcore",	'\0',	ARG_PCORE,			NULL,				"using performance core on hybrid CPU"},
+	{false,	"ecore",	'\0',	ARG_ECORE,			NULL,				"using efficient core on hybrid CPU"},
 	{true,	"demo",		'd',	ARG_DEMOTYPE,	ARGERR_MISS_DEMO,	"demo type"},
+	{true,	"thread",	't',	ARG_THREADINDEX,	ARGERR_MISS_THREAD,	"thread index"},
 };
 
 void Args::SetError(char* errorPlace, char * tempStr, const char * errorMsg) {
@@ -49,7 +52,37 @@ void Args::SetParam(argType paramType, char * tempStr, char* errorPlace, int * e
 					(*errorCounter)++;
 				}
 			} break;
+			case ARG_THREADINDEX: {
+					char* endPtr = 0;
+					threadIndex = strtol(tempStr, &endPtr, 10);
+				}
+				break;
+			case ARG_PCORE: {
+					if (cpu_props.IsFeat(ISA_HYBRID)) {
+#if defined(_M_X64)
+						_BitScanReverse64((unsigned long*)&threadIndex, cpu_props.GetBigCoreMask());
+#else
+						BitScanReverse((unsigned long*)&threadIndex, cpu_props.GetBigCoreMask());
+#endif
+					} else {
+						threadIndex = 0;
+					}
+				}
+				break;
+			case ARG_ECORE: {
+					if (cpu_props.IsFeat(ISA_HYBRID)) {
+#if defined(_M_X64)
+						threadIndex = _tzcnt_u64(cpu_props.GetLittleCoreMask());
+#else
+						threadIndex = _tzcnt_u32(cpu_props.GetLittleCoreMask());
+#endif
+					} else {
+						threadIndex = 0;
+					}
+				}
+				break;
 			case ARG_NOTHING:
+				break;
 			default:
 				break;
 		}
@@ -93,14 +126,21 @@ size_t Args::GetMaxDemo(void) const {
 	return DEMO_LAST;
 };
 
+size_t Args::GetThreadIndex(void) const {
+	return threadIndex;
+};
+
 bool Args::IsSelected(size_t i) const {
 	return ((demoMask[i >> 6] & (1ULL << (i & 0x3f))) != 0);
 };
 
-Args::Args(int argc, char* argv[], const demoTypeList* demos, size_t size) :
+Args::Args(const demoTypeList* demos, size_t size) :
 	demoList(demos), demoCount(size), paramCount(sizeof(params) / sizeof(paramsType)),
 	versionFlag(0), helpFlag(0), listFlag(0), cpuPropsFlag(0), errorFlag(0),
-	paramType(ARG_NOTHING) {
+	paramType(ARG_NOTHING), threadIndex(0) {
+};
+
+void Args::Init(int argc, char* argv[]) {
 	char errorStr[MAX_ARGERROR][STR_MAXLEN];
 	memset(errorStr, 0, MAX_ARGERROR * STR_MAXLEN);
 	int errorCounter = 0;

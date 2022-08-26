@@ -43,6 +43,6 @@ void random_wrap(signed long long* random);
 
 inline uint64_t serialized_tsc(void);
 
-void SetThread(int32_t threadindex);
+void SetThread(size_t threadindex);
 
 void AVX512_InstrincTest(void);

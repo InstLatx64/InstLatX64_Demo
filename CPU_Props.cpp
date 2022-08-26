@@ -220,6 +220,9 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 				break;
 		}
 	}
+	if (IsFeat(ISA_HYBRID)) {
+		HybridMasks(bigCoreMask, littleCoreMask, systemAffMask);
+	}
 }
 
 using namespace std;
@@ -395,16 +398,24 @@ void CPU_Props::ForcedAVX512(void) const {
 void CPU_Props::PrintHybridMasks(void) const {
 	if (IsFeat(ISA_HYBRID)) {
 		cout << "--Hybrid info--" << endl;
-		DWORD_PTR systemAffMask		= 0;
-		DWORD_PTR littleCoreMask	= 0;
-		DWORD_PTR bigCoreMask		= 0;
-		if (HybridMasks(bigCoreMask, littleCoreMask, systemAffMask)) {
 			cout << "systemAffinityMask: 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << systemAffMask << endl;
 			cout << "littleCoreMask    : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << littleCoreMask << endl;
 			cout << "bigCoreMask       : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << bigCoreMask << endl;
+			cout << setfill(' ');
 		}
 	}
-}
+
+DWORD_PTR CPU_Props::GetBigCoreMask(void) const {
+	return bigCoreMask;
+};
+
+DWORD_PTR CPU_Props::GetLittleCoreMask(void) const {
+	return littleCoreMask;
+};
+
+DWORD_PTR CPU_Props::GetSystemAffMask(void) const {
+	return systemAffMask;
+};
 
 #if defined (_M_X64)
 void CPU_Props::Print_512bFMA_DP_Ports(void) const {

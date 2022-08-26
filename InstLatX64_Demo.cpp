@@ -27,9 +27,11 @@ const demoTypeList demos[] = {
 #endif
 };
 
+Args args(demos, sizeof(demos) / sizeof(demoTypeList));
+
 int main(int argc, char* argv[])
 {
-	Args args(argc, argv, demos, sizeof(demos) / sizeof(demoTypeList));
+	args.Init(argc, argv);
 
 	if (args.IsVersion())
 		args.PrintVersion();

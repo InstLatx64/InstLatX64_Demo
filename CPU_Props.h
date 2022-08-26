@@ -294,6 +294,9 @@ private:
 	_AMX_TMUL			AMX_TMUL;
 	UINT64				f[FEATSIZE]				= {0ULL, 0ULL};
 	UINT64				f_disabled[FEATSIZE]	= {0ULL, 0ULL};
+	DWORD_PTR			bigCoreMask				= 0;
+	DWORD_PTR			littleCoreMask			= 0;
+	DWORD_PTR			systemAffMask			= 0;
 	union {
 		char			vendor_string[VENDOR_STRING_SIZE];
 		unsigned long	vendor_num[VENDOR_NUM_SIZE]  = {0, 0, 0, 0};
@@ -330,6 +333,9 @@ public:
 	unsigned int		GetAMXPalette_MaxName(unsigned int p) const;
 	unsigned int		GetAMXRows() const;
 	unsigned int		GetAMXCols() const;
+	DWORD_PTR			GetBigCoreMask() const;
+	DWORD_PTR			GetLittleCoreMask() const;
+	DWORD_PTR			GetSystemAffMask() const;
 #if defined (_M_X64)
 	int					Get_512bFMA_DP_Ports(void) const;
 #endif

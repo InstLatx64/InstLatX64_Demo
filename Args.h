@@ -30,15 +30,20 @@
 #define ARGERR_INV_PARAM				"Invalid parameter: "
 #define ARGERR_INV_SWITCH				"Invalid switch: "
 #define ARGERR_INV_DEMO					"Invalid demo type: "
+
 #define ARGERR_MISS_ARG					"Missing argument: "
 #define ARGERR_MISS_DEMO				"Missing demo type: "
+#define ARGERR_MISS_THREAD				"Missing thread index: "
 
 enum argType {
 	ARG_HELP,
 	ARG_VERSION,
 	ARG_DEMOLIST,
 	ARG_CPUPROPS,
+	ARG_PCORE,
+	ARG_ECORE,
 	ARG_DEMOTYPE,
+	ARG_THREADINDEX,
 	ARG_NOTHING,
 };
 
@@ -58,6 +63,7 @@ private:
 	argType						paramType;
 	size_t						demoCount;
 	size_t						paramCount;
+	size_t						threadIndex;
 	const demoTypeList*			demoList;
 	bool						helpFlag;
 	bool						versionFlag;
@@ -67,7 +73,8 @@ private:
 	void						SetError(char* , char*, const char* );
 	void						SetParam(argType, char*, char* , int* );
 public:
-	Args(int argc, char* argv[], const demoTypeList[], size_t);
+	Args(const demoTypeList[], size_t);
+	void						Init(int argc, char* argv[]);
 	bool						IsVersion(void) const;
 	bool						IsHelp(void) const;
 	bool						IsDemoList(void) const;
@@ -75,5 +82,8 @@ public:
 	void						PrintUsage(void) const;
 	void						PrintVersion(void) const;
 	size_t						GetMaxDemo(void) const;
+	size_t						GetThreadIndex(void) const;
 	bool						IsSelected(size_t) const;
 };
+
+extern CPU_Props cpu_props;
