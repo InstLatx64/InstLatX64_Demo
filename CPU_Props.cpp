@@ -20,6 +20,8 @@ const _EXT CPU_Props::exts[ISA_LAST] = {
 	{"BMI2",					_XCR0_EMPTY,	_FEAT07_EBX_BMI2},
 	{"MOVDIRI",					_XCR0_EMPTY,	_FEAT07_ECX_MOVDIRI},
 	{"MOVDIR64B",				_XCR0_EMPTY,	_FEAT07_ECX_MOVDIR64B},
+	{"RAO-INT",					_XCR0_EMPTY,	_FEAT0701_EAX_RAO_INT},
+	{"CMPCCXADD",				_XCR0_EMPTY,	_FEAT0701_EAX_CMPCCXADD},
 	{"---SIMD---------",		_XCR0_EMPTY,	_FEAT_SKIP},
 	{"SSE",						_XCR0_EMPTY,	_FEAT01_EDX_SSE},
 	{"SSE2",					_XCR0_EMPTY,	_FEAT01_EDX_SSE2},
@@ -39,6 +41,9 @@ const _EXT CPU_Props::exts[ISA_LAST] = {
 	{"VAES",					_XCR0_EMPTY,	_FEAT07_ECX_VAES},
 	{"VPCLMULQDQ",				_XCR0_EMPTY,	_FEAT07_ECX_VPCLMULQDQ},
 	{"AVX_VNNI",				_XCR0_AVX,		_FEAT0701_EAX_AVX_VNNI},
+	{"AVX_VNNI_INT8",			_XCR0_AVX,		_FEAT0701_EDX_AVX_VNNI_INT8},
+	{"AVX_IFMA",				_XCR0_AVX,		_FEAT0701_EAX_AVX_IFMA},
+	{"AVX_NE_CONVERT",			_XCR0_AVX,		_FEAT0701_EDX_AVX_NE_CONVERT},
 	{"---AVX512-------",		_XCR0_EMPTY,	_FEAT_SKIP},
 	{"AVX512F",					_XCR0_AVX512,	_FEAT07_EBX_AVX512F},
 	{"AVX512CD",				_XCR0_AVX512,	_FEAT07_EBX_AVX512CD},
@@ -62,9 +67,11 @@ const _EXT CPU_Props::exts[ISA_LAST] = {
 	{"AMX-BF16",				_XCR0_AMX,		_FEAT07_EDX_AMX_BF16},
 	{"AMX-INT8",				_XCR0_AMX,		_FEAT07_EDX_AMX_INT8},
 	{"AMX-TILE",				_XCR0_AMX,		_FEAT07_EDX_AMX_TILE},
+	{"AMX-FP16",				_XCR0_AMX,		_FEAT0701_EAX_AMX_FP16},
 	{"---CacheLine----",		_XCR0_EMPTY,	_FEAT_SKIP},
 	{"PREFETCHW",				_XCR0_EMPTY,	_EFEAT01_ECX_3DNOWPREF},
 	{"PREFETCHWT1",				_XCR0_EMPTY,	_FEAT07_ECX_PWT1},
+	{"PREFETCHI",				_XCR0_EMPTY,	_FEAT0701_EDX_PREFETCHI},
 	{"CLFLUSH",					_XCR0_EMPTY,	_FEAT01_EDX_CLFLUSH},
 	{"CLFLUSHOPT",				_XCR0_EMPTY,	_FEAT07_EBX_CLFLUSHOPT},
 	{"CLWB",					_XCR0_EMPTY,	_FEAT07_EBX_CLWB},
@@ -181,7 +188,7 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 
 	_CPUID_RES c = {xcr0, 
 					level01[_REG_EAX], level01[_REG_ECX], level01[_REG_EDX], 
-					level07[_REG_EBX], level07[_REG_ECX], level07[_REG_EDX], level0701[_REG_EAX],
+					level07[_REG_EBX], level07[_REG_ECX], level07[_REG_EDX], level0701[_REG_EAX], level0701[_REG_EDX],
 					level19[_REG_EBX],
 					extLevel01[_REG_ECX], extLevel01[_REG_EDX], 
 					extLevel08[_REG_EBX]};
@@ -437,6 +444,8 @@ void CPU_Props::Print_512bFMA_DP_Ports(void) const {
 //Jintide CPUs:
 //https://www.montage-tech.com/Jintide_Platform/Jintide_CPU 
 //https://old.hotchips.org/hc31/HC31_2.11_Jintide_Server_CPU_final_r6.0.pdf
+//46th Intel ISA Future Programming Reference 319433-046.pdf:
+//https://cdrdv2.intel.com/v1/dl/getContent/671368
 
 // Actual Intel brand strings CPUID 80000003h-80000005h
 // 00000000001111111111222222222233333333334444444
@@ -527,37 +536,40 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 							return 2;
 					}
 				} break;
-			case 0x00060660:	//Palm Cove    / CANNONLAKE_L 
-			case 0x00060670:	//Palm Cove    / CANNONLAKE - cancelled ?
-			case 0x000606C0:	//Sunny Cove   / ICELAKE_D
-			case 0x000706D0: 	//Sunny Cove   / ICELAKE - cancelled ?
-			case 0x000706E0: 	//Sunny Cove   / ICELAKE_L
-			case 0x00080650:	//Silvermont   / XEON_PHI_KNM 1 for DP, 2 for SP
-			case 0x000806C0: 	//Willow Cove  / TIGERLAKE_L
-			case 0x000806D0: 	//Willow Cove  / TIGERLAKE
-			case 0x00090670:	//Golden Cove  / ALDERLAKE
-			case 0x000906A0:	//Golden Cove  / ALDERLAKE_L
-			case 0x000A0670: 	//Cypress Cove / ROCKETLAKE
-			case 0x000A0680: 	//Cypress Cove / ROCKETLAKE_L - cancelled ?
+			case 0x00060660:	//Palm Cove                / CANNONLAKE_L 
+			case 0x00060670:	//Palm Cove                / CANNONLAKE - cancelled ?
+			case 0x000606C0:	//Sunny Cove               / ICELAKE_D
+			case 0x000706D0: 	//Sunny Cove               / ICELAKE - cancelled ?
+			case 0x000706E0: 	//Sunny Cove               / ICELAKE_L
+			case 0x00080650:	//Silvermont               / XEON_PHI_KNM 1 for DP, 2 for SP
+			case 0x000806C0: 	//Willow Cove              / TIGERLAKE_L
+			case 0x000806D0: 	//Willow Cove              / TIGERLAKE
+			case 0x00090670:	//Golden Cove + Gracemont  / ALDERLAKE
+			case 0x000906A0:	//Golden Cove + Gracemont  / ALDERLAKE_L
+			case 0x000A0670: 	//Cypress Cove             / ROCKETLAKE
+			case 0x000A0680: 	//Cypress Cove             / ROCKETLAKE_L - cancelled ?
+			case 0x000A06A0:	//Redwood Cove + Crestmont / METEORLAKE_L
+			case 0x000A06C0:	//Redwood Cove + Crestmont / METEORLAKE
+			case 0x000A06E0:	//?????? Cove              / GRANITERAPIDS_D - supposition based on ICELAKE_D
 				return 1;
-			case 0x00050670:	//Silvermont   / XEON_PHI_KNL
-			case 0x000606A0:	//Sunny Cove   / ICELAKE_X
-			case 0x000806F0:	//Golden Cove  / SAPPHIRERAPIDS_X
+			case 0x00050670:	//Silvermont               / XEON_PHI_KNL
+			case 0x000606A0:	//Sunny Cove               / ICELAKE_X
+			case 0x000806F0:	//Golden Cove              / SAPPHIRERAPIDS_X
+			case 0x000A06D0:	//?????? Cove              / GRANITERAPIDS_X - supposition based on ICELAKE_X
 				return 2;
-			case 0x000806A0:	//Sunny Cove   / LAKEFIELD, AVX512 disabled
-			case 0x000A06C0:	//Crestmont?   / METEORLAKE_N
-			case 0x000B06E0:	//Gracemont?   / ALDERLAKE_N
+			case 0x000806A0:	//Sunny Cove + Tremont     / LAKEFIELD, AVX512 disabled
+			case 0x000A06F0:	//Crestmont                / SIERRAFOREST_X
+			case 0x000B0650:	//Crestmont                / METEORLAKE_N
+			case 0x000B0660:	//Crestmont                / GRANDRIDGE
+			case 0x000B0670:	//Raptor Cove + Gracemont  / RAPTORLAKE
+			case 0x000B06A0:	//Raptor Cove + Gracemont  / RAPTORLAKE_P
+			case 0x000B06E0:	//Gracemont                / ALDERLAKE_N
+			case 0x000B06F0:	//Golden Cove + Gracemont  / RAPTORLAKE_S
 			default:			//on other cores, AVX512F unsupported
 				return 0;
 			//future
 			//case 0x000906D0:	//Sunny Cove   / ICELAKE_NNPI / Spring Hill - cancelled ?
 			//case 0x000906F0:	//Sunny Cove   / ICELAKE_R ?
-			//case 0x000A06A0:	//Redwood Cove?/ METEORLAKE_L
-			//case 0x000A06C0:	//Redwood Cove?/ METEORLAKE
-			//case 0x000A06D0:	//Redwood Cove?/ GRANITERAPIDS_X
-			//case 0x000B0670:	//Raptor Cove? / RAPTORLAKE
-			//case 0x000B06A0:	//Raptor Cove? / RAPTORLAKE_P
-			//case 0x000B06F0:	//Raptor Cove? / RAPTORLAKE_S
 		}
 	} else {
 		return 0;
