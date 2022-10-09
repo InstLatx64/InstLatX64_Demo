@@ -22,6 +22,8 @@ enum ISAs {
 	ISA_BMI2,							//Haswell, Excavator
 	ISA_MOVDIRI,						//Tremont
 	ISA_MOVDIR64B,						//Tremont
+	ISA_RAO_INT,						//Crestmont
+	ISA_CMPCCXADD,						//Crestmont
 //SIMD
 	ISA_GROUP_SIMD,
 	ISA_SSE,							//Pentium III
@@ -42,6 +44,9 @@ enum ISAs {
 	ISA_VAES,							//IceLake-U/Y
 	ISA_VPCLMULQDQ,						//IceLake-U/Y
 	ISA_AVX_VNNI,						//AlderLake
+	ISA_AVX_VNNI_INT8,					//Crestmont
+	ISA_AVX_IFMA,						//Crestmont
+	ISA_AVX_NE_CONVERT,					//Crestmont
 //AVX512
 	ISA_GROUP_AVX512,
 	ISA_AVX512F,						//Knights Landing
@@ -67,10 +72,12 @@ enum ISAs {
 	ISA_AMX_BF16,						//Sapphire Rapids
 	ISA_AMX_INT8,						//Sapphire Rapids
 	ISA_AMX_TILE,						//Sapphire Rapids
+	ISA_AMX_FP16,						//Granite Rapids
 //cacheline
 	ISA_GROUP_CACHELINE,
 	ISA_PREFETCHW,						//K6
 	ISA_PREFETCHWT1,					//Knights Landing
+	ISA_PREFETCHI0,						//Crestmont
 	ISA_CLFLUSH,						//Willamette
 	ISA_CLFLUSHOPT,						//Skylake
 	ISA_CLWB,							//Skylake-X
@@ -128,6 +135,7 @@ enum _CPUID_Feats : unsigned long long {
 	CPUID_FEAT07_ECX,
 	CPUID_FEAT07_EDX,
 	CPUID_FEAT0701_EAX,
+	CPUID_FEAT0701_EDX,
 	CPUID_FEAT19_EBX,
 	CPUID_EFEAT01_ECX,
 	CPUID_EFEAT01_EDX,
@@ -227,11 +235,22 @@ enum _XCR0 {
 #define _FEAT19_EBX_AESKLE							((1ULL << 0) | (CPUID_FEAT19_EBX << 32))
 #define _FEAT19_EBX_WIDE_KL							((1ULL << 2) | (CPUID_FEAT19_EBX << 32))
 
+#define _FEAT0701_EAX_RAO_INT						((1ULL <<  3) | (CPUID_FEAT0701_EAX << 32))
 #define _FEAT0701_EAX_AVX_VNNI						((1ULL <<  4) | (CPUID_FEAT0701_EAX << 32))
 #define _FEAT0701_EAX_AVX512_BF16					((1ULL <<  5) | (CPUID_FEAT0701_EAX << 32))
+#define _FEAT0701_EAX_CMPCCXADD						((1ULL <<  7) | (CPUID_FEAT0701_EAX << 32))
 #define _FEAT0701_EAX_FZLM_FAST_ZERO_LEN_MOVSB		((1ULL << 10) | (CPUID_FEAT0701_EAX << 32))
 #define _FEAT0701_EAX_FSS_FAST_SHORT_STOSB			((1ULL << 11) | (CPUID_FEAT0701_EAX << 32))
 #define _FEAT0701_EAX_FSCS_FAST_SHORT_CMPSB_SCASB	((1ULL << 12) | (CPUID_FEAT0701_EAX << 32))
+#define _FEAT0701_EAX_WRMSRNS						((1ULL << 19) | (CPUID_FEAT0701_EAX << 32))
+#define _FEAT0701_EAX_AMX_FP16						((1ULL << 21) | (CPUID_FEAT0701_EAX << 32))
+#define _FEAT0701_EAX_HRESET						((1ULL << 22) | (CPUID_FEAT0701_EAX << 32))
+#define _FEAT0701_EAX_AVX_IFMA						((1ULL << 23) | (CPUID_FEAT0701_EAX << 32))
+#define _FEAT0701_EAX_MSRLIST						((1ULL << 27) | (CPUID_FEAT0701_EAX << 32))
+
+#define _FEAT0701_EDX_AVX_VNNI_INT8					((1ULL <<  4) | (CPUID_FEAT0701_EDX << 32))
+#define _FEAT0701_EDX_AVX_NE_CONVERT				((1ULL <<  5) | (CPUID_FEAT0701_EDX << 32))
+#define _FEAT0701_EDX_PREFETCHI						((1ULL << 14) | (CPUID_FEAT0701_EDX << 32))
 
 #define _EFEAT01_ECX_LAHF							((1ULL <<  0) | (CPUID_EFEAT01_ECX << 32))
 #define _EFEAT01_ECX_ABM							((1ULL <<  5) | (CPUID_EFEAT01_ECX << 32))
@@ -252,7 +271,7 @@ enum _XCR0 {
 #define _EFEAT008_EBX_MCOMMIT						((1ULL <<  8) | (CPUID_EFEAT08_EBX << 32))
 
 #define FEATSIZE									2
-#define CPUID_FIELDS								11
+#define CPUID_FIELDS								12
 #define FEAT_NAME_SIZE								31
 #define VENDOR_STRING_SIZE							12
 #define VENDOR_NUM_SIZE								4
