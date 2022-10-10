@@ -77,7 +77,7 @@ enum ISAs {
 	ISA_GROUP_CACHELINE,
 	ISA_PREFETCHW,						//K6
 	ISA_PREFETCHWT1,					//Knights Landing
-	ISA_PREFETCHI0,						//Crestmont
+	ISA_PREFETCHI,						//Crestmont
 	ISA_CLFLUSH,						//Willamette
 	ISA_CLFLUSHOPT,						//Skylake
 	ISA_CLWB,							//Skylake-X
