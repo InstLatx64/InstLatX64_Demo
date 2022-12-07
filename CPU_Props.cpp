@@ -550,12 +550,13 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 			case 0x000A0680: 	//Cypress Cove             / ROCKETLAKE_L - cancelled ?
 			case 0x000A06A0:	//Redwood Cove + Crestmont / METEORLAKE_L
 			case 0x000A06C0:	//Redwood Cove + Crestmont / METEORLAKE
-			case 0x000A06E0:	//?????? Cove              / GRANITERAPIDS_D - supposition based on ICELAKE_D
+			case 0x000A06E0:	//Redwood Cove             / GRANITERAPIDS_D
 				return 1;
 			case 0x00050670:	//Silvermont               / XEON_PHI_KNL
 			case 0x000606A0:	//Sunny Cove               / ICELAKE_X
 			case 0x000806F0:	//Golden Cove              / SAPPHIRERAPIDS_X
-			case 0x000A06D0:	//?????? Cove              / GRANITERAPIDS_X - supposition based on ICELAKE_X
+			case 0x000A06D0:	//Redwood Cove             / GRANITERAPIDS_X
+			case 0x000C06F0:	//Raptor Cove              / EMERALDRAPIDS_X
 				return 2;
 			case 0x000806A0:	//Sunny Cove + Tremont     / LAKEFIELD, AVX512 disabled
 			case 0x000A06F0:	//Crestmont                / SIERRAFOREST_X
