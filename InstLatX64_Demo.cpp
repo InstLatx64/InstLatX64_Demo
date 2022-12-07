@@ -15,6 +15,7 @@ const demoTypeList demos[] = {
 	{"PEXT_PDEP",			"PEXT",		DEMO_PEXT_PDEP_EMU,		ISA_BMI2,				true,	PEXT_PDEP_Emu_Test,			"Fast GPR PEXT/PDEP instruction emulation for AMDs"},
 #endif
 #if defined(__AVX512F__)
+	{"KMemDst",				"KMem",		DEMO_KMEMDST,			ISA_AVX512F,			true,	AVX512_KMemDst_Demo,			"AVX512 insts with masked memory destination"},
 	{"Intrinsics",			"Intrin",	DEMO_INTRINSICS,		ISA_AVX512F,			true,	AVX512_InstrincTest,		"Visual Studio Compiler Intrinsics Test"},
 	{"VBMI2",				"",			DEMO_VBMI2,				ISA_AVX512_VBMI2,		true,	VBMI2_Demo,					"SIMD variable rots and shifts for words and bytes"},
 	{"Byte2Byte",			"B2B",		DEMO_BYTE2BYTE,			ISA_AVX512VBMI,			true,	Byte2ByteTest,				"Fastest Byte2Byte SIMD replacemant"},

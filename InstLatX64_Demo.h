@@ -8,6 +8,7 @@ enum demoType {
 	DEMO_PEXT_PDEP_EMU,
 #endif
 #if defined(__AVX512F__)
+	DEMO_KMEMDST,
 	DEMO_INTRINSICS,
 	DEMO_VBMI2,
 	DEMO_BYTE2BYTE,

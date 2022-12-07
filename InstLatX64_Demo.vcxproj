@@ -482,6 +482,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="AVX512_KMemDst.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Byte2Byte.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
@@ -608,6 +616,7 @@
     <ClInclude Include="AMX_Demo.h" />
     <ClInclude Include="Args.h" />
     <ClInclude Include="AVX512_DecimalPrint.h" />
+    <ClInclude Include="AVX512_KMemDst.h" />
     <ClInclude Include="AVX512_String_Table.h" />
     <ClInclude Include="Byte2Byte.h" />
     <ClInclude Include="Compiler_Intrinsic_Test.h" />
@@ -642,6 +651,17 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
     </MASM>
     <MASM Include="AVX512IFMA_DecimalPrint_Asm.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="AVX512_KMemDst_Asm.asm">
+      <AssembledCodeListingFile Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|x64'">
+      </AssembledCodeListingFile>
+      <AssembledCodeListingFile Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|x64'">$(IntDir)%(FileName).lst</AssembledCodeListingFile>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>
