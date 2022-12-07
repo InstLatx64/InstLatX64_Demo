@@ -6,7 +6,6 @@ enum demoType {
 #if defined (_M_X64)
 #if defined (__AVX2__)
 	DEMO_PEXT_PDEP_EMU,
-	DEMO_ZEN3,
 #endif
 #if defined(__AVX512F__)
 	DEMO_INTRINSICS,

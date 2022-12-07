@@ -13,7 +13,6 @@ const demoTypeList demos[] = {
 #if defined (_M_X64)
 #if defined (__AVX2__)
 	{"PEXT_PDEP",			"PEXT",		DEMO_PEXT_PDEP_EMU,		ISA_BMI2,				true,	PEXT_PDEP_Emu_Test,			"Fast GPR PEXT/PDEP instruction emulation for AMDs"},
-	{"Zen3",				"Zen3",		DEMO_ZEN3,				ISA_AVX2,				true,	Zen3_Demo,					"AMD Zen3 SIMD Port analysis"},
 #endif
 #if defined(__AVX512F__)
 	{"Intrinsics",			"Intrin",	DEMO_INTRINSICS,		ISA_AVX512F,			true,	AVX512_InstrincTest,		"Visual Studio Compiler Intrinsics Test"},

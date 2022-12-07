@@ -30,12 +30,6 @@
 #include "SIMD_PEXT_PDEP_Demo.h"
 #include "TZCNT_Demo.h"
 
-#include "Zen3_Demo.h"
-#include "Zen3_Demo_AVX.h"
-#include "Zen3_Demo_SSE.h"
-#include "Zen3_Demo_X87.h"
-#include "Zen3_Demo_UCode.h"
-
 #include "AMX_Demo.h"
 #include "AVX512_DecimalPrint.h"
 #include "Compiler_Intrinsic_Test.h"
