@@ -16,6 +16,7 @@ const demoTypeList demos[] = {
 #endif
 #if defined(__AVX512F__)
 	{"KMemDst",				"KMem",		DEMO_KMEMDST,			ISA_AVX512F,			true,	AVX512_KMemDst_Demo,			"AVX512 insts with masked memory destination"},
+	{"Zen4",				"Zen4",		DEMO_ZEN4,				ISA_AVX512F,			true,	Zen4_Demo,					"AMD Zen4 SIMD analysis"},
 	{"Intrinsics",			"Intrin",	DEMO_INTRINSICS,		ISA_AVX512F,			true,	AVX512_InstrincTest,		"Visual Studio Compiler Intrinsics Test"},
 	{"VBMI2",				"",			DEMO_VBMI2,				ISA_AVX512_VBMI2,		true,	VBMI2_Demo,					"SIMD variable rots and shifts for words and bytes"},
 	{"Byte2Byte",			"B2B",		DEMO_BYTE2BYTE,			ISA_AVX512VBMI,			true,	Byte2ByteTest,				"Fastest Byte2Byte SIMD replacemant"},

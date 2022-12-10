@@ -61,6 +61,8 @@ detection of CPU properties for dispatching code paths
 AVX512F, AVX512IFMA based implementation of _ultoa, _ltoa, _ui64toa, _i64toa functions.
 # AVX512_KMemDst.* 
 code for examining the effect of the k mask register value on the EVEX-decoded instructions with memory destination
+# Zen4_Demo.* 
+code for examining of instructions in AMD Zen4/Raphael CPU (CPUID A60F12). It is based on ideas from uops.info. Output example: \Results\Zen4_Demo_Imm8.txt
 
 ## References
 *  Geoff Langdale [Why Ice Lake is Important (a bit-basher’s perspective)](https://branchfree.org/2019/05/29/why-ice-lake-is-important-a-bit-bashers-perspective/)

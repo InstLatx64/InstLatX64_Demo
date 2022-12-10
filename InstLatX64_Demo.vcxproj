@@ -610,6 +610,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Zen4_Demo.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="512bFMA_DP_Ports.h" />
@@ -632,6 +640,9 @@
     <ClInclude Include="TZCNT_Demo.h" />
     <ClInclude Include="VBMI2_Demo.h" />
     <ClInclude Include="VPCLMULQDQ_Demo.h" />
+    <ClInclude Include="Zen4_Demo.h" />
+    <ClInclude Include="Zen4_Demo_Imm8.h" />
+    <ClInclude Include="Zen4_Demo_Port.h" />
   </ItemGroup>
   <ItemGroup>
     <MASM Include="512bFMA_DP_Ports_Asm.asm">
@@ -700,6 +711,14 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|x64'">DEPEXT219_REPEATS=1000;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </MASM>
     <MASM Include="TZCNT_Demo_Asm.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="Zen4_Demo_Imm8.asm">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>

@@ -9,6 +9,7 @@ enum demoType {
 #endif
 #if defined(__AVX512F__)
 	DEMO_KMEMDST,
+	DEMO_ZEN4,
 	DEMO_INTRINSICS,
 	DEMO_VBMI2,
 	DEMO_BYTE2BYTE,

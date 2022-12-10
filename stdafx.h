@@ -30,6 +30,8 @@
 #include "SIMD_PEXT_PDEP_Demo.h"
 #include "TZCNT_Demo.h"
 
+#include "Zen4_Demo.h"
+
 #include "AMX_Demo.h"
 #include "AVX512_DecimalPrint.h"
 #include "AVX512_KMemDst.h"
