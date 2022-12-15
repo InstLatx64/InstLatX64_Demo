@@ -201,91 +201,152 @@ zen4_wrap macro INST, OPERANDS, R1, R2, I8
 	test_m		Zen4_&INST&_&OPERANDS&_&I8&_port1,		zen4_8clks_port1_m,		InstLatX64_&OPERANDS&_port,	INST, R1,	R2,	I8
 endm
 
-zen4_wrap		vextracti128,		ymmI82xmm,			1,	2,	0
-zen4_wrap		vextractf128,		ymmI82xmm,			1,	2,	0
-zen4_wrap		vextracti128,		ymmI82xmm,			1,	2,	1
-zen4_wrap		vextractf128,		ymmI82xmm,			1,	2,	1
+zen4_wrap		vextracti128,		ymmI82xmm,			1,	2,	000h
+zen4_wrap		vextractf128,		ymmI82xmm,			1,	2,	000h
+zen4_wrap		vextracti128,		ymmI82xmm,			1,	2,	001h
+zen4_wrap		vextractf128,		ymmI82xmm,			1,	2,	001h
 
-zen4_wrap		vextracti32x4 ,		ymmi82xmm,			1,	2,	0
-zen4_wrap		vextractf32x4 ,		ymmi82xmm,			1,	2,	0
-zen4_wrap		vextracti32x4 ,		ymmi82xmm,			1,	2,	1
-zen4_wrap		vextractf32x4 ,		ymmi82xmm,			1,	2,	1
+zen4_wrap		vextracti32x4,		ymmi82xmm,			1,	2,	000h
+zen4_wrap		vextractf32x4,		ymmi82xmm,			1,	2,	000h
+zen4_wrap		vextracti32x4,		ymmi82xmm,			1,	2,	001h
+zen4_wrap		vextractf32x4,		ymmi82xmm,			1,	2,	001h
 
-zen4_wrap		vextracti32x4 ,		zmmi82xmm,			1,	2,	0
-zen4_wrap		vextractf32x4 ,		zmmi82xmm,			1,	2,	0
-zen4_wrap		vextracti32x4 ,		zmmi82xmm,			1,	2,	1
-zen4_wrap		vextractf32x4 ,		zmmi82xmm,			1,	2,	1
+zen4_wrap		vextracti64x2,		ymmi82xmm,			1,	2,	000h
+zen4_wrap		vextractf64x2,		ymmi82xmm,			1,	2,	000h
+zen4_wrap		vextracti64x2,		ymmi82xmm,			1,	2,	001h
+zen4_wrap		vextractf64x2,		ymmi82xmm,			1,	2,	001h
 
-zen4_wrap		vextracti32x8 ,		zmmi82ymm,			1,	2,	0
-zen4_wrap		vextractf32x8 ,		zmmi82ymm,			1,	2,	0
-zen4_wrap		vextracti32x8 ,		zmmi82ymm,			1,	2,	1
-zen4_wrap		vextractf32x8 ,		zmmi82ymm,			1,	2,	1
+zen4_wrap		vextracti32x4,		zmmi82xmm,			1,	1,	000h
+zen4_wrap		vextractf32x4,		zmmi82xmm,			1,	1,	000h
+zen4_wrap		vextracti32x4,		zmmi82xmm,			1,	1,	001h
+zen4_wrap		vextractf32x4,		zmmi82xmm,			1,	1,	001h
+zen4_wrap		vextracti32x4,		zmmi82xmm,			1,	1,	002h
+zen4_wrap		vextractf32x4,		zmmi82xmm,			1,	1,	002h
+zen4_wrap		vextracti32x4,		zmmi82xmm,			1,	1,	003h
+zen4_wrap		vextractf32x4,		zmmi82xmm,			1,	1,	003h
 
-zen4_wrap		vinserti128,		xmmymmI82ymm,		1,	2,	0
-zen4_wrap		vinsertf128,		xmmymmI82ymm,		1,	2,	0
-zen4_wrap		vinserti128,		xmmymmI82ymm,		1,	2,	1
-zen4_wrap		vinsertf128,		xmmymmI82ymm,		1,	2,	1
+zen4_wrap		vextracti32x8,		zmmi82ymm,			1,	1,	000h
+zen4_wrap		vextractf32x8,		zmmi82ymm,			1,	1,	000h
+zen4_wrap		vextracti32x8,		zmmi82ymm,			1,	1,	001h
+zen4_wrap		vextractf32x8,		zmmi82ymm,			1,	1,	001h
 
-zen4_wrap		vinserti32x4,		xmmymmI82ymm,		1,	2,	0
-zen4_wrap		vinsertf32x4,		xmmymmI82ymm,		1,	2,	0
-zen4_wrap		vinserti32x4,		xmmymmI82ymm,		1,	2,	1
-zen4_wrap		vinsertf32x4,		xmmymmI82ymm,		1,	2,	1
+zen4_wrap		vinserti128,		xmmymmI82ymm,		1,	2,	000h
+zen4_wrap		vinsertf128,		xmmymmI82ymm,		1,	2,	000h
+zen4_wrap		vinserti128,		xmmymmI82ymm,		1,	2,	001h
+zen4_wrap		vinsertf128,		xmmymmI82ymm,		1,	2,	001h
 
-zen4_wrap		vinserti32x4,		xmmzmmI82zmm,		1,	2,	0
-zen4_wrap		vinsertf32x4,		xmmzmmI82zmm,		1,	2,	0
-zen4_wrap		vinserti32x4,		xmmzmmI82zmm,		1,	2,	1
-zen4_wrap		vinsertf32x4,		xmmzmmI82zmm,		1,	2,	1
+zen4_wrap		vinserti32x4,		xmmymmI82ymm,		1,	2,	000h
+zen4_wrap		vinsertf32x4,		xmmymmI82ymm,		1,	2,	000h
+zen4_wrap		vinserti32x4,		xmmymmI82ymm,		1,	2,	001h
+zen4_wrap		vinsertf32x4,		xmmymmI82ymm,		1,	2,	001h
 
-zen4_wrap		vinserti32x8,		ymmzmmI82zmm,		1,	2,	0
-zen4_wrap		vinsertf32x8,		ymmzmmI82zmm,		1,	2,	0
-zen4_wrap		vinserti32x8,		ymmzmmI82zmm,		1,	2,	1
-zen4_wrap		vinsertf32x8,		ymmzmmI82zmm,		1,	2,	1
+zen4_wrap		vinserti64x2,		xmmymmI82ymm,		1,	2,	000h
+zen4_wrap		vinsertf64x2,		xmmymmI82ymm,		1,	2,	000h
+zen4_wrap		vinserti64x2,		xmmymmI82ymm,		1,	2,	001h
+zen4_wrap		vinsertf64x2,		xmmymmI82ymm,		1,	2,	001h
 
-zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	01h
-zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	01h
-zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	02h
-zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	02h
-zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	10h
-zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	10h
-zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	30h
-zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	30h
-zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	32h
-zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	32h
-zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	80h
-zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	80h
-zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	81h
-zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	81h
-zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	88h
-zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	88h
-zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	18h
-zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	18h
-zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	19h
-zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	19h
-zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	89h
-zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	89h
-zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	99h
-zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	99h
+zen4_wrap		vinserti32x4,		xmmzmmI82zmm,		1,	2,	000h
+zen4_wrap		vinsertf32x4,		xmmzmmI82zmm,		1,	2,	000h
+zen4_wrap		vinserti32x4,		xmmzmmI82zmm,		1,	2,	001h
+zen4_wrap		vinsertf32x4,		xmmzmmI82zmm,		1,	2,	001h
+zen4_wrap		vinserti32x4,		xmmzmmI82zmm,		1,	2,	002h
+zen4_wrap		vinsertf32x4,		xmmzmmI82zmm,		1,	2,	002h
+zen4_wrap		vinserti32x4,		xmmzmmI82zmm,		1,	2,	003h
+zen4_wrap		vinsertf32x4,		xmmzmmI82zmm,		1,	2,	003h
 
-zen4_wrap		vshufi32x4,			2ymmI82ymm,			1,	2,	01h
-zen4_wrap		vshuff32x4,			2ymmI82ymm,			1,	2,	01h
-zen4_wrap		vshufi32x4,			2ymmI82ymm,			1,	2,	02h
-zen4_wrap		vshuff32x4,			2ymmI82ymm,			1,	2,	02h
-zen4_wrap		vshufi64x2,			2ymmI82ymm,			1,	2,	01h
-zen4_wrap		vshuff64x2,			2ymmI82ymm,			1,	2,	01h
-zen4_wrap		vshufi64x2,			2ymmI82ymm,			1,	2,	02h
-zen4_wrap		vshuff64x2,			2ymmI82ymm,			1,	2,	02h
+zen4_wrap		vinserti32x8,		ymmzmmI82zmm,		1,	2,	000h
+zen4_wrap		vinsertf32x8,		ymmzmmI82zmm,		1,	2,	000h
+zen4_wrap		vinserti32x8,		ymmzmmI82zmm,		1,	2,	001h
+zen4_wrap		vinsertf32x8,		ymmzmmI82zmm,		1,	2,	001h
 
-zen4_wrap		vshufi32x4,			2zmmI82zmm,			1,	2,	01h
-zen4_wrap		vshuff32x4,			2zmmI82zmm,			1,	2,	01h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	000h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	000h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	001h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	001h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	002h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	002h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	003h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	003h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	008h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	008h
+
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	010h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	010h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	011h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	011h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	012h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	012h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	013h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	013h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	018h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	018h
+
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	020h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	020h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	021h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	021h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	022h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	022h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	023h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	023h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	028h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	028h
+
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	030h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	030h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	031h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	031h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	032h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	032h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	033h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	033h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	038h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	038h
+
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	080h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	080h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	081h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	081h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	082h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	082h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	083h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	083h
+zen4_wrap		vperm2i128,			2ymmI82ymm,			1,	2,	088h
+zen4_wrap		vperm2f128,			2ymmI82ymm,			1,	2,	088h
+
+zen4_wrap		vshufi32x4,			2ymmI82ymm,			1,	2,	000h
+zen4_wrap		vshuff32x4,			2ymmI82ymm,			1,	2,	000h
+zen4_wrap		vshufi32x4,			2ymmI82ymm,			1,	2,	001h
+zen4_wrap		vshuff32x4,			2ymmI82ymm,			1,	2,	001h
+zen4_wrap		vshufi32x4,			2ymmI82ymm,			1,	2,	002h
+zen4_wrap		vshuff32x4,			2ymmI82ymm,			1,	2,	002h
+zen4_wrap		vshufi32x4,			2ymmI82ymm,			1,	2,	003h
+zen4_wrap		vshuff32x4,			2ymmI82ymm,			1,	2,	003h
+zen4_wrap		vshufi64x2,			2ymmI82ymm,			1,	2,	000h
+zen4_wrap		vshuff64x2,			2ymmI82ymm,			1,	2,	000h
+zen4_wrap		vshufi64x2,			2ymmI82ymm,			1,	2,	001h
+zen4_wrap		vshuff64x2,			2ymmI82ymm,			1,	2,	001h
+zen4_wrap		vshufi64x2,			2ymmI82ymm,			1,	2,	002h
+zen4_wrap		vshuff64x2,			2ymmI82ymm,			1,	2,	002h
+zen4_wrap		vshufi64x2,			2ymmI82ymm,			1,	2,	003h
+zen4_wrap		vshuff64x2,			2ymmI82ymm,			1,	2,	003h
+
+zen4_wrap		vshufi32x4,			2zmmI82zmm,			1,	2,	000h
+zen4_wrap		vshuff32x4,			2zmmI82zmm,			1,	2,	000h
+zen4_wrap		vshufi32x4,			2zmmI82zmm,			1,	2,	044h
+zen4_wrap		vshuff32x4,			2zmmI82zmm,			1,	2,	044h
 zen4_wrap		vshufi32x4,			2zmmI82zmm,			1,	2,	0e4h
 zen4_wrap		vshuff32x4,			2zmmI82zmm,			1,	2,	0e4h
-zen4_wrap		vshufi32x4,			2zmmI82zmm,			1,	2,	0f0h
-zen4_wrap		vshuff32x4,			2zmmI82zmm,			1,	2,	0f0h
-zen4_wrap		vshufi64x2,			2zmmI82zmm,			1,	2,	01h
-zen4_wrap		vshuff64x2,			2zmmI82zmm,			1,	2,	01h
+zen4_wrap		vshufi32x4,			2zmmI82zmm,			1,	2,	0a5h
+zen4_wrap		vshuff32x4,			2zmmI82zmm,			1,	2,	0a5h
+
+zen4_wrap		vshufi64x2,			2zmmI82zmm,			1,	2,	000h
+zen4_wrap		vshuff64x2,			2zmmI82zmm,			1,	2,	000h
+zen4_wrap		vshufi64x2,			2zmmI82zmm,			1,	2,	044h
+zen4_wrap		vshuff64x2,			2zmmI82zmm,			1,	2,	044h
 zen4_wrap		vshufi64x2,			2zmmI82zmm,			1,	2,	0e4h
 zen4_wrap		vshuff64x2,			2zmmI82zmm,			1,	2,	0e4h
-zen4_wrap		vshufi64x2,			2zmmI82zmm,			1,	2,	0f0h
-zen4_wrap		vshuff64x2,			2zmmI82zmm,			1,	2,	0f0h
+zen4_wrap		vshufi64x2,			2zmmI82zmm,			1,	2,	0a5h
+zen4_wrap		vshuff64x2,			2zmmI82zmm,			1,	2,	0a5h
 
 END
