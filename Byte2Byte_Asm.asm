@@ -13,209 +13,115 @@ byteconst_80_bf	dq	08887868584838281h, 0908f8e8d8c8b8a89h, 09897969594939291h, 0
 byteconst_c0_ff	dq	0c8c7c6c5c4c3c2c1h, 0d0cfcecdcccbcac9h, 0d8d7d6d5d4d3d2d1h, 0e0dfdedddcdbdad9h, 0e8e7e6e5e4e3e2e1h, 0f0efeeedecebeae9h, 0f8f7f6f5f4f3f2f1h, 000fffefdfcfbfaf9h 
 
 inp0			dq	0f5e78b9234190de4h, 0b79b5e89124e4ca9h, 06549ba41bb976aa9h, 03566abb891220879h
-inp1			dq	04a2eff9876341568h, 03973abdeff67892ah, 0ce49735167564bdeh, 0b8790eff12537166h
-
+;inp1			dq	04a2eff9876341568h, 03973abdeff67892ah, 0ce49735167564bdeh, 0b8790eff12537166h
+;
 gfni_sra		dq	08080808080808080h
 lsb				dq	00101010101010101h
-
-repeats			equ	1000000h
+;
+repeats			equ	1000000000
 
 .code 
 
-Byte2Byte01 proc
-	push			rbx
-	push			rdi
-	push			rsi
-	vmovdqu64		zmm28, zmmword ptr [byteconst_00_3f]
-	vmovdqu64		zmm29, zmmword ptr [byteconst_40_7f]
-	vmovdqu64		zmm30, zmmword ptr [byteconst_80_bf]
-	vmovdqu64		zmm31, zmmword ptr [byteconst_c0_ff]
-
-	vmovdqu64		zmm0, zmmword ptr [inp0]
-	;vmovdqu64		zmm3, zmm0			;equ test
-
-	mfence
-	rdtscp
-	lfence
-
-	mov				esi, eax
-	mov				edi, edx
-
-	mov				ecx, repeats
-
-startlabel:
+MASKEDVPERMI2B MACRO LAT
 	vpmovb2m		k1, zmm0
 	vmovdqa64		zmm1, zmm0
 	knotq			k2, k1
 	vpermi2b		zmm0 {k1}{z}, zmm30, zmm31
 	vpermi2b		zmm1 {k2}{z}, zmm28, zmm29
+IF LAT EQ 0 
 	vporq			zmm0, zmm0, zmm1
+ELSE
+	vporq			zmm4, zmm0, zmm1
+ENDIF
+ENDM
 		
-	dec				ecx
-	jnz				startlabel
-
-	mfence
-	rdtscp
-	lfence
-
-	shl				rdx, 20h
-	shl				rdi, 20h
-	or				rax, rdx
-	or				rsi, rdi
-
-	sub				rax, rsi
-
-	;vpcmpeqb		k0, zmm0, zmm3		;equ test
-
-	pop				rsi
-	pop				rdi
-	pop				rbx
-	ret
-byte2byte01 endp
-
-Byte2Byte02 proc
-	push			rbx
-	push			rdi
-	push			rsi
-	vmovdqu64		zmm28, zmmword ptr [byteconst_00_3f]
-	vmovdqu64		zmm29, zmmword ptr [byteconst_40_7f]
-	vmovdqu64		zmm30, zmmword ptr [byteconst_80_bf]
-	vmovdqu64		zmm31, zmmword ptr [byteconst_c0_ff]
-
-	vmovdqu64		zmm0, zmmword ptr [inp0]
-	;vmovdqu64		zmm3, zmm0			;equ test
-
-	mfence
-	rdtscp
-	lfence
-
-	mov				esi, eax
-	mov				edi, edx
-
-	mov				ecx, repeats
-
-startlabel:
+KREGROUNDTRIP MACRO LAT
 	vpmovb2m		k0, zmm0
 	vmovdqa64		zmm1, zmm0
 	vpermi2b		zmm0, zmm28, zmm29
 	vpermi2b		zmm1, zmm30, zmm31
 	vpmovm2b		zmm2, k0
-	
+IF LAT EQ 0 
 	vpternlogq		zmm0, zmm1, zmm2, 0d8h ;c?b:a
+ELSE
+	vpternlogq		zmm1, zmm1, zmm2, 0d8h ;c?b:a
+ENDIF
+ENDM
 
-	dec				ecx
-	jnz				startlabel
-
-	mfence
-	rdtscp
-	lfence
-
-	;vpcmpeqb		k0, zmm0, zmm3		;equ test
-
-	shl				rdx, 20h
-	shl				rdi, 20h
-	or				rax, rdx
-	or				rsi, rdi
-
-	sub				rax, rsi
-
-	pop				rsi
-	pop				rdi
-	pop				rbx
-	ret
-byte2byte02 endp
-
-Byte2Byte03 proc
-	push			rbx
-	push			rdi
-	push			rsi
-	vmovdqu64		zmm28, zmmword ptr [byteconst_00_3f]
-	vmovdqu64		zmm29, zmmword ptr [byteconst_40_7f]
-	vmovdqu64		zmm30, zmmword ptr [byteconst_80_bf]
-	vmovdqu64		zmm31, zmmword ptr [byteconst_c0_ff]
-
-	vpbroadcastq	zmm27, qword ptr [gfni_sra]
-
-	vmovdqu64		zmm0, zmmword ptr [inp0]
-	;vmovdqu64		zmm3, zmm0			;equ test
-
-	mfence
-	rdtscp
-	lfence
-
-	mov				esi, eax
-	mov				edi, edx
-
-	mov				ecx, repeats
-
-startlabel:
-	vgf2p8affineqb	zmm2, zmm0, zmm27, 0
+GFNI MACRO LAT
+	vmovdqa64		zmm1, zmm0
+	vmovdqa64		zmm2, zmm0
 	vpermi2b		zmm0, zmm28, zmm29
 	vpermi2b		zmm1, zmm30, zmm31
+	vgf2p8affineqb	zmm2, zmm2, zmm27, 0
+IF LAT EQ 0 
 	vpternlogq		zmm0, zmm1, zmm2, 0d8h ;c?b:a
+ELSE
+	vpternlogq		zmm1, zmm1, zmm2, 0d8h ;c?b:a
+ENDIF
+ENDM
 
-	dec				ecx
-	jnz				startlabel
-
-	mfence
-	rdtscp
-	lfence
-
-	;vpcmpeqb		k0, zmm0, zmm3		;equ test
-
-	shl				rdx, 20h
-	shl				rdi, 20h
-	or				rax, rdx
-	or				rsi, rdi
-
-	sub				rax, rsi
-
-	pop				rsi
-	pop				rdi
-	pop				rbx
-	ret
-byte2byte03 endp
-
-Byte2Byte04 proc
-	push			rbx
-	push			rdi
-	push			rsi
-	vmovdqu64		zmm28, zmmword ptr [byteconst_00_3f]
-	vmovdqu64		zmm29, zmmword ptr [byteconst_40_7f]
-	vmovdqu64		zmm30, zmmword ptr [byteconst_80_bf]
-	vmovdqu64		zmm31, zmmword ptr [byteconst_c0_ff]
-	vpbroadcastq	zmm27, qword ptr [lsb]
-	vpxorq			zmm26, zmm26, zmm26
-
-	vmovdqu64		zmm0, zmmword ptr [inp0]
-	;vmovdqu64		zmm3, zmm0			;equ test
-
-	mfence
-	rdtscp
-	lfence
-
-	mov				esi, eax
-	mov				edi, edx
-
-	mov				ecx, repeats
-
-startlabel:
+SRLQ MACRO LAT
 	vmovdqa64		zmm1, zmm0
+	vpermi2b		zmm1, zmm30, zmm31
 	vpsrlq			zmm2, zmm0, 7
 	vpermi2b		zmm0, zmm28, zmm29
-	vpermi2b		zmm1, zmm30, zmm31
 	vpandq			zmm2, zmm2, zmm27
 	vpsubb			zmm2, zmm26, zmm2
+IF LAT EQ 0 
 	vpternlogq		zmm0, zmm1, zmm2, 0d8h ;c?b:a
+ELSE
+	vpternlogq		zmm1, zmm1, zmm2, 0d8h ;c?b:a
+ENDIF
+ENDM
 
+BLENDMB MACRO LAT
+	vpmovb2m		k1, zmm0
+	vmovdqa64		zmm1, zmm0
+	vpermi2b		zmm0, zmm30, zmm31
+	vpermi2b		zmm1, zmm28, zmm29
+IF LAT EQ 0 
+	vpblendmb		zmm0{k1}, zmm1, zmm0
+ELSE
+	vpblendmb		zmm4{k1}, zmm1, zmm0
+ENDIF
+ENDM
+
+B2B_WRAPPER MACRO FUNCNAME, M1, LAT
+FUNCNAME PROC
+	push			rbx
+	push			rdi
+	push			rsi
+
+IFIDNI <M1>, <GFNI>
+	vpbroadcastq	zmm27, qword ptr [gfni_sra]
+ELSEIFIDNI <M1>, <SRLQ>
+	vpxorq			zmm26, zmm26, zmm26
+	vpbroadcastq	zmm27, qword ptr [lsb]
+ENDIF
+	vmovdqu64		zmm28, zmmword ptr [byteconst_00_3f]
+	vmovdqu64		zmm29, zmmword ptr [byteconst_40_7f]
+	vmovdqu64		zmm30, zmmword ptr [byteconst_80_bf]
+	vmovdqu64		zmm31, zmmword ptr [byteconst_c0_ff]
+	vmovdqu64		zmm0, zmmword ptr [inp0]
+	vmovdqu64		zmm3, zmm0			;equ test
+	mfence
+	rdtscp
+	lfence
+
+	mov				esi, eax
+	mov				edi, edx
+
+	mov				ecx, repeats
+
+startlabel:
+	M1				LAT
 	dec				ecx
 	jnz				startlabel
 
 	mfence
 	rdtscp
 	lfence
-
-	;vpcmpeqb		k0, zmm0, zmm3		;equ test
 
 	shl				rdx, 20h
 	shl				rdi, 20h
@@ -224,10 +130,28 @@ startlabel:
 
 	sub				rax, rsi
 
+	vpcmpeqb		k0, zmm0, zmm3		;equ test
+
 	pop				rsi
 	pop				rdi
 	pop				rbx
 	ret
-byte2byte04 endp
+FUNCNAME ENDP
+ENDM
+
+B2B_WRAPPER		B2B_MASKEDVPERMI2B_LAT,	MASKEDVPERMI2B, 0
+B2B_WRAPPER		B2B_MASKEDVPERMI2B_TP,	MASKEDVPERMI2B, 1
+
+B2B_WRAPPER		B2B_KREGROUNDTRIP_LAT,	KREGROUNDTRIP,	0
+B2B_WRAPPER		B2B_KREGROUNDTRIP_TP,	KREGROUNDTRIP,	1
+
+B2B_WRAPPER		B2B_GFNI_LAT,			GFNI,			0
+B2B_WRAPPER		B2B_GFNI_TP,			GFNI,			1
+
+B2B_WRAPPER		B2B_SRLQ_LAT,			SRLQ,			0
+B2B_WRAPPER		B2B_SRLQ_TP,			SRLQ,			1
+
+B2B_WRAPPER		B2B_BLENDMB_LAT,		BLENDMB,		0
+B2B_WRAPPER		B2B_BLENDMB_TP,			BLENDMB,		1
 
 end

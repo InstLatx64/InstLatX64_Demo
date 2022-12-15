@@ -63,6 +63,9 @@ AVX512F, AVX512IFMA based implementation of _ultoa, _ltoa, _ui64toa, _i64toa fun
 code for examining the effect of the k mask register value on the EVEX-decoded instructions with memory destination
 # Zen4_Demo.* 
 code for examining of instructions in AMD Zen4/Raphael CPU (CPUID A60F12). It is based on ideas from uops.info. Output example: \Results\Zen4_Demo_Imm8.txt
+# B2B_Demo.* 
+VPERMI2B based code for fast any-to-any byte replacement. It can be useful e.g. for tolower/toupper type conversions or isxdigit/isalnum type classifications. 
+[Performance results:](https://gist.github.com/InstLatx64/a5c60b714ef04ebe77f0b63639b36fd0)
 
 ## References
 *  Geoff Langdale [Why Ice Lake is Important (a bit-basher’s perspective)](https://branchfree.org/2019/05/29/why-ice-lake-is-important-a-bit-bashers-perspective/)
@@ -74,3 +77,4 @@ code for examining of instructions in AMD Zen4/Raphael CPU (CPUID A60F12). It is
 *  TravisDowns [Scalar/HW GPR PDEP/PEXT reference code](https://twitter.com/trav_downs/status/1418616866080116742)
 *  Daniel Lemire [Converting integers to decimal strings faster with AVX-512](https://lemire.me/blog/2022/03/28/converting-integers-to-decimal-strings-faster-with-avx-512/)
 *  KMemDst results: [Intel SKX/CNL/TGL/RKL/ADL, AMD RPH](https://gist.github.com/InstLatx64/c7efbc71706561706888d7aa0548c4c5)
+*  [Geoff Langdale's Byte2Byte question](https://twitter.com/geofflangdale/status/1406084804613861379)
