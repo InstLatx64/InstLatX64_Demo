@@ -87,6 +87,19 @@ ELSE
 ENDIF
 ENDM
 
+MINMAX MACRO LAT
+	vmovdqa64		zmm1, zmm0
+	vpermi2b		zmm1, zmm30, zmm31
+	vpmaxsb			zmm2, zmm0, zmm27
+	vpermi2b		zmm0, zmm28, zmm29
+	vpminsb			zmm2, zmm2, zmm26
+IF LAT EQ 0 
+	vpternlogq		zmm0, zmm1, zmm2, 0d8h ;c?b:a
+ELSE
+	vpternlogq		zmm1, zmm1, zmm2, 0d8h ;c?b:a
+ENDIF
+ENDM
+
 B2B_WRAPPER MACRO FUNCNAME, M1, LAT
 FUNCNAME PROC
 	push			rbx
@@ -98,6 +111,9 @@ IFIDNI <M1>, <GFNI>
 ELSEIFIDNI <M1>, <SRLQ>
 	vpxorq			zmm26, zmm26, zmm26
 	vpbroadcastq	zmm27, qword ptr [lsb]
+ELSEIFIDNI <M1>, <MINMAX>
+	vpxorq			zmm26, zmm26, zmm26
+	vpternlogq		zmm27, zmm27, zmm27, 0ffh
 ENDIF
 	vmovdqu64		zmm28, zmmword ptr [byteconst_00_3f]
 	vmovdqu64		zmm29, zmmword ptr [byteconst_40_7f]
@@ -153,5 +169,8 @@ B2B_WRAPPER		B2B_SRLQ_TP,			SRLQ,			1
 
 B2B_WRAPPER		B2B_BLENDMB_LAT,		BLENDMB,		0
 B2B_WRAPPER		B2B_BLENDMB_TP,			BLENDMB,		1
+
+B2B_WRAPPER		B2B_MINMAX_LAT,			MINMAX,			0
+B2B_WRAPPER		B2B_MINMAX_TP,			MINMAX,			1
 
 end
