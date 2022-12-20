@@ -24,40 +24,41 @@ repeats			equ	1000000000
 
 MASKEDVPERMI2B MACRO LAT
 	vpmovb2m		k1, zmm0
+	vmovdqa64		zmm2, zmm0
 	vmovdqa64		zmm1, zmm0
 	knotq			k2, k1
-	vpermi2b		zmm0 {k1}{z}, zmm30, zmm31
+	vpermi2b		zmm2 {k1}{z}, zmm30, zmm31
 	vpermi2b		zmm1 {k2}{z}, zmm28, zmm29
 IF LAT EQ 0 
-	vporq			zmm0, zmm0, zmm1
+	vporq			zmm0, zmm1, zmm2
 ELSE
-	vporq			zmm4, zmm0, zmm1
+	vporq			zmm3, zmm1, zmm2
 ENDIF
 ENDM
 		
 KREGROUNDTRIP MACRO LAT
 	vpmovb2m		k0, zmm0
+	vmovdqa64		zmm3, zmm0
 	vmovdqa64		zmm1, zmm0
-	vpermi2b		zmm0, zmm28, zmm29
+	vpermi2b		zmm3, zmm28, zmm29
 	vpermi2b		zmm1, zmm30, zmm31
 	vpmovm2b		zmm2, k0
+	vpternlogq		zmm3, zmm1, zmm2, 0d8h ;c?b:a
 IF LAT EQ 0 
-	vpternlogq		zmm0, zmm1, zmm2, 0d8h ;c?b:a
-ELSE
-	vpternlogq		zmm1, zmm1, zmm2, 0d8h ;c?b:a
+	vmovdqa64		zmm0, zmm3
 ENDIF
 ENDM
 
 GFNI MACRO LAT
+	vmovdqa64		zmm3, zmm0
 	vmovdqa64		zmm1, zmm0
 	vmovdqa64		zmm2, zmm0
-	vpermi2b		zmm0, zmm28, zmm29
+	vpermi2b		zmm3, zmm28, zmm29
 	vpermi2b		zmm1, zmm30, zmm31
 	vgf2p8affineqb	zmm2, zmm2, zmm27, 0
+	vpternlogq		zmm3, zmm1, zmm2, 0d8h ;c?b:a
 IF LAT EQ 0 
-	vpternlogq		zmm0, zmm1, zmm2, 0d8h ;c?b:a
-ELSE
-	vpternlogq		zmm1, zmm1, zmm2, 0d8h ;c?b:a
+	vmovdqa64		zmm0, zmm3
 ENDIF
 ENDM
 
@@ -65,25 +66,26 @@ SRLQ MACRO LAT
 	vmovdqa64		zmm1, zmm0
 	vpermi2b		zmm1, zmm30, zmm31
 	vpsrlq			zmm2, zmm0, 7
-	vpermi2b		zmm0, zmm28, zmm29
+	vmovdqa64		zmm3, zmm0
+	vpermi2b		zmm3, zmm28, zmm29
 	vpandq			zmm2, zmm2, zmm27
 	vpsubb			zmm2, zmm26, zmm2
+	vpternlogq		zmm3, zmm1, zmm2, 0d8h ;c?b:a
 IF LAT EQ 0 
-	vpternlogq		zmm0, zmm1, zmm2, 0d8h ;c?b:a
-ELSE
-	vpternlogq		zmm1, zmm1, zmm2, 0d8h ;c?b:a
+	vmovdqa64		zmm0, zmm3
 ENDIF
 ENDM
 
 BLENDMB MACRO LAT
 	vpmovb2m		k1, zmm0
+	vmovdqa64		zmm2, zmm0
 	vmovdqa64		zmm1, zmm0
-	vpermi2b		zmm0, zmm30, zmm31
+	vpermi2b		zmm2, zmm30, zmm31
 	vpermi2b		zmm1, zmm28, zmm29
 IF LAT EQ 0 
-	vpblendmb		zmm0{k1}, zmm1, zmm0
+	vpblendmb		zmm0{k1}, zmm1, zmm2
 ELSE
-	vpblendmb		zmm4{k1}, zmm1, zmm0
+	vpblendmb		zmm3{k1}, zmm1, zmm2
 ENDIF
 ENDM
 
@@ -91,12 +93,12 @@ MINMAX MACRO LAT
 	vmovdqa64		zmm1, zmm0
 	vpermi2b		zmm1, zmm30, zmm31
 	vpmaxsb			zmm2, zmm0, zmm27
-	vpermi2b		zmm0, zmm28, zmm29
+	vmovdqa64		zmm3, zmm0
+	vpermi2b		zmm3, zmm28, zmm29
 	vpminsb			zmm2, zmm2, zmm26
+	vpternlogq		zmm3, zmm1, zmm2, 0d8h ;c?b:a
 IF LAT EQ 0 
-	vpternlogq		zmm0, zmm1, zmm2, 0d8h ;c?b:a
-ELSE
-	vpternlogq		zmm1, zmm1, zmm2, 0d8h ;c?b:a
+	vmovdqa64		zmm0, zmm3
 ENDIF
 ENDM
 
@@ -120,7 +122,10 @@ ENDIF
 	vmovdqu64		zmm30, zmmword ptr [byteconst_80_bf]
 	vmovdqu64		zmm31, zmmword ptr [byteconst_c0_ff]
 	vmovdqu64		zmm0, zmmword ptr [inp0]
-	vmovdqu64		zmm3, zmm0			;equ test
+IF LAT EQ 0
+	kxorq			k0, k0, k0
+	vmovdqu64		zmm4, zmm0			;equ test
+ENDIF
 	mfence
 	rdtscp
 	lfence
@@ -146,8 +151,9 @@ startlabel:
 
 	sub				rax, rsi
 
-	vpcmpeqb		k0, zmm0, zmm3		;equ test
-
+IF LAT EQ 0
+	vpcmpeqb		k0, zmm0, zmm4		;equ test
+ENDIF
 	pop				rsi
 	pop				rdi
 	pop				rbx
