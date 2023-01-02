@@ -66,6 +66,8 @@ code for examining of instructions in AMD Zen4/Raphael CPU (CPUID A60F12). It is
 # B2B_Demo.* 
 VPERMI2B based code for fast any-to-any byte replacement. It can be useful e.g. for tolower/toupper type conversions or isxdigit/isalnum type classifications. 
 [Performance results:](https://gist.github.com/InstLatx64/a5c60b714ef04ebe77f0b63639b36fd0)
+# AVX512_Reduce_Add.* 
+(DB)SAD based _mm512_reduce_add_epu8/16/32/64 implementation
 
 ## References
 *  Geoff Langdale [Why Ice Lake is Important (a bit-basher’s perspective)](https://branchfree.org/2019/05/29/why-ice-lake-is-important-a-bit-bashers-perspective/)
@@ -78,3 +80,4 @@ VPERMI2B based code for fast any-to-any byte replacement. It can be useful e.g. 
 *  Daniel Lemire [Converting integers to decimal strings faster with AVX-512](https://lemire.me/blog/2022/03/28/converting-integers-to-decimal-strings-faster-with-avx-512/)
 *  KMemDst results: [Intel SKX/CNL/TGL/RKL/ADL, AMD RPH](https://gist.github.com/InstLatx64/c7efbc71706561706888d7aa0548c4c5)
 *  [Geoff Langdale's Byte2Byte question](https://twitter.com/geofflangdale/status/1406084804613861379)
+*  [Geoff Langdale's reduce_add inspiration](https://twitter.com/geofflangdale/status/1609575574946865154)
