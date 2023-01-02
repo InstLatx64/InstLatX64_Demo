@@ -97,6 +97,7 @@ enum ISAs {
 	ISA_WIDE_KL,						//Tiger Lake
 //Uncategorized
 	ISA_GROUP_UNCATEGORIZED,
+	ISA_X86,							//8086
 	ISA_LNOP,							//Pentium Pro, K7
 	ISA_SERIALIZE,						//Sapphire Rapids
 	ISA_HYBRID,							//Lakefield

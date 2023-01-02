@@ -88,6 +88,7 @@ const _EXT CPU_Props::exts[ISA_LAST] = {
 	{"AESKLE",					_KEYLOCK,		_FEAT19_EBX_AESKLE},
 	{"WIDE_KL",					_KEYLOCK,		_FEAT19_EBX_WIDE_KL},
 	{"---Uncategorized",		_XCR0_EMPTY,	_FEAT_SKIP},
+	{"X86",						_XCR0_EMPTY,	_FEAT_NOFEAT},
 	{"LNOP",					_XCR0_EMPTY,	_FEAT_NOFEAT},
 	{"SERIALIZE",				_XCR0_EMPTY,	_FEAT07_EDX_SERIALIZE},
 	{"HYBRID",					_XCR0_EMPTY,	_FEAT07_EDX_HYBRID},
@@ -201,11 +202,20 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 		switch (place) {
 			case _FEAT_SKIP:
 				continue;
-			case CPUID_NOPLACE: {//special LNOP detection
+			case CPUID_NOPLACE: 
+				switch (featInd) { //special LNOP detection
+					case ISA_LNOP: {
 				unsigned int fam = (level01[_REG_EAX] >> 8) & 0xf;
 				if ((fam == 0x6) || (fam == 0x7) || (fam == 0xf))
 					f[f_high] |= f_low;
 				} break;
+					case ISA_X86: { //ISA_X86 always present
+						f[f_high] |= f_low;
+					} break;
+					default:
+						break;
+				}		
+				break;
 			default:
 				if ((c.cpuid_res[place] & fbit) == fbit) {
 					switch (exts[featInd].xcr0) {
