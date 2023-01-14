@@ -456,7 +456,9 @@ void CPU_Props::Print_512bFMA_DP_Ports(void) const {
 //https://old.hotchips.org/hc31/HC31_2.11_Jintide_Server_CPU_final_r6.0.pdf
 //46th Intel ISA Future Programming Reference 319433-046.pdf:
 //https://cdrdv2.intel.com/v1/dl/getContent/671368
-
+//Xeon 3450C source:
+//https://twitter.com/OneRaichu/status/1613202364256882688
+//
 // Actual Intel brand strings CPUID 80000003h-80000005h
 // 00000000001111111111222222222233333333334444444
 // 01234567890123456789012345678901234567890123456
@@ -546,6 +548,12 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 							return 2;
 					}
 				} break;
+			case 0x000806F0: {	//Golden Cove              / SAPPHIRERAPIDS_X 
+				if (IsInBrand("3408U") || IsInBrand("3450C")) //Intel Xeon Bronze 3408U; Xeon 3450C Processor
+					return 1;
+				else
+					return 2;
+				} break;
 			case 0x00060660:	//Palm Cove                / CANNONLAKE_L 
 			case 0x00060670:	//Palm Cove                / CANNONLAKE - cancelled ?
 			case 0x000606C0:	//Sunny Cove               / ICELAKE_D
@@ -564,7 +572,6 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 				return 1;
 			case 0x00050670:	//Silvermont               / XEON_PHI_KNL
 			case 0x000606A0:	//Sunny Cove               / ICELAKE_X
-			case 0x000806F0:	//Golden Cove              / SAPPHIRERAPIDS_X
 			case 0x000A06D0:	//Redwood Cove             / GRANITERAPIDS_X
 			case 0x000C06F0:	//Raptor Cove              / EMERALDRAPIDS_X
 				return 2;
