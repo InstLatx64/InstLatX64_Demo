@@ -1,6 +1,7 @@
 // VPCLMULQDQ_Demo.cpp 
 
 #include "stdafx.h"
+#include "VPCLMULQDQ_Demo.h"
 
 extern CPU_Props cpu_props;
 

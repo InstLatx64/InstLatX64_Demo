@@ -31,5 +31,3 @@ typedef struct {
 	const char 	name[64];
 	TEST_PTR	funcs[ZEN4_FUNCS];
 } zen4_methods;
-
-void Zen4_Demo(void);

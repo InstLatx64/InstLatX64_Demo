@@ -35,6 +35,3 @@ __m512i __vectorcall  PDEP64_HW(__m512i, __m512i);
 #ifdef __cplusplus
 }
 #endif
-
-void SIMD_PEXT_PDEP_Test(void);
-

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "VPCLMULQDQ_Demo.h"
 
 __m128i _mm_prefix_xor_clmul_si128(__m128i a) {
 	const __m128i full	= _mm_set1_epi32(0xffffffff);

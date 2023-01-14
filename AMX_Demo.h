@@ -3,8 +3,6 @@
 #define _AMX_CONFIG_RESERVED_SIZE	14
 #define _AMX_VEX_MAX_REGISTERS		16
 
-void AMX_Test(void);
-
 // Intel Architecture Instruction Set Extensions and Future Features
 // Programming Reference May 2021 319433-044 p. 100
 //	format of memory payload. each field is a byte.

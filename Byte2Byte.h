@@ -32,8 +32,6 @@ typedef struct {
 	ISAs		isa;
 } b2b_methods;
 
-void Byte2ByteTest(void);
-
 B2B_FUNCDEF(MASKEDVPERMI2B_LAT)
 B2B_FUNCDEF(KREGROUNDTRIP_LAT)
 B2B_FUNCDEF(GFNI_LAT)

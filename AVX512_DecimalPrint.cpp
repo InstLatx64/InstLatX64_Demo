@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "AVX512_DecimalPrint.h"
 
 //#define USE_LIBDIVIDE
 

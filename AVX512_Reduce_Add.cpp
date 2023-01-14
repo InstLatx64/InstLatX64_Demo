@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "AVX512_Reduce_Add.h"
 
 extern CPU_Props cpu_props;
 

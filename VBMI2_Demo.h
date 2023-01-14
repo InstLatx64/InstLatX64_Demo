@@ -187,5 +187,3 @@
 #define _mm512_srav_vbmi2_epi8(a, cnt)				_mm512_shldi_epi16(_mm512_srav_epi16(a, _mm512_adds_epu8(_mm512_srli_epi16(cnt, 8), _mm512_set1_epi32(0x00080008))), _mm512_srav_epi16(_mm512_swaphl_epi8(a), _mm512_and_si512(_mm512_set1_epi32(0x00ff00ff), cnt)), 8)
 #define _mm512_mask_srav_vbmi2_epi8(a, k, b, cnt)	_mm512_mask_mov_epi8(a, k, _mm512_srav_vbmi2_epi8(b, cnt))
 #define _mm512_maskz_srav_vbmi2_epi8(k, a, cnt)		_mm512_maskz_mov_epi8(k, _mm512_srav_vbmi2_epi8(a, cnt))
-
-void VBMI2_Demo(void);

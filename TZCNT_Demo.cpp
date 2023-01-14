@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "TZCNT_Demo.h"
 /*
 SIMD TZCNT proposal: POPCNT vs LZCNT:
 - Byte/Word support too, not just DWord/QWord
@@ -100,23 +101,23 @@ void TZCNT_Test(void) {
 
 	cout << "TSC CLKs:----------------------" << endl;
 
-	cout << "_mm_tzcnt_epi8_asm            :" << (double)_mm_tzcnt_epi8_asm() / (double)REPEATS << endl;
-	cout << "_mm_tzcnt_epi16_asm           :" << (double)_mm_tzcnt_epi16_asm() / (double)REPEATS << endl;
-	cout << "_mm_tzcnt_epi32_asm           :" << (double)_mm_tzcnt_epi32_asm() / (double)REPEATS << endl;
-	cout << "_mm_tzcnt_epi64_asm           :" << (double)_mm_tzcnt_epi64_asm() / (double)REPEATS << endl;
+	cout << "_mm_tzcnt_epi8_asm            :" << (double)_mm_tzcnt_epi8_asm() / (double)TZCNT_REPEATS << endl;
+	cout << "_mm_tzcnt_epi16_asm           :" << (double)_mm_tzcnt_epi16_asm() / (double)TZCNT_REPEATS << endl;
+	cout << "_mm_tzcnt_epi32_asm           :" << (double)_mm_tzcnt_epi32_asm() / (double)TZCNT_REPEATS << endl;
+	cout << "_mm_tzcnt_epi64_asm           :" << (double)_mm_tzcnt_epi64_asm() / (double)TZCNT_REPEATS << endl;
 
-	cout << "_mm256_tzcnt_epi8_asm         :" << (double)_mm256_tzcnt_epi8_asm() / (double)REPEATS << endl;
-	cout << "_mm256_tzcnt_epi16_asm        :" << (double)_mm256_tzcnt_epi16_asm() / (double)REPEATS << endl;
-	cout << "_mm256_tzcnt_epi32_asm        :" << (double)_mm256_tzcnt_epi32_asm() / (double)REPEATS << endl;
-	cout << "_mm256_tzcnt_epi64_asm        :" << (double)_mm256_tzcnt_epi64_asm() / (double)REPEATS << endl;
+	cout << "_mm256_tzcnt_epi8_asm         :" << (double)_mm256_tzcnt_epi8_asm() / (double)TZCNT_REPEATS << endl;
+	cout << "_mm256_tzcnt_epi16_asm        :" << (double)_mm256_tzcnt_epi16_asm() / (double)TZCNT_REPEATS << endl;
+	cout << "_mm256_tzcnt_epi32_asm        :" << (double)_mm256_tzcnt_epi32_asm() / (double)TZCNT_REPEATS << endl;
+	cout << "_mm256_tzcnt_epi64_asm        :" << (double)_mm256_tzcnt_epi64_asm() / (double)TZCNT_REPEATS << endl;
 
-	cout << "_mm512_tzcnt_epi8_asm         :" << (double)_mm512_tzcnt_epi8_asm() / (double)REPEATS << endl;
-	cout << "_mm512_tzcnt_epi16_asm        :" << (double)_mm512_tzcnt_epi16_asm() / (double)REPEATS << endl;
-	cout << "_mm512_tzcnt_epi32_asm        :" << (double)_mm512_tzcnt_epi32_asm() / (double)REPEATS << endl;
-	cout << "_mm512_tzcnt_epi64_asm        :" << (double)_mm512_tzcnt_epi64_asm() / (double)REPEATS << endl;
+	cout << "_mm512_tzcnt_epi8_asm         :" << (double)_mm512_tzcnt_epi8_asm() / (double)TZCNT_REPEATS << endl;
+	cout << "_mm512_tzcnt_epi16_asm        :" << (double)_mm512_tzcnt_epi16_asm() / (double)TZCNT_REPEATS << endl;
+	cout << "_mm512_tzcnt_epi32_asm        :" << (double)_mm512_tzcnt_epi32_asm() / (double)TZCNT_REPEATS << endl;
+	cout << "_mm512_tzcnt_epi64_asm        :" << (double)_mm512_tzcnt_epi64_asm() / (double)TZCNT_REPEATS << endl;
 
-	cout << "_mm256_tzcnt_epi32_lzcnt_asm  :" << (double)_mm256_tzcnt_epi32_lzcnt_asm() / (double)REPEATS << endl;
-	cout << "_mm512_tzcnt_epi32_lzcnt_asm  :" << (double)_mm512_tzcnt_epi32_lzcnt_asm() / (double)REPEATS << endl;
-	cout << "_mm256_tzcnt_epi64_lzcnt_asm  :" << (double)_mm256_tzcnt_epi64_lzcnt_asm() / (double)REPEATS << endl;
-	cout << "_mm512_tzcnt_epi64_lzcnt_asm  :" << (double)_mm512_tzcnt_epi64_lzcnt_asm() / (double)REPEATS << endl;
+	cout << "_mm256_tzcnt_epi32_lzcnt_asm  :" << (double)_mm256_tzcnt_epi32_lzcnt_asm() / (double)TZCNT_REPEATS << endl;
+	cout << "_mm512_tzcnt_epi32_lzcnt_asm  :" << (double)_mm512_tzcnt_epi32_lzcnt_asm() / (double)TZCNT_REPEATS << endl;
+	cout << "_mm256_tzcnt_epi64_lzcnt_asm  :" << (double)_mm256_tzcnt_epi64_lzcnt_asm() / (double)TZCNT_REPEATS << endl;
+	cout << "_mm512_tzcnt_epi64_lzcnt_asm  :" << (double)_mm512_tzcnt_epi64_lzcnt_asm() / (double)TZCNT_REPEATS << endl;
 }

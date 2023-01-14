@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Byte2Byte.h"
 
 extern CPU_Props cpu_props;
 

@@ -402,4 +402,4 @@
 #define _mm512_pospopcnt_u16_si512_epi8(a)			_mm512_cvtepi32_epi8(_mm512_popcnt_epi32(_mm512_permutexvar_epi8(_mm512_set_epi64(0x3f2f1f0f3e2e1e0e, 0x3d2d1d0d3c2c1c0c, 0x3b2b1b0b3a2a1a0a, 0x3929190938281808, 0x3727170736261606, 0x3525150534241404, 0x3323130332221202, 0x3121110130201000), _mm512_rotate_8x8(_mm512_shuffle_epi8(a, _mm512_broadcast_i32x4(_mm_set_epi64x(0x0f0d0b0907050301, 0x0e0c0a0806040200)))))))
 #endif
 
-void GFNI_Demo(void);
+extern inline uint64_t serialized_tsc(void);

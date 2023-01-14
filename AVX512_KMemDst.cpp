@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "AVX512_KMemDst.h"
 
 //Results:
 // Intel SkyLake-S 7800X           CPUID 60654

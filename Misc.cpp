@@ -66,7 +66,7 @@ void printRes(int r, const char * name, __m512i res) {
 }
 
 //  Intel SDM 32546276.pdf p.1739
- inline uint64_t serialized_tsc(void) {
+ uint64_t serialized_tsc(void) {
 	uint64_t tsc;
 	uint32_t tsc_aux;
 	_mm_mfence();

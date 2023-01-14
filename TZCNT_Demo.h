@@ -1,6 +1,6 @@
 #pragma once
 
-#define REPEATS	0x1000000
+#define TZCNT_REPEATS	0x1000000
 
 extern "C" unsigned __int64 _mm_tzcnt_epi8_asm(void);
 extern "C" unsigned __int64 _mm_tzcnt_epi16_asm(void);
@@ -38,4 +38,3 @@ __m128i _mm_tzcnt_epi64(__m128i a);
 __m256i _mm256_tzcnt_epi64(__m256i a);
 __m512i _mm512_tzcnt_epi64(__m512i a);
 
-void TZCNT_Test(void);

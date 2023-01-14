@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include "GFNI_Demo.h"
+#include "VBMI2_Demo.h"
 
 extern CPU_Props cpu_props;
 

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "AMX_Demo.h"
 
 extern CPU_Props cpu_props;
 

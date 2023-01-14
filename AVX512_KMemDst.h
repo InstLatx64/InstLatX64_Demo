@@ -32,8 +32,6 @@ typedef struct {
 	ISAs		isa;
 } kmemdst_methods_memdst;
 
-void AVX512_KMemDst_Demo(void);
-
 #pragma once
 
 KMEMDST_FUNCDEF(vpscatterdd,			scatterdx2x)

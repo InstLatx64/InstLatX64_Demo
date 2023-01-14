@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "PEXT_PDEP_Emu.h"
 
 //Credit: Zach Wegner
 //Based on https://github.com/zwegner/zp7 project with unrolling and sparse case handling

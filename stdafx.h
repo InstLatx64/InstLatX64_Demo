@@ -20,20 +20,3 @@
 #include "512bFMA_DP_Ports.h"
 #include "Args.h"
 
-#include "Byte2Byte.h"
-#include "KmovTest.h"
-
-#include "GFNI_Demo.h"
-#include "VPCLMULQDQ_Demo.h"
-#include "VBMI2_Demo.h"
-#include "PEXT_PDEP_Emu.h"
-#include "SIMD_PEXT_PDEP_Demo.h"
-#include "TZCNT_Demo.h"
-
-#include "Zen4_Demo.h"
-
-#include "AMX_Demo.h"
-#include "AVX512_DecimalPrint.h"
-#include "AVX512_KMemDst.h"
-#include "AVX512_Reduce_Add.h"
-#include "Compiler_Intrinsic_Test.h"

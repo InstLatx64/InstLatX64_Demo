@@ -1,5 +1,6 @@
 #include "stdafx.h"
 
+#include "Zen4_Demo.h"
 #include "Zen4_Demo_Imm8.h"
 
 extern CPU_Props cpu_props;

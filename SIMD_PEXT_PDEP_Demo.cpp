@@ -1,6 +1,5 @@
 #include "stdafx.h"
-/*
-*/
+#include "SIMD_PEXT_PDEP_Demo.h"
 
 extern CPU_Props cpu_props;
 

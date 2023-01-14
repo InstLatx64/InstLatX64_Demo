@@ -39,4 +39,3 @@ extern "C" void to_string_avx512f_asm(uint64_t, char*);
 
 extern inline uint64_t serialized_tsc(void);
 
-void AVX512_DecimalPrint_Test(void);

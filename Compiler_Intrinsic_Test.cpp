@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Compiler_Intrinsic_Test.h"
 
 //MSVC++ 5.0  _MSC_VER == 1100
 //MSVC++ 6.0  _MSC_VER == 1200

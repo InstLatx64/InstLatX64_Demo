@@ -46,4 +46,18 @@ typedef struct {
 	const char*			comment;
 } demoTypeList;
 
+void GFNI_Demo(void);
+void VPCLMULQDQ_Demo(void);
 
+void PEXT_PDEP_Emu_Test(void);
+void AVX512_Reduce_Add_Demo(void);
+void AVX512_KMemDst_Demo(void);
+void Zen4_Demo(void);
+void AVX512_InstrincTest(void);
+void VBMI2_Demo(void);
+void Byte2ByteTest(void);
+void TZCNT_Test(void);
+void SIMD_PEXT_PDEP_Test(void);
+void Kmov_Test(void);
+void AMX_Test(void);
+void AVX512_DecimalPrint_Test(void);

@@ -41,7 +41,7 @@ void random_wrap(signed int* random);
 void random_wrap(unsigned long long* random);
 void random_wrap(signed long long* random);
 
-inline uint64_t serialized_tsc(void);
+uint64_t serialized_tsc(void);
 
 void SetThread(size_t threadindex);
 
