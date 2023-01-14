@@ -16,6 +16,7 @@ const demoTypeList demos[] = {
 #endif
 #if defined(__AVX512F__)
 	{"Reduce_Add",			"RAdd",		DEMO_RADD,				ISA_AVX512VBMI,			true,	AVX512_Reduce_Add_Demo,		"_mm512_reduce_add_epu8/16/32/64 implementation"},
+	{"Saturated_AddSub",	"SAdd",		DEMO_SADD,				ISA_AVX512F,			true,	AVX512_Saturated_AddSub_Demo,	"_mm512_adds/subs_epi/epu/32/64 implementation"},
 	{"KMemDst",				"KMem",		DEMO_KMEMDST,			ISA_AVX512F,			true,	AVX512_KMemDst_Demo,			"AVX512 insts with masked memory destination"},
 	{"Zen4",				"Zen4",		DEMO_ZEN4,				ISA_AVX512F,			true,	Zen4_Demo,					"AMD Zen4 SIMD analysis"},
 	{"Intrinsics",			"Intrin",	DEMO_INTRINSICS,		ISA_AVX512F,			true,	AVX512_InstrincTest,		"Visual Studio Compiler Intrinsics Test"},

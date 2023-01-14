@@ -9,6 +9,7 @@ enum demoType {
 #endif
 #if defined(__AVX512F__)
 	DEMO_RADD,
+	DEMO_SADD,
 	DEMO_KMEMDST,
 	DEMO_ZEN4,
 	DEMO_INTRINSICS,
@@ -51,6 +52,7 @@ void VPCLMULQDQ_Demo(void);
 
 void PEXT_PDEP_Emu_Test(void);
 void AVX512_Reduce_Add_Demo(void);
+void AVX512_Saturated_AddSub_Demo(void);
 void AVX512_KMemDst_Demo(void);
 void Zen4_Demo(void);
 void AVX512_InstrincTest(void);

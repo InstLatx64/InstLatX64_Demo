@@ -2,6 +2,27 @@
 
 using namespace std;
 
+void printRes16(const char * name, __m128i res) {
+	cout << setw(24) << left << setfill(' ') << name;
+	for (int i = sizeof(__m128i) / sizeof(short) - 1; i >= 0; i--)
+		cout << hex << setw(4) << setfill('0') << right << *((unsigned __int16*)&res + i) << ' ';
+	cout << endl;
+}
+
+void printRes16(const char * name, __m256i res) {
+	cout << setw(24) << left << setfill(' ') << name;
+	for (int i = sizeof(__m256i) / sizeof(short) - 1; i >= 0; i--)
+		cout << hex << setw(4) << setfill('0') << right << *((unsigned __int16*)&res + i) << ' ';
+	cout << endl;
+}
+
+void printRes16(const char * name, __m512i res) {
+	cout << setw(24) << left << setfill(' ') << name;
+	for (int i = sizeof(__m512i) / sizeof(short) - 1; i >= 0; i--)
+		cout << hex << setw(4) << setfill('0') << right << *((unsigned __int16*)&res + i) << ' ';
+	cout << endl;
+}
+
 void printRes32(const char * name, __m128i res) {
 	cout << setw(24) << left << setfill(' ') << name;
 	for (int i = sizeof(__m128i) / sizeof(long) - 1; i >= 0; i--)

@@ -498,6 +498,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="AVX512_Saturated_AddSub.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Byte2Byte.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
@@ -634,6 +642,7 @@
     <ClInclude Include="AVX512_DecimalPrint.h" />
     <ClInclude Include="AVX512_KMemDst.h" />
     <ClInclude Include="AVX512_Reduce_Add.h" />
+    <ClInclude Include="AVX512_Saturated_AddSub.h" />
     <ClInclude Include="AVX512_String_Table.h" />
     <ClInclude Include="Byte2Byte.h" />
     <ClInclude Include="Compiler_Intrinsic_Test.h" />

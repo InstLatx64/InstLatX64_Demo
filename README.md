@@ -68,6 +68,8 @@ VPERMI2B based code for fast any-to-any byte replacement. It can be useful e.g. 
 [Performance results:](https://gist.github.com/InstLatx64/a5c60b714ef04ebe77f0b63639b36fd0)
 # AVX512_Reduce_Add.* 
 (DB)SAD based _mm512_reduce_add_epu8/16/32/64 implementation
+# AVX512_Saturated_AddSub.* 
+_mm512_adds/subs_epi/epu/32/64 implementation
 
 ## References
 *  Geoff Langdale [Why Ice Lake is Important (a bit-basher’s perspective)](https://branchfree.org/2019/05/29/why-ice-lake-is-important-a-bit-bashers-perspective/)
