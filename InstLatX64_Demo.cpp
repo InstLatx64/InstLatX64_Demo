@@ -13,6 +13,7 @@ const demoTypeList demos[] = {
 #if defined (_M_X64)
 #if defined (__AVX2__)
 	{"PEXT_PDEP",			"PEXT",		DEMO_PEXT_PDEP_EMU,		ISA_BMI2,				true,	PEXT_PDEP_Emu_Test,			"Fast GPR PEXT/PDEP instruction emulation for AMDs"},
+	{"FirstByte",			"",			DEMO_FIRSTBBYTE,		ISA_AVX2,				true,	FirstByte_Demo,				"Finding first byte in lanes"},
 #endif
 #if defined(__AVX512F__)
 	{"Reduce_Add",			"RAdd",		DEMO_RADD,				ISA_AVX512VBMI,			true,	AVX512_Reduce_Add_Demo,		"_mm512_reduce_add_epu8/16/32/64 implementation"},

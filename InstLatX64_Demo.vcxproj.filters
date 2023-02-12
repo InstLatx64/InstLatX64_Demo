@@ -78,6 +78,9 @@
     <ClCompile Include="AVX512_Reduce_Add.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FirstByte.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
 </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -141,6 +144,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AVX512_Reduce_Add.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstByte.h">
       <Filter>Header Files</Filter>
     </ClInclude>
 </ItemGroup>

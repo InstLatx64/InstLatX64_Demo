@@ -75,6 +75,9 @@ VPERMI2B based code for fast any-to-any byte replacement. It can be useful e.g. 
 (DB)SAD based _mm512_reduce_add_epu8/16/32/64 implementation
 # AVX512_Saturated_AddSub.* 
 _mm512_adds/subs_epi/epu/32/64 implementation
+# FirstByte.* 
+Finding first byte in lanes 
+_mm256|512_firstbyte_epu32/64 implementation
 
 ## References
 *  Geoff Langdale [Why Ice Lake is Important (a bit-basher’s perspective)](https://branchfree.org/2019/05/29/why-ice-lake-is-important-a-bit-bashers-perspective/)
@@ -89,3 +92,4 @@ _mm512_adds/subs_epi/epu/32/64 implementation
 *  [Geoff Langdale's Byte2Byte question](https://twitter.com/geofflangdale/status/1406084804613861379)
 *  [Geoff Langdale's reduce_add inspiration](https://twitter.com/geofflangdale/status/1609575574946865154)
 *  A list of “out-of-band” uses for the GF2P8AFFINEQB instruction I haven't seen documented elsewhere: [idea of tzcnt/lzcnt_gfni_epi8](https://gist.github.com/animetosho/6cb732ccb5ecd86675ca0a442b3c0622)
+*  [FirstByte inspiration](http://0x80.pl/notesen/2023-02-06-avx512-find-first-byte-in-lane.html)

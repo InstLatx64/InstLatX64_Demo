@@ -6,6 +6,7 @@ enum demoType {
 #if defined (_M_X64)
 #if defined (__AVX2__)
 	DEMO_PEXT_PDEP_EMU,
+	DEMO_FIRSTBBYTE,
 #endif
 #if defined(__AVX512F__)
 	DEMO_RADD,
@@ -51,6 +52,7 @@ void GFNI_Demo(void);
 void VPCLMULQDQ_Demo(void);
 
 void PEXT_PDEP_Emu_Test(void);
+void FirstByte_Demo(void);
 void AVX512_Reduce_Add_Demo(void);
 void AVX512_Saturated_AddSub_Demo(void);
 void AVX512_KMemDst_Demo(void);

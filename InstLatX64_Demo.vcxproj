@@ -529,6 +529,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Compiler_Intrinsic_Test.cpp" />
+    <ClCompile Include="FirstByte.cpp" />
     <ClCompile Include="GFNI_Demo_Test.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">Use</PrecompiledHeader>
@@ -647,6 +648,7 @@
     <ClInclude Include="Byte2Byte.h" />
     <ClInclude Include="Compiler_Intrinsic_Test.h" />
     <ClInclude Include="CPU_Props.h" />
+    <ClInclude Include="FirstByte.h" />
     <ClInclude Include="GFNI_Demo.h" />
     <ClInclude Include="InstLatX64_Demo.h" />
     <ClInclude Include="KmovTest.h" />
