@@ -11,13 +11,16 @@
 //http://0x80.pl/articles/avx512-galois-field-for-bit-shuffling.html
 //-- Marcus D. R. Klarqvist, Wojciech Mu³a, Daniel Lemire: Efficient Computation of Positional Population Counts Using SIMD Instructions
 //https://arxiv.org/abs/1911.02696
+//-- A list of "out-of-band" uses for the GF2P8AFFINEQB instruction I haven't seen documented elsewhere
+//https://gist.github.com/animetosho/6cb732ccb5ecd86675ca0a442b3c0622
 
-#define _GFNI_DEMO_VERSION		0x0100
+#define _GFNI_DEMO_VERSION		0x0101
 
 #define _GFNI_DEMO_IDENT		0x0102040810204080
 #define _GFNI_DEMO_REVBIT		0x8040201008040201
 #define _GFNI_DEMO_BCST			0x0101010101010101
 #define _GFNI_DEMO_PREFXOR		0x0103070f1f3f7fff
+#define _GFNI_DEMO_TZCNT		0xaaccf0ff00000000
 
 #define _GFNI_DEMO_SLL(i)		((0x0102040810204080 >> (i)) & (0x0101010101010101ULL * (0xff >> (i))))
 #define _GFNI_DEMO_SRL(i)		((0x0102040810204080 << (i)) & (0x0101010101010101ULL * ((0xff << (i)) & 0xff)))
@@ -401,5 +404,37 @@
 #define _mm256_pospopcnt_u16_si256_epi8(a)			_mm256_cvtepi16_epi8(_mm256_popcnt_epi16(_mm256_permutexvar_epi8(_mm256_set_epi64x(0x1f0f1e0e1d0d1c0c, 0x1b0b1a0a19091808, 0x1707160615051404, 0x1303120211011000), _mm256_rotate_8x8(_mm256_shuffle_epi8(a, _mm256_broadcastsi128_si256(_mm_set_epi64x(0x0f0d0b0907050301, 0x0e0c0a0806040200)))))))
 #define _mm512_pospopcnt_u16_si512_epi8(a)			_mm512_cvtepi32_epi8(_mm512_popcnt_epi32(_mm512_permutexvar_epi8(_mm512_set_epi64(0x3f2f1f0f3e2e1e0e, 0x3d2d1d0d3c2c1c0c, 0x3b2b1b0b3a2a1a0a, 0x3929190938281808, 0x3727170736261606, 0x3525150534241404, 0x3323130332221202, 0x3121110130201000), _mm512_rotate_8x8(_mm512_shuffle_epi8(a, _mm512_broadcast_i32x4(_mm_set_epi64x(0x0f0d0b0907050301, 0x0e0c0a0806040200)))))))
 #endif
+
+/* Count the number of trailing zero bits for packed bytes */
+/* In  : MSB B7 B6 B5 B4 B3 B2 B1 B0 LSB */
+/* Out : MSB  0  0  0  0       tzcnt LSB */
+
+#define _mm_tzcnt_gfni_epi8(a)						_mm_gf2p8affine_epi64_epi8(_mm_andnot_si128(_mm_add_epi8(a, _mm_set1_epi32(-1)), a), _mm_set1_epi64x(_GFNI_DEMO_TZCNT), 0x8)
+#define _mm_mask_tzcnt_gfni_epi8(s, k, a)			_mm_mask_gf2p8affine_epi64_epi8(s, k, _mm_andnot_si128(_mm_add_epi8(a, _mm_set1_epi32(-1)), a), _mm_set1_epi64x(_GFNI_DEMO_TZCNT), 0x8)
+#define _mm_maskz_tzcnt_gfni_epi8(k, a)				_mm_maskz_gf2p8affine_epi64_epi8(k, _mm_andnot_si128(_mm_add_epi8(a, _mm_set1_epi32(-1)), a), _mm_set1_epi64x(_GFNI_DEMO_TZCNT), 0x8)
+
+#define _mm256_tzcnt_gfni_epi8(a)					_mm256_gf2p8affine_epi64_epi8(_mm256_andnot_si256(_mm256_add_epi8(a, _mm256_set1_epi32(-1)), a), _mm256_set1_epi64x(_GFNI_DEMO_TZCNT), 0x8)
+#define _mm256_mask_tzcnt_gfni_epi8(s, k, a)		_mm256_mask_gf2p8affine_epi64_epi8(s, k, _mm256_andnot_si256(_mm256_add_epi8(a, _mm256_set1_epi32(-1)), a), _mm256_set1_epi64x(_GFNI_DEMO_TZCNT), 0x8)
+#define _mm256_maskz_tzcnt_gfni_epi8(k, a)			_mm256_maskz_gf2p8affine_epi64_epi8(k, _mm256_andnot_si256(_mm256_add_epi8(a, _mm256_set1_epi32(-1)), a), _mm256_set1_epi64x(_GFNI_DEMO_TZCNT), 0x8)
+
+#define _mm512_tzcnt_gfni_epi8(a)					_mm512_gf2p8affine_epi64_epi8(_mm512_andnot_si512(_mm512_add_epi8(a, _mm512_set1_epi32(-1)), a), _mm512_set1_epi64(_GFNI_DEMO_TZCNT), 0x8)
+#define _mm512_mask_tzcnt_gfni_epi8(s, k, a)		_mm512_mask_gf2p8affine_epi64_epi8(s, k, _mm512_andnot_si512(_mm512_add_epi8(a, _mm512_set1_epi32(-1)), a), _mm512_set1_epi64(_GFNI_DEMO_TZCNT), 0x8)
+#define _mm512_maskz_tzcnt_gfni_epi8(k, a)			_mm512_maskz_gf2p8affine_epi64_epi8(k, _mm512_andnot_si512(_mm512_add_epi8(a, _mm512_set1_epi32(-1)), a), _mm512_set1_epi64(_GFNI_DEMO_TZCNT), 0x8)
+
+/* Count the number of leading zero bits for packed bytes */
+/* In  : MSB B7 B6 B5 B4 B3 B2 B1 B0 LSB */
+/* Out : MSB  0  0  0  0       lzcnt LSB */
+
+#define _mm_lzcnt_gfni_epi8(a)						_mm_tzcnt_gfni_epi8(_mm_revbit_epi8(a))
+#define _mm_mask_lzcnt_gfni_epi8(s, k, a)			_mm_mask_tzcnt_gfni_epi8(s, k, _mm_revbit_epi8(a))	
+#define _mm_maskz_lzcnt_gfni_epi8(k, a)				_mm_maskz_tzcnt_gfni_epi8(k, _mm_revbit_epi8(a))		
+
+#define _mm256_lzcnt_gfni_epi8(a)					_mm256_tzcnt_gfni_epi8(_mm256_revbit_epi8(a))			
+#define _mm256_mask_lzcnt_gfni_epi8(s, k, a)		_mm256_mask_tzcnt_gfni_epi8(s, k, _mm256_revbit_epi8(a))
+#define _mm256_maskz_lzcnt_gfni_epi8(k, a)			_mm256_maskz_tzcnt_gfni_epi8(k, _mm256_revbit_epi8(a))	
+
+#define _mm512_lzcnt_gfni_epi8(a)					_mm512_tzcnt_gfni_epi8(_mm512_revbit_epi8(a))			
+#define _mm512_mask_lzcnt_gfni_epi8(s, k, a)		_mm512_mask_tzcnt_gfni_epi8(s, k, _mm512_revbit_epi8(a))
+#define _mm512_maskz_lzcnt_gfni_epi8(k, a)			_mm512_maskz_tzcnt_gfni_epi8(k, _mm512_revbit_epi8(a))	
 
 extern inline uint64_t serialized_tsc(void);

@@ -675,6 +675,72 @@ void GFNI_Demo_prefix_xor_epi8(void) {
 #endif
 }
 
+void GFNI_Demo_tzcnt_epi8(void) {
+	__m128i x128 = _mm_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01), y128 = _mm_set1_epi8(0x7f);
+
+	printRes("x128                          ", x128);
+	printRes("_mm_tzcnt_gfni_epi8           ", _mm_tzcnt_gfni_epi8(x128));
+#if defined(__AVX512F__)
+	if (cpu_props.IsFeat(ISA_AVX512F)) {
+		printRes("_mm_maskz_tzcnt_gfni_epi8     ", _mm_maskz_tzcnt_gfni_epi8((__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
+		printRes("_mm_mask_tzcnt_gfni_epi8      ", _mm_mask_tzcnt_gfni_epi8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
+	}
+#endif
+
+#if defined(__AVX2__)
+	if (cpu_props.IsFeat(ISA_AVX)) {
+		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
+		printRes("x256                          ", x256);
+		printRes("_mm256_tzcnt_gfni_epi8        ", _mm256_tzcnt_gfni_epi8(x256));
+#if defined(__AVX512F__)
+		if (cpu_props.IsFeat(ISA_AVX512F)) {
+			printRes("_mm256_maskz_tzcnt_gfni_epi8  ", _mm256_maskz_tzcnt_gfni_epi8((__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
+			printRes("_mm256_mask_tzcnt_gfni_epi8   ", _mm256_mask_tzcnt_gfni_epi8(y256, (__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
+
+			__m512i x512 = _mm512_set_epi64(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03, _INSTLATX64_DEMO_TESTVECT_0A, _INSTLATX64_DEMO_TESTVECT_0A, _INSTLATX64_DEMO_TESTVECT_0B, _INSTLATX64_DEMO_TESTVECT_0B), y512 = _mm512_set1_epi8(0x7f);
+			printRes("x512                          ", x512);
+			printRes("_mm512_tzcnt_gfni_epi8        ", _mm512_tzcnt_gfni_epi8(x512));
+			printRes("_mm512_maskz_tzcnt_gfni_epi8  ", _mm512_maskz_tzcnt_gfni_epi8((__mmask64)_INSTLATX64_DEMO_TESTMASK_64, x512));
+			printRes("_mm512_mask_tzcnt_gfni_epi8   ", _mm512_mask_tzcnt_gfni_epi8(y512, (__mmask64)_INSTLATX64_DEMO_TESTMASK_64, x512));
+		}
+#endif
+	}
+#endif
+}
+
+void GFNI_Demo_lzcnt_epi8(void) {
+	__m128i x128 = _mm_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01), y128 = _mm_set1_epi8(0x7f);
+
+	printRes("x128                          ", x128);
+	printRes("_mm_lzcnt_gfni_epi8           ", _mm_lzcnt_gfni_epi8(x128));
+#if defined(__AVX512F__)
+	if (cpu_props.IsFeat(ISA_AVX512F)) {
+		printRes("_mm_maskz_lzcnt_gfni_epi8     ", _mm_maskz_lzcnt_gfni_epi8((__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
+		printRes("_mm_mask_lzcnt_gfni_epi8      ", _mm_mask_lzcnt_gfni_epi8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
+	}
+#endif
+
+#if defined(__AVX2__)
+	if (cpu_props.IsFeat(ISA_AVX)) {
+		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
+		printRes("x256                          ", x256);
+		printRes("_mm256_lzcnt_gfni_epi8        ", _mm256_lzcnt_gfni_epi8(x256));
+#if defined(__AVX512F__)
+		if (cpu_props.IsFeat(ISA_AVX512F)) {
+			printRes("_mm256_maskz_lzcnt_gfni_epi8  ", _mm256_maskz_lzcnt_gfni_epi8((__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
+			printRes("_mm256_mask_lzcnt_gfni_epi8   ", _mm256_mask_lzcnt_gfni_epi8(y256, (__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
+
+			__m512i x512 = _mm512_set_epi64(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03, _INSTLATX64_DEMO_TESTVECT_0A, _INSTLATX64_DEMO_TESTVECT_0A, _INSTLATX64_DEMO_TESTVECT_0B, _INSTLATX64_DEMO_TESTVECT_0B), y512 = _mm512_set1_epi8(0x7f);
+			printRes("x512                          ", x512);
+			printRes("_mm512_lzcnt_gfni_epi8        ", _mm512_lzcnt_gfni_epi8(x512));
+			printRes("_mm512_maskz_lzcnt_gfni_epi8  ", _mm512_maskz_lzcnt_gfni_epi8((__mmask64)_INSTLATX64_DEMO_TESTMASK_64, x512));
+			printRes("_mm512_mask_lzcnt_gfni_epi8   ", _mm512_mask_lzcnt_gfni_epi8(y512, (__mmask64)_INSTLATX64_DEMO_TESTMASK_64, x512));
+		}
+#endif
+	}
+#endif
+}
+
 #if defined(__AVX512F__) && defined(_M_X64)
 void GFNI_Demo_pospopcount_u8() {
 	__m128i x128 = _mm_set_epi64x(0x00ff01ff03ff07ff, 0x0fff1fff3fff7fff);//_mm_set1_epi16(0x18);
@@ -821,6 +887,10 @@ void GFNI_Demo(void) {
 	GFNI_Demo_multiplication_8x8();
 	cout << "-----------------------------------" << endl;
 	GFNI_Demo_prefix_xor_epi8();
+	cout << "-----------------------------------" << endl;
+	GFNI_Demo_tzcnt_epi8();
+	cout << "-----------------------------------" << endl;
+	GFNI_Demo_lzcnt_epi8();
 
 #if defined(__AVX512F__) && (_M_X64)
 	cout << "-----------------------------------" << endl;

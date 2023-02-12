@@ -30,6 +30,11 @@ Unfortunately there are no variable versions (though they are variable versions 
     _(mm|mm256|mm512)_pospopcount_(u8|u16)_(si128|si256|si512)_epi8
 ```    
 
+* tzcnt, lzcnt for bytes (idea of https://gist.github.com/animetosho/6cb732ccb5ecd86675ca0a442b3c0622)
+```    
+    _(mm|mm256|mm512)(|_mask|_maskz)_(tzcnt|lzcnt)_gfni_epi8
+```    
+
 # VBMI2_Demo.h 
 wrapper header for VPSHLDW/VPSHRDW/VPSHLDVW/VPSHRDVW instructions for substituting the missing VPROLW/VPRORW/VPRORVW/VPRORVW instructions with the good old shld r1, r1 = rol r1 trick
 ```    
@@ -83,3 +88,4 @@ _mm512_adds/subs_epi/epu/32/64 implementation
 *  KMemDst results: [Intel SKX/CNL/TGL/RKL/ADL, AMD RPH](https://gist.github.com/InstLatx64/c7efbc71706561706888d7aa0548c4c5)
 *  [Geoff Langdale's Byte2Byte question](https://twitter.com/geofflangdale/status/1406084804613861379)
 *  [Geoff Langdale's reduce_add inspiration](https://twitter.com/geofflangdale/status/1609575574946865154)
+*  A list of “out-of-band” uses for the GF2P8AFFINEQB instruction I haven't seen documented elsewhere: [idea of tzcnt/lzcnt_gfni_epi8](https://gist.github.com/animetosho/6cb732ccb5ecd86675ca0a442b3c0622)
