@@ -15,7 +15,7 @@ __m256i _mm256_firstbyte_epu32(__m256i a, char c) {
 	__m256i vnnimul		= _mm256_set1_epi32(0x08040201);
 	__m256i shufb_const	= _mm256_broadcastsi128_si256(_mm_setr_epi64x(0x0300010002000100, 0x0400010002000100)); //first zero index
 
-	__m256i xorres		= _mm256_xor_epi64(check, a);
+	__m256i xorres		= _mm256_xor_si256(check, a);
 	__m256i minub		= _mm256_min_epu8(one, xorres);
 
 	/* VPDPBUSD collects LSBs into the b[3:0] bitfield: */
