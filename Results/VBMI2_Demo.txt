@@ -127,11 +127,11 @@ ff:_mm_srai_vbmi2_epi8     00ffffffffffffff ff00000000000000
 x128                               7fbfdfeff7fbfdfe 8040201008040201
 y128                               fffefdfcfbfaf9f8 f7f6f5f4f3f2f1f0
 _mm_rorv_vbmi2_epi8(x128, y128)    fefefefefefefefe 0101010101010101
-_mm_rolv_vbmi2_epi8(x128, y128)    dfdffdfddfdffdfd 2020020220200202
+_mm_rolv_vbmi2_epi8(x128, y128)    bfeffbfebfeffbfe 4010040140100401
 _mm_maskz_rorv_vbmi2_epi8          fe00fe00fe00fe00 0001000100010001
 _mm_mask_rorv_vbmi2_epi8           fefffefffefffeff ff01ff01ff01ff01
-_mm_maskz_rolv_vbmi2_epi8          df00fd00dfdf0000 0000020200200002
-_mm_mask_rolv_vbmi2_epi8           dffffdffdfdfffff ffff0202ff20ff02
+_mm_maskz_rolv_vbmi2_epi8          bf00fb00bfef0000 0000040100100001
+_mm_mask_rolv_vbmi2_epi8           bffffbffbfefffff ffff0401ff10ff01
 x256                               7fbfdfeff7fbfdfe 8040201008040201 0102040810204080 fefdfbf7efdfbf7f
 y256                               fffefdfcfbfaf9f8 f7f6f5f4f3f2f1f0 0f0e0d0c0b0a0908 0706050403020100
 _mm256_rorv_vbmi2_epi8(x256, y256) fefefefefefefefe 0101010101010101 0208208002082080 fdf7df7ffdf7df7f

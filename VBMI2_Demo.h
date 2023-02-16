@@ -154,7 +154,7 @@
 
 /* Variable rotate left bytes by cnt bits, cnt mod 8 */
 
-#define _mm_rolv_vbmi2_epi8(a, cnt)					_mm_shldi_epi16(_mm_shldv_epi16(a, _mm_swaphl_epi8(a), _mm_alignr_epi8(_rotate_vcnt_l(mm, cnt), _rotate_vcnt_l(mm, cnt), 1)), _mm_shldv_epi16(_mm_swaphl_epi8(a), a, _rotate_vcnt_l(mm, cnt)), 8)
+#define _mm_rolv_vbmi2_epi8(a, cnt)					_mm_shldi_epi16(_mm_shldv_epi16(_mm_swaphl_epi8(a), a, _mm_alignr_epi8(_rotate_vcnt_l(mm, cnt), _rotate_vcnt_l(mm, cnt), 1)), _mm_shldv_epi16(a, _mm_swaphl_epi8(a), _rotate_vcnt_l(mm, cnt)), 8)
 #define _mm_mask_rolv_vbmi2_epi8(a, k, b, cnt)		_mm_mask_mov_epi8(a, k, _mm_rolv_vbmi2_epi8(b, cnt))
 #define _mm_maskz_rolv_vbmi2_epi8(k, a, cnt)		_mm_maskz_mov_epi8(k, _mm_rolv_vbmi2_epi8(a, cnt))
 #define _mm256_rolv_vbmi2_epi8(a, cnt)				_mm256_shldi_epi16(_mm256_shldv_epi16(_mm256_swaplh_epi8(a), a, _mm256_alignr_epi8(_rotate_vcnt_l(mm256, cnt), _rotate_vcnt_l(mm256, cnt), 1)), _mm256_shldv_epi16(a, _mm256_swaplh_epi8(a), _rotate_vcnt_l(mm256, cnt)), 8)
