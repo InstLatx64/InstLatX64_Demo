@@ -44,8 +44,8 @@ This proposal is for the missing 32- and 64-bit versions:
 // sign(a) = sign(b),  sign(a + b) != sign(a)
 //eq(a, b) & neq(a, c)
 //imm8 = 0x42
-//a						1	1	1	1	0	0	0	0
-//b						1	1	0	0	1	1	0	0
+//a							1	1	1	1	0	0	0	0
+//b							1	1	0	0	1	1	0	0
 //a + b						1	0	1	0	1	0	1	0
 //eq(a, b) & neq(a, a + b)	0	1	0	0	0	0	1	0
 
@@ -80,8 +80,8 @@ __m512i _mm512_adds_epi64(__m512i a, __m512i b) {
 // - the sign of the difference (when substracted with wrap-around) is different from the minuend:
 // sign(a) != sign(b),  sign(a - b) != sign(a)
 //imm8 = 0x18
-//a						1	1	1	1	0	0	0	0
-//b						1	1	0	0	1	1	0	0
+//a							1	1	1	1	0	0	0	0
+//b							1	1	0	0	1	1	0	0
 //a - b						1	0	1	0	1	0	1	0
 //neq(a, b) & neq(a - b, a)	0	0	0	1	1	0	0	0
 

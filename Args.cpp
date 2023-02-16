@@ -1,13 +1,13 @@
 #include "stdafx.h"
 
 const paramsType Args::params[] = {
-	{false,	"help",		'h',	ARG_HELP,		NULL,				"this help"},
-	{false,	"version",	'v',	ARG_VERSION,	NULL,				"version info"},
-	{false,	"list",		'l',	ARG_DEMOLIST,	NULL,				"list of demo types"},
-	{false,	"cpu",		'c',	ARG_CPUPROPS,	NULL,				"list of CPU properties"},
+	{false,	"help",		'h',	ARG_HELP,			NULL,				"this help"},
+	{false,	"version",	'v',	ARG_VERSION,		NULL,				"version info"},
+	{false,	"list",		'l',	ARG_DEMOLIST,		NULL,				"list of demo types"},
+	{false,	"cpu",		'c',	ARG_CPUPROPS,		NULL,				"list of CPU properties"},
 	{false,	"pcore",	'\0',	ARG_PCORE,			NULL,				"using performance core on hybrid CPU"},
 	{false,	"ecore",	'\0',	ARG_ECORE,			NULL,				"using efficient core on hybrid CPU"},
-	{true,	"demo",		'd',	ARG_DEMOTYPE,	ARGERR_MISS_DEMO,	"demo type"},
+	{true,	"demo",		'd',	ARG_DEMOTYPE,		ARGERR_MISS_DEMO,	"demo type"},
 	{true,	"thread",	't',	ARG_THREADINDEX,	ARGERR_MISS_THREAD,	"thread index"},
 };
 
