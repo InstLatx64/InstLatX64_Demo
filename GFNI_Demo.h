@@ -14,13 +14,15 @@
 //-- A list of "out-of-band" uses for the GF2P8AFFINEQB instruction I haven't seen documented elsewhere
 //https://gist.github.com/animetosho/6cb732ccb5ecd86675ca0a442b3c0622
 
-#define _GFNI_DEMO_VERSION		0x0101
+#define _GFNI_DEMO_VERSION		0x0102
 
 #define _GFNI_DEMO_IDENT		0x0102040810204080
 #define _GFNI_DEMO_REVBIT		0x8040201008040201
 #define _GFNI_DEMO_BCST			0x0101010101010101
 #define _GFNI_DEMO_PREFXOR		0x0103070f1f3f7fff
 #define _GFNI_DEMO_TZCNT		0xaaccf0ff00000000
+#define _GFNI_DEMO_MULMASK		0x0103070f1f3f7fff
+#define _GFNI_DEMO_MULBIT		0x8040201008040201
 
 #define _GFNI_DEMO_SLL(i)		((0x0102040810204080 >> (i)) & (0x0101010101010101ULL * (0xff >> (i))))
 #define _GFNI_DEMO_SRL(i)		((0x0102040810204080 << (i)) & (0x0101010101010101ULL * ((0xff << (i)) & 0xff)))
@@ -168,6 +170,62 @@
 #define _mm512_rol_gfni_epi8(a, cnt)				_mm512_gf2p8affine_epi64_epi8(a, _mm512_set1_epi64(_GFNI_DEMO_ROL(cnt)), 0)
 #define _mm512_mask_rol_gfni_epi8(s, k, a, cnt)		_mm512_mask_gf2p8affine_epi64_epi8(s, k, a, _mm512_set1_epi64(_GFNI_DEMO_ROL(cnt)), 0)
 #define _mm512_maskz_rol_gfni_epi8(k, a, cnt)		_mm512_maskz_gf2p8affine_epi64_epi8(k, a, _mm512_set1_epi64(_GFNI_DEMO_ROL(cnt)), 0)
+
+/* Variable logical shift left bytes by cnt bits, if cnt > 7, result is 0 */
+
+#define _mm_sllv_gfni_epi8(a, cnt)					_mm_gf2p8mul_epi8(_mm_and_si128(a, _mm_shuffle_epi8(_mm_set_epi64x(0, _GFNI_DEMO_MULMASK), cnt)), _mm_shuffle_epi8(_mm_set_epi64x(0, _GFNI_DEMO_MULBIT), cnt))
+#define _mm_mask_sllv_gfni_epi8(a, k, b, cnt)		_mm_mask_gf2p8mul_epi8(a, k, _mm_and_si128(b, _mm_shuffle_epi8(_mm_set_epi64x(0, _GFNI_DEMO_MULMASK), cnt)), _mm_shuffle_epi8(_mm_set_epi64x(0, _GFNI_DEMO_MULBIT), cnt))
+#define _mm_maskz_sllv_gfni_epi8(k, a, cnt)			_mm_maskz_gf2p8mul_epi8(k, _mm_and_si128(a, _mm_shuffle_epi8(_mm_set_epi64x(0, _GFNI_DEMO_MULMASK), cnt)), _mm_shuffle_epi8(_mm_set_epi64x(0, _GFNI_DEMO_MULBIT), cnt))
+
+#define _mm256_sllv_gfni_epi8(a, cnt)				_mm256_gf2p8mul_epi8(_mm256_and_si256(a, _mm256_shuffle_epi8(_mm256_set_epi64x(0, _GFNI_DEMO_MULMASK, 0, _GFNI_DEMO_MULMASK), cnt)), _mm256_shuffle_epi8(_mm256_set_epi64x(0, _GFNI_DEMO_MULBIT, 0, _GFNI_DEMO_MULBIT), cnt))
+#define _mm256_mask_sllv_gfni_epi8(a, k, b, cnt)	_mm256_mask_gf2p8mul_epi8(a, k, _mm256_and_si256(b, _mm256_shuffle_epi8(_mm256_set_epi64x(0, _GFNI_DEMO_MULMASK, 0, _GFNI_DEMO_MULMASK), cnt)), _mm256_shuffle_epi8(_mm256_set_epi64x(0, _GFNI_DEMO_MULBIT, 0, _GFNI_DEMO_MULBIT), cnt))
+#define _mm256_maskz_sllv_gfni_epi8(k, a, cnt)		_mm256_maskz_gf2p8mul_epi8(k, _mm256_and_si256(a, _mm256_shuffle_epi8(_mm256_set_epi64x(0, _GFNI_DEMO_MULMASK, 0, _GFNI_DEMO_MULMASK), cnt)), _mm256_shuffle_epi8(_mm256_set_epi64x(0, _GFNI_DEMO_MULBIT, 0, _GFNI_DEMO_MULBIT), cnt))
+
+#define _mm512_sllv_gfni_epi8(a, cnt)				_mm512_gf2p8mul_epi8(_mm512_and_si512(a, _mm512_shuffle_epi8(_mm512_set_epi64(0, _GFNI_DEMO_MULMASK, 0, _GFNI_DEMO_MULMASK, 0, _GFNI_DEMO_MULMASK, 0, _GFNI_DEMO_MULMASK), cnt)), _mm512_shuffle_epi8(_mm512_set_epi64(0, _GFNI_DEMO_MULBIT, 0, _GFNI_DEMO_MULBIT, 0, _GFNI_DEMO_MULBIT, 0, _GFNI_DEMO_MULBIT), cnt))
+#define _mm512_mask_sllv_gfni_epi8(a, k, b, cnt)	_mm512_mask_gf2p8mul_epi8(a, k, _mm512_and_si512(b, _mm512_shuffle_epi8(_mm512_set_epi64(0, _GFNI_DEMO_MULMASK, 0, _GFNI_DEMO_MULMASK, 0, _GFNI_DEMO_MULMASK, 0, _GFNI_DEMO_MULMASK), cnt)), _mm512_shuffle_epi8(_mm512_set_epi64(0, _GFNI_DEMO_MULBIT, 0, _GFNI_DEMO_MULBIT, 0, _GFNI_DEMO_MULBIT, 0, _GFNI_DEMO_MULBIT), cnt))
+#define _mm512_maskz_sllv_gfni_epi8(k, a, cnt)		_mm512_maskz_gf2p8mul_epi8(k, _mm512_and_si512(a, _mm512_shuffle_epi8(_mm512_set_epi64(0, _GFNI_DEMO_MULMASK, 0, _GFNI_DEMO_MULMASK, 0, _GFNI_DEMO_MULMASK, 0, _GFNI_DEMO_MULMASK), cnt)), _mm512_shuffle_epi8(_mm512_set_epi64(0, _GFNI_DEMO_MULBIT, 0, _GFNI_DEMO_MULBIT, 0, _GFNI_DEMO_MULBIT, 0, _GFNI_DEMO_MULBIT), cnt))
+
+/* Variable logical shift right bytes by cnt bits, if cnt > 7, result is 0 */
+
+#define _mm_srlv_gfni_epi8(a, cnt)					_mm_revbit_epi8(_mm_sllv_gfni_epi8(_mm_revbit_epi8(a), cnt))
+#define _mm_mask_srlv_gfni_epi8(a, k, b, cnt)		_mm_mask_revbit_epi8(a, k, _mm_sllv_gfni_epi8(_mm_revbit_epi8(b), cnt))
+#define _mm_maskz_srlv_gfni_epi8(k, a, cnt)			_mm_maskz_revbit_epi8(k, _mm_sllv_gfni_epi8(_mm_revbit_epi8(a), cnt))
+
+#define _mm256_srlv_gfni_epi8(a, cnt)				_mm256_revbit_epi8(_mm256_sllv_gfni_epi8(_mm256_revbit_epi8(a), cnt))
+#define _mm256_mask_srlv_gfni_epi8(a, k, b, cnt)	_mm256_mask_revbit_epi8(a, k, _mm256_sllv_gfni_epi8(_mm256_revbit_epi8(b), cnt))
+#define _mm256_maskz_srlv_gfni_epi8(k, a, cnt)		_mm256_maskz_revbit_epi8(k, _mm256_sllv_gfni_epi8(_mm256_revbit_epi8(a), cnt))
+
+#define _mm512_srlv_gfni_epi8(a, cnt)				_mm512_revbit_epi8(_mm512_sllv_gfni_epi8(_mm512_revbit_epi8(a), cnt))
+#define _mm512_mask_srlv_gfni_epi8(a, k, b, cnt)	_mm512_mask_revbit_epi8(a, k, _mm512_sllv_gfni_epi8(_mm512_revbit_epi8(b), cnt))
+#define _mm512_maskz_srlv_gfni_epi8(k, a, cnt)		_mm512_maskz_revbit_epi8(k, _mm512_sllv_gfni_epi8(_mm512_revbit_epi8(a), cnt))
+
+/* Variable rotate left bytes by cnt bits, cnt mod 8 */
+
+#define _mm_rolv_gfni_epi8(a, cnt)					_mm_or_si128(_mm_sllv_gfni_epi8(a, _mm_and_si128(_mm_set1_epi32(0x07070707), cnt)), _mm_srlv_gfni_epi8(a, _mm_sub_epi8(_mm_set1_epi32(0x08080808), _mm_and_si128(_mm_set1_epi32(0x07070707), cnt))))
+#define _mm_mask_rolv_gfni_epi8(a, k, b, cnt)		_mm_or_si128(_mm_mask_sllv_gfni_epi8(a, k, b, _mm_and_si128(_mm_set1_epi32(0x07070707), cnt)), _mm_mask_srlv_gfni_epi8(a, k, b, _mm_sub_epi8(_mm_set1_epi32(0x08080808), _mm_and_si128(_mm_set1_epi32(0x07070707), cnt))))
+#define _mm_maskz_rolv_gfni_epi8(k, a, cnt)			_mm_or_si128(_mm_maskz_sllv_gfni_epi8(k, a, _mm_and_si128(_mm_set1_epi32(0x07070707), cnt)), _mm_maskz_srlv_gfni_epi8(k, a, _mm_sub_epi8(_mm_set1_epi32(0x08080808), _mm_and_si128(_mm_set1_epi32(0x07070707), cnt))))
+
+#define _mm256_rolv_gfni_epi8(a, cnt)				_mm256_or_si256(_mm256_sllv_gfni_epi8(a, _mm256_and_si256(_mm256_set1_epi32(0x07070707), cnt)), _mm256_srlv_gfni_epi8(a, _mm256_sub_epi8(_mm256_set1_epi32(0x08080808), _mm256_and_si256(_mm256_set1_epi32(0x07070707), cnt))))
+#define _mm256_mask_rolv_gfni_epi8(a, k, b, cnt)	_mm256_or_si256(_mm256_mask_sllv_gfni_epi8(a, k, b, _mm256_and_si256(_mm256_set1_epi32(0x07070707), cnt)), _mm256_mask_srlv_gfni_epi8(a, k, b, _mm256_sub_epi8(_mm256_set1_epi32(0x08080808), _mm256_and_si256(_mm256_set1_epi32(0x07070707), cnt))))
+#define _mm256_maskz_rolv_gfni_epi8(k, a, cnt)		_mm256_or_si256(_mm256_maskz_sllv_gfni_epi8(k, a, _mm256_and_si256(_mm256_set1_epi32(0x07070707), cnt)), _mm256_maskz_srlv_gfni_epi8(k, a, _mm256_sub_epi8(_mm256_set1_epi32(0x08080808), _mm256_and_si256(_mm256_set1_epi32(0x07070707), cnt))))
+
+#define _mm512_rolv_gfni_epi8(a, cnt)				_mm512_or_si512(_mm512_sllv_gfni_epi8(a, _mm512_and_si512(_mm512_set1_epi32(0x07070707), cnt)), _mm512_srlv_gfni_epi8(a, _mm512_sub_epi8(_mm512_set1_epi32(0x08080808), _mm512_and_si512(_mm512_set1_epi32(0x07070707), cnt))))
+#define _mm512_mask_rolv_gfni_epi8(a, k, b, cnt)	_mm512_or_si512(_mm512_mask_sllv_gfni_epi8(a, k, b, _mm512_and_si512(_mm512_set1_epi32(0x07070707), cnt)), _mm512_mask_srlv_gfni_epi8(a, k, b, _mm512_sub_epi8(_mm512_set1_epi32(0x08080808), _mm512_and_si512(_mm512_set1_epi32(0x07070707), cnt))))
+#define _mm512_maskz_rolv_gfni_epi8(k, a, cnt)		_mm512_or_si512(_mm512_maskz_sllv_gfni_epi8(k, a, _mm512_and_si512(_mm512_set1_epi32(0x07070707), cnt)), _mm512_maskz_srlv_gfni_epi8(k, a, _mm512_sub_epi8(_mm512_set1_epi32(0x08080808), _mm512_and_si512(_mm512_set1_epi32(0x07070707), cnt))))
+
+/* Variable rotate right bytes by cnt bits, cnt mod 8 */
+
+#define _mm_rorv_gfni_epi8(a, cnt)					_mm_or_si128(_mm_sllv_gfni_epi8(a, _mm_sub_epi8(_mm_set1_epi32(0x08080808), _mm_and_si128(_mm_set1_epi32(0x07070707), cnt))), _mm_srlv_gfni_epi8(a, _mm_and_si128(_mm_set1_epi32(0x07070707), cnt)))
+#define _mm_mask_rorv_gfni_epi8(a, k, b, cnt)		_mm_or_si128(_mm_mask_sllv_gfni_epi8(a, k, b, _mm_sub_epi8(_mm_set1_epi32(0x08080808), _mm_and_si128(_mm_set1_epi32(0x07070707), cnt))), _mm_mask_srlv_gfni_epi8(a, k, b, _mm_and_si128(_mm_set1_epi32(0x07070707), cnt)))
+#define _mm_maskz_rorv_gfni_epi8(k, a, cnt)			_mm_or_si128(_mm_maskz_sllv_gfni_epi8(k, a, _mm_sub_epi8(_mm_set1_epi32(0x08080808), _mm_and_si128(_mm_set1_epi32(0x07070707), cnt))), _mm_maskz_srlv_gfni_epi8(k, a, _mm_and_si128(_mm_set1_epi32(0x07070707), cnt)))
+
+#define _mm256_rorv_gfni_epi8(a, cnt)				_mm256_or_si256(_mm256_sllv_gfni_epi8(a, _mm256_sub_epi8(_mm256_set1_epi32(0x08080808), _mm256_and_si256(_mm256_set1_epi32(0x07070707), cnt))), _mm256_srlv_gfni_epi8(a, _mm256_and_si256(_mm256_set1_epi32(0x07070707), cnt)))
+#define _mm256_mask_rorv_gfni_epi8(a, k, b, cnt)	_mm256_or_si256(_mm256_mask_sllv_gfni_epi8(a, k, b, _mm256_sub_epi8(_mm256_set1_epi32(0x08080808), _mm256_and_si256(_mm256_set1_epi32(0x07070707), cnt))), _mm256_mask_srlv_gfni_epi8(a, k, b, _mm256_and_si256(_mm256_set1_epi32(0x07070707), cnt)))
+#define _mm256_maskz_rorv_gfni_epi8(k, a, cnt)		_mm256_or_si256(_mm256_maskz_sllv_gfni_epi8(k, a, _mm256_sub_epi8(_mm256_set1_epi32(0x08080808), _mm256_and_si256(_mm256_set1_epi32(0x07070707), cnt))), _mm256_maskz_srlv_gfni_epi8(k, a, _mm256_and_si256(_mm256_set1_epi32(0x07070707), cnt)))
+
+#define _mm512_rorv_gfni_epi8(a, cnt)				_mm512_or_si512(_mm512_sllv_gfni_epi8(a, _mm512_sub_epi8(_mm512_set1_epi32(0x08080808), _mm512_and_si512(_mm512_set1_epi32(0x07070707), cnt))), _mm512_srlv_gfni_epi8(a, _mm512_and_si512(_mm512_set1_epi32(0x07070707), cnt)))
+#define _mm512_mask_rorv_gfni_epi8(a, k, b, cnt)	_mm512_or_si512(_mm512_mask_sllv_gfni_epi8(a, k, b, _mm512_sub_epi8(_mm512_set1_epi32(0x08080808), _mm512_and_si512(_mm512_set1_epi32(0x07070707), cnt))), _mm512_mask_srlv_gfni_epi8(a, k, b, _mm512_and_si512(_mm512_set1_epi32(0x07070707), cnt)))
+#define _mm512_maskz_rorv_gfni_epi8(k, a, cnt)		_mm512_or_si512(_mm512_maskz_sllv_gfni_epi8(k, a, _mm512_sub_epi8(_mm512_set1_epi32(0x08080808), _mm512_and_si512(_mm512_set1_epi32(0x07070707), cnt))), _mm512_maskz_srlv_gfni_epi8(k, a, _mm512_and_si512(_mm512_set1_epi32(0x07070707), cnt)))
 
 /* Reverse bits within bytes */
 /* In  : MSB B7 B6 B5 B4 B3 B2 B1 B0 LSB */

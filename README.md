@@ -8,7 +8,10 @@ wrapper header for non-cryptographical use of (V)GF2P8AFFINEQB instruction in st
 ```    
     _(mm|mm256|mm512)(|_mask|_maskz)_(srli|srl|srai|sra|slli|sll|ror|rol)_gfni_epi8
 ```
-Unfortunately there are no variable versions (though they are variable versions in that you don't need to know the shift/rotate values in compiler time)
+* variable versions also supported with GF2P8MULB instruction:
+```    
+    _(mm|mm256|mm512)(|_mask|_maskz)_(srlv|sllv|rorv|rolv)_gfni_epi8
+```
 
 * revbit, bit-broadcast, prefix-xor operations for bytes
 ```    
@@ -91,5 +94,5 @@ _mm256|512_firstbyte_epu32/64 implementation
 *  KMemDst results: [Intel SKX/CNL/TGL/RKL/ADL, AMD RPH](https://gist.github.com/InstLatx64/c7efbc71706561706888d7aa0548c4c5)
 *  [Geoff Langdale's Byte2Byte question](https://twitter.com/geofflangdale/status/1406084804613861379)
 *  [Geoff Langdale's reduce_add inspiration](https://twitter.com/geofflangdale/status/1609575574946865154)
-*  A list of “out-of-band” uses for the GF2P8AFFINEQB instruction I haven't seen documented elsewhere: [idea of tzcnt/lzcnt_gfni_epi8](https://gist.github.com/animetosho/6cb732ccb5ecd86675ca0a442b3c0622)
+*  A list of “out-of-band” uses for the GF2P8AFFINEQB instruction I haven't seen documented elsewhere: [idea of tzcnt/lzcnt_gfni_epi8, sllv/srlv_gfni_epi8](https://gist.github.com/animetosho/6cb732ccb5ecd86675ca0a442b3c0622)
 *  [FirstByte inspiration](http://0x80.pl/notesen/2023-02-06-avx512-find-first-byte-in-lane.html)
