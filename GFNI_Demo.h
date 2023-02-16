@@ -75,7 +75,7 @@
 
 #define _mm_sra_gfni_epi8(a, b)						_mm_gf2p8affine_epi64_epi8(a, _mm_set1_epi64x(_GFNI_DEMO_SRA(_mm_cvtsi128_si32(b))), 0)
 #define _mm_mask_sra_gfni_epi8(s, k, a, b)			_mm_mask_gf2p8affine_epi64_epi8(s, k, a, _mm_set1_epi64x(_GFNI_DEMO_SRA(_mm_cvtsi128_si32(b))), 0)
-#define _mm_maskz_sra_gfni_epi8(k, a, b)				_mm_maskz_gf2p8affine_epi64_epi8(k, a, _mm_set1_epi64x(_GFNI_DEMO_SRA(_mm_cvtsi128_si32(b))), 0)
+#define _mm_maskz_sra_gfni_epi8(k, a, b)			_mm_maskz_gf2p8affine_epi64_epi8(k, a, _mm_set1_epi64x(_GFNI_DEMO_SRA(_mm_cvtsi128_si32(b))), 0)
 
 #define _mm256_sra_gfni_epi8(a, b)					_mm256_gf2p8affine_epi64_epi8(a, _mm256_set1_epi64x(_GFNI_DEMO_SRA(_mm_cvtsi128_si32(b))), 0)
 #define _mm256_mask_sra_gfni_epi8(s, k, a, b)		_mm256_mask_gf2p8affine_epi64_epi8(s, k, a, _mm256_set1_epi64x(_GFNI_DEMO_SRA(_mm_cvtsi128_si32(b))), 0)

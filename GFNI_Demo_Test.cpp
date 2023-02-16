@@ -14,7 +14,7 @@ void GFNI_Demo_rotate_epi8(void) {
 		__m128i test128	= _mm_xor_si128(x128, _mm_ror_gfni_epi8(_mm_rol_gfni_epi8(x128, r), r));
 		assert(_mm_testz_si128(test128, test128));
 	}
-	printRes("x128                               ", x128);
+	printRes("x128                                ", x128);
 	__mmask16 m16 = _INSTLATX64_DEMO_TESTMASK_16;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm_ror_gfni_epi8                ", _mm_ror_gfni_epi8(x128, r));
@@ -37,7 +37,7 @@ void GFNI_Demo_rotate_epi8(void) {
 		__m256i test256	= _mm256_xor_si256(x256, _mm256_ror_gfni_epi8(_mm256_rol_gfni_epi8(x256, r), r));
 		assert(_mm256_testz_si256(test256, test256));
 	}
-	printRes("x256                               ", x256);
+	printRes("x256                                ", x256);
 	__mmask32 m32 = _INSTLATX64_DEMO_TESTMASK_32;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm256_ror_gfni_epi8             ", _mm256_ror_gfni_epi8(x256, r));
@@ -61,7 +61,7 @@ void GFNI_Demo_rotate_epi8(void) {
 		assert(test512);
 
 	}
-	printRes("x512                               ", x512);
+	printRes("x512                                ", x512);
 	__mmask64 m64 = _INSTLATX64_DEMO_TESTMASK_64;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm512_ror_gfni_epi8             ", _mm512_ror_gfni_epi8(x512, r));
@@ -85,7 +85,7 @@ void GFNI_Demo_shifti_epi8(void) {
 		__m128i test128	= _mm_xor_si128(x128, _mm_or_si128(_mm_slli_gfni_epi8(temp128, r), _mm_srli_gfni_epi8(temp128, 8 - r)));
 		assert(_mm_testz_si128(test128, test128));
 	}
-	printRes("x128                               ", x128);
+	printRes("x128                                ", x128);
 	__mmask16 m16 = _INSTLATX64_DEMO_TESTMASK_16;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm_srli_gfni_epi8               ", _mm_srli_gfni_epi8(x128, r));
@@ -109,7 +109,7 @@ void GFNI_Demo_shifti_epi8(void) {
 		__m256i test256	= _mm256_xor_si256(x256, _mm256_or_si256(_mm256_slli_gfni_epi8(temp256, r), _mm256_srli_gfni_epi8(temp256, 8 - r)));
 		assert(_mm256_testz_si256(test256, test256));
 	}
-	printRes("x256                               ", x256);
+	printRes("x256                                ", x256);
 	__mmask32 m32 = _INSTLATX64_DEMO_TESTMASK_32;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm256_srli_gfni_epi8            ", _mm256_srli_gfni_epi8(x256, r));
@@ -134,7 +134,7 @@ void GFNI_Demo_shifti_epi8(void) {
 		assert(test512);
 
 	}
-	printRes("x512                               ", x512);
+	printRes("x512                                ", x512);
 	__mmask64 m64 = _INSTLATX64_DEMO_TESTMASK_64;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm512_srli_gfni_epi8            ", _mm512_srli_gfni_epi8(x512, r));
@@ -158,7 +158,7 @@ void GFNI_Demo_shift_epi8(void) {
 		__m128i test128	= _mm_xor_si128(x128, _mm_or_si128(_mm_sll_gfni_epi8(temp128, _mm_cvtsi32_si128(r)), _mm_srl_gfni_epi8(temp128, _mm_cvtsi32_si128(8 - r))));
 		assert(_mm_testz_si128(test128, test128));
 	}
-	printRes("x128                               ", x128);
+	printRes("x128                                ", x128);
 	__mmask16 m16 = _INSTLATX64_DEMO_TESTMASK_16;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm_srl_gfni_epi8                ", _mm_srl_gfni_epi8(x128, _mm_cvtsi32_si128(r)));
@@ -182,7 +182,7 @@ void GFNI_Demo_shift_epi8(void) {
 		__m256i test256	= _mm256_xor_si256(x256, _mm256_or_si256(_mm256_sll_gfni_epi8(temp256, _mm_cvtsi32_si128(r)), _mm256_srl_gfni_epi8(temp256, _mm_cvtsi32_si128(8 - r))));
 		assert(_mm256_testz_si256(test256, test256));
 	}
-	printRes("x256                               ", x256);
+	printRes("x256                                ", x256);
 	__mmask32 m32 = _INSTLATX64_DEMO_TESTMASK_32;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm256_srl_gfni_epi8             ", _mm256_srl_gfni_epi8(x256, _mm_cvtsi32_si128(r)));
@@ -207,7 +207,7 @@ void GFNI_Demo_shift_epi8(void) {
 		assert(test512);
 
 	}
-	printRes("x512                               ", x512);
+	printRes("x512                                ", x512);
 	__mmask64 m64 = _INSTLATX64_DEMO_TESTMASK_64;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm512_srl_gfni_epi8             ", _mm512_srl_gfni_epi8(x512, _mm_cvtsi32_si128(r)));
@@ -231,7 +231,7 @@ void GFNI_Demo_arith_shifti_epi8(void) {
 	//	__m128i test128	= _mm_xor_si128(x128, _mm_or_si128(_mm_slai_gfni_epi8(temp128, r), _mm_srai_gfni_epi8(temp128, 8 - r)));
 	//	assert(_mm_testz_si128(test128, test128));
 	//}
-	printRes("x128                               ", x128);
+	printRes("x128                                ", x128);
 	__mmask16 m16 = _INSTLATX64_DEMO_TESTMASK_16;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm_srai_gfni_epi8               ", _mm_srai_gfni_epi8(x128, r));
@@ -255,7 +255,7 @@ void GFNI_Demo_arith_shifti_epi8(void) {
 	//	__m256i test256	= _mm256_xor_si256(x256, _mm256_or_si256(_mm256_slai_gfni_epi8(temp256, r), _mm256_srai_gfni_epi8(temp256, 8 - r)));
 	//	assert(_mm256_testz_si256(test256, test256));
 	//}
-	printRes("x256                               ", x256);
+	printRes("x256                                ", x256);
 	__mmask32 m32 = _INSTLATX64_DEMO_TESTMASK_32;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm256_srai_gfni_epi8            ", _mm256_srai_gfni_epi8(x256, r));
@@ -280,7 +280,7 @@ void GFNI_Demo_arith_shifti_epi8(void) {
 	//	assert(test512);
 
 	//}
-	printRes("x512                               ", x512);
+	printRes("x512                                ", x512);
 	__mmask64 m64 = _INSTLATX64_DEMO_TESTMASK_64;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm512_srai_gfni_epi8            ", _mm512_srai_gfni_epi8(x512, r));
@@ -304,7 +304,7 @@ void GFNI_Demo_arith_shift_epi8(void) {
 	//	__m128i test128	= _mm_xor_si128(x128, _mm_or_si128(_mm_sla_gfni_epi8(temp128, _mm_cvtsi32_si128(r)), _mm_sra_gfni_epi8(temp128, _mm_cvtsi32_si128(8 - r))));
 	//	assert(_mm_testz_si128(test128, test128));
 	//}
-	printRes("x128                               ", x128);
+	printRes("x128                                ", x128);
 	__mmask16 m16 = _INSTLATX64_DEMO_TESTMASK_16;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm_sra_gfni_epi8                ", _mm_sra_gfni_epi8(x128, _mm_cvtsi32_si128(r)));
@@ -328,7 +328,7 @@ void GFNI_Demo_arith_shift_epi8(void) {
 	//	__m256i test256	= _mm256_xor_si256(x256, _mm256_or_si256(_mm256_sla_gfni_epi8(temp256, _mm_cvtsi32_si128(r)), _mm256_sra_gfni_epi8(temp256, _mm_cvtsi32_si128(8 - r))));
 	//	assert(_mm256_testz_si256(test256, test256));
 	//}
-	printRes("x256                               ", x256);
+	printRes("x256                                ", x256);
 	__mmask32 m32 = _INSTLATX64_DEMO_TESTMASK_32;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm256_sra_gfni_epi8             ", _mm256_sra_gfni_epi8(x256, _mm_cvtsi32_si128(r)));
@@ -352,7 +352,7 @@ void GFNI_Demo_arith_shift_epi8(void) {
 	//	__mmask64 test512	= _mm512_cmpeq_epi8_mask(x512, _mm512_or_si512(_mm512_sla_gfni_epi8(temp512, _mm_cvtsi32_si128(r)), _mm512_sra_gfni_epi8(temp512, _mm_cvtsi32_si128(8 - r))));
 	//	assert(test512);
 	//}
-	printRes("x512                               ", x512);
+	printRes("x512                                ", x512);
 	__mmask64 m64 = _INSTLATX64_DEMO_TESTMASK_64;
 	for (int r = 0; r < maxrot; r++) {
 		printRes(r, "_mm512_sra_gfni_epi8             ", _mm512_sra_gfni_epi8(x512, _mm_cvtsi32_si128(r)));
@@ -610,10 +610,10 @@ void GFNI_Demo_mirror_8x8(void) {
 void GFNI_Demo_multiplication_8x8(void) {
 	__m128i x128 = _mm_set_epi64x(_INSTLATX64_DEMO_TESTVECT_04, _INSTLATX64_DEMO_TESTVECT_05), y128 = _mm_set1_epi8(0x7f), unit128 = _mm_set1_epi64x(0x0102040810204080);
 
-	printRes("x128                          ", x128);
-	printRes("_mm_multiplication_8x8 xx     ", _mm_multiplication_8x8(x128, x128));
-	printRes("_mm_multiplication_8x8 xu     ", _mm_multiplication_8x8(x128, unit128));
-	printRes("_mm_multiplication_8x8 ux     ", _mm_multiplication_8x8(unit128, x128));
+	printRes("x128                            ", x128);
+	printRes("_mm_multiplication_8x8 xx       ", _mm_multiplication_8x8(x128, x128));
+	printRes("_mm_multiplication_8x8 xu       ", _mm_multiplication_8x8(x128, unit128));
+	printRes("_mm_multiplication_8x8 ux       ", _mm_multiplication_8x8(unit128, x128));
 #if defined(__AVX512F__)
 	if (cpu_props.IsFeat(ISA_AVX512F)) {
 		printRes("_mm_maskz_multiplication_8x8    ", _mm_maskz_multiplication_8x8((__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128, x128));
