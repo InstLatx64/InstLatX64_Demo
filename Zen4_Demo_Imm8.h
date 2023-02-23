@@ -21,11 +21,11 @@ extern "C" unsigned __int64 __fastcall Zen4_##INST##_##OPERANDS##_##I8##_port1(v
 	Zen4_##INST##_##OPERANDS##_##I8##_port23,		\
 	Zen4_##INST##_##OPERANDS##_##I8##_port12,		\
 	Zen4_##INST##_##OPERANDS##_##I8##_port123,		\
-	Zen4_##INST##_##OPERANDS##_##I8##_port0123,	\
+	Zen4_##INST##_##OPERANDS##_##I8##_port0123,		\
 	Zen4_##INST##_##OPERANDS##_##I8##_port45,		\
-	Zen4_##INST##_##OPERANDS##_##I8##_tern,		\
+	Zen4_##INST##_##OPERANDS##_##I8##_tern,			\
 	Zen4_##INST##_##OPERANDS##_##I8##_LDs,			\
-	Zen4_##INST##_##OPERANDS##_##I8##_port1		\
+	Zen4_##INST##_##OPERANDS##_##I8##_port1			\
 }},
 
 ZEN4_FUNCDEF_I8(vextracti128,		ymmI82xmm,		000h)

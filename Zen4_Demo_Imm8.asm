@@ -43,7 +43,7 @@ InstLatX64_2zmmI82zmm_port macro INST, I8
 endm
 
 InstLatX64_xmmymmI82ymm_lat macro INST, I8
-	INST					ymm0, ymm0, xmm0, I8
+	INST			ymm0, ymm0, xmm0, I8
 endm
 
 InstLatX64_xmmymmI82ymm_port macro INST, I8

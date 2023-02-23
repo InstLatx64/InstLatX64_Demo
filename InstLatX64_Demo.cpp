@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 			cout << (demos[demo].publicFlag ? " [PUB] " : "       ");
 			if (_stricmp(demos[demo].comment, "") != 0)
 				cout << '(' << demos[demo].comment << ')';
-	}
+		}
 		cout << endl;
 	}
 
@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
 
 	for (uint32_t demo = 0; demo <= args.GetMaxDemo(); demo++) {
 		if (args.IsSelected(demo)) {
-	cout << "===================================" << endl;
+			cout << "===================================" << endl;
 			cout << demos[demo].demoName << endl;
 			if (cpu_props.IsFeat(demos[demo].isa)) {
 				(demos[demo].func)();

@@ -205,10 +205,10 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 			case CPUID_NOPLACE: 
 				switch (featInd) { //special LNOP detection
 					case ISA_LNOP: {
-				unsigned int fam = (level01[_REG_EAX] >> 8) & 0xf;
-				if ((fam == 0x6) || (fam == 0x7) || (fam == 0xf))
-					f[f_high] |= f_low;
-				} break;
+						unsigned int fam = (level01[_REG_EAX] >> 8) & 0xf;
+						if ((fam == 0x6) || (fam == 0x7) || (fam == 0xf))
+							f[f_high] |= f_low;
+					} break;
 					case ISA_X86: { //ISA_X86 always present
 						f[f_high] |= f_low;
 					} break;
@@ -220,11 +220,11 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 				if ((c.cpuid_res[place] & fbit) == fbit) {
 					switch (exts[featInd].xcr0) {
 						case _XCR0_EMPTY:
-					f[f_high] |= f_low;
-				break;
+							f[f_high] |= f_low;
+							break;
 						case _KEYLOCK:
 							if (IsFeat(ISA_KEYLOCK))
-						f[f_high] |= f_low;
+								f[f_high] |= f_low;
 				break;
 			default:
 						if ((c.xcr0 & exts[featInd].xcr0) == exts[featInd].xcr0)
