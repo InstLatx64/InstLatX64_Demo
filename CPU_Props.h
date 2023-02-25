@@ -151,6 +151,25 @@ enum _XCR0 {
 	_KEYLOCK,
 };
 
+enum _VENDOR  : uint32_t {
+	_VENDOR_EMPTY										= 0,
+	_VENDOR_AMD											= 1,
+	_VENDOR_CENTAUR										= 2,
+	_VENDOR_CYRIX										= 3,
+	_VENDOR_HYGON										= 4,
+	_VENDOR_INTEL										= 5,
+	_VENDOR_NATIONAL									= 6,
+	_VENDOR_NEXGEN										= 7,
+	_VENDOR_SIS											= 8,
+	_VENDOR_RDC											= 9,
+	_VENDOR_RISE										= 10,
+	_VENDOR_TMTA										= 11,
+	_VENDOR_UMC											= 12,
+	_VENDOR_VORTEX										= 13,
+	_VENDOR_ZHAOXIN										= 14,
+	_VENDOR_LAST										= _VENDOR_ZHAOXIN + 6,
+};
+
 #define _FEAT_NOFEAT									~0ULL
 
 #define CPUID_NOPLACE									(_FEAT_NOFEAT >> 32)
@@ -290,6 +309,11 @@ typedef struct _EXT_Tag {
 	unsigned __int64	featbit;
 } _EXT;
 
+typedef struct _VENDOR_Tag {
+	_VENDOR				v;
+	uint32_t			vendor[3];
+} _CPUID_VENDOR;
+
 extern UINT64 ISA[2];
 
 struct _AMX_palette {
@@ -310,6 +334,7 @@ struct _AMX_TMUL {
 class CPU_Props {
 private:
 	static const _EXT	exts[ISA_LAST];
+	static const _CPUID_VENDOR vendors[_VENDOR_LAST];
 	_AMX_palette		AMX_palette[MAX_AMX_PALETTE];
 	_AMX_TMUL			AMX_TMUL;
 	UINT64				f[FEATSIZE]				= {0ULL, 0ULL};
@@ -317,6 +342,7 @@ private:
 	DWORD_PTR			bigCoreMask				= 0;
 	DWORD_PTR			littleCoreMask			= 0;
 	DWORD_PTR			systemAffMask			= 0;
+	_VENDOR				vendor					= _VENDOR_EMPTY;
 	union {
 		char			vendor_string[VENDOR_STRING_SIZE];
 		unsigned long	vendor_num[VENDOR_NUM_SIZE]  = {0, 0, 0, 0};
@@ -347,8 +373,8 @@ public:
 	bool				IsZen3(void) const;
 	int					GetFamMod(void) const;
 	int					GetStepping(void) const;
+	_VENDOR				GetVendor(void) const;
 	bool				IsInBrand(const char* str) const;
-	bool				IsIntel() const;
 	unsigned int		GetAMXPalette_TotalTileBytes(unsigned int p) const;
 	unsigned int		GetAMXPalette_MaxName(unsigned int p) const;
 	unsigned int		GetAMXRows() const;

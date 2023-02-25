@@ -110,6 +110,26 @@ const _EXT CPU_Props::exts[ISA_LAST] = {
 	{"PCOMMIT",						_XCR0_EMPTY,	_FEAT07_EBX_PCOMMIT},
 };
 
+const _CPUID_VENDOR CPU_Props::vendors[_VENDOR_LAST] = {
+	{_VENDOR_AMD,		{0x69444D41, 0x74656273, 0x21726574}},		//"AMDisbetter!"
+	{_VENDOR_AMD,		{0x68747541, 0x69746E65, 0x444D4163}},		//"AuthenticAMD"
+	{_VENDOR_CENTAUR,	{0x20414956, 0x20414956, 0x20414956}},		//"VIA VIA VIA "
+	{_VENDOR_CENTAUR,	{0x746E6543, 0x48727561, 0x736C7561}},		//"CentaurHauls"
+	{_VENDOR_CYRIX,		{0x69727943, 0x736E4978, 0x64616574}},		//"CyrixInstead"
+	{_VENDOR_HYGON,		{0x6F677948, 0x6E656273, 0x656E6975}},		//"HygonGenuine"
+	{_VENDOR_INTEL,		{0x756E6547, 0x49656E69, 0x6C65746E}},		//"GenuineIntel"
+	{_VENDOR_NATIONAL,	{0x646F6547, 0x79622065, 0x43534E20}},		//"Geode by NSC"
+	{_VENDOR_NEXGEN,	{0x4778654E, 0x72446E65, 0x6E657669}},		//"NexGenDriven"
+	{_VENDOR_SIS,		{0x20536953, 0x20536953, 0x20536953}},		//"SiS SiS SiS "
+	{_VENDOR_RDC,		{0x756E6547, 0x43445220, 0x20656E69}},		//"Genuine  RDC"
+	{_VENDOR_RISE,		{0x65736952, 0x65736952, 0x65736952}},		//"RiseRiseRise"
+	{_VENDOR_TMTA,		{0x6E617254, 0x74656D73, 0x55504361}},		//"TransmetaCPU"
+	{_VENDOR_TMTA,		{0x756E6547, 0x54656E69, 0x3638784D}},		//"GenuineTMx86"
+	{_VENDOR_UMC,		{0x20434D55, 0x20434D55, 0x20434D55}},		//"UMC UMC UMC "
+	{_VENDOR_VORTEX,	{0x74726F56, 0x436F5320, 0x36387865}},		//"Vortex86 SoC"
+	{_VENDOR_ZHAOXIN,	{0x68532020, 0x68676E61, 0x20206961}},		//"  Shanghai  "
+};
+
 CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 	int level00[4]			= {0, 0, 0, 0};
 	int level01[4]			= {0, 0, 0, 0};
@@ -173,6 +193,15 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 	vendor_num[0] = level00[_REG_EBX];
 	vendor_num[1] = level00[_REG_EDX];
 	vendor_num[2] = level00[_REG_ECX];
+
+	for (int v = 0; v < _VENDOR_LAST; v++) {
+		if ((vendors[v].vendor[0] == vendor_num[0]) && 
+			(vendors[v].vendor[1] == vendor_num[1]) &&
+			(vendors[v].vendor[2] == vendor_num[2])) {
+			vendor = vendors[v].v;
+			break;
+		}
+	}
 
 	family		= ((level01[_REG_EAX] >> 8) & 0xf) + ((level01[_REG_EAX] >> 20) & 0xf);
 	model		= (((level01[_REG_EAX] >> 4) & 0xf) | ((level01[_REG_EAX] >> 12) & 0xf0));
@@ -335,11 +364,8 @@ bool CPU_Props::IsInBrand(const char * str) const {
 	return (0 != strstr(brand_string, str));
 }
 
-bool CPU_Props::IsIntel() const {
-	return 
-	(vendor_num[0] == 0x756E6547) && 
-	(vendor_num[1] == 0x49656E69) && 
-	(vendor_num[2] == 0x6C65746E);
+_VENDOR CPU_Props::GetVendor(void) const {
+	return vendor;
 }
 
 unsigned int CPU_Props::GetAMXPalette_TotalTileBytes(unsigned int p = 0) const {
@@ -502,95 +528,120 @@ void CPU_Props::Print_512bFMA_DP_Ports(void) const {
 //"" <empty>
 
 int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
-	if (IsFeat(ISA_AVX512F) && IsIntel()) {
-		switch(GetFamMod()) {
-			case 0x00050650: {	//SKYLAKE_X
-					switch (GetStepping()) {
-						case 0: case 1: case 2:		//SkyLake-X/W/D/SP ES
-						case 3: case 4:				//SkyLake-X/W/D/SP
-						case 5: case 6: case 7: {	//Cascade Lake-X/W/D/SP
-							if (IsInBrand("Core"))
-								return 2;
-							else if (IsInBrand("Xeon")) 
-								if (IsInBrand("Platinum"))
-									return 2;
-								else if (IsInBrand("Silver") ||	IsInBrand("Bronze"))
-									return 1;
-								else if (IsInBrand("Gold"))
-									if (brand_string[22] == '5')  {
-										if ((10 * (brand_string[24] - '0')) + (brand_string[25] - '0') == 22) 
-											return 2; //Xeon Gold 5222, 5122
-										else
-											return 1;
-									} else {//Xeon Gold 6xxx
+	if (IsFeat(ISA_AVX512F)) {
+		switch(GetVendor()) {
+			case _VENDOR_INTEL:
+				switch(GetFamMod()) {
+					case 0x00050650: {	//SKYLAKE_X
+							switch (GetStepping()) {
+								case 0: case 1: case 2:		//SkyLake-X/W/D/SP ES
+								case 3: case 4:				//SkyLake-X/W/D/SP
+								case 5: case 6: case 7: {	//Cascade Lake-X/W/D/SP
+									if (IsInBrand("Core"))
 										return 2;
-									}
-								else
-									switch (brand_string[17]) {
-										case 'W':
-											if (brand_string[21] == '0') //Xeon W-2104, W-2102
-												return 1;
-											else 
-												return 2;
-										case 'D':
-											return 1;
-										default: //unknown Xeon
+									else if (IsInBrand("Xeon")) 
+										if (IsInBrand("Platinum"))
 											return 2;
-									}
-							else //unknown brand string, 
-								//e.g.1 "Genuine Intel(R) CPU 0000%@"
-								//e.g.2 "Montage(R) Jintide(R) C2460 1", 
-								return Get_512bFMA_DP_Ports_FromOptimGuide();
-								//return 2;
-						}
-						case 0xa: case 0xb: //Cooper Lake
-						default: 
+										else if (IsInBrand("Silver") ||	IsInBrand("Bronze"))
+											return 1;
+										else if (IsInBrand("Gold"))
+											if (brand_string[22] == '5')  {
+												if ((10 * (brand_string[24] - '0')) + (brand_string[25] - '0') == 22) 
+													return 2; //Xeon Gold 5222, 5122
+												else
+													return 1;
+											} else {//Xeon Gold 6xxx
+												return 2;
+											}
+										else
+											switch (brand_string[17]) {
+												case 'W':
+													if (brand_string[21] == '0') //Xeon W-2104, W-2102
+														return 1;
+													else 
+														return 2;
+												case 'D':
+													return 1;
+												default: //unknown Xeon
+													return 2;
+											}
+									else //unknown brand string, 
+										//e.g.1 "Genuine Intel(R) CPU 0000%@"
+										//e.g.2 "Montage(R) Jintide(R) C2460 1", 
+										return Get_512bFMA_DP_Ports_FromOptimGuide();
+										//return 2;
+								}
+								case 0xa: case 0xb: //Cooper Lake
+								default: 
+									return 2;
+							}
+						} break;
+					case 0x000806F0: {	//Golden Cove              / SAPPHIRERAPIDS_X 
+						if (IsInBrand("3408U") || IsInBrand("3450C")) //Intel Xeon Bronze 3408U; Xeon 3450C Processor
+							return 1;
+						else
 							return 2;
-					}
-				} break;
-			case 0x000806F0: {	//Golden Cove              / SAPPHIRERAPIDS_X 
-				if (IsInBrand("3408U") || IsInBrand("3450C")) //Intel Xeon Bronze 3408U; Xeon 3450C Processor
-					return 1;
-				else
-					return 2;
-				} break;
-			case 0x00060660:	//Palm Cove                / CANNONLAKE_L 
-			case 0x00060670:	//Palm Cove                / CANNONLAKE - cancelled ?
-			case 0x000606C0:	//Sunny Cove               / ICELAKE_D
-			case 0x000706D0: 	//Sunny Cove               / ICELAKE - cancelled ?
-			case 0x000706E0: 	//Sunny Cove               / ICELAKE_L
-			case 0x00080650:	//Silvermont               / XEON_PHI_KNM 1 for DP, 2 for SP
-			case 0x000806C0: 	//Willow Cove              / TIGERLAKE_L
-			case 0x000806D0: 	//Willow Cove              / TIGERLAKE
-			case 0x00090670:	//Golden Cove + Gracemont  / ALDERLAKE
-			case 0x000906A0:	//Golden Cove + Gracemont  / ALDERLAKE_L
-			case 0x000A0670: 	//Cypress Cove             / ROCKETLAKE
-			case 0x000A0680: 	//Cypress Cove             / ROCKETLAKE_L - cancelled ?
-			case 0x000A06A0:	//Redwood Cove + Crestmont / METEORLAKE_L
-			case 0x000A06C0:	//Redwood Cove + Crestmont / METEORLAKE
-			case 0x000A06E0:	//Redwood Cove             / GRANITERAPIDS_D
-				return 1;
-			case 0x00050670:	//Silvermont               / XEON_PHI_KNL
-			case 0x000606A0:	//Sunny Cove               / ICELAKE_X
-			case 0x000A06D0:	//Redwood Cove             / GRANITERAPIDS_X
-			case 0x000C06F0:	//Raptor Cove              / EMERALDRAPIDS_X
-				return 2;
-			case 0x000806A0:	//Sunny Cove + Tremont     / LAKEFIELD, AVX512 disabled
-			case 0x000A06F0:	//Crestmont                / SIERRAFOREST_X
-			case 0x000B0650:	//Crestmont                / METEORLAKE_N
-			case 0x000B0660:	//Crestmont                / GRANDRIDGE
-			case 0x000B0670:	//Raptor Cove + Gracemont  / RAPTORLAKE
-			case 0x000B06A0:	//Raptor Cove + Gracemont  / RAPTORLAKE_P
-			case 0x000B06D0:	//   ?                     / LUNARLAKE_M
-			case 0x000B06E0:	//Gracemont                / ALDERLAKE_N
-			case 0x000B06F0:	//Golden Cove + Gracemont  / RAPTORLAKE_S
-			default:			//on other cores, AVX512F unsupported
+						} break;
+					case 0x00060660:	//Palm Cove                / CANNONLAKE_L 
+					case 0x00060670:	//Palm Cove                / CANNONLAKE - cancelled ?
+					case 0x000606C0:	//Sunny Cove               / ICELAKE_D
+					case 0x000706D0: 	//Sunny Cove               / ICELAKE - cancelled ?
+					case 0x000706E0: 	//Sunny Cove               / ICELAKE_L
+					case 0x00080650:	//Silvermont               / XEON_PHI_KNM 1 for DP, 2 for SP
+					case 0x000806C0: 	//Willow Cove              / TIGERLAKE_L
+					case 0x000806D0: 	//Willow Cove              / TIGERLAKE
+					case 0x00090670:	//Golden Cove + Gracemont  / ALDERLAKE
+					case 0x000906A0:	//Golden Cove + Gracemont  / ALDERLAKE_L
+					case 0x000A0670: 	//Cypress Cove             / ROCKETLAKE
+					case 0x000A0680: 	//Cypress Cove             / ROCKETLAKE_L - cancelled ?
+					case 0x000A06A0:	//Redwood Cove + Crestmont / METEORLAKE_L
+					case 0x000A06C0:	//Redwood Cove + Crestmont / METEORLAKE
+					case 0x000A06E0:	//Redwood Cove             / GRANITERAPIDS_D
+						return 1;
+					case 0x00050670:	//Silvermont               / XEON_PHI_KNL
+					case 0x000606A0:	//Sunny Cove               / ICELAKE_X
+					case 0x000A06D0:	//Redwood Cove             / GRANITERAPIDS_X
+					case 0x000C06F0:	//Raptor Cove              / EMERALDRAPIDS_X
+						return 2;
+					case 0x000806A0:	//Sunny Cove + Tremont     / LAKEFIELD, AVX512 disabled
+					case 0x000A06F0:	//Crestmont                / SIERRAFOREST_X
+					case 0x000B0650:	//Crestmont                / METEORLAKE_N
+					case 0x000B0660:	//Crestmont                / GRANDRIDGE
+					case 0x000B0670:	//Raptor Cove + Gracemont  / RAPTORLAKE
+					case 0x000B06A0:	//Raptor Cove + Gracemont  / RAPTORLAKE_P
+					case 0x000B06D0:	//   ?                     / LUNARLAKE_M
+					case 0x000B06E0:	//Gracemont                / ALDERLAKE_N
+					case 0x000B06F0:	//Golden Cove + Gracemont  / RAPTORLAKE_S
+					default:			//on other cores, AVX512F unsupported
+						return 0;
+					//future
+					//case 0x000906D0:	//Sunny Cove   / ICELAKE_NNPI / Spring Hill - cancelled ?
+					//case 0x000906F0:	//Sunny Cove   / ICELAKE_R ?
+				}
+				break;
+			case _VENDOR_AMD:
+				switch(GetFamMod() & 0xffffff00) {
+					case 0x00A10F00:	//Genoa, Storm Peak
+					case 0x00A60F00:	//Raphael
+					case 0x00A70F00:	//Phoenix, Phoenix2
+					case 0x00AA0F00:	//Bergamo
+						return 1;
+					default:
+						return 0;
+				}
+			case _VENDOR_CENTAUR:
+			case _VENDOR_ZHAOXIN:
+				switch(GetFamMod()) {
+					case 0x00040670:	//CNS
+					case 0x00050670:	//ZX-F
+						return 1;
+					default:
+						return 0;
+				}
+			default:
 				return 0;
-			//future
-			//case 0x000906D0:	//Sunny Cove   / ICELAKE_NNPI / Spring Hill - cancelled ?
-			//case 0x000906F0:	//Sunny Cove   / ICELAKE_R ?
-		}
-	} else {
+		} // switch(GetVendor()) 
+	} else { //if (IsFeat(ISA_AVX512F)) 
 		return 0;
 	}
 }
