@@ -612,6 +612,7 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x000B06D0:	//   ?                     / LUNARLAKE_M
 					case 0x000B06E0:	//Gracemont                / ALDERLAKE_N
 					case 0x000B06F0:	//Golden Cove + Gracemont  / RAPTORLAKE_S
+					case 0x000C0660:	//   ?                     / ARROW_LAKE
 					default:			//on other cores, AVX512F unsupported
 						return 0;
 					//future
