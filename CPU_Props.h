@@ -73,6 +73,7 @@ enum ISAs {
 	ISA_AMX_INT8,						//Sapphire Rapids
 	ISA_AMX_TILE,						//Sapphire Rapids
 	ISA_AMX_FP16,						//Granite Rapids
+	ISA_AMX_COMPLEX,					//Granite Rapids
 //cacheline
 	ISA_GROUP_CACHELINE,
 	ISA_PREFETCHW,						//K6
@@ -273,6 +274,7 @@ enum _VENDOR  : uint32_t {
 
 #define _FEAT0701_EDX_AVX_VNNI_INT8						((1ULL <<  4) | (CPUID_FEAT0701_EDX << 32))
 #define _FEAT0701_EDX_AVX_NE_CONVERT					((1ULL <<  5) | (CPUID_FEAT0701_EDX << 32))
+#define _FEAT0701_EDX_AMX_COMPLEX						((1ULL <<  8) | (CPUID_FEAT0701_EDX << 32))
 #define _FEAT0701_EDX_PREFETCHI							((1ULL << 14) | (CPUID_FEAT0701_EDX << 32))
 
 #define _EFEAT01_ECX_LAHF								((1ULL <<  0) | (CPUID_EFEAT01_ECX << 32))
