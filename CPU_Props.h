@@ -88,8 +88,10 @@ enum ISAs {
 	ISA_ERMS_ENH_REP_MOVSB_STOSB,		//Haswell
 	ISA_FSRM_FAST_SHORT_RRP_MOV,		//IceLake-U/Y
 	ISA_FZLM_FAST_ZERO_LEN_MOVSB,		//Sapphire Rapids
-	ISA_FSS_FAST_SHORT_STOSB,			//Sapphire Rapids
+	ISA_FSRS_FAST_SHORT_REP_STOSB,		//Sapphire Rapids
 	ISA_FSCS_FAST_SHORT_CMPSB_SCASB,	//Sapphire Rapids
+	ISA_FSRC_FAST_SHORT_REPE_CMPSB,		//Zen4
+	ISA_FSRS_FAST_SHORT_REP_STOSB_AMD,	//Zen4
 //KeyLocker
 	ISA_GROUP_KEYLOCKER,
 	ISA_KEYLOCK,						//Tiger Lake
@@ -141,6 +143,7 @@ enum _CPUID_Feats : unsigned long long {
 	CPUID_EFEAT01_ECX,
 	CPUID_EFEAT01_EDX,
 	CPUID_EFEAT08_EBX,
+	CPUID_EFEAT21_EAX,
 };
 
 enum _XCR0 {
@@ -290,8 +293,11 @@ enum _VENDOR  : uint32_t {
 #define _EFEAT008_EBX_RDPRU								((1ULL <<  4) | (CPUID_EFEAT08_EBX << 32))
 #define _EFEAT008_EBX_MCOMMIT							((1ULL <<  8) | (CPUID_EFEAT08_EBX << 32))
 
+#define _EFEAT21_EAX_FSRS_FAST_SHORT_REP_STOSB			((1ULL <<  10) | (CPUID_EFEAT21_EAX << 32))
+#define _EFEAT21_EAX_FSRC_FAST_SHORT_REPE_CMPSB			((1ULL <<  11) | (CPUID_EFEAT21_EAX << 32))
+
 #define FEATSIZE										2
-#define CPUID_FIELDS									12
+#define CPUID_FIELDS									13
 #define FEAT_NAME_SIZE									31
 #define VENDOR_STRING_SIZE								12
 #define VENDOR_NUM_SIZE									4

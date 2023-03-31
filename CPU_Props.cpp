@@ -83,6 +83,8 @@ const _EXT CPU_Props::exts[ISA_LAST] = {
 	{"Fast zero-length MOVSB",		_XCR0_EMPTY,	_FEAT0701_EAX_FZLM_FAST_ZERO_LEN_MOVSB},
 	{"Fast short REP STOSB",		_XCR0_EMPTY,	_FEAT0701_EAX_FSRS_FAST_SHORT_REP_STOSB},
 	{"Fast short REP CMPSB/SCASB",	_XCR0_EMPTY,	_FEAT0701_EAX_FSRC_FAST_SHORT_REP_CMPSB_SCASB},
+	{"Fast Short REPE CMPSB",		_XCR0_EMPTY,	_EFEAT21_EAX_FSRC_FAST_SHORT_REPE_CMPSB},
+	{"Fast Short REP STOSB/AMD",	_XCR0_EMPTY,	_EFEAT21_EAX_FSRS_FAST_SHORT_REP_STOSB},
 	{"---Keylocker----",			_XCR0_EMPTY,	_FEAT_SKIP},
 	{"KEYLOCK",						_XCR0_EMPTY,	_FEAT07_ECX_KEYLOCK},
 	{"AESKLE",						_KEYLOCK,		_FEAT19_EBX_AESKLE},
@@ -141,6 +143,7 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 	int extLevel00[4]		= {0, 0, 0, 0};
 	int extLevel01[4]		= {0, 0, 0, 0};
 	int extLevel08[4]		= {0, 0, 0, 0};
+	int extLevel21[4]		= {0, 0, 0, 0};
 	unsigned __int64 xcr0	= 0;
 
 	__cpuid(level00, 0x0);
@@ -186,6 +189,8 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 		__cpuid(extLevel01, 0x80000001);
 	if (extLevel00[_REG_EAX] >= 0x80000008)
 		__cpuid(extLevel08, 0x80000008);
+	if (extLevel00[_REG_EAX] >= 0x80000021)
+		__cpuid(extLevel21, 0x80000021);
 
 	if ((level01[_REG_ECX] & _FEAT01_ECX_OSXSAVE) == _FEAT01_ECX_OSXSAVE)  //OSXSAVE
 		xcr0 = _xgetbv(0);
@@ -221,7 +226,7 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 					level07[_REG_EBX], level07[_REG_ECX], level07[_REG_EDX], level0701[_REG_EAX], level0701[_REG_EDX],
 					level19[_REG_EBX],
 					extLevel01[_REG_ECX], extLevel01[_REG_EDX], 
-					extLevel08[_REG_EBX]};
+					extLevel08[_REG_EBX], extLevel21[_REG_EAX]};
 
 	for (int featInd = 0; featInd < sizeof(exts) / sizeof(_EXT); featInd++) {
 		unsigned long place	= (unsigned long)(exts[featInd].featbit >> 32);
