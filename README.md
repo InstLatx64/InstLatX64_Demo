@@ -81,6 +81,8 @@ _mm512_adds/subs_epi/epu/32/64 implementation
 # FirstByte.* 
 Finding first byte in lanes 
 _mm256|512_firstbyte_epu32/64 implementation
+# HWBITPERM.*
+SVE2 vector BITPERM (BEXT/BDEP/BGRP) emulation with HW scalar BMI2 PEXT/PDEP instructions
 
 ## References
 *  Geoff Langdale [Why Ice Lake is Important (a bit-basher’s perspective)](https://branchfree.org/2019/05/29/why-ice-lake-is-important-a-bit-bashers-perspective/)

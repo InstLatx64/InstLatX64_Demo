@@ -51,7 +51,7 @@
     <ClCompile Include="TZCNT_Demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-      <ClCompile Include="SIMD_PEXT_PDEP_Demo.cpp">
+    <ClCompile Include="HWBITPERM_Demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Kmov_Test.cpp">
@@ -116,7 +116,7 @@
     <ClInclude Include="TZCNT_Demo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-      <ClInclude Include="SIMD_PEXT_PDEP_Demo.h">
+    <ClInclude Include="HWBITPERM_Demo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KmovTest.h">
@@ -160,7 +160,7 @@
     <MASM Include="TZCNT_Demo_Asm.asm">
       <Filter>Source Files</Filter>
     </MASM>
-    <MASM Include="SIMD_PEXT_PDEP_Demo_Asm.asm">
+    <MASM Include="HWBITPERM_Demo_Asm.asm">
       <Filter>Source Files</Filter>
     </MASM>
     <MASM Include="KmovTest_Asm.asm">

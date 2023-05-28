@@ -4,35 +4,31 @@ enum demoType {
 	DEMO_GFNI,
 	DEMO_VPCLMLQDQ,
 #if defined (_M_X64)
-#if defined (__AVX2__)
-	DEMO_PEXT_PDEP_EMU,
-	DEMO_FIRSTBBYTE,
-#endif
-#if defined(__AVX512F__)
-	DEMO_RADD,
-	DEMO_SADD,
-	DEMO_KMEMDST,
-	DEMO_ZEN4,
-	DEMO_INTRINSICS,
-	DEMO_VBMI2,
-	DEMO_BYTE2BYTE,
-	DEMO_TZCNT,
-	DEMO_PEXT_PDEP,
-	DEMO_KMOV,
-	DEMO_AMX,
-	DEMO_AVX512_DECPRINT,
-	DEMO_AVX512_DECSCAN,
-	DEMO_AVX512_TRANSPOSE,
-	DEMO_BEXT_BDEP,
-#endif
-	DEMO_CPUID_HISTO,
-#if defined(__AVX512F__)
-	DEMO_INREG_SORT,
-	DEMO_FRACTAL,
-	DEMO_LAST	= DEMO_FRACTAL,
-#else
-	DEMO_LAST	= DEMO_CPUID_HISTO,
-#endif
+	#if defined (__AVX2__)
+		DEMO_PEXT_PDEP_EMU,
+		DEMO_FIRSTBBYTE,
+	#endif
+	#if defined(__AVX512F__)
+		DEMO_RADD,
+		DEMO_SADD,
+		DEMO_KMEMDST,
+		DEMO_ZEN4,
+		DEMO_INTRINSICS,
+		DEMO_VBMI2,
+		DEMO_BYTE2BYTE,
+		DEMO_TZCNT,
+		DEMO_HWBITPERM,
+		DEMO_KMOV,
+		DEMO_AMX,
+		DEMO_AVX512_DECPRINT,
+	#endif
+	#if defined(__AVX512F__)
+		DEMO_LAST	= DEMO_AVX512_DECPRINT,
+	#elif defined (__AVX2__)
+		DEMO_LAST	= DEMO_FIRSTBBYTE,
+	#else
+		DEMO_LAST	= DEMO_VPCLMLQDQ,
+	#endif
 #else
 	DEMO_LAST	= DEMO_VPCLMLQDQ,
 #endif
@@ -61,7 +57,7 @@ void AVX512_InstrincTest(void);
 void VBMI2_Demo(void);
 void Byte2ByteTest(void);
 void TZCNT_Test(void);
-void SIMD_PEXT_PDEP_Test(void);
+void HWBITPERM_Test(void);
 void Kmov_Test(void);
 void AMX_Test(void);
 void AVX512_DecimalPrint_Test(void);
