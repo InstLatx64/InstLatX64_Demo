@@ -116,7 +116,7 @@ void random_wrap(signed long long * random) {
 
 void SetThread(size_t threadindex) {
 	size_t t = (size_t)1 << threadindex;
-	cout << "Procmask:0x" << hex << setfill('0') << setw(sizeof(size_t) * 2) << t << dec << setfill(' ') << endl;
+	cout << "Procmask:0x" << hex << setfill('0') << setw(sizeof(size_t) * 2) << right << t << dec << setfill(' ') << endl;
 	SetProcessAffinityMask(GetCurrentProcess(), t);
 	SetThreadAffinityMask(GetCurrentThread(), t);
 	Sleep(0);
