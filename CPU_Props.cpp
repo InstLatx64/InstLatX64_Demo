@@ -260,12 +260,12 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 						case _KEYLOCK:
 							if (IsFeat(ISA_KEYLOCK))
 								f[f_high] |= f_low;
-				break;
-			default:
-						if ((c.xcr0 & exts[featInd].xcr0) == exts[featInd].xcr0)
-							f[f_high] |= f_low;
-						else
-							f_disabled[f_high] |= f_low;
+							break;
+						default:
+							if ((c.xcr0 & exts[featInd].xcr0) == exts[featInd].xcr0)
+								f[f_high] |= f_low;
+							else
+								f_disabled[f_high] |= f_low;
 							break;
 					}
 				}
