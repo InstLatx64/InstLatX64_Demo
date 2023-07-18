@@ -7,10 +7,10 @@ using namespace std;
 
 bitperm_methods hw_reference[] = {
 	{"PEXT32_HW zmm, zmm, zmm      ",	"SKX       ",	32, BEXT32_HW_Lat,	BEXT32_HW_Tp,			BEXT32_HW,		ISA_AVX512BW,		BEXT, 0},
-	{"PEXT64_HW zmm, zmm, zmm      ",	"SKX       ",	64, BEXT64_HW_Lat,	BEXT64_HW_Tp,			BEXT64_HW,		ISA_AVX512BW,		BEXT, 1},
-	{"PDEP32_HW zmm, zmm, zmm      ",	"SKX       ",	32, BDEP32_HW_Lat,	BDEP32_HW_Tp,			BDEP32_HW,		ISA_AVX512BW,		BDEP, 2},
-	{"PDEP64_HW zmm, zmm, zmm      ",	"SKX       ",	64, BDEP64_HW_Lat,	BDEP64_HW_Tp,			BDEP64_HW,		ISA_AVX512BW,		BDEP, 3},
-	{"BGRP32_HW zmm, zmm, zmm      ",	"SKX       ",	32, BGRP32_HW_Lat,	BGRP32_HW_Tp,			BGRP32_HW,		ISA_AVX512BW,		BGRP, 4},
+	{"PDEP32_HW zmm, zmm, zmm      ",	"SKX       ",	32, BDEP32_HW_Lat,	BDEP32_HW_Tp,			BDEP32_HW,		ISA_AVX512BW,		BDEP, 1},
+	{"BGRP32_HW zmm, zmm, zmm      ",	"SKX       ",	32, BGRP32_HW_Lat,	BGRP32_HW_Tp,			BGRP32_HW,		ISA_AVX512BW,		BGRP, 2},
+	{"PEXT64_HW zmm, zmm, zmm      ",	"SKX       ",	64, BEXT64_HW_Lat,	BEXT64_HW_Tp,			BEXT64_HW,		ISA_AVX512BW,		BEXT, 3},
+	{"PDEP64_HW zmm, zmm, zmm      ",	"SKX       ",	64, BDEP64_HW_Lat,	BDEP64_HW_Tp,			BDEP64_HW,		ISA_AVX512BW,		BDEP, 4},
 	{"BGRP64_HW zmm, zmm, zmm      ",	"SKX       ",	64, BGRP64_HW_Lat,	BGRP64_HW_Tp,			BGRP64_HW,		ISA_AVX512BW,		BGRP, 5},
 };
 
@@ -68,6 +68,20 @@ void HWBITPERM_Check64(void) {
 	for (int j = 0; j < 8; j++) {
 		for (int i = 0; i < 8; i++) {
 			int b = 8 * j + i;
+			p.m512i_u64[i] = (((1ULL) << b) + ((1ULL << 63) >> b)) | (1ULL << 32) | (1ULL << 32) | (1ULL << 16) | (1ULL << 48); 
+			m.m512i_u64[i] = ~0ULL;
+			ref_ext.m512i_i64[i] = _pext_u64(p.m512i_u64[i], m.m512i_u64[i]);
+			ref_dep.m512i_i64[i] = _pdep_u64(p.m512i_u64[i], m.m512i_u64[i]);
+			ref_grp.m512i_i64[i] = _pgrp_u64(p.m512i_u64[i], m.m512i_u64[i]);
+		}
+		HWBITPERM_Compare(p, m, ref_ext, 64, BEXT);
+		HWBITPERM_Compare(p, m, ref_dep, 64, BDEP);
+		HWBITPERM_Compare(p, m, ref_grp, 64, BGRP);
+	}
+
+	for (int j = 0; j < 8; j++) {
+		for (int i = 0; i < 8; i++) {
+			int b = 8 * j + i;
 			p.m512i_u64[i] = ~0ULL;
 			m.m512i_u64[i] = _bzhi_u64(~0, b + 1);
 			ref_ext.m512i_i64[i] = _pext_u64(p.m512i_u64[i], m.m512i_u64[i]);
@@ -101,6 +115,20 @@ void HWBITPERM_Check32(void) {
 			int b = 16 * j + i;
 			p.m512i_u32[i] = ~0UL;
 			m.m512i_u32[i] = (((1UL) << b) + ((1UL << 31) >> b)) | (1UL << 16);
+			ref_ext.m512i_u32[i] = _pext_u32(p.m512i_u32[i], m.m512i_u32[i]);
+			ref_dep.m512i_u32[i] = _pdep_u32(p.m512i_u32[i], m.m512i_u32[i]);
+			ref_grp.m512i_u32[i] = _pgrp_u32(p.m512i_u32[i], m.m512i_u32[i]);
+		}
+		HWBITPERM_Compare(p, m, ref_ext, 32, BEXT);
+		HWBITPERM_Compare(p, m, ref_dep, 32, BDEP);;
+		HWBITPERM_Compare(p, m, ref_grp, 32, BGRP);;
+	}
+
+	for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < 16; i++) {
+			int b = 16 * j + i;
+			p.m512i_u32[i] = (((1UL) << b) + ((1UL << 31) >> b)) | (1UL << 16); 
+			m.m512i_u32[i] = ~0UL;
 			ref_ext.m512i_u32[i] = _pext_u32(p.m512i_u32[i], m.m512i_u32[i]);
 			ref_dep.m512i_u32[i] = _pdep_u32(p.m512i_u32[i], m.m512i_u32[i]);
 			ref_grp.m512i_u32[i] = _pgrp_u32(p.m512i_u32[i], m.m512i_u32[i]);
