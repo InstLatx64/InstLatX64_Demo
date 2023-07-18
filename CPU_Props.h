@@ -48,8 +48,12 @@ enum ISAs {
 	ISA_AVX_VPCLMULQDQ,					//IceLake-U/Y
 	ISA_AVX_VNNI,						//AlderLake
 	ISA_AVX_VNNI_INT8,					//Crestmont
+	ISA_AVX_VNNI_INT16,					//Arrow Lake
 	ISA_AVX_IFMA,						//Crestmont
 	ISA_AVX_NE_CONVERT,					//Crestmont
+	ISA_SHA512,							//Arrow Lake
+	ISA_SM3,							//Arrow Lake
+	ISA_SM4,							//Arrow Lake
 //EVEX SIMD
 	ISA_GROUP_EVEX,
 	ISA_AVX512F,						//Knights Landing
