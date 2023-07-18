@@ -265,6 +265,9 @@ enum _VENDOR  : uint32_t {
 #define _FEAT19_EBX_AESKLE								((1ULL << 0) | (CPUID_FEAT19_EBX << 32))
 #define _FEAT19_EBX_WIDE_KL								((1ULL << 2) | (CPUID_FEAT19_EBX << 32))
 
+#define _FEAT0701_EAX_SHA512							((1ULL <<  0) | (CPUID_FEAT0701_EAX << 32))
+#define _FEAT0701_EAX_SM3								((1ULL <<  1) | (CPUID_FEAT0701_EAX << 32))
+#define _FEAT0701_EAX_SM4								((1ULL <<  2) | (CPUID_FEAT0701_EAX << 32))
 #define _FEAT0701_EAX_RAO_INT							((1ULL <<  3) | (CPUID_FEAT0701_EAX << 32))
 #define _FEAT0701_EAX_AVX_VNNI							((1ULL <<  4) | (CPUID_FEAT0701_EAX << 32))
 #define _FEAT0701_EAX_AVX512_BF16						((1ULL <<  5) | (CPUID_FEAT0701_EAX << 32))
@@ -281,6 +284,7 @@ enum _VENDOR  : uint32_t {
 #define _FEAT0701_EDX_AVX_VNNI_INT8						((1ULL <<  4) | (CPUID_FEAT0701_EDX << 32))
 #define _FEAT0701_EDX_AVX_NE_CONVERT					((1ULL <<  5) | (CPUID_FEAT0701_EDX << 32))
 #define _FEAT0701_EDX_AMX_COMPLEX						((1ULL <<  8) | (CPUID_FEAT0701_EDX << 32))
+#define _FEAT0701_EDX_AVX_VNNI_INT16					((1ULL << 10) | (CPUID_FEAT0701_EDX << 32))
 #define _FEAT0701_EDX_PREFETCHI							((1ULL << 14) | (CPUID_FEAT0701_EDX << 32))
 
 #define _EFEAT01_ECX_LAHF								((1ULL <<  0) | (CPUID_EFEAT01_ECX << 32))
