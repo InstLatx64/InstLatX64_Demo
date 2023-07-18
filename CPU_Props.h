@@ -36,19 +36,22 @@ enum ISAs {
 	ISA_CLMUL,							//Westmere
 	ISA_AES,							//Westmere
 	ISA_SHA,							//Goldmont
+	ISA_GFNI,							//Tremont
+//VEX SIMD
+	ISA_GROUP_VEX,
 	ISA_AVX,							//Sandy Bridge
 	ISA_AVX2,							//Haswell
 	ISA_FMA,							//Haswell
 	ISA_F16C,							//Ivy Bridge
-	ISA_GFNI,							//Tremont
-	ISA_VAES,							//IceLake-U/Y
-	ISA_VPCLMULQDQ,						//IceLake-U/Y
+	ISA_AVX_GFNI,						//IceLake-U/Y
+	ISA_AVX_VAES,						//IceLake-U/Y
+	ISA_AVX_VPCLMULQDQ,					//IceLake-U/Y
 	ISA_AVX_VNNI,						//AlderLake
 	ISA_AVX_VNNI_INT8,					//Crestmont
 	ISA_AVX_IFMA,						//Crestmont
 	ISA_AVX_NE_CONVERT,					//Crestmont
-//AVX512
-	ISA_GROUP_AVX512,
+//EVEX SIMD
+	ISA_GROUP_EVEX,
 	ISA_AVX512F,						//Knights Landing
 	ISA_AVX512CD,						//Knights Landing
 	ISA_AVX512ER,						//Knights Landing
@@ -62,6 +65,9 @@ enum ISAs {
 	ISA_AVX512_4VNNIW,					//Knights Mill
 	ISA_AVX512_4FMAPS,					//Knights Mill
 	ISA_AVX512_VPOPCNTDQ,				//Knights Mill
+	ISA_AVX512_GFNI,					//IceLake-U/Y
+	ISA_AVX512_VAES,					//IceLake-U/Y
+	ISA_AVX512_VPCLMULQDQ,				//IceLake-U/Y
 	ISA_AVX512_BITALG,					//IceLake-U/Y
 	ISA_AVX512_VBMI2,					//IceLake-U/Y
 	ISA_AVX512_BF16,					//Cooper Lake
@@ -366,6 +372,7 @@ private:
 	int					fms;
 	void				PrintSupportStatus(bool) const;
 	void				PrintOSStatus(bool) const;
+	void				PrintFeat(bool feat, unsigned __int64 f_low, unsigned __int64 f_high) const;
 	bool				HybridMasks(DWORD_PTR &bigCoreMask, DWORD_PTR &littleCoreMask, DWORD_PTR &systemAffMask) const;
 public:
 	CPU_Props();

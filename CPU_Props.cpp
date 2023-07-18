@@ -33,18 +33,20 @@ const _EXT CPU_Props::exts[ISA_LAST] = {
 	{"CLMUL",						_XCR0_EMPTY,	_FEAT01_ECX_CLMUL},
 	{"AES",							_XCR0_EMPTY,	_FEAT01_ECX_AESNI},
 	{"SHA",							_XCR0_EMPTY,	_FEAT07_EBX_SHA},
+	{"GFNI",						_XCR0_EMPTY,	_FEAT07_ECX_GFNI},
+	{"--VEX-SIMD------",			_XCR0_EMPTY,	_FEAT_SKIP},
 	{"AVX",							_XCR0_AVX,		_FEAT01_ECX_AVX},
 	{"AVX2",						_XCR0_AVX,		_FEAT07_EBX_AVX2},
 	{"FMA",							_XCR0_AVX,		_FEAT01_ECX_FMA3},
 	{"F16C",						_XCR0_AVX,		_FEAT01_ECX_F16C},
-	{"GFNI",						_XCR0_EMPTY,	_FEAT07_ECX_GFNI},
-	{"VAES",						_XCR0_EMPTY,	_FEAT07_ECX_VAES},
-	{"VPCLMULQDQ",					_XCR0_EMPTY,	_FEAT07_ECX_VPCLMULQDQ},
+	{"AVX+GFNI",					_XCR0_AVX,		_FEAT07_ECX_GFNI},
+	{"AVX+VAES",					_XCR0_AVX,		_FEAT07_ECX_VAES},
+	{"AVX+VPCLMULQDQ",				_XCR0_AVX,		_FEAT07_ECX_VPCLMULQDQ},
 	{"AVX_VNNI",					_XCR0_AVX,		_FEAT0701_EAX_AVX_VNNI},
 	{"AVX_VNNI_INT8",				_XCR0_AVX,		_FEAT0701_EDX_AVX_VNNI_INT8},
 	{"AVX_IFMA",					_XCR0_AVX,		_FEAT0701_EAX_AVX_IFMA},
 	{"AVX_NE_CONVERT",				_XCR0_AVX,		_FEAT0701_EDX_AVX_NE_CONVERT},
-	{"---AVX512-------",			_XCR0_EMPTY,	_FEAT_SKIP},
+	{"--EVEX-SIMD-----",			_XCR0_EMPTY,	_FEAT_SKIP},
 	{"AVX512F",						_XCR0_AVX512,	_FEAT07_EBX_AVX512F},
 	{"AVX512CD",					_XCR0_AVX512,	_FEAT07_EBX_AVX512CD},
 	{"AVX512ER",					_XCR0_AVX512,	_FEAT07_EBX_AVX512ER},
@@ -58,6 +60,9 @@ const _EXT CPU_Props::exts[ISA_LAST] = {
 	{"AVX512_4VNNIW",				_XCR0_AVX512,	_FEAT07_EDX_AVX512_4VNNIW},
 	{"AVX512_4FMAPS",				_XCR0_AVX512,	_FEAT07_EDX_AVX512_4FMAPS},
 	{"AVX512_VPOPCNTDQ",			_XCR0_AVX512,	_FEAT07_ECX_AVX512_VPOPCNTDQ},
+	{"AVX512+GFNI",					_XCR0_AVX512,	_FEAT07_ECX_GFNI},
+	{"AVX512+VAES",					_XCR0_AVX512,	_FEAT07_ECX_VAES},
+	{"AVX512+VPCLMULQDQ",			_XCR0_AVX512,	_FEAT07_ECX_VPCLMULQDQ},
 	{"AVX512_BITALG",				_XCR0_AVX512,	_FEAT07_ECX_AVX512_BITALG},
 	{"AVX512_VBMI2",				_XCR0_AVX512,	_FEAT07_ECX_AVX512_VBMI2},
 	{"AVX512_BF16",					_XCR0_AVX512,	_FEAT0701_EAX_AVX512_BF16},
@@ -310,6 +315,20 @@ void CPU_Props::PrintFeat(uint64_t f) const {
 	cout << left << exts[f].name;
 }
 
+void CPU_Props::PrintFeat(bool feat, unsigned __int64 f_low, unsigned __int64 f_high) const {
+	if (feat && ((f_disabled[f_high] & f_low) != 0)) {
+		PrintSupportStatus(true);
+		PrintOSStatus(false);
+	} else {
+		if ((f[f_high] & f_low) == 0) {
+			PrintSupportStatus(false);
+		} else {
+			PrintSupportStatus(true);
+			PrintOSStatus(true);
+		}
+	}
+}
+
 void CPU_Props::PrintFeats(void) const {
 	for (int featInd = 0; featInd < sizeof(exts) / sizeof(_EXT); featInd++) {
 		cout << left << std::setw(FEAT_NAME_SIZE) << exts[featInd].name;
@@ -319,20 +338,14 @@ void CPU_Props::PrintFeats(void) const {
 			unsigned __int64 f_high	= (featInd & ~0x3f) >> 6;
 			switch(exts[featInd].xcr0) {
 				case _XCR0_AVX:
+					PrintFeat(IsFeat(ISA_AVX), f_low, f_high);
+					break;
 				case _XCR0_AVX512:
+					PrintFeat(IsFeat(ISA_AVX512F), f_low, f_high);
+					break;
 				case _XCR0_AMX:
 				case _KEYLOCK:
-					if ((f_disabled[f_high] & f_low) != 0) {
-						PrintSupportStatus(true);
-						PrintOSStatus(false);
-					} else {
-						if ((f[f_high] & f_low) == 0) {
-							PrintSupportStatus(false);
-						} else {
-							PrintSupportStatus(true);
-							PrintOSStatus(true);
-						}
-					}
+					PrintFeat(true, f_low, f_high);
 					break;
 				case _XCR0_EMPTY:
 				default:

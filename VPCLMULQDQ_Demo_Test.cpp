@@ -20,18 +20,19 @@ void VPCLMULQDQ_Demo_prefix_xor(void) {
 	while (!_rdrand64_step(&q64_1));
 #endif
 
-	__m128i x128	= _mm_set_epi64x(q64_0, _rotl64(q64_0, q64_0 & 0x3f));
-	__m128i y128	= _mm_set_epi64x(q64_1, _rotl64(q64_1, q64_1 & 0x3f));
+	if (cpu_props.IsFeat(ISA_CLMUL)) {
+		__m128i x128 = _mm_set_epi64x(q64_0, _rotl64(q64_0, q64_0 & 0x3f));
+		__m128i y128 = _mm_set_epi64x(q64_1, _rotl64(q64_1, q64_1 & 0x3f));
 
-	__m128i test128	= _mm_xor_si128(
-	_mm_xor_si128(_mm_prefix_xor_clmul_si128(x128), _mm_prefix_xor_clmul_si128(y128)),
-	_mm_prefix_xor_clmul_si128(_mm_xor_si128(x128, y128)));
-	assert(_mm_testz_si128(test128, test128));
-	printRes("x128                          ", x128);
-	printRes("_mm_prefix_xor_clmul_si128    ", _mm_prefix_xor_clmul_si128(x128));
-	
+		__m128i test128 = _mm_xor_si128(
+			_mm_xor_si128(_mm_prefix_xor_clmul_si128(x128), _mm_prefix_xor_clmul_si128(y128)),
+			_mm_prefix_xor_clmul_si128(_mm_xor_si128(x128, y128)));
+		assert(_mm_testz_si128(test128, test128));
+		printRes("x128                            ", x128);
+		printRes("_mm_prefix_xor_clmul_si128      ", _mm_prefix_xor_clmul_si128(x128));
+	}
 #if defined(__AVX2__)
-	if (cpu_props.IsFeat(ISA_AVX) && cpu_props.IsFeat(ISA_VPCLMULQDQ)) {
+	if (cpu_props.IsFeat(ISA_AVX_VPCLMULQDQ)) {
 		unsigned long long q64_2 = 0, q64_3 = 0;
 #if !defined(_M_X64)
 		while (!_rdrand32_step((unsigned int *)&q64_2));
@@ -50,12 +51,12 @@ void VPCLMULQDQ_Demo_prefix_xor(void) {
 		_mm256_prefix_xor_clmul_si256(_mm256_xor_si256(x256, y256)));
 		assert(_mm256_testz_si256(test256, test256));
 
-		printRes("x256                          ", x256);
-		printRes("_mm256_prefix_xor_clmul_si256 ", _mm256_prefix_xor_clmul_si256(x256));
+		printRes("x256                            ", x256);
+		printRes("_mm256_prefix_xor_clmul_si256   ", _mm256_prefix_xor_clmul_si256(x256));
 	}
 #endif
 #if defined(__AVX512F__)
-	if (cpu_props.IsFeat(ISA_AVX512F) && cpu_props.IsFeat(ISA_VPCLMULQDQ)) {
+	if (cpu_props.IsFeat(ISA_AVX512_VPCLMULQDQ)) {
 		unsigned long long q64_2 = 0, q64_3 = 0;
 #if !defined(_M_X64)
 		while (!_rdrand32_step((unsigned int *)&q64_2));
@@ -74,8 +75,8 @@ void VPCLMULQDQ_Demo_prefix_xor(void) {
 		_mm512_prefix_xor_clmul_si512(_mm512_xor_si512(x512, y512)));
 		assert(test512);
 
-		printRes("x512                          ", x512);
-		printRes("_mm512_prefix_xor_clmul_si512 ", _mm512_prefix_xor_clmul_si512(x512));
+		printRes("x512                            ", x512);
+		printRes("_mm512_prefix_xor_clmul_si512   ", _mm512_prefix_xor_clmul_si512(x512));
 	}
 #endif
 }
