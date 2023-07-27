@@ -42,6 +42,7 @@ enum argType {
 	ARG_CPUPROPS,
 	ARG_PCORE,
 	ARG_ECORE,
+	ARG_CPUIDDUMP,
 	ARG_DEMOTYPE,
 	ARG_THREADINDEX,
 	ARG_NOTHING,
@@ -70,6 +71,7 @@ private:
 	bool						listFlag;
 	bool						cpuPropsFlag;
 	bool						errorFlag;
+	bool						dumpFlag;
 	void						SetError(char* , char*, const char* );
 	void						SetParam(argType, char*, char* , int* );
 public:
@@ -79,6 +81,7 @@ public:
 	bool						IsHelp(void) const;
 	bool						IsDemoList(void) const;
 	bool						IsCPUProps(void) const;
+	bool						IsCPUIDDump(void) const;
 	void						PrintUsage(void) const;
 	void						PrintVersion(void) const;
 	size_t						GetMaxDemo(void) const;

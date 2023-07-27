@@ -148,6 +148,30 @@ const _CPUID_VENDOR CPU_Props::vendors[_VENDOR_LAST] = {
 	{_VENDOR_ZHAOXIN,	{0x68532020, 0x68676E61, 0x20206961}},		//"  Shanghai  "
 };
 
+const char * CPU_Props::_cpuid_names[MAX_CPUIDSTR][CPUID_STR_LAST + 1] = {
+/* 00 */	{"X87",					"",					"",				"",},
+/* 01 */	{"SSE",					"Data TLB",			"4K          ",	"Data       "},
+/* 02 */	{"AVX",					"Instruction TLB",	"   2M       ",	"Instruction"},
+/* 03 */	{"MPX BNDREGS",			"Unified TLB",		"4K+2M       ",	"Unified    "},
+/* 04 */	{"MPX BNDCSR",			"Load Only TLB",	"      4M    ",	"",},
+/* 05 */	{"AVX-512 Opmask",		"Store Only TLB",	"4K+   4M    ",	"",},
+/* 06 */	{"AVX-512 Hi256",		"",					"   2M/4M    ",	"",},
+/* 07 */	{"AVX-512 Hi16",		"",					"4K+2M/4M    ",	"",},
+/* 08 */	{"PT",					"",					"         1G ",	"",},
+/* 09 */	{"PKRU",				"",					"4K+      1G ",	"",},
+/* 10 */	{"PASID",				"",					"   2M   +1G ",	"",},
+/* 11 */	{"CET_U",				"",					"4K+2M   +1G ",	"",},
+/* 12 */	{"CET_S",				"",					"      4M+1G ",	"",},
+/* 13 */	{"HDC",					"",					"4K+   4M+1G ",	"",},
+/* 14 */	{"UINTR",				"",					"   2M/4M+1G ",	"",},
+/* 15 */	{"LBR",					"",					"4K+2M/4M+1G ",	"",},
+/* 16 */	{"HWP",					"",					"",				"",},
+/* 17 */	{"TILECFG",				"",					"",				"",},
+/* 18 */	{"TILEDATA"				"",					"",				"",},
+/* 19 */	{"APX"					"",					"",				"",},
+};
+
+
 CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 	int level00[4]			= {0, 0, 0, 0};
 	int level01[4]			= {0, 0, 0, 0};
@@ -182,21 +206,12 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 			AMX_palette[p].bytes_per_row	= level1D[_REG_EBX] & 0xffff;
 			AMX_palette[p].max_names		= level1D[_REG_EBX] >> 16;
 			AMX_palette[p].max_rows			= level1D[_REG_ECX] & 0xffff;
-
-			std::cout << std::dec;
-			std::cout << "AMX_palette[" << p <<"].total_tile_bytes: " << AMX_palette[p].total_tile_bytes << std::endl;
-			std::cout << "AMX_palette[" << p <<"].bytes_per_tile:   " << AMX_palette[p].bytes_per_tile << std::endl;
-			std::cout << "AMX_palette[" << p <<"].bytes_per_row:    " << AMX_palette[p].bytes_per_row << std::endl;
-			std::cout << "AMX_palette[" << p <<"].max_names:        " << AMX_palette[p].max_names << std::endl;
-			std::cout << "AMX_palette[" << p <<"].max_rows:         " << AMX_palette[p].max_rows << std::endl;
 		}
 		if (level00[_REG_EAX] >= 0x1E) {
 			__cpuid(level1E, 0x1E);
 			if (level1E[_REG_EBX] != 0) {
 				AMX_TMUL.tmul_maxk	= level1E[_REG_EBX] & 0xff;
 				AMX_TMUL.tmul_maxn	= (level1E[_REG_EBX] >> 8) & 0xffff;
-				std::cout << "AMX_TMUL.tmul_maxk: " << (unsigned int)AMX_TMUL.tmul_maxk << std::endl;
-				std::cout << "AMX_TMUL.tmul_maxn: " << (unsigned int)AMX_TMUL.tmul_maxn << std::endl;
 			}
 		}
 	}
@@ -679,5 +694,330 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 		return 0;
 	}
 }
-
 #endif
+
+void CPU_Props::PrintLeaf(uint32_t leafs, int* leaf) const {
+	cout << "CPUID ";
+	cout << hex << uppercase << right << setw(8) << setfill('0') << leafs << ": ";
+	for (int reg = _REG_EAX; reg <= _REG_EDX; reg++) {
+		cout << hex << uppercase << right << setw(8) << setfill('0') << leaf[reg];
+		cout << ((reg != _REG_EDX) ? '-' : ' ');
+	}
+}
+
+void CPU_Props::PrintSingleLeaf(uint32_t leafs, int* leaf) const {
+	PrintLeaf(leafs, leaf);
+	cout << endl;
+}
+
+void CPU_Props::PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf) const {
+	PrintLeaf(leafs, leaf);
+	cout << "[SL " << hex << uppercase << setw(2) << right << setfill('0') << subLeaf << ']' << endl;
+}
+
+void CPU_Props::PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf, cpuidStr str, int strInd) const {
+	PrintLeaf(leafs, leaf);
+	cout << "[SL " << hex << uppercase << setw(2) << right << setfill('0') << subLeaf << "] [" << _cpuid_names[min(MAX_CPUIDSTR - 1, strInd)][min(str, CPUID_STR_LAST - 1)] << ']' << endl;
+}
+
+void CPU_Props::PrintCPUIDDump(void) const {
+	WORD gCount = GetActiveProcessorGroupCount();
+	GROUP_AFFINITY ga;
+	GROUP_AFFINITY ga_orig;
+	GetThreadGroupAffinity(GetCurrentThread(), &ga_orig);
+	ga.Reserved[0]	= ga.Reserved[1] =	ga.Reserved[2] = 0;
+	for (uint32_t gr = 0; gr < gCount; gr++) {
+		DWORD apc = GetActiveProcessorCount(gr);
+		DWORD_PTR processMask = ~0ULL >> (sizeof(DWORD_PTR) * 8 - apc);
+		ga.Group	= gr;
+		int      leaf[5]					= {0, 0, 0, 0, 0};
+		uint32_t startLeafs[MAX_STARTLEAF]	= { 0x00000000, //Standard
+												0x20000000, //Xeon Phi
+												0x40000000, //VirtualMachine
+												0x80000000, //AMD
+												0x80860000, //Transmeta
+												0xc0000000	//Centaur/Via/Zhaoxin
+												};
+		for (unsigned int th = 0; th < apc; th++) {
+			DWORD_PTR testMask = ((DWORD_PTR) 1 << th);
+			ga.Mask		= testMask;
+			SetThreadGroupAffinity(GetCurrentThread(), &ga, NULL);
+			cout << "Group: 0x" << hex << uppercase << setw(2) << setfill('0') << gr;
+			cout << " Affinity mask: 0x" << hex << uppercase << setw(16) << setfill('0') << testMask << endl;
+			Sleep(0);
+			for (int startleaf = 0; startleaf < MAX_STARTLEAF; startleaf++) {
+				__cpuid(leaf, startLeafs[startleaf]);
+				const uint32_t lastLeaf = leaf[_REG_EAX];
+				if (lastLeaf != 0) {
+					for (uint32_t leafs = startLeafs[startleaf]; leafs <= lastLeaf; leafs++) {
+						__cpuid(leaf, leafs);
+						switch (leafs) {
+							default:
+								PrintSingleLeaf(leafs, leaf);
+								break;
+							case 0x04:	//Deterministic Cache Parameters Leaf
+							case 0x8000001D: {
+								int subleaf = 0;
+								__cpuidex(leaf, leafs, subleaf);
+								while ((leaf[_REG_EAX] & 0x1f) != 0) {
+									unsigned int type = leaf[_REG_EAX] & 0x1f;
+									unsigned int clevel = (leaf[_REG_EAX] >> 5) & 0x7;
+									unsigned int cacheLine	= (leaf[_REG_EBX] & 0x7ff) + 1;				//cacheline size
+									unsigned int cacheAssoc	= (leaf[_REG_EBX] >> 22) + 1;				//cache associativity
+									unsigned int cacheSize	= ((leaf[_REG_EBX] >> 12) & 0x3ff) + 1;		//partitions
+												cacheSize	*= leaf[_REG_ECX] + 1;						//cache sets
+												cacheSize	*= cacheLine * cacheAssoc;					//size in bytes
+												cacheSize	>>= 10;										//in KiB
+
+									PrintLeaf(leafs, leaf);
+									cout << "[SL " << hex << uppercase << setw(2) << right << setfill('0') << subleaf;
+									cout << "] [L" << clevel << ' ';
+									cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, type)][CPUID_CACHE_TYPE] << ' ';
+									cout << dec << setw(8) << right << setfill(' ') << cacheSize << " KiB ";
+									cout << dec << setw(3) << right << setfill(' ') << cacheAssoc << "-way ";
+									cout << (leaf[_REG_EDX] & 0x001 ? 'W' : '-'); //EDX Bit 00: Write-Back Invalidate/Invalidate.
+									cout << (leaf[_REG_EDX] & 0x002 ? 'L' : '-'); //EDX Bit 01: Cache Inclusivenes
+									cout << (leaf[_REG_EDX] & 0x004 ? 'C' : '-'); //EDX Bit 02: Complex Cache Indexing
+									cout << (leaf[_REG_EAX] & 0x100 ? 'S' : '-'); //EAX Bit 08: Self Initializing cache level (does not need SW initialization
+									cout << (leaf[_REG_EAX] & 0x200 ? 'A' : '-'); //EAX Bit 09: Fully Associative cache.
+									cout << ']' << endl;
+
+									__cpuidex(leaf, leafs, ++subleaf);
+								};
+							} break;
+							case 0x07:	//Structured Extended Feature Flags Enumeration Leaf
+							case 0x14:	//Intel Processor Trace Enumeration Main Leaf
+							case 0x17:	//System-On-Chip Vendor Attribute Enumeration Main Leaf
+							//case 0x1D:
+							case 0x20:	//Processor History Reset Sub-leaf 
+							case 0x23:	//Architectural Performance Monitoring Extended Main Leaf
+							case 0x24:	{//AVX10 Leaf
+								int lastSubLeaf = leaf[_REG_EAX];
+								for (int subleaf = 0; subleaf <= lastSubLeaf; subleaf++) {
+									__cpuidex(leaf, leafs, subleaf);
+									PrintSubLeaf(leafs, leaf, subleaf);
+								};
+							} break;
+							case 0x0B:	//Extended Topology Enumeration Leaf
+							case 0x1F:	{//V2 Extended Topology Enumeration Leaf
+								int subleaf = 0;
+								__cpuidex(leaf, leafs, subleaf);
+								while ((leaf[_REG_EAX] | leaf[_REG_EBX]) != 0) {
+									PrintSubLeaf(leafs, leaf, subleaf);
+									__cpuidex(leaf, leafs, ++subleaf);
+								};
+							} break;
+							case 0x0D:	{//Processor Extended State Enumeration Main Leaf
+								PrintSubLeaf(leafs, leaf, 0, CPUID_STATE, 0);
+								uint64_t validmask = (uint64_t)leaf[_REG_EDX] << 32 | leaf[_REG_EAX];
+								__cpuidex(leaf, leafs, 1);
+								validmask |= (uint64_t)leaf[_REG_EDX] << 32 | leaf[_REG_ECX];
+								PrintSubLeaf(leafs, leaf, 1, CPUID_STATE, 1);
+								for (int subleaf = 2; subleaf < 0x40; subleaf++) {
+									if ((validmask & (1ULL << subleaf)) != 0) {
+										__cpuidex(leaf, leafs, subleaf);
+										PrintSubLeaf(leafs, leaf, subleaf, CPUID_STATE, subleaf);
+									}
+								}
+							} break;
+							case 0x0F: { //Intel Resource Director Technology (Intel RDT) Monitoring Enumeration
+								int levels = leaf[_REG_EDX];
+								PrintSubLeaf(leafs, leaf, 0);
+								for (int level = 1; level < 32; level++) {
+									if ((levels & (1UL << level)) != 0) {
+										__cpuidex(leaf, leafs, level);
+										PrintSubLeaf(leafs, leaf, level);
+									}
+								}
+							} break;
+							case 0x10:		   //Intel Resource Director Technology (Intel RDT) Allocation Enumeration
+							case 0x80000020: { //Platform QoS
+								int levels = leaf[_REG_EBX];
+								PrintSubLeaf(leafs, leaf, 0);
+								for (int level = 1; level < 32; level++) {
+									if ((levels & (1UL << level)) != 0) {
+										__cpuidex(leaf, leafs, level);
+										PrintSubLeaf(leafs, leaf, level);
+									}
+								}
+							} break;
+							case 0x12: { //Intel SGX Capability Enumeration Leaf
+								PrintSubLeaf(leafs, leaf, 0);
+								__cpuidex(leaf, leafs, 1);
+								PrintSubLeaf(leafs, leaf, 1);
+								__cpuidex(leaf, leafs, 2);
+								int subleaf = 2;
+								while (leaf[_REG_EAX] != 0) {
+									PrintSubLeaf(leafs, leaf, subleaf);
+									__cpuidex(leaf, leafs, ++subleaf);
+								}
+							} break;
+							case 0x15: {//Time Stamp Counter and Core Crystal Clock Information Leaf
+								PrintLeaf(leafs, leaf);
+								cout << '[' ;
+								cout << dec << leaf[_REG_EAX];
+								cout << " / ";
+								cout << dec << leaf[_REG_EBX];
+								cout << " / ";
+								cout << dec << leaf[_REG_ECX];
+								cout << ']' << endl;
+							} break;
+							case 0x16: {//Processor Frequency Information Leaf
+								PrintLeaf(leafs, leaf);
+								cout << '[' ;
+								cout << dec << (leaf[_REG_EAX] & 0xffff);
+								cout << " / ";
+								cout << dec << (leaf[_REG_EBX] & 0xffff);
+								cout << " / ";
+								cout << dec << (leaf[_REG_ECX] & 0xffff);
+								cout << ']' << endl;
+							} break;
+							case 0x18:	{//Deterministic Address Translation Parameters Main Leaf
+								int lastSubLeaf = leaf[_REG_EAX];
+								for (int subleaf = 0; subleaf <= lastSubLeaf; subleaf++) {
+									__cpuidex(leaf, leafs, subleaf);
+									unsigned int TLBpage	= leaf[_REG_EBX] & 0xf;
+									unsigned int TLBassoc	= leaf[_REG_EBX] >> 16;
+									unsigned int TLBset		= leaf[_REG_ECX];
+									unsigned int TLBentries	= TLBassoc * TLBset;
+									unsigned int TLBlevel	= (leaf[_REG_EDX] >> 5) & 0x7;
+									unsigned int TLBtype	= leaf[_REG_EDX] & 0x1f;
+									if (TLBtype != 0) {
+										PrintLeaf(leafs, leaf);
+										cout << "[SL " << hex << uppercase << setw(2) << right << setfill('0') << subleaf;
+										cout << "] [";
+										cout << dec << setw(5) << right << setfill(' ') << TLBentries << ' ';
+										cout << dec << setw(3) << right << setfill(' ') << TLBassoc << "-way L";
+										cout << TLBlevel << ' ';
+										cout <<  _cpuid_names[TLBpage][CPUID_TLB_PAGE] << ' ';
+										cout <<  _cpuid_names[TLBtype][CPUID_TLB_TYPE];
+										cout << ']' << endl;
+									}
+								};
+							} break;
+							case 0x1A:	{//Native Model ID Enumeration Leaf
+								PrintLeaf(leafs, leaf);
+								if (cpu_props.IsFeat(ISA_HYBRID)) {
+									int hybrid = leaf[_REG_EAX];
+									switch (hybrid >> 24) {
+										case 0x20:
+											cout << "[Atom]";
+											break;
+										case 0x40:
+											cout << "[Core]";
+											break;
+										default:
+											break;
+									}
+								}
+								cout << endl;
+							} break;
+							case 0x1D:	{//Tile Information Main Leaf
+								PrintSubLeaf(leafs, leaf, 0);
+								const unsigned int maxPalette = leaf[_REG_EAX];
+								for (unsigned int subleaf = 1, palette = 0; palette < maxPalette; subleaf++, palette++) {
+									__cpuidex(leaf, leafs, subleaf);
+									PrintLeaf(leafs, leaf);
+									cout << "[SL " << hex << uppercase << setw(2) << right << setfill('0') << subleaf;
+									cout << "] [";
+									_AMX_palette pal;
+									pal.total_tile_bytes	= leaf[_REG_EAX] & 0xffff;
+									pal.bytes_per_tile		= leaf[_REG_EAX] >> 16;
+									pal.bytes_per_row		= leaf[_REG_EBX] & 0xffff;
+									pal.max_names			= leaf[_REG_EBX] >> 16;
+									pal.max_rows			= leaf[_REG_ECX] & 0xffff;
+									cout << "[AMX_palette " << setfill(' ') << dec << palette;
+									cout << " total_tile_bytes:" << setw(5) << pal.total_tile_bytes;
+									cout << " bytes_per_tile:" << setw(4) << pal.bytes_per_tile;
+									cout << " bytes_per_row:" << setw(3) << pal.bytes_per_row;
+									cout << " max_names:" << setw(3) << pal.max_names;
+									cout << " max_rows:" << setw(3) << pal.max_rows;
+									cout << ']' << endl;
+								}
+							} break;
+							case 0x1E:	{//TMUL Information Main Leaf
+								PrintLeaf(leafs, leaf);
+								if (leaf[_REG_EBX] != 0) {
+									_AMX_TMUL	AMX_TMUL;
+									AMX_TMUL.tmul_maxk	= leaf[_REG_EBX] & 0xff;
+									AMX_TMUL.tmul_maxn	= (leaf[_REG_EBX] >> 8) & 0xffff;
+									cout << "[AMX_TMUL maxk: " << dec << (unsigned int)AMX_TMUL.tmul_maxk;
+									cout << " maxn: " << (unsigned int)AMX_TMUL.tmul_maxn;
+									cout << ']';
+								}
+								cout << endl;
+							} break;
+							case 0x80000002:
+							case 0x80000003:
+							case 0x80000004: { //Brand String
+								PrintLeaf(leafs, leaf);
+								cout << '[' << dec;
+								cout << (char *)leaf;
+								cout << ']' << endl;
+							} break;
+							case 0x80000005: { //L1 Cache and TLB Information
+								PrintLeaf(leafs, leaf);
+								//unsigned int L1DTLB2Massoc	= leaf[_REG_EAX] >> 24;
+								//unsigned int L1DTLB2Msize	= (leaf[_REG_EAX] >> 16) & 0xff;
+								//unsigned int L1ITLB2Massoc	= (leaf[_REG_EAX] >> 8) & 0xff;
+								//unsigned int L1ITLB2Msize	= leaf[_REG_EAX] & 0xff;
+
+								//unsigned int L1DTLB4Kassoc	= leaf[_REG_EBX] >> 24;
+								//unsigned int L1DTLB4Ksize	= (leaf[_REG_EBX] >> 16) & 0xff;
+								//unsigned int L1ITLB4Kassoc	= (leaf[_REG_EBX] >> 8) & 0xff;
+								//unsigned int L1ITLB4Ksize	= leaf[_REG_EBX] & 0xff;
+
+								unsigned int L1Dsize		= leaf[_REG_ECX] >> 24;
+								//unsigned int L1Dassoc		= (leaf[_REG_ECX] >> 16) & 0xff;
+								unsigned int L1Isize		= leaf[_REG_EDX] >> 24;
+								//unsigned int L1Iassoc		= (leaf[_REG_EDX] >> 16) & 0xff;
+								cout << '[' << dec;
+								if (L1Dsize != 0)
+									cout << "L1D " << L1Dsize << " KiB" /*<< L1Dassoc << "-way*/;
+								if (L1Isize != 0)
+									cout << "/L1I " << L1Isize << " KiB" /*<< L1Iassoc << "-way*/;
+								cout << ']' << endl;
+							} break;
+							case 0x80000006: { //L2 Cache and TLB and L3 Cache Information
+								PrintLeaf(leafs, leaf);
+								//unsigned int L2DTLB2Massoc	= leaf[_REG_EAX] >> 24;
+								//unsigned int L2DTLB2Msize	= (leaf[_REG_EAX] >> 16) & 0xff;
+								//unsigned int L2ITLB2Massoc	= (leaf[_REG_EAX] >> 8) & 0xff;
+								//unsigned int L2ITLB2Msize	= leaf[_REG_EAX] & 0xff;
+
+								//unsigned int L2DTLB4Kassoc	= leaf[_REG_EBX] >> 24;
+								//unsigned int L2DTLB4Ksize	= (leaf[_REG_EBX] >> 16) & 0xff;
+								//unsigned int L2ITLB4Kassoc	= (leaf[_REG_EBX] >> 8) & 0xff;
+								//unsigned int L2ITLB4Ksize	= leaf[_REG_EBX] & 0xff;
+
+								unsigned int L2size		= leaf[_REG_ECX] >> 16;
+								//unsigned int L2assoc	= (leaf[_REG_ECX] >> 12) & 0xf;
+								unsigned int L3size		= leaf[_REG_EDX] >> 18;
+								//unsigned int L3assoc	= (leaf[_REG_EDX] >> 12) & 0xf;
+								cout << '[' << dec;
+								if (L2size != 0)
+									cout << "L2 " << dec << L2size << " KiB"/* << L2assoc << "-way /"*/;
+								if (L3size != 0)
+									cout << " / in-package L3 " << L3size << " KiB"/* << L3assoc << "-way]"*/;
+								cout << ']' << endl;
+							} break;
+							case 0x80000026: { //Extended CPU Topology
+								int subleaf = 0;
+								__cpuidex(leaf, leafs, subleaf);
+								//24594 Rev 3.34 p. 1878
+								//while ((leaf[_REG_ECX] & 0xff00) != 0) {
+								//56713 Rev 3.05 p. 118
+								while ((leaf[_REG_EBX] & 0xffff) != 0) {
+									PrintSubLeaf(leafs, leaf, subleaf);
+									__cpuidex(leaf, leafs, ++subleaf);
+								};
+							} break;
+						} //switch (leafs) 
+					} //for (int leafs = 0; leafs <= lastLeaf; leafs++)
+				} //if (lastLeaf != 0) 
+			} //for (int startleaf = 0; startleaf < MAX_STARTLEAF; startleaf++) 
+		} //for (unsigned int th = 0; th < apc; th++) 
+	} //for (uint32_t gr = 0; gr < gCount; gr++)
+	SetThreadGroupAffinity(GetCurrentThread(), &ga_orig, NULL);
+	return;
+}

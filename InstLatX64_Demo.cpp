@@ -72,6 +72,9 @@ int main(int argc, char* argv[])
 		//cpu_props.ForcedAVX512();
 	}
 
+	if (args.IsCPUIDDump())
+		cpu_props.PrintCPUIDDump();
+	
 	for (uint32_t demo = 0; demo <= args.GetMaxDemo(); demo++) {
 		if (args.IsSelected(demo)) {
 			cout << "===================================" << endl;

@@ -7,6 +7,7 @@ const paramsType Args::params[] = {
 	{false,	"cpu",		'c',	ARG_CPUPROPS,		NULL,				"list of CPU properties"},
 	{false,	"pcore",	'\0',	ARG_PCORE,			NULL,				"using performance core on hybrid CPU"},
 	{false,	"ecore",	'\0',	ARG_ECORE,			NULL,				"using efficient core on hybrid CPU"},
+	{false, "dump",		'm',	ARG_CPUIDDUMP,		NULL,				"CPUID dump"},
 	{true,	"demo",		'd',	ARG_DEMOTYPE,		ARGERR_MISS_DEMO,	"demo type"},
 	{true,	"thread",	't',	ARG_THREADINDEX,	ARGERR_MISS_THREAD,	"thread index"},
 };
@@ -81,6 +82,9 @@ void Args::SetParam(argType paramType, char * tempStr, char* errorPlace, int * e
 					}
 				}
 				break;
+			case ARG_CPUIDDUMP: {
+				dumpFlag = true;
+			} break;
 			case ARG_NOTHING:
 				break;
 			default:
@@ -120,6 +124,10 @@ bool Args::IsDemoList(void) const {
 
 bool Args::IsCPUProps(void) const {
 	return cpuPropsFlag;
+};
+
+bool Args::IsCPUIDDump(void) const {
+	return dumpFlag;
 };
 
 size_t Args::GetMaxDemo(void) const {

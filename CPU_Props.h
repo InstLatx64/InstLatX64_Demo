@@ -1,6 +1,6 @@
 #pragma once
 
-#define  CPUPROPS_VERS					0x0100
+#define		CPUPROPS_VERS					0x0101
 
 enum ISAs {
 //	GPR									//Introduced by..
@@ -334,6 +334,9 @@ enum _VENDOR  : uint32_t {
 #define VENDOR_NUM_SIZE									4
 #define BRAND_SIZE										(4 * 4 * 4)
 #define MAX_AMX_PALETTE									1
+#define	MAX_STARTLEAF									6
+#define	MAX_CPUIDSTR									20
+
 
 typedef struct {
 	unsigned __int64	xcr0;
@@ -368,59 +371,74 @@ struct _AMX_TMUL {
 	_AMX_TMUL() : tmul_maxk(0), tmul_maxn(0) {};
 };
 
+enum cpuidStr {
+	CPUID_STATE,
+	CPUID_TLB_TYPE,
+	CPUID_TLB_PAGE,
+	CPUID_CACHE_TYPE,
+	CPUID_STR_LAST = CPUID_CACHE_TYPE,
+};
+
 class CPU_Props {
 private:
-	static const _EXT	exts[ISA_LAST];
-	static const _CPUID_VENDOR vendors[_VENDOR_LAST];
-	_AMX_palette		AMX_palette[MAX_AMX_PALETTE];
-	_AMX_TMUL			AMX_TMUL;
-	UINT64				f[FEATSIZE]				= {0ULL, 0ULL};
-	UINT64				f_disabled[FEATSIZE]	= {0ULL, 0ULL};
-	DWORD_PTR			bigCoreMask				= 0;
-	DWORD_PTR			littleCoreMask			= 0;
-	DWORD_PTR			systemAffMask			= 0;
-	_VENDOR				vendor					= _VENDOR_EMPTY;
+	static const _EXT			exts[ISA_LAST];
+	static const _CPUID_VENDOR	vendors[_VENDOR_LAST];
+	static const char*			_cpuid_names[][CPUID_STR_LAST + 1];
+	_AMX_palette				AMX_palette[MAX_AMX_PALETTE];
+	_AMX_TMUL					AMX_TMUL;
+	UINT64						f[FEATSIZE]				= {0ULL, 0ULL};
+	UINT64						f_disabled[FEATSIZE]	= {0ULL, 0ULL};
+	DWORD_PTR					bigCoreMask				= 0;
+	DWORD_PTR					littleCoreMask			= 0;
+	DWORD_PTR					systemAffMask			= 0;
+	_VENDOR						vendor					= _VENDOR_EMPTY;
 	union {
-		char			vendor_string[VENDOR_STRING_SIZE];
-		unsigned long	vendor_num[VENDOR_NUM_SIZE]  = {0, 0, 0, 0};
+		char					vendor_string[VENDOR_STRING_SIZE];
+		unsigned long			vendor_num[VENDOR_NUM_SIZE]  = {0, 0, 0, 0};
 	};
 	union {
-		char			brand_string[BRAND_SIZE];
-		int				brand_num[4][4]  = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+		char					brand_string[BRAND_SIZE];
+		int						brand_num[4][4]  = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 	};
-	int					family;
-	int					model;
-	int					stepping;
-	int					hexID;
-	int					fms;
-	void				PrintSupportStatus(bool) const;
-	void				PrintOSStatus(bool) const;
-	void				PrintFeat(bool feat, unsigned __int64 f_low, unsigned __int64 f_high) const;
-	bool				HybridMasks(DWORD_PTR &bigCoreMask, DWORD_PTR &littleCoreMask, DWORD_PTR &systemAffMask) const;
+	int							family;
+	int							model;
+	int							stepping;
+	int							hexID;
+	int							fms;
+	void						PrintSupportStatus(bool) const;
+	void						PrintOSStatus(bool) const;
+	void						PrintFeat(bool feat, unsigned __int64 f_low, unsigned __int64 f_high) const;
+	void						PrintLeaf(uint32_t leafs, int* leaf) const;
+	void						PrintSingleLeaf(uint32_t leafs, int* leaf) const;
+	void						PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf) const;
+	void						PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf, cpuidStr str, int strInd) const;
+	bool						HybridMasks(DWORD_PTR &bigCoreMask, DWORD_PTR &littleCoreMask, DWORD_PTR &systemAffMask) const;
 public:
 	CPU_Props();
-	void				PrintFeats(void) const;
-	void				PrintFeat(uint64_t) const;
-	void				PrintVendor(void) const;
-	void				PrintBrand(void) const;
-	void				Print_512bFMA_DP_Ports(void) const;
-	void				PrintHybridMasks(void) const;
-	void				ForcedAVX512(void) const;
-	bool				IsFeat(int) const;
-	bool				IsZen2(void) const;
-	bool				IsZen3(void) const;
-	int					GetFamMod(void) const;
-	int					GetStepping(void) const;
-	_VENDOR				GetVendor(void) const;
-	bool				IsInBrand(const char* str) const;
-	unsigned int		GetAMXPalette_TotalTileBytes(unsigned int p) const;
-	unsigned int		GetAMXPalette_MaxName(unsigned int p) const;
-	unsigned int		GetAMXRows() const;
-	unsigned int		GetAMXCols() const;
-	DWORD_PTR			GetBigCoreMask() const;
-	DWORD_PTR			GetLittleCoreMask() const;
-	DWORD_PTR			GetSystemAffMask() const;
+	void						PrintFeats(void) const;
+	void						PrintFeatVect(void) const;
+	void						PrintFeat(uint64_t) const;
+	void						PrintVendor(void) const;
+	void						PrintBrand(void) const;
+	void						Print_512bFMA_DP_Ports(void) const;
+	void						PrintHybridMasks(void) const;
+	void						PrintCPUIDDump(void) const;
+	void						ForcedAVX512(void) const;
+	bool						IsFeat(int) const;
+	bool						IsZen2(void) const;
+	bool						IsZen3(void) const;
+	int							GetFamMod(void) const;
+	int							GetStepping(void) const;
+	_VENDOR						GetVendor(void) const;
+	bool						IsInBrand(const char* str) const;
+	unsigned int				GetAMXPalette_TotalTileBytes(unsigned int p) const;
+	unsigned int				GetAMXPalette_MaxName(unsigned int p) const;
+	unsigned int				GetAMXRows() const;
+	unsigned int				GetAMXCols() const;
+	DWORD_PTR					GetBigCoreMask() const;
+	DWORD_PTR					GetLittleCoreMask() const;
+	DWORD_PTR					GetSystemAffMask() const;
 #if defined (_M_X64)
-	int					Get_512bFMA_DP_Ports(void) const;
+	int							Get_512bFMA_DP_Ports(void) const;
 #endif
 };
