@@ -79,6 +79,11 @@ const _EXT CPU_Props::exts[ISA_LAST] = {
 	{"AMX-TILE",					_XCR0_AMX,		_FEAT07_EDX_AMX_TILE},
 	{"AMX-FP16",					_XCR0_AMX,		_FEAT0701_EAX_AMX_FP16},
 	{"AMX-COMPLEX",					_XCR0_AMX,		_FEAT0701_EDX_AMX_COMPLEX},
+	{"---AVX10--------",			_XCR0_EMPTY,	_FEAT_SKIP},
+	{"AVX10",						_XCR0_AVX512,	_FEAT0701_EDX_AVX10},
+	{"AVX10/128",					_XCR0_AVX512,	_FEAT24_EBX_AVX10_128},
+	{"AVX10/256",					_XCR0_AVX512,	_FEAT24_EBX_AVX10_256},
+	{"AVX10/512",					_XCR0_AVX512,	_FEAT24_EBX_AVX10_512},
 	{"---CacheLine----",			_XCR0_EMPTY,	_FEAT_SKIP},
 	{"PREFETCHW",					_XCR0_EMPTY,	_EFEAT01_ECX_3DNOWPREF},
 	{"PREFETCHWT1",					_XCR0_EMPTY,	_FEAT07_ECX_PWT1},
@@ -151,6 +156,7 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 	int level19[4]			= {0, 0, 0, 0};
 	int level1D[4]			= {0, 0, 0, 0};
 	int level1E[4]			= {0, 0, 0, 0};
+	int level24[4]			= {0, 0, 0, 0};
 	int extLevel00[4]		= {0, 0, 0, 0};
 	int extLevel01[4]		= {0, 0, 0, 0};
 	int extLevel08[4]		= {0, 0, 0, 0};
@@ -194,7 +200,9 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 			}
 		}
 	}
-	
+	if (level00[_REG_EAX] >= 0x24)
+		__cpuid(level24, 0x24);
+
 	__cpuid(extLevel00, 0x80000000);
 	if (extLevel00[_REG_EAX] >= 0x80000001)
 		__cpuid(extLevel01, 0x80000001);
@@ -235,7 +243,7 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 	_CPUID_RES c = {xcr0, 
 					level01[_REG_EAX], level01[_REG_ECX], level01[_REG_EDX], 
 					level07[_REG_EBX], level07[_REG_ECX], level07[_REG_EDX], level0701[_REG_EAX], level0701[_REG_EDX],
-					level19[_REG_EBX],
+					level19[_REG_EBX], level24[_REG_EBX],
 					extLevel01[_REG_ECX], extLevel01[_REG_EDX], 
 					extLevel08[_REG_EBX], extLevel21[_REG_EAX]};
 

@@ -85,6 +85,12 @@ enum ISAs {
 	ISA_AMX_TILE,						//Sapphire Rapids
 	ISA_AMX_FP16,						//Granite Rapids
 	ISA_AMX_COMPLEX,					//Granite Rapids
+//AVX10
+	ISA_GROUP_AVX10,
+	ISA_AVX10,							//Granite Rapids
+	ISA_AVX10_128,						//?
+	ISA_AVX10_256,						//?
+	ISA_AVX10_512,						//?
 //cacheline
 	ISA_GROUP_CACHELINE,
 	ISA_PREFETCHW,						//K6
@@ -152,6 +158,7 @@ enum _CPUID_Feats : unsigned long long {
 	CPUID_FEAT0701_EAX,
 	CPUID_FEAT0701_EDX,
 	CPUID_FEAT19_EBX,
+	CPUID_FEAT24_EBX,
 	CPUID_EFEAT01_ECX,
 	CPUID_EFEAT01_EDX,
 	CPUID_EFEAT08_EBX,
@@ -271,6 +278,10 @@ enum _VENDOR  : uint32_t {
 #define _FEAT19_EBX_AESKLE								((1ULL << 0) | (CPUID_FEAT19_EBX << 32))
 #define _FEAT19_EBX_WIDE_KL								((1ULL << 2) | (CPUID_FEAT19_EBX << 32))
 
+#define _FEAT24_EBX_AVX10_128							((1ULL << 16) | (CPUID_FEAT24_EBX << 32))
+#define _FEAT24_EBX_AVX10_256							((1ULL << 17) | (CPUID_FEAT24_EBX << 32))
+#define _FEAT24_EBX_AVX10_512							((1ULL << 18) | (CPUID_FEAT24_EBX << 32))
+
 #define _FEAT0701_EAX_SHA512							((1ULL <<  0) | (CPUID_FEAT0701_EAX << 32))
 #define _FEAT0701_EAX_SM3								((1ULL <<  1) | (CPUID_FEAT0701_EAX << 32))
 #define _FEAT0701_EAX_SM4								((1ULL <<  2) | (CPUID_FEAT0701_EAX << 32))
@@ -293,6 +304,7 @@ enum _VENDOR  : uint32_t {
 #define _FEAT0701_EDX_AVX_VNNI_INT16					((1ULL << 10) | (CPUID_FEAT0701_EDX << 32))
 #define _FEAT0701_EDX_PREFETCHI							((1ULL << 14) | (CPUID_FEAT0701_EDX << 32))
 #define _FEAT0701_EDX_APX_F								((1ULL << 21) | (CPUID_FEAT0701_EDX << 32))
+#define _FEAT0701_EDX_AVX10								((1ULL << 19) | (CPUID_FEAT0701_EDX << 32))
 
 #define _EFEAT01_ECX_LAHF								((1ULL <<  0) | (CPUID_EFEAT01_ECX << 32))
 #define _EFEAT01_ECX_ABM								((1ULL <<  5) | (CPUID_EFEAT01_ECX << 32))
@@ -316,7 +328,7 @@ enum _VENDOR  : uint32_t {
 #define _EFEAT21_EAX_FSRC_FAST_SHORT_REPE_CMPSB			((1ULL <<  11) | (CPUID_EFEAT21_EAX << 32))
 
 #define FEATSIZE										2
-#define CPUID_FIELDS									13
+#define CPUID_FIELDS									14
 #define FEAT_NAME_SIZE									31
 #define VENDOR_STRING_SIZE								12
 #define VENDOR_NUM_SIZE									4
