@@ -329,16 +329,14 @@ void CPU_Props::PrintFeat(uint64_t f) const {
 }
 
 void CPU_Props::PrintFeat(bool feat, unsigned __int64 f_low, unsigned __int64 f_high) const {
-	if (feat && ((f_disabled[f_high] & f_low) != 0)) {
+	if (((f[f_high] & f_low) == 0) || (!feat)) {
+		PrintSupportStatus(false);
+	} else if (!feat) {
 		PrintSupportStatus(true);
 		PrintOSStatus(false);
 	} else {
-		if ((f[f_high] & f_low) == 0) {
-			PrintSupportStatus(false);
-		} else {
-			PrintSupportStatus(true);
-			PrintOSStatus(true);
-		}
+		PrintSupportStatus(true);
+		PrintOSStatus(true);
 	}
 }
 
