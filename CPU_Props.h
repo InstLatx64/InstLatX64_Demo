@@ -24,6 +24,7 @@ enum ISAs {
 	ISA_MOVDIR64B,						//Tremont
 	ISA_RAO_INT,						//Crestmont
 	ISA_CMPCCXADD,						//Crestmont
+	ISA_APX,							//?
 //SIMD
 	ISA_GROUP_SIMD,
 	ISA_SSE,							//Pentium III
@@ -162,6 +163,7 @@ enum _XCR0 {
 	_XCR0_AVX											=	0x6,
 	_XCR0_AVX512										=	0xe6,
 	_XCR0_AMX											=	(0x3 << 17),
+	_XCR0_APX											=	(0x1 << 19),
 	_KEYLOCK,
 };
 
@@ -290,6 +292,7 @@ enum _VENDOR  : uint32_t {
 #define _FEAT0701_EDX_AMX_COMPLEX						((1ULL <<  8) | (CPUID_FEAT0701_EDX << 32))
 #define _FEAT0701_EDX_AVX_VNNI_INT16					((1ULL << 10) | (CPUID_FEAT0701_EDX << 32))
 #define _FEAT0701_EDX_PREFETCHI							((1ULL << 14) | (CPUID_FEAT0701_EDX << 32))
+#define _FEAT0701_EDX_APX_F								((1ULL << 21) | (CPUID_FEAT0701_EDX << 32))
 
 #define _EFEAT01_ECX_LAHF								((1ULL <<  0) | (CPUID_EFEAT01_ECX << 32))
 #define _EFEAT01_ECX_ABM								((1ULL <<  5) | (CPUID_EFEAT01_ECX << 32))
