@@ -613,6 +613,7 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x00080650:	//Silvermont               / XEON_PHI_KNM 1 for DP, 2 for SP
 					case 0x000806C0: 	//Willow Cove              / TIGERLAKE_L
 					case 0x000806D0: 	//Willow Cove              / TIGERLAKE
+					case 0x00090650:	//Golden Cove              / SAPPHIRERAPIDS
 					case 0x00090670:	//Golden Cove + Gracemont  / ALDERLAKE
 					case 0x000906A0:	//Golden Cove + Gracemont  / ALDERLAKE_L
 					case 0x000A0670: 	//Cypress Cove             / ROCKETLAKE
