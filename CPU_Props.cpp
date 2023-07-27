@@ -632,6 +632,7 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x000B0660:	//Crestmont                / GRANDRIDGE
 					case 0x000B0670:	//Raptor Cove + Gracemont  / RAPTORLAKE
 					case 0x000B06A0:	//Raptor Cove + Gracemont  / RAPTORLAKE_P
+					case 0x000B06C0:	//   ?                     / LUNARLAKE
 					case 0x000B06D0:	//   ?                     / LUNARLAKE_M
 					case 0x000B06E0:	//Gracemont                / ALDERLAKE_N
 					case 0x000B06F0:	//Golden Cove + Gracemont  / RAPTORLAKE_S
