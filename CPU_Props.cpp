@@ -271,7 +271,7 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 				break;
 			default:
 				if ((c.cpuid_res[place] & fbit) == fbit) {
-					switch (exts[featInd].xcr0) {
+					switch (exts[featInd]._xcr0) {
 						case _XCR0_EMPTY:
 							f[f_high] |= f_low;
 							break;
@@ -280,7 +280,7 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 								f[f_high] |= f_low;
 							break;
 						default:
-							if ((c.xcr0 & exts[featInd].xcr0) == exts[featInd].xcr0)
+							if ((c.xcr0 & exts[featInd]._xcr0) == exts[featInd]._xcr0)
 								f[f_high] |= f_low;
 							else
 								f_disabled[f_high] |= f_low;
@@ -349,7 +349,7 @@ void CPU_Props::PrintFeats(void) const {
 		if(exts[featInd].featbit != _FEAT_SKIP) {
 			unsigned __int64 f_low	= 1ULL << (featInd & 0x3f);
 			unsigned __int64 f_high	= (featInd & ~0x3f) >> 6;
-			switch(exts[featInd].xcr0) {
+			switch(exts[featInd]._xcr0) {
 				case _XCR0_AVX:
 					PrintFeat(IsFeat(ISA_AVX), f_low, f_high);
 					break;
