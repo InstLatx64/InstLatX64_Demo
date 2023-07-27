@@ -36,6 +36,9 @@
 //Visual Studio 2022 version 17.1	1931
 //Visual Studio 2022 version 17.2	1932
 //Visual Studio 2022 version 17.3	1933
+//Visual Studio 2022 version 17.4	1934
+//Visual Studio 2022 version 17.5	1935
+//Visual Studio 2022 version 17.6	1936
 
 void AVX512_InstrincTest(void)
 {
@@ -122,6 +125,30 @@ void AVX512_InstrincTest(void)
 	std::cout << f << std::endl;
 #endif
 #endif
+#endif
+}
+
+void AVX_VNNI_InstrincTest(void) {
+	__m256i		a = _mm256_setzero_si256();
+	__m256i		b = _mm256_setzero_si256();
+	__m256i		src = _mm256_setzero_si256();
+	
+	__m256i		res_AVX_VNNI		= _mm256_dpbusds_avx_epi32(src, a, b);
+#if (_MSC_VER > 1936)
+	__m256i		res_AVX_VNNI_INT8	= _mm256_dpbuud_avx_epi32(src, a, b);
+	__m256i		res_AVX_VNNI_INT16	= _mm256_dpwuud_avx_epi32(src, a, b);
+//_mm_sm3msg1_epi32 
+//_mm_sm3msg2_epi32 
+//_mm_sm3rnds2_epi32
+//
+//_mm256_sha512msg1_epi64 
+//_mm256_sha512msg2_epi64 
+//_mm256_sha512rnds2_epi64 
+//
+//_mm_sm4key4_epi32 
+//_mm256_sm4key4_epi32 
+//_mm_sm4rnds4_epi32 
+//_mm256_sm4rnds4_epi32 
 #endif
 }
 
