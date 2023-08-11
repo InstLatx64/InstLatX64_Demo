@@ -673,6 +673,8 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x00A10F00:	//Genoa, Storm Peak
 					case 0x00A60F00:	//Raphael
 					case 0x00A70F00:	//Phoenix, Phoenix2
+					case 0x00A80F00:	//MI300C
+					case 0x00A90F00:	//MI300A
 					case 0x00AA0F00:	//Bergamo
 						return 1;
 					default:
