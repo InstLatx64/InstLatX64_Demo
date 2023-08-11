@@ -376,7 +376,9 @@ enum cpuidStr {
 	CPUID_TLB_TYPE,
 	CPUID_TLB_PAGE,
 	CPUID_CACHE_TYPE,
-	CPUID_STR_LAST = CPUID_CACHE_TYPE,
+	CPUID_ATOM_NAME,
+	CPUID_CORE_NAME,
+	CPUID_STR_LAST = CPUID_CORE_NAME,
 };
 
 class CPU_Props {
@@ -416,7 +418,6 @@ private:
 public:
 	CPU_Props();
 	void						PrintFeats(void) const;
-	void						PrintFeatVect(void) const;
 	void						PrintFeat(uint64_t) const;
 	void						PrintVendor(void) const;
 	void						PrintBrand(void) const;

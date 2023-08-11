@@ -149,26 +149,26 @@ const _CPUID_VENDOR CPU_Props::vendors[_VENDOR_LAST] = {
 };
 
 const char * CPU_Props::_cpuid_names[MAX_CPUIDSTR][CPUID_STR_LAST + 1] = {
-/* 00 */	{"X87",					"",					"",				"",},
-/* 01 */	{"SSE",					"Data TLB",			"4K          ",	"Data       "},
-/* 02 */	{"AVX",					"Instruction TLB",	"   2M       ",	"Instruction"},
-/* 03 */	{"MPX BNDREGS",			"Unified TLB",		"4K+2M       ",	"Unified    "},
-/* 04 */	{"MPX BNDCSR",			"Load Only TLB",	"      4M    ",	"",},
-/* 05 */	{"AVX-512 Opmask",		"Store Only TLB",	"4K+   4M    ",	"",},
-/* 06 */	{"AVX-512 Hi256",		"",					"   2M/4M    ",	"",},
-/* 07 */	{"AVX-512 Hi16",		"",					"4K+2M/4M    ",	"",},
-/* 08 */	{"PT",					"",					"         1G ",	"",},
-/* 09 */	{"PKRU",				"",					"4K+      1G ",	"",},
-/* 10 */	{"PASID",				"",					"   2M   +1G ",	"",},
-/* 11 */	{"CET_U",				"",					"4K+2M   +1G ",	"",},
-/* 12 */	{"CET_S",				"",					"      4M+1G ",	"",},
-/* 13 */	{"HDC",					"",					"4K+   4M+1G ",	"",},
-/* 14 */	{"UINTR",				"",					"   2M/4M+1G ",	"",},
-/* 15 */	{"LBR",					"",					"4K+2M/4M+1G ",	"",},
-/* 16 */	{"HWP",					"",					"",				"",},
-/* 17 */	{"TILECFG",				"",					"",				"",},
-/* 18 */	{"TILEDATA"				"",					"",				"",},
-/* 19 */	{"APX"					"",					"",				"",},
+/* 00 */	{"X87",					"",					"",				"",				"Tremont",		"Sunny Cove"	},
+/* 01 */	{"SSE",					"Data TLB",			"4K          ",	"Data       ",	"Gracemont",	"Golden Cove"	},
+/* 02 */	{"AVX",					"Instruction TLB",	"   2M       ",	"Instruction",	"Crestmont",	"Redwood Cove"	},
+/* 03 */	{"MPX BNDREGS",			"Unified TLB",		"4K+2M       ",	"Unified    ",	"Skymont",		"Lion Cove"		},
+/* 04 */	{"MPX BNDCSR",			"Load Only TLB",	"      4M    ",	"",				"",				""				},
+/* 05 */	{"AVX-512 Opmask",		"Store Only TLB",	"4K+   4M    ",	"",				"",				""				},
+/* 06 */	{"AVX-512 Hi256",		"",					"   2M/4M    ",	"",				"",				""				},
+/* 07 */	{"AVX-512 Hi16",		"",					"4K+2M/4M    ",	"",				"",				""				},
+/* 08 */	{"PT",					"",					"         1G ",	"",				"",				""				},
+/* 09 */	{"PKRU",				"",					"4K+      1G ",	"",				"",				""				},
+/* 10 */	{"PASID",				"",					"   2M   +1G ",	"",				"",				""				},
+/* 11 */	{"CET_U",				"",					"4K+2M   +1G ",	"",				"",				""				},
+/* 12 */	{"CET_S",				"",					"      4M+1G ",	"",				"",				""				},
+/* 13 */	{"HDC",					"",					"4K+   4M+1G ",	"",				"",				""				},
+/* 14 */	{"UINTR",				"",					"   2M/4M+1G ",	"",				"",				""				},
+/* 15 */	{"LBR",					"",					"4K+2M/4M+1G ",	"",				"",				""				},
+/* 16 */	{"HWP",					"",					"",				"",				"",				""				},
+/* 17 */	{"TILECFG",				"",					"",				"",				"",				""				},
+/* 18 */	{"TILEDATA"				"",					"",				"",				"",				""				},
+/* 19 */	{"APX"					"",					"",				"",				"",				""				},
 };
 
 
@@ -901,12 +901,26 @@ void CPU_Props::PrintCPUIDDump(void) const {
 								PrintLeaf(leafs, leaf);
 								if (cpu_props.IsFeat(ISA_HYBRID)) {
 									int hybrid = leaf[_REG_EAX];
+									int type = hybrid & 0xff;
 									switch (hybrid >> 24) {
 										case 0x20:
-											cout << "[Atom]";
+											cout << "[Atom: ";
+											cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, type)][CPUID_ATOM_NAME];
+											cout << ']';
 											break;
 										case 0x40:
-											cout << "[Core]";
+											cout << "[Core: ";
+											switch(GetFamMod()) {
+												default:
+													cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, type)][CPUID_CORE_NAME];
+													break;
+												case 0x000B0670:
+												case 0x000B06A0:
+												case 0x000B06F0:
+													cout << "Raptor Cove";
+													break;
+											}
+											cout << ']';
 											break;
 										default:
 											break;
