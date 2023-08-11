@@ -891,8 +891,8 @@ void CPU_Props::PrintCPUIDDump(void) const {
 										cout << dec << setw(5) << right << setfill(' ') << TLBentries << ' ';
 										cout << dec << setw(3) << right << setfill(' ') << TLBassoc << "-way L";
 										cout << TLBlevel << ' ';
-										cout <<  _cpuid_names[TLBpage][CPUID_TLB_PAGE] << ' ';
-										cout <<  _cpuid_names[TLBtype][CPUID_TLB_TYPE];
+										cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, TLBpage)][CPUID_TLB_PAGE] << ' ';
+										cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, TLBtype)][CPUID_TLB_TYPE];
 										cout << ']' << endl;
 									}
 								};
