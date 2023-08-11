@@ -998,7 +998,7 @@ void CPU_Props::PrintCPUIDDump(void) const {
 								if (L2size != 0)
 									cout << "L2 " << dec << L2size << " KiB"/* << L2assoc << "-way /"*/;
 								if (L3size != 0)
-									cout << " / in-package L3 " << L3size << " KiB"/* << L3assoc << "-way]"*/;
+									cout << " / in-package L3 " << L3size * 512 << " KiB"/* << L3assoc << "-way]"*/;
 								cout << ']' << endl;
 							} break;
 							case 0x80000026: { //Extended CPU Topology
