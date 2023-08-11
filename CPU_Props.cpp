@@ -655,12 +655,12 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x000B0660:	//Crestmont                / GRANDRIDGE
 					case 0x000B0670:	//Raptor Cove + Gracemont  / RAPTORLAKE
 					case 0x000B06A0:	//Raptor Cove + Gracemont  / RAPTORLAKE_P
-					case 0x000B06C0:	//   ?                     / LUNARLAKE
-					case 0x000B06D0:	//   ?                     / LUNARLAKE_M
+					case 0x000B06C0:	//Lion Cove + Skymont      / LUNARLAKE
+					case 0x000B06D0:	//Lion Cove + Skymont      / LUNARLAKE_M
 					case 0x000B06E0:	//Gracemont                / ALDERLAKE_N
-					case 0x000B06F0:	//Golden Cove + Gracemont  / RAPTORLAKE_S
-					case 0x000C0650:	//   ?                     / ARROW_LAKE
-					case 0x000C0660:	//   ?                     / ARROW_LAKE_S
+					case 0x000B06F0:	//Raptor Cove + Gracemont  / RAPTORLAKE_S
+					case 0x000C0650:	//Lion Cove + Crestmont?   / ARROW_LAKE
+					case 0x000C0660:	//Lion Cove + Skymont      / ARROW_LAKE_S
 					default:			//on other cores, AVX512F unsupported
 						return 0;
 					//future
