@@ -204,6 +204,15 @@ void InstrincTest(void) {
 	_tile_release();												//TILERELEASE
 //AMX-BF16
 	_tile_dpbf16ps(2, 1, 0);										//TDPBF16PS
+//AMX-FP16
+#if (_MSC_VER >= 1936)
+	_tile_dpfp16ps(2, 1, 0);										//TDPFP16PS
+//AMX-COMPLEX
+#if (_MSC_VER >= 1937)
+	_tile_cmmimfp16ps(2, 1, 0);										//TCMMIMFP16PS
+	_tile_cmmrlfp16ps(2, 1, 0);										//TCMMRLFP16PS
+#endif
+#endif
 //AMX-INT8
 	_tile_dpbssd(3, 2, 1);											//TDPBSSD
 	_tile_dpbsud(4, 3, 2);											//TDPBSUD
