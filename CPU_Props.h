@@ -409,7 +409,7 @@ private:
 	int							fms;
 	void						PrintSupportStatus(bool) const;
 	void						PrintOSStatus(bool) const;
-	void						PrintFeat(bool feat, unsigned __int64 f_low, unsigned __int64 f_high) const;
+	void						PrintFeat(bool feat, bool enabled, bool disabled) const;
 	void						PrintLeaf(uint32_t leafs, int* leaf) const;
 	void						PrintSingleLeaf(uint32_t leafs, int* leaf) const;
 	void						PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf) const;

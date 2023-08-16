@@ -343,15 +343,30 @@ void CPU_Props::PrintFeat(uint64_t f) const {
 	cout << left << exts[f].name;
 }
 
-void CPU_Props::PrintFeat(bool feat, unsigned __int64 f_low, unsigned __int64 f_high) const {
-	if (((f[f_high] & f_low) == 0) || (!feat)) {
+//req.  XSAVE    XSAVE
+//feat enabled disabled   
+// 0     0        0       unsupp
+// 0     0        1       unsupp
+// 0     1        0       unsupp
+// 0     1        1       <illegal state>
+// 1     0        0       unsupp
+// 1     0        1       supp, OS dis
+// 1     1        0       supp, OS en
+// 1     1        1       <illegal state>
+
+void CPU_Props::PrintFeat(bool required_feat, bool xsave_enabled, bool xsave_disabled) const {
+	if (!required_feat) {
 		PrintSupportStatus(false);
-	} else if (!feat) {
-		PrintSupportStatus(true);
-		PrintOSStatus(false);
 	} else {
-		PrintSupportStatus(true);
-		PrintOSStatus(true);
+		if (!xsave_enabled && !xsave_disabled) {
+			PrintSupportStatus(false);
+		} else if (xsave_enabled) {
+			PrintSupportStatus(true);
+			PrintOSStatus(true);
+		} else if (xsave_disabled) {
+			PrintSupportStatus(true);
+			PrintOSStatus(false);
+		}
 	}
 }
 
@@ -362,20 +377,22 @@ void CPU_Props::PrintFeats(void) const {
 		if(exts[featInd].featbit != _FEAT_SKIP) {
 			unsigned __int64 f_low	= 1ULL << (featInd & 0x3f);
 			unsigned __int64 f_high	= (featInd & ~0x3f) >> 6;
+			bool enabled = (f[f_high] & f_low) != 0;
+			bool disabled = (f_disabled[f_high] & f_low) != 0;
 			switch(exts[featInd]._xcr0) {
 				case _XCR0_AVX:
-					PrintFeat(IsFeat(ISA_AVX), f_low, f_high);
+					PrintFeat(IsFeat(ISA_AVX), enabled, disabled);
 					break;
 				case _XCR0_AVX512:
-					PrintFeat(IsFeat(ISA_AVX512F), f_low, f_high);
+					PrintFeat(IsFeat(ISA_AVX512F), enabled, disabled);
 					break;
 				case _XCR0_AMX:
 				case _KEYLOCK:
-					PrintFeat(true, f_low, f_high);
+					PrintFeat(true, enabled, disabled);
 					break;
 				case _XCR0_EMPTY:
 				default:
-					PrintSupportStatus((f[f_high] & f_low) != 0);
+					PrintSupportStatus(enabled);
 					break;
 			}
 		}
