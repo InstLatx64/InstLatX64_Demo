@@ -794,6 +794,7 @@ void CPU_Props::PrintCPUIDDump(void) const {
 									cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, type)][CPUID_CACHE_TYPE] << ' ';
 									cout << dec << setw(8) << right << setfill(' ') << cacheSize << " KiB ";
 									cout << dec << setw(3) << right << setfill(' ') << cacheAssoc << "-way ";
+									cout << dec << setw(3) << right << setfill(' ') << cacheLine << "-byte Line ";
 									cout << (leaf[_REG_EDX] & 0x001 ? 'W' : '-'); //EDX Bit 00: Write-Back Invalidate/Invalidate.
 									cout << (leaf[_REG_EDX] & 0x002 ? 'L' : '-'); //EDX Bit 01: Cache Inclusivenes
 									cout << (leaf[_REG_EDX] & 0x004 ? 'C' : '-'); //EDX Bit 02: Complex Cache Indexing
