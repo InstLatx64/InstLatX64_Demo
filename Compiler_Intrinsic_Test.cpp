@@ -189,8 +189,13 @@ void InstrincTest(void) {
 //TSXLDTRK
 	_xresldtrk();													//XRESLDTRK
 	_xsusldtrk();													//XSUSLDTRK
-#if (_MSC_VER > 1927)
 #if defined (_M_X64)
+#if (_MSC_VER >= 1936)
+	char prefetchtest = 0;
+	_mm_prefetch(&prefetchtest, _MM_HINT_IT0);
+	_mm_prefetch(&prefetchtest, _MM_HINT_IT1);
+#endif
+#if (_MSC_VER > 1927)
 //AMX-TILE
 	unsigned char load_tilecfg[64], store_tilecfg[64];
 	unsigned char tile0[1024], tile1[1024];
