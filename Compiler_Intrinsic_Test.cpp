@@ -190,11 +190,13 @@ void InstrincTest(void) {
 	_xresldtrk();													//XRESLDTRK
 	_xsusldtrk();													//XSUSLDTRK
 #if defined (_M_X64)
-#if (_MSC_VER >= 1936)
-	char prefetchtest = 0;
-	_mm_prefetch(&prefetchtest, _MM_HINT_IT0);
-	_mm_prefetch(&prefetchtest, _MM_HINT_IT1);
-#endif
+//PREFETCHI
+//C1001 up to VS17.7.3
+//#if (_MSC_VER >= 1937)
+//	char prefetchtest = 0;
+//	_mm_prefetch(&prefetchtest, _MM_HINT_IT0);						//PREFETCHIT0
+//	_mm_prefetch(&prefetchtest, _MM_HINT_IT1);						//PREFETCHIT1
+//#endif
 #if (_MSC_VER > 1927)
 //AMX-TILE
 	unsigned char load_tilecfg[64], store_tilecfg[64];
