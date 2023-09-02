@@ -797,7 +797,7 @@ void CPU_Props::PrintCPUIDDump(void) const {
 									cout << dec << setw(3) << right << setfill(' ') << cacheLine << "-byte Line ";
 									cout << (leaf[_REG_EDX] & 0x001 ? 'W' : '-'); //EDX Bit 00: Write-Back Invalidate/Invalidate.
 									cout << (leaf[_REG_EDX] & 0x002 ? 'L' : '-'); //EDX Bit 01: Cache Inclusivenes
-									cout << (leaf[_REG_EDX] & 0x004 ? 'C' : '-'); //EDX Bit 02: Complex Cache Indexing
+									cout << (leaf[_REG_EDX] & 0x004 ? 'C' : '-'); //EDX Bit 02: Complex Cache Indexing or Direct mapped(???)
 									cout << (leaf[_REG_EAX] & 0x100 ? 'S' : '-'); //EAX Bit 08: Self Initializing cache level (does not need SW initialization
 									cout << (leaf[_REG_EAX] & 0x200 ? 'A' : '-'); //EAX Bit 09: Fully Associative cache.
 									cout << ']' << endl;
@@ -822,10 +822,11 @@ void CPU_Props::PrintCPUIDDump(void) const {
 							case 0x1F:	{//V2 Extended Topology Enumeration Leaf
 								int subleaf = 0;
 								__cpuidex(leaf, leafs, subleaf);
-								while ((leaf[_REG_EAX] | leaf[_REG_EBX]) != 0) {
-									PrintSubLeaf(leafs, leaf, subleaf);
-									__cpuidex(leaf, leafs, ++subleaf);
-								};
+								PrintSubLeaf(leafs, leaf, subleaf++);
+								do {
+									__cpuidex(leaf, leafs, subleaf);
+									PrintSubLeaf(leafs, leaf, subleaf++);
+								} while ((leaf[_REG_ECX] & 0xffffff00) != 0); 
 							} break;
 							case 0x0D:	{//Processor Extended State Enumeration Main Leaf
 								PrintSubLeaf(leafs, leaf, 0, CPUID_STATE, 0);
