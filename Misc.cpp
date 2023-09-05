@@ -2,6 +2,27 @@
 
 using namespace std;
 
+void printRes8(const char* name, __m128i res) {
+	cout << setw(24) << left << setfill(' ') << name;
+	for (int i = sizeof(__m128i) / sizeof(uint8_t) - 1; i >= 0; i--)
+		cout << hex << setw(2) << setfill('0') << right << +*((uint8_t*)&res + i) << ' ';
+	cout << endl;
+}
+
+void printRes8(const char* name, __m256i res) {
+	cout << setw(24) << left << setfill(' ') << name;
+	for (int i = sizeof(__m256i) / sizeof(uint8_t) - 1; i >= 0; i--)
+		cout << hex << setw(2) << setfill('0') << right << +*((uint8_t*)&res + i) << ' ';
+	cout << endl;
+}
+
+void printRes8(const char* name, __m512i res) {
+	cout << setw(24) << left << setfill(' ') << name;
+	for (int i = sizeof(__m512i) / sizeof(uint8_t) - 1; i >= 0; i--)
+		cout << hex << setw(2) << setfill('0') << right << +*((uint8_t*)&res + i) << ' ';
+	cout << endl;
+}
+
 void printRes16(const char * name, __m128i res) {
 	cout << setw(24) << left << setfill(' ') << name;
 	for (int i = sizeof(__m128i) / sizeof(short) - 1; i >= 0; i--)
@@ -81,6 +102,27 @@ void printRes(int r, const char * name, __m256i res) {
 
 void printRes(int r, const char * name, __m512i res) {
 	cout << setw(2) << r << ':' << setw(24) << left << setfill(' ') << name;
+	for (int i = sizeof(__m512i) / sizeof(long long) - 1; i >= 0; i--)
+		cout << hex << setw(16) << setfill('0') << right << *((unsigned __int64*)&res + i) << ' ';
+	cout << endl;
+}
+
+void printRes(int r, __m128i res) {
+	cout << setw(2) << r << ':';
+	for (int i = sizeof(__m128i) / sizeof(long long) - 1; i >= 0; i--)
+		cout << hex << setw(16) << setfill('0') << right << *((unsigned __int64*)&res + i) << ' ';
+	cout << endl;
+	}
+
+void printRes(int r, __m256i res) {
+	cout << setw(2) << r << ':';
+	for (int i = sizeof(__m256i) / sizeof(long long) - 1; i >= 0; i--)
+		cout << hex << setw(16) << setfill('0') << right << *((unsigned __int64*)&res + i) << ' ';
+	cout << endl;
+	}
+
+void printRes(int r, __m512i res) {
+	cout << setw(2) << r << ':';
 	for (int i = sizeof(__m512i) / sizeof(long long) - 1; i >= 0; i--)
 		cout << hex << setw(16) << setfill('0') << right << *((unsigned __int64*)&res + i) << ' ';
 	cout << endl;

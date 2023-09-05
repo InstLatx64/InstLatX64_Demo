@@ -26,6 +26,10 @@
 #define _INSTLATX64_DEMO_TESTMASK_32		0x5a7e3c18
 #define _INSTLATX64_DEMO_TESTMASK_64		0x07701ff13ff37ff7
 
+void printRes8(const char* name, __m128i res);
+void printRes8(const char* name, __m256i res);
+void printRes8(const char* name, __m512i res);
+
 void printRes16(const char * name, __m128i res);
 void printRes16(const char * name, __m256i res);
 void printRes16(const char * name, __m512i res);
@@ -41,6 +45,10 @@ void printRes(const char * name, __m512i res);
 void printRes(int r, const char * name, __m128i res);
 void printRes(int r, const char * name, __m256i res);
 void printRes(int r, const char * name, __m512i res);
+
+void printRes(int r, __m128i res);
+void printRes(int r, __m256i res);
+void printRes(int r, __m512i res);
 
 void random_wrap(unsigned int* random);
 void random_wrap(signed int* random);
