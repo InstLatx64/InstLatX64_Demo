@@ -21,9 +21,10 @@ enum demoType {
 		DEMO_KMOV,
 		DEMO_AMX,
 		DEMO_AVX512_DECPRINT,
+		DEMO_AVX512_BGVSER,
 	#endif
 	#if defined(__AVX512F__)
-		DEMO_LAST	= DEMO_AVX512_DECPRINT,
+		DEMO_LAST	= DEMO_AVX512_BGVSER,
 	#elif defined (__AVX2__)
 		DEMO_LAST	= DEMO_FIRSTBBYTE,
 	#else

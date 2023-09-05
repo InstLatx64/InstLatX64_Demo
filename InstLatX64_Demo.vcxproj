@@ -474,6 +474,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Args.cpp" />
+    <ClCompile Include="AVX512_BGVSER.cpp" />
     <ClCompile Include="AVX512_DecimalPrint.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
@@ -640,6 +641,7 @@
     <ClInclude Include="512bFMA_DP_Ports.h" />
     <ClInclude Include="AMX_Demo.h" />
     <ClInclude Include="Args.h" />
+    <ClInclude Include="AVX512_BGVSER.h" />
     <ClInclude Include="AVX512_DecimalPrint.h" />
     <ClInclude Include="AVX512_KMemDst.h" />
     <ClInclude Include="AVX512_Reduce_Add.h" />

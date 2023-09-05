@@ -28,6 +28,7 @@ const demoTypeList demos[] = {
 	{"KMOV",				"",			DEMO_KMOV,				ISA_AVX512BW,			true,	Kmov_Test,						"KMOV"},
 	{"AMX",					"",			DEMO_AMX,				ISA_AMX_BF16,			true,	AMX_Test,						"AMX 101"},
 	{"AVX512_DecPrint",		"Print",	DEMO_AVX512_DECPRINT,	ISA_AVX512F,			true,	AVX512_DecimalPrint_Test,		"AVX512F & AVX512_IFMA decimal print"},
+	{"ByteShift",			"BGVSER",	DEMO_AVX512_BGVSER,		ISA_AVX512VBMI,			true,	AVX512_BGVSER_Test,				"Byte-Granularity Variable Shift on Entire Register"},
 #endif
 #endif
 };

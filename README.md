@@ -83,6 +83,13 @@ Finding first byte in lanes
 _mm256|512_firstbyte_epu32/64 implementation
 # HWBITPERM.*
 SVE2 vector BITPERM (BEXT/BDEP/BGRP) emulation with HW scalar BMI2 PEXT/PDEP instructions
+# AVX512_BGVSER.*
+Byte-Granularity Variable Shift on Entire Register
+```    
+    _(mm256|mm512))_(bsll|bsrl)_epi(256|512) [placeholder]
+    _(mm256|mm512))_palign(l|r)_epi(256|512)
+    _(mm256|mm512))_rotate(l|r)_epi(256|512)
+```    
 
 ## References
 *  Geoff Langdale [Why Ice Lake is Important (a bit-basher’s perspective)](https://branchfree.org/2019/05/29/why-ice-lake-is-important-a-bit-bashers-perspective/)
@@ -97,4 +104,4 @@ SVE2 vector BITPERM (BEXT/BDEP/BGRP) emulation with HW scalar BMI2 PEXT/PDEP ins
 *  [Geoff Langdale's Byte2Byte question](https://twitter.com/geofflangdale/status/1406084804613861379)
 *  [Geoff Langdale's reduce_add inspiration](https://twitter.com/geofflangdale/status/1609575574946865154)
 *  A list of “out-of-band” uses for the GF2P8AFFINEQB instruction I haven't seen documented elsewhere: [idea of tzcnt/lzcnt_gfni_epi8, sllv/srlv_gfni_epi8](https://gist.github.com/animetosho/6cb732ccb5ecd86675ca0a442b3c0622)
-*  [FirstByte inspiration](http://0x80.pl/notesen/2023-02-06-avx512-find-first-byte-in-lane.html)
+*  Robert Clausecker [BGVSER inspiration](https://twitter.com/FUZxxl/status/1696448029358801311)
