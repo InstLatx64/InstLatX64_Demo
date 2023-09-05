@@ -62,3 +62,4 @@ void HWBITPERM_Test(void);
 void Kmov_Test(void);
 void AMX_Test(void);
 void AVX512_DecimalPrint_Test(void);
+void AVX512_BGVSER_Test(void);
