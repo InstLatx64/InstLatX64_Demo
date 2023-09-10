@@ -104,4 +104,5 @@ Byte-Granularity Variable Shift on Entire Register
 *  [Geoff Langdale's Byte2Byte question](https://twitter.com/geofflangdale/status/1406084804613861379)
 *  [Geoff Langdale's reduce_add inspiration](https://twitter.com/geofflangdale/status/1609575574946865154)
 *  A list of “out-of-band” uses for the GF2P8AFFINEQB instruction I haven't seen documented elsewhere: [idea of tzcnt/lzcnt_gfni_epi8, sllv/srlv_gfni_epi8](https://gist.github.com/animetosho/6cb732ccb5ecd86675ca0a442b3c0622)
+*  [FirstByte inspiration](http://0x80.pl/notesen/2023-02-06-avx512-find-first-byte-in-lane.html)
 *  Robert Clausecker [BGVSER inspiration](https://twitter.com/FUZxxl/status/1696448029358801311)
