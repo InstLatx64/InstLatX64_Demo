@@ -701,8 +701,8 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 			case _VENDOR_ZHAOXIN:
 				switch(GetFamMod() & 0xfffffff0) {
 					case 0x00040670:	//CNS
-					case 0x000507B0:	//ZX-F
 						return 1;
+					case 0x000507B0:	//ZX-F
 					default:
 						return 0;
 				}
