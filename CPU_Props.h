@@ -408,8 +408,8 @@ private:
 	int							stepping;
 	int							hexID;
 	int							fms;
-	void						PrintSupportStatus(bool) const;
-	void						PrintOSStatus(bool) const;
+	void						PrintSupportStatus(bool, WORD col) const;
+	void						PrintOSStatus(bool, WORD col) const;
 	void						PrintFeat(bool feat, bool enabled, bool disabled) const;
 	void						PrintLeaf(uint32_t leafs, int* leaf) const;
 	void						PrintSingleLeaf(uint32_t leafs, int* leaf) const;

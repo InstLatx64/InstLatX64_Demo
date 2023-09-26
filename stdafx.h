@@ -19,4 +19,5 @@
 #include "InstLatX64_Demo.h"
 #include "512bFMA_DP_Ports.h"
 #include "Args.h"
+#include "ConsoleColor.h"
 

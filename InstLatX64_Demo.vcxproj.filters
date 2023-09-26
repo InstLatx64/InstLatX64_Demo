@@ -149,6 +149,9 @@
     <ClInclude Include="FirstByte.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ConsoleColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
 </ItemGroup>
   <ItemGroup>
     <MASM Include="512bFMA_DP_Ports_Asm.asm">

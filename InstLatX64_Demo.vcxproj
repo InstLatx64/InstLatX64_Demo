@@ -649,6 +649,7 @@
     <ClInclude Include="AVX512_String_Table.h" />
     <ClInclude Include="Byte2Byte.h" />
     <ClInclude Include="Compiler_Intrinsic_Test.h" />
+    <ClInclude Include="ConsoleColor.h" />
     <ClInclude Include="CPU_Props.h" />
     <ClInclude Include="FirstByte.h" />
     <ClInclude Include="GFNI_Demo.h" />

@@ -312,7 +312,7 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 using namespace std;
 
 void CPU_Props::PrintVendor(void) const {
-	cout << "Vendor: \"" << std::setw(VENDOR_STRING_SIZE) << vendor_string << "\"" << endl;
+	cout << "Vendor: \"" << std::setw(VENDOR_STRING_SIZE) << magenta << vendor_string << white << "\"" << endl;
 	cout << "Family:" << family;
 	cout << " Model:" << model;
 	cout << " Stepping:" << stepping;
@@ -321,21 +321,15 @@ void CPU_Props::PrintVendor(void) const {
 } 
 
 void CPU_Props::PrintBrand(void) const {
-	cout << "Brand: \"" << std::setw(48) << brand_string << "\"" << endl;
+	cout << "Brand: \"" << std::setw(48) << yellow << brand_string << white << "\"" << endl;
 }
 
-void CPU_Props::PrintSupportStatus(bool supp) const {
-	if (supp)
-		cout << ": supported";
-	else
-		cout << ": unsupported";
+void CPU_Props::PrintSupportStatus(bool supp, WORD col) const {
+	cout << ": " << color(col) << (supp ? "supported" : "unsupported") << white;
 }
 
-void CPU_Props::PrintOSStatus(bool enadisa) const {
-	if (enadisa)
-		cout << ", OS enabled";
-	else
-		cout << ", OS disabled";
+void CPU_Props::PrintOSStatus(bool enadisa, WORD col) const {
+	cout << ", " << color(col) << (enadisa ? "OS enabled" : "OS disabled") << white;
 }
 
 void CPU_Props::PrintFeat(uint64_t f) const {
@@ -355,16 +349,16 @@ void CPU_Props::PrintFeat(uint64_t f) const {
 
 void CPU_Props::PrintFeat(bool required_feat, bool xsave_enabled, bool xsave_disabled) const {
 	if (!required_feat) {
-		PrintSupportStatus(false);
+		PrintSupportStatus(false, COLOR_RED);
 	} else {
 		if (!xsave_enabled && !xsave_disabled) {
-			PrintSupportStatus(false);
+			PrintSupportStatus(false, COLOR_RED);
 		} else if (xsave_enabled) {
-			PrintSupportStatus(true);
-			PrintOSStatus(true);
+			PrintSupportStatus(true, COLOR_GREEN);
+			PrintOSStatus(true, COLOR_GREEN);
 		} else if (xsave_disabled) {
-			PrintSupportStatus(true);
-			PrintOSStatus(false);
+			PrintSupportStatus(true, COLOR_YELLOW);
+			PrintOSStatus(false, COLOR_YELLOW);
 		}
 	}
 }
@@ -401,7 +395,7 @@ void CPU_Props::PrintFeats(void) const {
 					break;
 				case _XCR0_EMPTY:
 				default:
-					PrintSupportStatus(enabled);
+					PrintSupportStatus(enabled, enabled ? COLOR_GREEN : COLOR_RED);
 					break;
 			}
 		}
