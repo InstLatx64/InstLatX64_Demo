@@ -88,9 +88,9 @@ enum ISAs {
 //AVX10
 	ISA_GROUP_AVX10,
 	ISA_AVX10,							//Granite Rapids
-	ISA_AVX10_128,						//?
-	ISA_AVX10_256,						//?
-	ISA_AVX10_512,						//?
+	ISA_AVX10_128,						//Granite Rapids
+	ISA_AVX10_256,						//Granite Rapids
+	ISA_AVX10_512,						//Granite Rapids X
 //cacheline
 	ISA_GROUP_CACHELINE,
 	ISA_PREFETCHW,						//K6
