@@ -191,7 +191,7 @@ void InstrincTest(void) {
 	_xsusldtrk();													//XSUSLDTRK
 #if defined (_M_X64)
 //PREFETCHI
-//C1001 up to VS17.7.3
+//C1001 up to VS17.7.4
 //#if (_MSC_VER >= 1937)
 //	char prefetchtest = 0;
 //	_mm_prefetch(&prefetchtest, _MM_HINT_IT0);						//PREFETCHIT0
