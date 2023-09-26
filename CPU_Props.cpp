@@ -383,7 +383,17 @@ void CPU_Props::PrintFeats(void) const {
 					PrintFeat(IsFeat(ISA_AVX), enabled, disabled);
 					break;
 				case _XCR0_AVX512:
-					PrintFeat(IsFeat(ISA_AVX512F), enabled, disabled);
+					switch (featInd) {
+						case ISA_AVX10:	
+						case ISA_AVX10_128:
+						case ISA_AVX10_256:
+						case ISA_AVX10_512:
+							PrintFeat(IsFeat(ISA_AVX10), enabled, disabled);
+							break;
+						default:
+						PrintFeat(IsFeat(ISA_AVX512F), enabled, disabled);
+						break;
+					}
 					break;
 				case _XCR0_AMX:
 				case _KEYLOCK:
