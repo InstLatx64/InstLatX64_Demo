@@ -503,12 +503,12 @@ void CPU_Props::ForcedAVX512(void) const {
 void CPU_Props::PrintHybridMasks(void) const {
 	if (IsFeat(ISA_HYBRID)) {
 		cout << "--Hybrid info--" << endl;
-			cout << "systemAffinityMask: 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << systemAffMask << endl;
-			cout << "littleCoreMask    : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << littleCoreMask << endl;
-			cout << "bigCoreMask       : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << bigCoreMask << endl;
-			cout << setfill(' ');
-		}
+		cout << "systemAffinityMask: 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << systemAffMask << endl;
+		cout << "littleCoreMask    : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << littleCoreMask << endl;
+		cout << "bigCoreMask       : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << bigCoreMask << endl;
+		cout << setfill(' ');
 	}
+}
 
 DWORD_PTR CPU_Props::GetBigCoreMask(void) const {
 	return bigCoreMask;
