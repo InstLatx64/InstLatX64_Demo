@@ -394,6 +394,7 @@ private:
 	DWORD_PTR					littleCoreMask			= 0;
 	DWORD_PTR					systemAffMask			= 0;
 	_VENDOR						vendor					= _VENDOR_EMPTY;
+	UINT64						xcr0					= 0;
 	union {
 		char					vendor_string[VENDOR_STRING_SIZE];
 		unsigned long			vendor_num[VENDOR_NUM_SIZE]  = {0, 0, 0, 0};
@@ -424,6 +425,7 @@ public:
 	void						Print_512bFMA_DP_Ports(void) const;
 	void						PrintHybridMasks(void) const;
 	void						PrintCPUIDDump(void) const;
+	void						PrintXCR0(void) const;
 	void						ForcedAVX512(void) const;
 	bool						IsFeat(int) const;
 	bool						IsZen2(void) const;

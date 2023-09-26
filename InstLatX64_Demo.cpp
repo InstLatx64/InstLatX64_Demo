@@ -71,6 +71,7 @@ int main(int argc, char* argv[])
 			cpu_props.Print_512bFMA_DP_Ports();
 #endif
 		//cpu_props.ForcedAVX512();
+		cpu_props.PrintXCR0();
 	}
 
 	if (args.IsCPUIDDump())

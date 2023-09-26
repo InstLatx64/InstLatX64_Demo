@@ -185,7 +185,6 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 	int extLevel01[4]		= {0, 0, 0, 0};
 	int extLevel08[4]		= {0, 0, 0, 0};
 	int extLevel21[4]		= {0, 0, 0, 0};
-	unsigned __int64 xcr0	= 0;
 
 	__cpuid(level00, 0x0);
 	if (level00[_REG_EAX] >= 1)
@@ -508,6 +507,10 @@ void CPU_Props::PrintHybridMasks(void) const {
 		cout << "bigCoreMask       : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << bigCoreMask << endl;
 		cout << setfill(' ');
 	}
+}
+
+void CPU_Props::PrintXCR0(void) const {
+	cout << "XCR0: 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << xcr0 << endl;
 }
 
 DWORD_PTR CPU_Props::GetBigCoreMask(void) const {
