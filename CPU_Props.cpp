@@ -84,6 +84,7 @@ const _EXT CPU_Props::exts[ISA_LAST] = {
 	{"AVX10/128",					_XCR0_AVX512,	_FEAT24_EBX_AVX10_128},
 	{"AVX10/256",					_XCR0_AVX512,	_FEAT24_EBX_AVX10_256},
 	{"AVX10/512",					_XCR0_AVX512,	_FEAT24_EBX_AVX10_512},
+	{"AVX10.level",					_XCR0_AVX512,	_FEAT24_EBX_AVX10_LEVEL},
 	{"---CacheLine----",			_XCR0_EMPTY,	_FEAT_SKIP},
 	{"PREFETCHW",					_XCR0_EMPTY,	_EFEAT01_ECX_3DNOWPREF},
 	{"PREFETCHWT1",					_XCR0_EMPTY,	_FEAT07_ECX_PWT1},
@@ -283,6 +284,15 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 						break;
 				}		
 				break;
+			case CPUID_NUMFIELD: //non-binary CPUID info
+				switch (featInd) {
+					case ISA_AVX10_LEVEL: {
+						if (IsFeat(ISA_AVX10))
+							avx10level = level24[_REG_EBX] & 0xff;
+					} break;
+					default:
+						break;
+				}
 			default:
 				if ((c.cpuid_res[place] & fbit) == fbit) {
 					switch (exts[featInd]._xcr0) {
@@ -328,6 +338,10 @@ void CPU_Props::PrintSupportStatus(bool supp, WORD col) const {
 	cout << ": " << color(col) << (supp ? "supported" : "unsupported") << white;
 }
 
+void CPU_Props::PrintSupportStatus(int num, WORD col) const {
+	cout << ": " << color(col) << num << white;
+}
+
 void CPU_Props::PrintOSStatus(bool enadisa, WORD col) const {
 	cout << ", " << color(col) << (enadisa ? "OS enabled" : "OS disabled") << white;
 }
@@ -363,6 +377,22 @@ void CPU_Props::PrintFeat(bool required_feat, bool xsave_enabled, bool xsave_dis
 	}
 }
 
+void CPU_Props::PrintFeat(bool required_feat, bool xsave_enabled, bool xsave_disabled, int num) const {
+	if (!required_feat) {
+		PrintSupportStatus(false, COLOR_RED);
+	} else {
+		if (!xsave_enabled && !xsave_disabled) {
+			PrintSupportStatus(false, COLOR_RED);
+		} 
+		else if (num != -1) {
+			CharColor col = xsave_enabled ? COLOR_GREEN : COLOR_YELLOW;
+			PrintSupportStatus(num, col);
+			if (!xsave_enabled)
+				PrintOSStatus(xsave_enabled, col);
+		} 
+	}
+}
+
 void CPU_Props::PrintFeats(void) const {
 	for (int featInd = 0; featInd < sizeof(exts) / sizeof(_EXT); featInd++) {
 		cout << left << std::setw(FEAT_NAME_SIZE) << exts[featInd].name;
@@ -384,9 +414,12 @@ void CPU_Props::PrintFeats(void) const {
 						case ISA_AVX10_512:
 							PrintFeat(IsFeat(ISA_AVX10), enabled, disabled);
 							break;
+						case ISA_AVX10_LEVEL:
+							PrintFeat(IsFeat(ISA_AVX10), enabled, disabled, avx10level);
+							break;
 						default:
-						PrintFeat(IsFeat(ISA_AVX512F), enabled, disabled);
-						break;
+							PrintFeat(IsFeat(ISA_AVX512F), enabled, disabled);
+							break;
 					}
 					break;
 				case _XCR0_AMX:

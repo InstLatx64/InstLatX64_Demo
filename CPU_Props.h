@@ -91,6 +91,7 @@ enum ISAs {
 	ISA_AVX10_128,						//Granite Rapids
 	ISA_AVX10_256,						//Granite Rapids
 	ISA_AVX10_512,						//Granite Rapids X
+	ISA_AVX10_LEVEL,					//Granite Rapids
 //cacheline
 	ISA_GROUP_CACHELINE,
 	ISA_PREFETCHW,						//K6
@@ -163,6 +164,7 @@ enum _CPUID_Feats : unsigned long long {
 	CPUID_EFEAT01_EDX,
 	CPUID_EFEAT08_EBX,
 	CPUID_EFEAT21_EAX,
+	CPUID_NUMFIELD
 };
 
 enum _XCR0  : unsigned long long {
@@ -281,6 +283,7 @@ enum _VENDOR  : uint32_t {
 #define _FEAT24_EBX_AVX10_128							((1ULL << 16) | (CPUID_FEAT24_EBX << 32))
 #define _FEAT24_EBX_AVX10_256							((1ULL << 17) | (CPUID_FEAT24_EBX << 32))
 #define _FEAT24_EBX_AVX10_512							((1ULL << 18) | (CPUID_FEAT24_EBX << 32))
+#define _FEAT24_EBX_AVX10_LEVEL							                (CPUID_NUMFIELD << 32)
 
 #define _FEAT0701_EAX_SHA512							((1ULL <<  0) | (CPUID_FEAT0701_EAX << 32))
 #define _FEAT0701_EAX_SM3								((1ULL <<  1) | (CPUID_FEAT0701_EAX << 32))
@@ -395,6 +398,7 @@ private:
 	DWORD_PTR					systemAffMask			= 0;
 	_VENDOR						vendor					= _VENDOR_EMPTY;
 	UINT64						xcr0					= 0;
+	int							avx10level				= 0;
 	union {
 		char					vendor_string[VENDOR_STRING_SIZE];
 		unsigned long			vendor_num[VENDOR_NUM_SIZE]  = {0, 0, 0, 0};
@@ -409,8 +413,10 @@ private:
 	int							hexID;
 	int							fms;
 	void						PrintSupportStatus(bool, WORD col) const;
+	void						PrintSupportStatus(int, WORD col) const;
 	void						PrintOSStatus(bool, WORD col) const;
 	void						PrintFeat(bool feat, bool enabled, bool disabled) const;
+	void						PrintFeat(bool feat, bool enabled, bool disabled, int num) const;
 	void						PrintLeaf(uint32_t leafs, int* leaf) const;
 	void						PrintSingleLeaf(uint32_t leafs, int* leaf) const;
 	void						PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf) const;
