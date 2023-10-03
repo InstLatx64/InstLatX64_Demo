@@ -718,6 +718,7 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x000B06F0:	//Raptor Cove + Gracemont  / RAPTORLAKE_S
 					case 0x000C0650:	//Lion Cove + Crestmont?   / ARROW_LAKE
 					case 0x000C0660:	//Lion Cove + Skymont      / ARROW_LAKE_S
+					case 0x000C06C0:	//?                        / PANTHER_LAKE
 					default:			//on other cores, AVX512F unsupported
 						return 0;
 					//future
