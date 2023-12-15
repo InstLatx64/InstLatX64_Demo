@@ -679,7 +679,7 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 							}
 						} break;
 					case 0x000806F0: {	//Golden Cove              / SAPPHIRERAPIDS_X 
-						if (IsInBrand("3408U") || IsInBrand("3450C")) //Intel Xeon Bronze 3408U; Xeon 3450C Processor
+						if (IsInBrand("3408U") || IsInBrand("3508U") || IsInBrand("3450C")) //Intel Xeon Bronze 3408U; Xeon Bronze 3508U; Xeon 3450C Processor
 							return 1;
 						else
 							return 2;
