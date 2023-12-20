@@ -937,6 +937,7 @@ void CPU_Props::PrintCPUIDDump(void) const {
 							} break;
 							case 0x18:	{//Deterministic Address Translation Parameters Main Leaf
 								int lastSubLeaf = leaf[_REG_EAX];
+								PrintSubLeaf(leafs, leaf, 0);
 								for (int subleaf = 0; subleaf <= lastSubLeaf; subleaf++) {
 									__cpuidex(leaf, leafs, subleaf);
 									unsigned int TLBpage	= leaf[_REG_EBX] & 0xf;
