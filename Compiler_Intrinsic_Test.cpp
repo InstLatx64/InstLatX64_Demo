@@ -31,7 +31,7 @@
 //Visual Studio 2019 version 16.7	1927
 //Visual Studio 2019 version 16.8	1928
 //Visual Studio 2019 version 16.9	1928
-//Visual Studio 2019 version 16.10	1929
+//Visual Studio 2019 version 16.10+	1929
 //Visual Studio 2022 version 17.0	1930
 //Visual Studio 2022 version 17.1	1931
 //Visual Studio 2022 version 17.2	1932
@@ -40,6 +40,8 @@
 //Visual Studio 2022 version 17.5	1935
 //Visual Studio 2022 version 17.6	1936
 //Visual Studio 2022 version 17.7	1937
+//Visual Studio 2022 version 17.8	1938
+//Visual Studio 2022 version 17.9	1939
 
 void AVX512_InstrincTest(void)
 {
@@ -155,6 +157,10 @@ void AVX_VNNI_InstrincTest(void) {
 #endif
 }
 
+int foo(int a) {
+	return 2 * a;
+};
+
 void InstrincTest(void) {
 	long value32b = 0 ;
 	long long *dst = 0, *src = 0, value64b = 0;
@@ -191,12 +197,16 @@ void InstrincTest(void) {
 	_xsusldtrk();													//XSUSLDTRK
 #if defined (_M_X64)
 //PREFETCHI
-//C1001 up to VS17.7.4
+//C1001 up to VS17.7.4, fixed in VS17.9.0 Preview 2.1 as C7035 Code address required
 //#if (_MSC_VER >= 1937)
 //	char prefetchtest = 0;
 //	_mm_prefetch(&prefetchtest, _MM_HINT_IT0);						//PREFETCHIT0
 //	_mm_prefetch(&prefetchtest, _MM_HINT_IT1);						//PREFETCHIT1
 //#endif
+#if (_MSC_VER >= 1937)
+	_mm_prefetch((const char*)foo, _MM_HINT_IT0);					//PREFETCHIT0
+	_mm_prefetch((const char*)foo, _MM_HINT_IT1);					//PREFETCHIT1
+#endif
 #if (_MSC_VER > 1927)
 //AMX-TILE
 	unsigned char load_tilecfg[64], store_tilecfg[64];
