@@ -150,26 +150,28 @@ const _CPUID_VENDOR CPU_Props::vendors[_VENDOR_LAST] = {
 };
 
 const char * CPU_Props::_cpuid_names[MAX_CPUIDSTR][CPUID_STR_LAST + 1] = {
-/* 00 */	{"X87",					"",					"",				"",				"Tremont",		"Sunny Cove"	},
-/* 01 */	{"SSE",					"Data TLB",			"4K          ",	"Data       ",	"Gracemont",	"Golden Cove"	},
-/* 02 */	{"AVX",					"Instruction TLB",	"   2M       ",	"Instruction",	"Crestmont",	"Redwood Cove"	},
-/* 03 */	{"MPX BNDREGS",			"Unified TLB",		"4K+2M       ",	"Unified    ",	"Skymont",		"Lion Cove"		},
-/* 04 */	{"MPX BNDCSR",			"Load Only TLB",	"      4M    ",	"",				"",				""				},
-/* 05 */	{"AVX-512 Opmask",		"Store Only TLB",	"4K+   4M    ",	"",				"",				""				},
-/* 06 */	{"AVX-512 Hi256",		"",					"   2M/4M    ",	"",				"",				""				},
-/* 07 */	{"AVX-512 Hi16",		"",					"4K+2M/4M    ",	"",				"",				""				},
-/* 08 */	{"PT",					"",					"         1G ",	"",				"",				""				},
-/* 09 */	{"PKRU",				"",					"4K+      1G ",	"",				"",				""				},
-/* 10 */	{"PASID",				"",					"   2M   +1G ",	"",				"",				""				},
-/* 11 */	{"CET_U",				"",					"4K+2M   +1G ",	"",				"",				""				},
-/* 12 */	{"CET_S",				"",					"      4M+1G ",	"",				"",				""				},
-/* 13 */	{"HDC",					"",					"4K+   4M+1G ",	"",				"",				""				},
-/* 14 */	{"UINTR",				"",					"   2M/4M+1G ",	"",				"",				""				},
-/* 15 */	{"LBR",					"",					"4K+2M/4M+1G ",	"",				"",				""				},
-/* 16 */	{"HWP",					"",					"",				"",				"",				""				},
-/* 17 */	{"TILECFG",				"",					"",				"",				"",				""				},
-/* 18 */	{"TILEDATA"				"",					"",				"",				"",				""				},
-/* 19 */	{"APX"					"",					"",				"",				"",				""				},
+/*			CPUID_STATE				CPUID_TLB_TYPE		CPUID_TLB_PAGE	CPUID_CACHE_TYPE	CPUID_ATOM_NAME	CPUID_CORE_NAME	*/
+/*			0000000Dh				00000018h			00000018h		00000004h			0000001Ah		0000001Ah		*/
+/* 00 */	{"X87",					"",					"",				"",					"Tremont",		"Sunny Cove"	},
+/* 01 */	{"SSE",					"Data TLB",			"4K          ",	"Data       ",		"Gracemont",	"Golden Cove"	},
+/* 02 */	{"AVX",					"Instruction TLB",	"   2M       ",	"Instruction",		"Crestmont",	"Redwood Cove"	},
+/* 03 */	{"MPX BNDREGS",			"Unified TLB",		"4K+2M       ",	"Unified    ",		"Skymont",		"Lion Cove"		},
+/* 04 */	{"MPX BNDCSR",			"Load Only TLB",	"      4M    ",	"",					"",				""				},
+/* 05 */	{"AVX-512 Opmask",		"Store Only TLB",	"4K+   4M    ",	"",					"",				""				},
+/* 06 */	{"AVX-512 Hi256",		"",					"   2M/4M    ",	"",					"",				""				},
+/* 07 */	{"AVX-512 Hi16",		"",					"4K+2M/4M    ",	"",					"",				""				},
+/* 08 */	{"PT",					"",					"         1G ",	"",					"",				""				},
+/* 09 */	{"PKRU",				"",					"4K+      1G ",	"",					"",				""				},
+/* 10 */	{"PASID",				"",					"   2M   +1G ",	"",					"",				""				},
+/* 11 */	{"CET_U",				"",					"4K+2M   +1G ",	"",					"",				""				},
+/* 12 */	{"CET_S",				"",					"      4M+1G ",	"",					"",				""				},
+/* 13 */	{"HDC",					"",					"4K+   4M+1G ",	"",					"",				""				},
+/* 14 */	{"UINTR",				"",					"   2M/4M+1G ",	"",					"",				""				},
+/* 15 */	{"LBR",					"",					"4K+2M/4M+1G ",	"",					"",				""				},
+/* 16 */	{"HWP",					"",					"",				"",					"",				""				},
+/* 17 */	{"TILECFG",				"",					"",				"",					"",				""				},
+/* 18 */	{"TILEDATA"				"",					"",				"",					"",				""				},
+/* 19 */	{"APX"					"",					"",				"",					"",				""				},
 };
 
 
