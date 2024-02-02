@@ -139,7 +139,7 @@ void AVX_VNNI_InstrincTest(void) {
 	__m256i		res_AVX_VNNI		= _mm256_dpbusds_avx_epi32(src, a, b);
 #if (_MSC_VER >= 1937)
 	__m256i		res_AVX_VNNI_INT8	= _mm256_dpbuud_epi32(src, a, b);
-#if (_MSC_VER > 1937)
+#if (_MSC_VER > 1939)
 	__m256i		res_AVX_VNNI_INT16	= _mm256_dpwuud_avx_epi32(src, a, b);
 //_mm_sm3msg1_epi32 
 //_mm_sm3msg2_epi32 
@@ -197,13 +197,13 @@ void InstrincTest(void) {
 	_xsusldtrk();													//XSUSLDTRK
 #if defined (_M_X64)
 //PREFETCHI
-//C1001 up to VS17.7.4, fixed in VS17.9.0 Preview 2.1 as C7035 Code address required
+//C1001 up to VS17.8.6, fixed in VS17.9.0 Preview 2.1 as C7035 Code address required
 //#if (_MSC_VER >= 1937)
 //	char prefetchtest = 0;
 //	_mm_prefetch(&prefetchtest, _MM_HINT_IT0);						//PREFETCHIT0
 //	_mm_prefetch(&prefetchtest, _MM_HINT_IT1);						//PREFETCHIT1
 //#endif
-#if (_MSC_VER >= 1937)
+#if (_MSC_VER >= 1939)
 	_mm_prefetch((const char*)foo, _MM_HINT_IT0);					//PREFETCHIT0
 	_mm_prefetch((const char*)foo, _MM_HINT_IT1);					//PREFETCHIT1
 #endif
