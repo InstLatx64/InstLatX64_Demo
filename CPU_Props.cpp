@@ -818,6 +818,25 @@ void CPU_Props::PrintCPUIDDump(void) const {
 							default:
 								PrintSingleLeaf(leafs, leaf);
 								break;
+							case 0x00000000: {
+								PrintLeaf(leafs, leaf);
+								cout << '[' << std::setw(VENDOR_STRING_SIZE) << vendor_string << ']' << endl;
+							} break;
+							case 0x20000000:
+							case 0x40000000:
+							case 0x80000000:
+							case 0x80860000:
+							case 0xc0000000: {
+								PrintLeaf(leafs, leaf);
+								union {
+									char					vendor_string[VENDOR_STRING_SIZE];
+									unsigned long			vendor_num[VENDOR_NUM_SIZE]  = {0, 0, 0, 0};
+								} vendor;
+								vendor.vendor_num[0] = leaf[_REG_EBX];
+								vendor.vendor_num[1] = leaf[_REG_EDX];
+								vendor.vendor_num[2] = leaf[_REG_ECX];
+								cout << '[' << vendor.vendor_string << ']' << endl;
+							} break;
 							case 0x04:	//Deterministic Cache Parameters Leaf
 							case 0x8000001D: {
 								int subleaf = 0;
