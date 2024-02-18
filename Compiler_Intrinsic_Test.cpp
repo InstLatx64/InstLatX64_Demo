@@ -141,7 +141,7 @@ void AVX_VNNI_InstrincTest(void) {
 #if (_MSC_VER >= 1937)
 	__m256i		res_AVX_VNNI_INT8	= _mm256_dpbuud_epi32(src, a, b);
 #if (_MSC_VER > 1939)
-	__m256i		res_AVX_VNNI_INT16	= _mm256_dpwuud_avx_epi32(src, a, b);
+	__m256i		res_AVX_VNNI_INT16	= _mm256_dpwuud_epi32(src, a, b);
 //_mm_sm3msg1_epi32 
 //_mm_sm3msg2_epi32 
 //_mm_sm3rnds2_epi32
