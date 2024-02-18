@@ -738,6 +738,10 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x00A90F00:	//MI300A
 					case 0x00AA0F00:	//Bergamo
 						return 1;
+										//Zen5 source: https://gcc.gnu.org/pipermail/gcc-patches/attachments/20240210/b2991675/attachment-0001.obj
+					case 0x00B00F00:	//Zen5/Turin
+					case 0x00B40F00:	//Zen5/Granite Ridge
+						return 2;
 					default:
 						return 0;
 				}
