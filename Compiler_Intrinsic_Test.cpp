@@ -42,6 +42,7 @@
 //Visual Studio 2022 version 17.7	1937
 //Visual Studio 2022 version 17.8	1938
 //Visual Studio 2022 version 17.9	1939
+//Visual Studio 2022 version 17.10	1940
 
 void AVX512_InstrincTest(void)
 {
