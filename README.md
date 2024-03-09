@@ -60,7 +60,9 @@ experimental implementation of entire register (128/256/512b, xmm/ymm/zmm) prefi
 # Compiler_Intrinsic_Test.cpp  
 for testing Visual Studio AVX512 capabilities
 # TZCNT_Demo.cpp  
-Emulating the missing SIMD VPTZCNTB /  VPTZCNTW / VPTZCNTD / VPTZCNTQ  instructions
+Emulating the missing SIMD VPTZCNTB / VPTZCNTW / VPTZCNTD / VPTZCNTQ  instructions
+# LZCNT_Demo.cpp  
+Emulating the missing SIMD VPLZCNTB / VPLZCNTW  instructions
 # PEXT_PDEP_Emu.cpp  
 Faster PEXT and PDEP emulation for AMD Excavator/Zen/Zen+/Zen2 based on Zach Wegner's ZP7 (Zach's Peppy Parallel-Prefix-Popcountin' PEXT/PDEP Polyfill)
 # CPU_Props.* 

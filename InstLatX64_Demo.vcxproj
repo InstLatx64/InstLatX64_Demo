@@ -545,6 +545,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="LZCNT_Demo.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="InstLatX64_Demo.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">Use</PrecompiledHeader>
@@ -653,6 +661,7 @@
     <ClInclude Include="CPU_Props.h" />
     <ClInclude Include="FirstByte.h" />
     <ClInclude Include="GFNI_Demo.h" />
+    <ClInclude Include="LZCNT_Demo.h" />
     <ClInclude Include="InstLatX64_Demo.h" />
     <ClInclude Include="KmovTest.h" />
     <ClInclude Include="PEXT_PDEP_Emu.h" />
@@ -710,6 +719,17 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="LZCNT_Demo_Asm.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX512|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
+      <EnableAssemblyGeneratedCodeListing Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|x64'">
+      </EnableAssemblyGeneratedCodeListing>
+      <AssembledCodeListingFile Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|x64'">$(IntDir)%(FileName).lst</AssembledCodeListingFile>
     </MASM>
     <MASM Include="KmovTest_Asm.asm">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
