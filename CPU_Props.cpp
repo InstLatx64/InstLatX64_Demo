@@ -731,12 +731,12 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 				break;
 			case _VENDOR_AMD:
 				switch(GetFamMod() & 0xffffff00) {
-					case 0x00A10F00:	//Genoa, Storm Peak
-					case 0x00A60F00:	//Raphael
-					case 0x00A70F00:	//Phoenix, Phoenix2
-					case 0x00A80F00:	//MI300C
-					case 0x00A90F00:	//MI300A
-					case 0x00AA0F00:	//Bergamo
+					case 0x00A10F00:	//Zen4/Genoa, Storm Peak
+					case 0x00A60F00:	//Zen4/Raphael
+					case 0x00A70F00:	//Zen4/Phoenix, Phoenix2
+					case 0x00A80F00:	//Zen4/MI300C
+					case 0x00A90F00:	//Zen4/MI300A
+					case 0x00AA0F00:	//Zen4/Bergamo
 						return 1;
 										//Zen5 source: https://gcc.gnu.org/pipermail/gcc-patches/attachments/20240210/b2991675/attachment-0001.obj
 					case 0x00B00F00:	//Zen5/Turin
