@@ -710,7 +710,7 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 						return 2;
 					case 0x000806A0:	//Sunny Cove + Tremont     / LAKEFIELD, AVX512 disabled
 					case 0x000A06F0:	//Crestmont                / SIERRAFOREST_X
-					case 0x000B0650:	//Crestmont                / METEORLAKE_N
+					case 0x000B0650:	//?                        / ARROWLAKE_P
 					case 0x000B0660:	//Crestmont                / GRANDRIDGE
 					case 0x000B0670:	//Raptor Cove + Gracemont  / RAPTORLAKE
 					case 0x000B06A0:	//Raptor Cove + Gracemont  / RAPTORLAKE_P
@@ -718,10 +718,10 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x000B06D0:	//Lion Cove + Skymont      / LUNARLAKE_M
 					case 0x000B06E0:	//Gracemont                / ALDERLAKE_N
 					case 0x000B06F0:	//Raptor Cove + Gracemont  / RAPTORLAKE_S
-					case 0x000C0650:	//Lion Cove + Crestmont?   / ARROW_LAKE
+					case 0x000C0650:	//Lion Cove + Crestmont?   / ARROW_LAKE_H
 					case 0x000C0660:	//Lion Cove + Skymont      / ARROW_LAKE_S
 					case 0x000C06C0:	//?                        / PANTHER_LAKE
-					case 0x000D06D0:	//Skymont?                 / CLEARWATERFOREST_X
+					case 0x000D06D0:	//Darkmont                 / CLEARWATERFOREST_X
 					default:			//on other cores, AVX512F unsupported
 						return 0;
 					//future
@@ -737,9 +737,12 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x00A80F00:	//Zen4/MI300C
 					case 0x00A90F00:	//Zen4/MI300A
 					case 0x00AA0F00:	//Zen4/Bergamo
+					case 0x00B20F00:	//Zen5/Strix Point
+					case 0x00B60F00:	//Zen5/Krackan		https://x.com/Kepler_L2/status/1751280179576488037
+					case 0x00B70F00:	//Zen5/Strix Halo	https://www.spinics.net/lists/linux-tip-commits/msg64230.html
 						return 1;
-										//Zen5 source: https://gcc.gnu.org/pipermail/gcc-patches/attachments/20240210/b2991675/attachment-0001.obj
-					case 0x00B00F00:	//Zen5/Turin
+					case 0x00B00F00:	//Zen5/Turin		https://gcc.gnu.org/pipermail/gcc-patches/attachments/20240210/b2991675/attachment-0001.obj
+					case 0x00B10F00:	//Zen5/Turin Dense	https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/programmer-references/58088-0.75-pub.pdf
 					case 0x00B40F00:	//Zen5/Granite Ridge
 						return 2;
 					default:
