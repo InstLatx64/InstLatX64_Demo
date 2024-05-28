@@ -43,6 +43,7 @@
 //Visual Studio 2022 version 17.8	1938
 //Visual Studio 2022 version 17.9	1939
 //Visual Studio 2022 version 17.10	1940
+//Visual Studio 2022 version 17.11	1941
 
 void AVX512_InstrincTest(void)
 {
@@ -142,18 +143,18 @@ void AVX_VNNI_InstrincTest(void) {
 	__m256i		res_AVX_VNNI_INT8	= _mm256_dpbuud_epi32(src, a, b);
 #if (_MSC_VER > 1939)
 	__m256i		res_AVX_VNNI_INT16	= _mm256_dpwuud_epi32(src, a, b);
-//_mm_sm3msg1_epi32 
-//_mm_sm3msg2_epi32 
-//_mm_sm3rnds2_epi32
-//
-//_mm256_sha512msg1_epi64 
-//_mm256_sha512msg2_epi64 
-//_mm256_sha512rnds2_epi64 
-//
-//_mm_sm4key4_epi32 
-//_mm256_sm4key4_epi32 
-//_mm_sm4rnds4_epi32 
-//_mm256_sm4rnds4_epi32 
+	//_mm_sm3msg1_epi32();
+	//_mm_sm3msg2_epi32();
+	//_mm_sm3rnds2_epi32();
+
+	//_mm256_sha512msg1_epi64();
+	//_mm256_sha512msg2_epi64();
+	//_mm256_sha512rnds2_epi64();
+
+	//_mm_sm4key4_epi32();
+	//_mm256_sm4key4_epi32();
+	//_mm_sm4rnds4_epi32();
+	//_mm256_sm4rnds4_epi32();
 #endif
 #endif
 }
@@ -229,6 +230,11 @@ void InstrincTest(void) {
 #if (_MSC_VER >= 1937)
 	_tile_cmmimfp16ps(2, 1, 0);										//TCMMIMFP16PS
 	_tile_cmmrlfp16ps(2, 1, 0);										//TCMMRLFP16PS
+#if (_MSC_VER >= 1941)
+	unsigned __int64 rdind = 0;
+	unsigned __int64 resmsr = _urdmsr(rdind);						//URDMSR
+	_uwrmsr(rdind, resmsr);											//UWRMSR
+#endif
 #endif
 #endif
 //AMX-INT8
