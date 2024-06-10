@@ -175,7 +175,7 @@ const char * CPU_Props::_cpuid_names[MAX_CPUIDSTR][CPUID_STR_LAST + 1] = {
 };
 
 
-CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
+CPU_Props::CPU_Props() : family(0), model(0), stepping(0), fms(0) {
 	int level00[4]			= {0, 0, 0, 0};
 	int level01[4]			= {0, 0, 0, 0};
 	int level07[4]			= {0, 0, 0, 0};
@@ -247,7 +247,6 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 	family		= ((level01[_REG_EAX] >> 8) & 0xf) + ((level01[_REG_EAX] >> 20) & 0xf);
 	model		= (((level01[_REG_EAX] >> 4) & 0xf) | ((level01[_REG_EAX] >> 12) & 0xf0));
 	stepping	= (level01[_REG_EAX] & 0xf);
-	hexID		= level01[_REG_EAX];
 
 	fms = level01[_REG_EAX];
 
@@ -328,7 +327,7 @@ void CPU_Props::PrintVendor(void) const {
 	cout << "Family:" << family;
 	cout << " Model:" << model;
 	cout << " Stepping:" << stepping;
-	cout << " (" << hex << hexID << ')';
+	cout << " (" << hex << fms << ')';
 	cout << endl;
 } 
 

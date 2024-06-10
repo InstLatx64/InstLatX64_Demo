@@ -407,7 +407,6 @@ private:
 	int							family;
 	int							model;
 	int							stepping;
-	int							hexID;
 	int							fms;
 	void						PrintSupportStatus(bool, WORD col) const;
 	void						PrintSupportStatus(int, WORD col) const;
