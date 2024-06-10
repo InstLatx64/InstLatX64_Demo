@@ -164,7 +164,8 @@ enum _CPUID_Feats : unsigned long long {
 	CPUID_EFEAT01_EDX,
 	CPUID_EFEAT08_EBX,
 	CPUID_EFEAT21_EAX,
-	CPUID_NUMFIELD
+	CPUID_NUMFIELD,
+	CPUID_LAST = CPUID_NUMFIELD
 };
 
 enum _XCR0  : unsigned long long {
@@ -328,7 +329,6 @@ enum _VENDOR  : uint32_t {
 #define _EFEAT21_EAX_FSRC_FAST_SHORT_REPE_CMPSB			((1ULL <<  11) | (CPUID_EFEAT21_EAX << 32))
 
 #define FEATSIZE										2
-#define CPUID_FIELDS									14
 #define FEAT_NAME_SIZE									31
 #define VENDOR_STRING_SIZE								12
 #define VENDOR_NUM_SIZE									4
@@ -340,7 +340,7 @@ enum _VENDOR  : uint32_t {
 
 typedef struct {
 	unsigned __int64	xcr0;
-	int					cpuid_res[CPUID_FIELDS];
+	int					cpuid_res[CPUID_LAST];
 } _CPUID_RES;
 
 typedef struct _EXT_Tag {
