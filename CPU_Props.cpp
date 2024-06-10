@@ -201,7 +201,7 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), fms(0) {
 	if (level00[_REG_EAX] >= 0x1D) {
 		__cpuid(level1D, 0x1D);
 		const unsigned int maxPalette = level1D[_REG_EAX];
-		for (unsigned int p = 0; p < maxPalette; p++) {
+		for (unsigned int p = 0; p < min(maxPalette, 1); p++) {
 			__cpuidex(level1D, 0x1D, p + 1);
 			AMX_palette[p].total_tile_bytes	= level1D[_REG_EAX] & 0xffff;
 			AMX_palette[p].bytes_per_tile	= level1D[_REG_EAX] >> 16;
