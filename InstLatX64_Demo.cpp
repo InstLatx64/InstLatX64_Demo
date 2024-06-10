@@ -23,6 +23,7 @@ const demoTypeList demos[] = {
 	{"Intrinsics",			"Intrin",	DEMO_INTRINSICS,		ISA_AVX512F,			true,	AVX512_InstrincTest,			"Visual Studio Compiler Intrinsics Test"},
 	{"VBMI2",				"",			DEMO_VBMI2,				ISA_AVX512_VBMI2,		true,	VBMI2_Demo,						"SIMD variable rots and shifts for words and bytes"},
 	{"Byte2Byte",			"B2B",		DEMO_BYTE2BYTE,			ISA_AVX512VBMI,			true,	Byte2ByteTest,					"Fastest Byte2Byte SIMD replacemant"},
+	{"LZCNT",				"",			DEMO_LZCNT,				ISA_AVX512_BITALG,		true,	LZCNT_Test,						"Missing SIMD VPLZCNTB/W emulation"},
 	{"TZCNT",				"",			DEMO_TZCNT,				ISA_AVX512_VPOPCNTDQ,	true,	TZCNT_Test,						"Missing SIMD TZCNT emulation"},
 	{"HWBITPERM",			"HWB",		DEMO_HWBITPERM,			ISA_AVX512BW,			true,	HWBITPERM_Test,					"SVE2 vector BITPERM (BEXT/BDEP/BGRP) emulation with HW scalar BMI2 PEXT/PDEP instructions"},
 	{"KMOV",				"",			DEMO_KMOV,				ISA_AVX512BW,			true,	Kmov_Test,						"KMOV"},

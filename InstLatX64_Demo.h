@@ -16,6 +16,7 @@ enum demoType {
 		DEMO_INTRINSICS,
 		DEMO_VBMI2,
 		DEMO_BYTE2BYTE,
+		DEMO_LZCNT,
 		DEMO_TZCNT,
 		DEMO_HWBITPERM,
 		DEMO_KMOV,
@@ -57,6 +58,7 @@ void Zen4_Demo(void);
 void AVX512_InstrincTest(void);
 void VBMI2_Demo(void);
 void Byte2ByteTest(void);
+void LZCNT_Test(void);
 void TZCNT_Test(void);
 void HWBITPERM_Test(void);
 void Kmov_Test(void);
