@@ -2,6 +2,7 @@
 
 const paramsType Args::params[] = {
 	{false,	"help",		'h',	ARG_HELP,			NULL,				"this help"},
+	{false,	"help",		'?',	ARG_HELP,			NULL,				"this help"},
 	{false,	"version",	'v',	ARG_VERSION,		NULL,				"version info"},
 	{false,	"list",		'l',	ARG_DEMOLIST,		NULL,				"list of demo types"},
 	{false,	"cpu",		'c',	ARG_CPUPROPS,		NULL,				"list of CPU properties"},
