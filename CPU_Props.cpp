@@ -180,8 +180,10 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), fms(0) {
 	int level01[4]			= {0, 0, 0, 0};
 	int level07[4]			= {0, 0, 0, 0};
 	int level0701[4]		= {0, 0, 0, 0};
+	int level0702[4]		= {0, 0, 0, 0};
 	int level19[4]			= {0, 0, 0, 0};
 	int level1D[4]			= {0, 0, 0, 0};
+	int level1D01[4]		= {0, 0, 0, 0};
 	int level1E[4]			= {0, 0, 0, 0};
 	int level24[4]			= {0, 0, 0, 0};
 	int extLevel00[4]		= {0, 0, 0, 0};
@@ -196,13 +198,15 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), fms(0) {
 		__cpuid(level07, 0x7);
 	if (level07[_REG_EAX] > 0)
 		__cpuidex(level0701, 0x7, 1);
+	if (level07[_REG_EAX] > 1)
+		__cpuidex(level0702, 0x7, 2);
 	if (level00[_REG_EAX] >= 0x19)
 		__cpuid(level19, 0x19);
 	if (level00[_REG_EAX] >= 0x1D) {
 		__cpuid(level1D, 0x1D);
 		const unsigned int maxPalette = level1D[_REG_EAX];
 		for (unsigned int p = 0; p < min(maxPalette, 1); p++) {
-			__cpuidex(level1D, 0x1D, p + 1);
+			__cpuidex(level1D01, 0x1D, p + 1);
 			AMX_palette[p].total_tile_bytes	= level1D[_REG_EAX] & 0xffff;
 			AMX_palette[p].bytes_per_tile	= level1D[_REG_EAX] >> 16;
 			AMX_palette[p].bytes_per_row	= level1D[_REG_EBX] & 0xffff;
@@ -258,10 +262,15 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), fms(0) {
 
 	_CPUID_RES c = {xcr0, 
 					level01[_REG_EAX], level01[_REG_ECX], level01[_REG_EDX], 
-					level07[_REG_EBX], level07[_REG_ECX], level07[_REG_EDX], level0701[_REG_EAX], level0701[_REG_EDX],
-					level19[_REG_EBX], level24[_REG_EBX],
+					level07[_REG_EBX], level07[_REG_ECX], level07[_REG_EDX], 
+					level0701[_REG_EAX], level0701[_REG_EDX],
+					level0702[_REG_EAX], level0702[_REG_EDX],
+					level19[_REG_EBX], level1D[_REG_EAX], 
+					level1D01[_REG_EAX], level1D01[_REG_EBX], level1D01[_REG_ECX],
+					level1E[_REG_EAX], level24[_REG_EBX],
 					extLevel01[_REG_ECX], extLevel01[_REG_EDX], 
-					extLevel08[_REG_EBX], extLevel21[_REG_EAX]};
+					extLevel08[_REG_EAX], extLevel08[_REG_EBX],
+					extLevel21[_REG_EAX]};
 
 	for (int featInd = 0; featInd < sizeof(exts) / sizeof(_EXT); featInd++) {
 		unsigned long place	= (unsigned long)(exts[featInd].featbit >> 32);
