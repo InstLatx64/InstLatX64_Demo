@@ -228,7 +228,7 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), hexID(0), fms(0) {
 	if (extLevel00[_REG_EAX] >= 0x80000021)
 		__cpuid(extLevel21, 0x80000021);
 
-	if ((level01[_REG_ECX] & _FEAT01_ECX_OSXSAVE) == _FEAT01_ECX_OSXSAVE)  //OSXSAVE
+	if ((level01[_REG_ECX] & _FEAT01_ECX_OSXSAVE & 0xffffffff) == (_FEAT01_ECX_OSXSAVE & 0xffffffff))
 		xcr0 = _xgetbv(0);
 
 	vendor_num[0] = level00[_REG_EBX];

@@ -221,7 +221,7 @@ enum _VENDOR  : uint32_t {
 #define _FEAT01_ECX_MOVBE								((1ULL << 22) | (CPUID_FEAT01_ECX << 32))
 #define _FEAT01_ECX_POPCNT								((1ULL << 23) | (CPUID_FEAT01_ECX << 32))
 #define _FEAT01_ECX_AESNI								((1ULL << 25) | (CPUID_FEAT01_ECX << 32))
-#define _FEAT01_ECX_OSXSAVE								(1ULL << 27)
+#define _FEAT01_ECX_OSXSAVE								((1ULL << 27) | (CPUID_FEAT01_ECX << 32))
 #define _FEAT01_ECX_AVX									((1ULL << 28) | (CPUID_FEAT01_ECX << 32))
 #define _FEAT01_ECX_F16C								((1ULL << 29) | (CPUID_FEAT01_ECX << 32))
 #define _FEAT01_ECX_RDRAND								((1ULL << 30) | (CPUID_FEAT01_ECX << 32))
