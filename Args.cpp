@@ -55,41 +55,41 @@ void Args::SetParam(argType paramType, char * tempStr, char* errorPlace, int * e
 				}
 			} break;
 			case ARG_THREADINDEX: {
-					char* endPtr = 0;
-					threadIndex = strtol(tempStr, &endPtr, 10);
-				}
-				break;
+				char* endPtr = 0;
+				threadIndex = strtol(tempStr, &endPtr, 10);
+			}
+			break;
 			case ARG_PCORE: {
-					if (cpu_props.IsFeat(ISA_HYBRID)) {
+				if (cpu_props.IsFeat(ISA_HYBRID)) {
 #if defined(_M_X64)
-						_BitScanReverse64((unsigned long*)&threadIndex, cpu_props.GetBigCoreMask());
+					_BitScanReverse64((unsigned long*)&threadIndex, cpu_props.GetBigCoreMask());
 #else
-						BitScanReverse((unsigned long*)&threadIndex, cpu_props.GetBigCoreMask());
+					BitScanReverse((unsigned long*)&threadIndex, cpu_props.GetBigCoreMask());
 #endif
-					} else {
-						threadIndex = 0;
-					}
+				} else {
+					threadIndex = 0;
 				}
-				break;
+			}
+			break;
 			case ARG_ECORE: {
-					if (cpu_props.IsFeat(ISA_HYBRID)) {
+				if (cpu_props.IsFeat(ISA_HYBRID)) {
 #if defined(_M_X64)
-						threadIndex = _tzcnt_u64(cpu_props.GetLittleCoreMask());
+					threadIndex = _tzcnt_u64(cpu_props.GetLittleCoreMask());
 #else
-						threadIndex = _tzcnt_u32(cpu_props.GetLittleCoreMask());
+					threadIndex = _tzcnt_u32(cpu_props.GetLittleCoreMask());
 #endif
-					} else {
-						threadIndex = 0;
-					}
+				} else {
+					threadIndex = 0;
 				}
-				break;
+			}
+			break;
 			case ARG_CPUIDDUMP: {
 				dumpFlag = true;
 			} break;
-			case ARG_NOTHING:
-				break;
-			default:
-				break;
+			case ARG_NOTHING: {
+			} break;
+			default: {
+			} break;
 		}
 	}
 	return;
