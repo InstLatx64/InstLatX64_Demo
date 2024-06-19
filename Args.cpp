@@ -149,7 +149,7 @@ Args::Args(const demoTypeList* demos, size_t size) :
 	paramType(ARG_NOTHING), threadIndex(0) {
 };
 
-void Args::Init(int argc, char* argv[]) {
+bool Args::Init(int argc, char* argv[]) {
 	char errorStr[MAX_ARGERROR][STR_MAXLEN];
 	memset(errorStr, 0, MAX_ARGERROR * STR_MAXLEN);
 	int errorCounter = 0;
@@ -226,5 +226,8 @@ void Args::Init(int argc, char* argv[]) {
 	if (errorCounter > 0) {
 		for (int errs = 0; errs < errorCounter; errs++)
 			printf_s("\r\n%s", errorStr[errs]);
+		printf_s("\r\n");
+		return false;
 	}
+	return true;
 }

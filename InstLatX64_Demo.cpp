@@ -38,55 +38,56 @@ Args args(demos, sizeof(demos) / sizeof(demoTypeList));
 
 int main(int argc, char* argv[])
 {
-	args.Init(argc, argv);
+	if (args.Init(argc, argv)) {
 
-	if (args.IsVersion())
-		args.PrintVersion();
+		if (args.IsVersion())
+			args.PrintVersion();
 
-	if (args.IsHelp())
-		args.PrintUsage();
+		if (args.IsHelp())
+			args.PrintUsage();
 
-	if (args.IsDemoList()) {
-		cout << endl << "Demo types:";
-		for (uint32_t demo = 0; demo < sizeof(demos) / sizeof(demoTypeList); demo++) {
-			cout << endl << setw(16) << demos[demo].demoName;
-			if (_stricmp(demos[demo].alias, "") != 0)
-				cout << " (alias:" << setw(6) << demos[demo].alias << ')';
-			else
-				cout << "               ";
-			cout << (demos[demo].publicFlag ? " [PUB] " : "       ");
-			if (_stricmp(demos[demo].comment, "") != 0)
-				cout << '(' << demos[demo].comment << ')';
+		if (args.IsDemoList()) {
+			cout << endl << "Demo types:";
+			for (uint32_t demo = 0; demo < sizeof(demos) / sizeof(demoTypeList); demo++) {
+				cout << endl << setw(16) << demos[demo].demoName;
+				if (_stricmp(demos[demo].alias, "") != 0)
+					cout << " (alias:" << setw(6) << demos[demo].alias << ')';
+				else
+					cout << "               ";
+				cout << (demos[demo].publicFlag ? " [PUB] " : "       ");
+				if (_stricmp(demos[demo].comment, "") != 0)
+					cout << '(' << demos[demo].comment << ')';
+			}
+			cout << endl;
 		}
-		cout << endl;
-	}
 
-	if (args.IsCPUProps()) {
-		cpu_props.PrintVendor();
-		cpu_props.PrintBrand();
-		cpu_props.PrintFeats();
-		if (cpu_props.IsFeat(ISA_HYBRID))
-			cpu_props.PrintHybridMasks();
+		if (args.IsCPUProps()) {
+			cpu_props.PrintVendor();
+			cpu_props.PrintBrand();
+			cpu_props.PrintFeats();
+			if (cpu_props.IsFeat(ISA_HYBRID))
+				cpu_props.PrintHybridMasks();
 #if defined (_M_X64)
-		if (cpu_props.IsFeat(ISA_AVX512F))
-			cpu_props.Print_512bFMA_DP_Ports();
+			if (cpu_props.IsFeat(ISA_AVX512F))
+				cpu_props.Print_512bFMA_DP_Ports();
 #endif
-		//cpu_props.ForcedAVX512();
-		cpu_props.PrintXCR0();
-	}
+			//cpu_props.ForcedAVX512();
+			cpu_props.PrintXCR0();
+		}
 
-	if (args.IsCPUIDDump())
-		cpu_props.PrintCPUIDDump();
+		if (args.IsCPUIDDump())
+			cpu_props.PrintCPUIDDump();
 	
-	for (uint32_t demo = 0; demo <= args.GetMaxDemo(); demo++) {
-		if (args.IsSelected(demo)) {
-			cout << "===================================" << endl;
-			cout << demos[demo].demoName << endl;
-			if (cpu_props.IsFeat(demos[demo].isa)) {
-				(demos[demo].func)();
-			} else {
-				cpu_props.PrintFeat(demos[demo].isa);
-				cout << " unspported." << endl;
+		for (uint32_t demo = 0; demo <= args.GetMaxDemo(); demo++) {
+			if (args.IsSelected(demo)) {
+				cout << "===================================" << endl;
+				cout << demos[demo].demoName << endl;
+				if (cpu_props.IsFeat(demos[demo].isa)) {
+					(demos[demo].func)();
+				} else {
+					cpu_props.PrintFeat(demos[demo].isa);
+					cout << " unspported." << endl;
+				}
 			}
 		}
 	}

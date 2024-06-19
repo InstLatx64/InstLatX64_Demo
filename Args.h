@@ -76,7 +76,7 @@ private:
 	void						SetParam(argType, char*, char* , int* );
 public:
 	Args(const demoTypeList[], size_t);
-	void						Init(int argc, char* argv[]);
+	bool						Init(int argc, char* argv[]);
 	bool						IsVersion(void) const;
 	bool						IsHelp(void) const;
 	bool						IsDemoList(void) const;
