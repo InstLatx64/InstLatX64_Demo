@@ -303,6 +303,7 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), fms(0) {
 					default:
 						break;
 				}
+				break;
 			default:
 				if ((c.cpuid_res[place] & fbit) == fbit) {
 					switch (exts[featInd]._xcr0) {
@@ -425,7 +426,7 @@ void CPU_Props::PrintFeats(void) const {
 							PrintFeat(IsFeat(ISA_AVX10), enabled, disabled);
 							break;
 						case ISA_AVX10_LEVEL:
-							PrintFeat(IsFeat(ISA_AVX10), enabled, disabled, avx10level);
+							PrintFeat(IsFeat(ISA_AVX10), (avx10level != 0), false, avx10level);
 							break;
 						default:
 							PrintFeat(IsFeat(ISA_AVX512F), enabled, disabled);
