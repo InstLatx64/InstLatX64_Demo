@@ -30,10 +30,12 @@
 #define ARGERR_INV_PARAM				"Invalid parameter: "
 #define ARGERR_INV_SWITCH				"Invalid switch: "
 #define ARGERR_INV_DEMO					"Invalid demo type: "
+#define ARGERR_INV_XCR0					"Invalid XCR0 register value: "
 
 #define ARGERR_MISS_ARG					"Missing argument: "
 #define ARGERR_MISS_DEMO				"Missing demo type: "
 #define ARGERR_MISS_THREAD				"Missing thread index: "
+#define ARGERR_MISS_XCR0				"Missing XCR0 register value: "
 
 enum argType {
 	ARG_HELP,
@@ -45,6 +47,7 @@ enum argType {
 	ARG_CPUIDDUMP,
 	ARG_DEMOTYPE,
 	ARG_THREADINDEX,
+	ARG_XCR0,
 	ARG_NOTHING,
 };
 
@@ -65,6 +68,7 @@ private:
 	size_t						demoCount;
 	size_t						paramCount;
 	size_t						threadIndex;
+	UINT64						xcr0;
 	const demoTypeList*			demoList;
 	bool						helpFlag;
 	bool						versionFlag;
@@ -72,21 +76,24 @@ private:
 	bool						cpuPropsFlag;
 	bool						errorFlag;
 	bool						dumpFlag;
+	bool						validFlag;
 	void						SetError(char* , char*, const char* );
 	void						SetParam(argType, char*, char* , int* );
 public:
-	Args(const demoTypeList[], size_t);
-	bool						Init(int argc, char* argv[]);
+	Args(const demoTypeList[], size_t, int argc, char** argv);
+	bool						Init(int argc, char** argv);
 	bool						IsVersion(void) const;
 	bool						IsHelp(void) const;
 	bool						IsDemoList(void) const;
 	bool						IsCPUProps(void) const;
 	bool						IsCPUIDDump(void) const;
+	bool						IsValid(void) const;
 	void						PrintUsage(void) const;
 	void						PrintVersion(void) const;
 	size_t						GetMaxDemo(void) const;
 	size_t						GetThreadIndex(void) const;
 	bool						IsSelected(size_t) const;
+	UINT64						GetXCR0(void) const;
 };
 
 extern CPU_Props cpu_props;

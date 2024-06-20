@@ -428,7 +428,7 @@ private:
 	void						PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf, cpuidStr str, int strInd) const;
 	bool						HybridMasks(DWORD_PTR &bigCoreMask, DWORD_PTR &littleCoreMask, DWORD_PTR &systemAffMask) const;
 public:
-	CPU_Props();
+	CPU_Props(UINT64 arg_xcr0);
 	void						PrintFeats(void) const;
 	void						PrintFeat(uint64_t) const;
 	void						PrintVendor(void) const;

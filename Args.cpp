@@ -11,6 +11,7 @@ const paramsType Args::params[] = {
 	{false, "dump",		'm',	ARG_CPUIDDUMP,		NULL,				"CPUID dump"},
 	{true,	"demo",		'd',	ARG_DEMOTYPE,		ARGERR_MISS_DEMO,	"demo type"},
 	{true,	"thread",	't',	ARG_THREADINDEX,	ARGERR_MISS_THREAD,	"thread index"},
+	{true,	"xcr0",		'x',	ARG_XCR0,			ARGERR_MISS_XCR0,		"forced XCR0 value in hex w/o 0x"},
 };
 
 void Args::SetError(char* errorPlace, char * tempStr, const char * errorMsg) {
@@ -86,6 +87,15 @@ void Args::SetParam(argType paramType, char * tempStr, char* errorPlace, int * e
 			case ARG_CPUIDDUMP: {
 				dumpFlag = true;
 			} break;
+			case ARG_XCR0: {
+				char* endPtr = 0;
+				xcr0 = strtol(tempStr, &endPtr, 16);
+				if ((xcr0 & (_XCR0_X87 | _XCR0_AVX | _XCR0_AVX512 | _XCR0_AMX | _XCR0_APX)) != xcr0) {
+					SetError(errorPlace, tempStr, ARGERR_INV_XCR0);
+					(*errorCounter)++;
+				}
+			}
+			break;
 			case ARG_NOTHING: {
 			} break;
 			default: {
@@ -139,17 +149,26 @@ size_t Args::GetThreadIndex(void) const {
 	return threadIndex;
 };
 
+bool Args::IsValid(void) const {
+	return validFlag;
+};
+
+UINT64 Args::GetXCR0() const {
+	return xcr0;
+};
+
 bool Args::IsSelected(size_t i) const {
 	return ((demoMask[i >> 6] & (1ULL << (i & 0x3f))) != 0);
 };
 
-Args::Args(const demoTypeList* demos, size_t size) :
+Args::Args(const demoTypeList* demos, size_t size, int argc, char** argv) :
 	demoList(demos), demoCount(size), paramCount(sizeof(params) / sizeof(paramsType)),
 	versionFlag(0), helpFlag(0), listFlag(0), cpuPropsFlag(0), errorFlag(0),
-	paramType(ARG_NOTHING), threadIndex(0) {
+	paramType(ARG_NOTHING), threadIndex(0), xcr0(0) {
+	validFlag = Init(argc, argv);
 };
 
-bool Args::Init(int argc, char* argv[]) {
+bool Args::Init(int argc, char** argv) {
 	char errorStr[MAX_ARGERROR][STR_MAXLEN];
 	memset(errorStr, 0, MAX_ARGERROR * STR_MAXLEN);
 	int errorCounter = 0;

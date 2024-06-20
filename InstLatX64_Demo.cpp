@@ -3,8 +3,6 @@
 
 #include "stdafx.h"
 
-CPU_Props cpu_props;
-
 using namespace std;
 
 const demoTypeList demos[] = {
@@ -34,11 +32,12 @@ const demoTypeList demos[] = {
 #endif
 };
 
-Args args(demos, sizeof(demos) / sizeof(demoTypeList));
+Args args(demos, sizeof(demos) / sizeof(demoTypeList), __argc, __argv);
+CPU_Props cpu_props(args.GetXCR0());
 
-int main(int argc, char* argv[])
+int main(void)
 {
-	if (args.Init(argc, argv)) {
+	if (args.IsValid()) {
 
 		if (args.IsVersion())
 			args.PrintVersion();

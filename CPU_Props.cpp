@@ -175,7 +175,7 @@ const char * CPU_Props::_cpuid_names[MAX_CPUIDSTR][CPUID_STR_LAST + 1] = {
 };
 
 
-CPU_Props::CPU_Props() : family(0), model(0), stepping(0), fms(0) {
+CPU_Props::CPU_Props(UINT64 arg_xcr0) : family(0), model(0), stepping(0), fms(0) {
 	int level00[4]			= {0, 0, 0, 0};
 	int level01[4]			= {0, 0, 0, 0};
 	int level07[4]			= {0, 0, 0, 0};
@@ -233,7 +233,7 @@ CPU_Props::CPU_Props() : family(0), model(0), stepping(0), fms(0) {
 		__cpuid(extLevel21, 0x80000021);
 
 	if ((level01[_REG_ECX] & _FEAT01_ECX_OSXSAVE & 0xffffffff) == (_FEAT01_ECX_OSXSAVE & 0xffffffff))
-		xcr0 = _xgetbv(0);
+		xcr0 = (arg_xcr0 == 0) ? _xgetbv(0) : arg_xcr0;
 
 	vendor_num[0] = level00[_REG_EBX];
 	vendor_num[1] = level00[_REG_EDX];
