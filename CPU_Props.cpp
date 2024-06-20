@@ -342,7 +342,7 @@ void CPU_Props::PrintVendor(void) const {
 } 
 
 void CPU_Props::PrintBrand(void) const {
-	cout << "Brand: \"" << std::setw(48) << yellow << brand_string << white << "\"" << endl;
+	cout << "Brand: \"" << std::setw(48) << gold << brand_string << white << "\"" << endl;
 }
 
 void CPU_Props::PrintSupportStatus(bool supp, WORD col) const {
