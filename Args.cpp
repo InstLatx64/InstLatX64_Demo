@@ -1,16 +1,17 @@
 #include "stdafx.h"
 
 const paramsType Args::params[] = {
-	{false,	"help",		'h',	ARG_HELP,			NULL,				"this help"},
-	{false,	"help",		'?',	ARG_HELP,			NULL,				"this help"},
-	{false,	"version",	'v',	ARG_VERSION,		NULL,				"version info"},
-	{false,	"list",		'l',	ARG_DEMOLIST,		NULL,				"list of demo types"},
-	{false,	"cpu",		'c',	ARG_CPUPROPS,		NULL,				"list of CPU properties"},
-	{false,	"pcore",	'\0',	ARG_PCORE,			NULL,				"using performance core on hybrid CPU"},
-	{false,	"ecore",	'\0',	ARG_ECORE,			NULL,				"using efficient core on hybrid CPU"},
-	{false, "dump",		'm',	ARG_CPUIDDUMP,		NULL,				"CPUID dump"},
-	{true,	"demo",		'd',	ARG_DEMOTYPE,		ARGERR_MISS_DEMO,	"demo type"},
-	{true,	"thread",	't',	ARG_THREADINDEX,	ARGERR_MISS_THREAD,	"thread index"},
+	{false,	"help",		'h',	ARG_HELP,			NULL,					"this help"},
+	{false,	"help",		'?',	ARG_HELP,			NULL,					"this help"},
+	{false,	"version",	'v',	ARG_VERSION,		NULL,					"version info"},
+	{false,	"list",		'l',	ARG_DEMOLIST,		NULL,					"list of demo types"},
+	{false,	"cpu",		'c',	ARG_CPUPROPS,		NULL,					"list of CPU properties"},
+	{false,	"pcore",	'\0',	ARG_PCORE,			NULL,					"using performance core on hybrid CPU"},
+	{false,	"ecore",	'\0',	ARG_ECORE,			NULL,					"using efficient core on hybrid CPU"},
+	{false, "dump",		'm',	ARG_CPUIDDUMP,		NULL,					"native CPUID dump"},
+	{true,	"demo",		'd',	ARG_DEMOTYPE,		ARGERR_MISS_DEMO,		"demo type"},
+	{true,	"thread",	't',	ARG_THREADINDEX,	ARGERR_MISS_THREAD,		"thread index"},
+	{true,	"file",		'f',	ARG_CPUIDFILE,		ARGERR_MISS_CPUIDFILE,	"CPUID from file"},
 	{true,	"xcr0",		'x',	ARG_XCR0,			ARGERR_MISS_XCR0,		"forced XCR0 value in hex w/o 0x"},
 };
 
@@ -141,12 +142,20 @@ bool Args::IsCPUIDDump(void) const {
 	return dumpFlag;
 };
 
+bool Args::IsCPUIDFile(void) const {
+	return cpuidFileFlag;
+};
+
 size_t Args::GetMaxDemo(void) const {
 	return DEMO_LAST;
 };
 
 size_t Args::GetThreadIndex(void) const {
 	return threadIndex;
+};
+
+char* Args::GetCPUIDFileName() const {
+	return cpuidFileName;
 };
 
 bool Args::IsValid(void) const {
@@ -163,8 +172,8 @@ bool Args::IsSelected(size_t i) const {
 
 Args::Args(const demoTypeList* demos, size_t size, int argc, char** argv) :
 	demoList(demos), demoCount(size), paramCount(sizeof(params) / sizeof(paramsType)),
-	versionFlag(0), helpFlag(0), listFlag(0), cpuPropsFlag(0), errorFlag(0),
-	paramType(ARG_NOTHING), threadIndex(0), xcr0(0) {
+	versionFlag(0), helpFlag(0), listFlag(0), cpuPropsFlag(0), errorFlag(0), dumpFlag(0), cpuidFileFlag(0), 
+	paramType(ARG_NOTHING), threadIndex(0), cpuidFileName(0), xcr0(0) {
 	validFlag = Init(argc, argv);
 };
 

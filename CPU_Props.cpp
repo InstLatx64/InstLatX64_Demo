@@ -174,8 +174,14 @@ const char * CPU_Props::_cpuid_names[MAX_CPUIDSTR][CPUID_STR_LAST + 1] = {
 /* 19 */	{"APX"					"",					"",				"",					"",				""				},
 };
 
-
 CPU_Props::CPU_Props(UINT64 arg_xcr0) : family(0), model(0), stepping(0), fms(0) {
+	GetNativeCPUID(arg_xcr0);
+	if (IsFeat(ISA_HYBRID)) {
+		HybridMasks(bigCoreMask, littleCoreMask, systemAffMask);
+	}
+}
+
+void CPU_Props::GetNativeCPUID(UINT64 arg_xcr0) {
 	int level00[4]			= {0, 0, 0, 0};
 	int level01[4]			= {0, 0, 0, 0};
 	int level07[4]			= {0, 0, 0, 0};
@@ -207,18 +213,9 @@ CPU_Props::CPU_Props(UINT64 arg_xcr0) : family(0), model(0), stepping(0), fms(0)
 		const unsigned int maxPalette = level1D[_REG_EAX];
 		for (unsigned int p = 0; p < min(maxPalette, 1); p++) {
 			__cpuidex(level1D01, 0x1D, p + 1);
-			AMX_palette[p].total_tile_bytes	= level1D[_REG_EAX] & 0xffff;
-			AMX_palette[p].bytes_per_tile	= level1D[_REG_EAX] >> 16;
-			AMX_palette[p].bytes_per_row	= level1D[_REG_EBX] & 0xffff;
-			AMX_palette[p].max_names		= level1D[_REG_EBX] >> 16;
-			AMX_palette[p].max_rows			= level1D[_REG_ECX] & 0xffff;
 		}
 		if (level00[_REG_EAX] >= 0x1E) {
 			__cpuid(level1E, 0x1E);
-			if (level1E[_REG_EBX] != 0) {
-				AMX_TMUL.tmul_maxk	= level1E[_REG_EBX] & 0xff;
-				AMX_TMUL.tmul_maxn	= (level1E[_REG_EBX] >> 8) & 0xffff;
-			}
 		}
 	}
 	if (level00[_REG_EAX] >= 0x24)
@@ -239,21 +236,6 @@ CPU_Props::CPU_Props(UINT64 arg_xcr0) : family(0), model(0), stepping(0), fms(0)
 	vendor_num[1] = level00[_REG_EDX];
 	vendor_num[2] = level00[_REG_ECX];
 
-	for (int v = 0; v < _VENDOR_LAST; v++) {
-		if ((vendors[v].vendor[0] == vendor_num[0]) && 
-			(vendors[v].vendor[1] == vendor_num[1]) &&
-			(vendors[v].vendor[2] == vendor_num[2])) {
-			vendor = vendors[v].v;
-			break;
-		}
-	}
-
-	family		= ((level01[_REG_EAX] >> 8) & 0xf) + ((level01[_REG_EAX] >> 20) & 0xf);
-	model		= (((level01[_REG_EAX] >> 4) & 0xf) | ((level01[_REG_EAX] >> 12) & 0xf0));
-	stepping	= (level01[_REG_EAX] & 0xf);
-
-	fms = level01[_REG_EAX];
-
 	if (extLevel00[_REG_EAX] >= 0x80000004) {
 		__cpuid(brand_num[0], 0x80000002);
 		__cpuid(brand_num[1], 0x80000003);
@@ -271,64 +253,123 @@ CPU_Props::CPU_Props(UINT64 arg_xcr0) : family(0), model(0), stepping(0), fms(0)
 					extLevel01[_REG_ECX], extLevel01[_REG_EDX], 
 					extLevel08[_REG_EAX], extLevel08[_REG_EBX],
 					extLevel21[_REG_EAX]};
-
-	for (int featInd = 0; featInd < sizeof(exts) / sizeof(_EXT); featInd++) {
-		unsigned long place	= (unsigned long)(exts[featInd].featbit >> 32);
-		unsigned long fbit	= (unsigned long)(exts[featInd].featbit & ~0UL);
-		unsigned __int64 f_low	= 1ULL << (featInd & 0x3f);
-		unsigned __int64 f_high	= (featInd & ~0x3f) >> 6;
-		switch (place) {
-			case _FEAT_SKIP:
-				continue;
-			case CPUID_NOPLACE: 
-				switch (featInd) { //special LNOP detection
-					case ISA_LNOP: {
-						unsigned int fam = (level01[_REG_EAX] >> 8) & 0xf;
-						if ((fam == 0x6) || (fam == 0x7) || (fam == 0xf))
-							f[f_high] |= f_low;
-					} break;
-					case ISA_X86: { //ISA_X86 always present
-						f[f_high] |= f_low;
-					} break;
-					default:
-						break;
-				}		
-				break;
-			case CPUID_NUMFIELD: //non-binary CPUID info
-				switch (featInd) {
-					case ISA_AVX10_LEVEL: {
-						if (IsFeat(ISA_AVX10))
-							avx10level = level24[_REG_EBX] & 0xff;
-					} break;
-					default:
-						break;
-				}
-				break;
-			default:
-				if ((c.cpuid_res[place] & fbit) == fbit) {
-					switch (exts[featInd]._xcr0) {
-						case _XCR0_EMPTY:
-							f[f_high] |= f_low;
-							break;
-						case _KEYLOCK:
-							if (IsFeat(ISA_KEYLOCK))
-								f[f_high] |= f_low;
-							break;
-						default:
-							if ((c.xcr0 & exts[featInd]._xcr0) == exts[featInd]._xcr0)
-								f[f_high] |= f_low;
-							else
-								f_disabled[f_high] |= f_low;
-							break;
-					}
-				}
-				break;
-		}
-	}
-	if (IsFeat(ISA_HYBRID)) {
-		HybridMasks(bigCoreMask, littleCoreMask, systemAffMask);
-	}
+	SetFeats(c);
 }
+
+
+bool CPU_Props::GetFileCPUID(char * fname, UINT64 arg_xcr0) {
+	errno_t err;
+	FILE *file = NULL;
+	if ((err = fopen_s(&file, fname, "rb")) == 0) {
+		char linebuf[128];
+		_CPUID_RES c;
+		memset(&c, 0, sizeof(_CPUID_RES));
+		memset(&vendor_num, 0, sizeof(vendor_num));
+		memset(&brand_num, 0, sizeof(brand_num));
+		memset(&f, 0, sizeof(f));
+		memset(&f_disabled, 0, sizeof(f_disabled));
+		c.xcr0 = (arg_xcr0 == 0) ? xcr0 : arg_xcr0;
+		while(TRUE) {
+			if(!fgets(linebuf, sizeof(linebuf), file))
+				break;
+			if (strncmp(linebuf, "CPUID ", 6) == 0) {
+				uint32_t in_EAX = 0, in_ECX = 0;
+				uint32_t out_EAX = 0, out_EBX = 0, out_ECX = 0, out_EDX = 0;
+				/* First format, no ecx input. */
+				int catched = 0;
+				/* AIDA64 CPUID dump format */
+				if (!catched)
+					catched = sscanf_s(linebuf, "CPUID %08X: %08X-%08X-%08X-%08X [SL %2d]", &in_EAX, &out_EAX, &out_EBX, &out_ECX, &out_EDX, &in_ECX) == 6;
+				if (!catched) {
+					in_ECX = 0;
+					catched = sscanf_s(linebuf, "CPUID %08X: %08X-%08X-%08X-%08X", &in_EAX, &out_EAX, &out_EBX, &out_ECX, &out_EDX) == 5;
+				}		
+				switch (in_EAX) {
+					case 0x00000000:
+						vendor_num[0] = out_EBX;
+						vendor_num[1] = out_EDX;
+						vendor_num[2] = out_ECX;
+						break;
+					case 0x00000001:
+						c.cpuid_res[CPUID_FEAT01_EAX] = out_EAX;
+						c.cpuid_res[CPUID_FEAT01_ECX] = out_ECX;
+						c.cpuid_res[CPUID_FEAT01_EDX] = out_EDX;
+						break;
+					case 0x00000007:
+						switch (in_ECX) {
+							case 0:
+								c.cpuid_res[CPUID_FEAT07_EBX] = out_EBX;
+								c.cpuid_res[CPUID_FEAT07_ECX] = out_ECX;
+								c.cpuid_res[CPUID_FEAT07_EDX] = out_EDX;
+								break;
+							case 1:
+								c.cpuid_res[CPUID_FEAT0701_EAX] = out_EAX;
+								c.cpuid_res[CPUID_FEAT0701_EDX] = out_EDX;
+								break;
+							case 2:
+								c.cpuid_res[CPUID_FEAT0702_EAX] = out_EAX;
+								c.cpuid_res[CPUID_FEAT0702_EDX] = out_EDX;
+							break;
+								default:
+									break;
+							}
+							break;
+					case 0x00000019:
+						c.cpuid_res[CPUID_FEAT19_EBX] = out_EBX;
+						break;
+					case 0x0000001D:
+						switch (in_ECX) {
+							case 0:
+								c.cpuid_res[CPUID_FEAT1D_EAX] = out_EAX;
+								break;
+							case 1:
+								c.cpuid_res[CPUID_FEAT1D01_EAX] = out_EAX;
+								c.cpuid_res[CPUID_FEAT1D01_EBX] = out_EBX;
+								c.cpuid_res[CPUID_FEAT1D01_ECX] = out_ECX;
+								break;
+							default:
+								break;
+						}
+						break;
+					case 0x0000001E:
+						c.cpuid_res[CPUID_FEAT1E_EBX] = out_EBX;
+						break;
+					case 0x00000024:
+						c.cpuid_res[CPUID_FEAT24_EBX] = out_EBX;
+						break;
+					case 0x80000001:
+						c.cpuid_res[CPUID_EFEAT01_ECX] = out_ECX;
+						c.cpuid_res[CPUID_EFEAT01_EDX] = out_EDX;
+						break;
+					case 0x80000002:
+					case 0x80000003:
+					case 0x80000004:
+						brand_num[in_EAX - 0x80000002][0] = out_EAX;
+						brand_num[in_EAX - 0x80000002][1] = out_EBX;
+						brand_num[in_EAX - 0x80000002][2] = out_ECX;
+						brand_num[in_EAX - 0x80000002][3] = out_EDX;
+						break;
+					case 0x80000008:
+						c.cpuid_res[CPUID_EFEAT08_EAX] = out_EAX;
+						c.cpuid_res[CPUID_EFEAT08_EBX] = out_EBX;
+						break;
+					case 0x80000021:
+						c.cpuid_res[CPUID_EFEAT21_EAX] = out_EAX;
+						break;
+					default:
+						break;
+					}
+			}
+		}
+		fclose(file);
+		f[0] = f[1] = 0;
+		f_disabled[0] = f_disabled[1] = 0;
+		SetFeats(c);
+		return true;
+	} else {
+		return false;
+	}
+};
 
 using namespace std;
 
@@ -469,6 +510,10 @@ bool CPU_Props::IsZen3(void) const {
 
 int CPU_Props::GetFamMod(void) const {
 	return fms & 0xfffffff0;
+}
+
+int CPU_Props::GetFam(void) const {
+	return (fms & 0xf00) >> 8;
 }
 
 int CPU_Props::GetStepping(void) const {
@@ -803,6 +848,93 @@ void CPU_Props::PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf) const {
 void CPU_Props::PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf, cpuidStr str, int strInd) const {
 	PrintLeaf(leafs, leaf);
 	cout << "[SL " << hex << uppercase << setw(2) << right << setfill('0') << subLeaf << "] [" << _cpuid_names[min(MAX_CPUIDSTR - 1, strInd)][min(str, CPUID_STR_LAST - 1)] << ']' << endl;
+}
+
+void CPU_Props::SetFeats(_CPUID_RES& c) {
+	for (int v = 0; v < _VENDOR_LAST; v++) {
+		if ((vendors[v].vendor[0] == vendor_num[0]) && 
+			(vendors[v].vendor[1] == vendor_num[1]) &&
+			(vendors[v].vendor[2] == vendor_num[2])) {
+			vendor = vendors[v].v;
+			break;
+		}
+	}
+	family		= ((c.cpuid_res[CPUID_FEAT01_EAX] >> 8) & 0xf) + ((c.cpuid_res[CPUID_FEAT01_EAX] >> 20) & 0xf);
+	model		= ((c.cpuid_res[CPUID_FEAT01_EAX] >> 4) & 0xf) | ((c.cpuid_res[CPUID_FEAT01_EAX] >> 12) & 0xf0);
+	stepping	= (c.cpuid_res[CPUID_FEAT01_EAX] & 0xf);
+	fms			= c.cpuid_res[CPUID_FEAT01_EAX];
+
+	for (int featInd = 0; featInd < sizeof(exts) / sizeof(_EXT); featInd++) {
+		if (*exts[featInd].name == 0)
+			continue;
+		unsigned long place = (unsigned long)(exts[featInd].featbit >> 32);
+		unsigned long fbit = (unsigned long)(exts[featInd].featbit & ~0UL);
+		unsigned __int64 f_low = 1ULL << (featInd & 0x3f);
+		unsigned __int64 f_high = (featInd & ~0x3f) >> 6;
+		switch (place) {
+			case _FEAT_SKIP:
+				continue;
+			case CPUID_NOPLACE:
+				switch (featInd) { //special LNOP detection
+					case ISA_LNOP: {
+						switch (GetFam()) {
+							case 0x6:
+							case 0x7:
+							case 0xf:
+								f[f_high] |= f_low;
+								break;
+							default:
+								break;
+							}
+						} break;
+					case ISA_X86: { //ISA_X86 always present
+						f[f_high] |= f_low;
+					} break;
+					default:
+						break;
+					}
+				break;
+			case CPUID_NUMFIELD: //non-binary CPUID info
+				switch (featInd) {
+					case ISA_AVX10_LEVEL: {
+						if (IsFeat(ISA_AVX10))
+							avx10level = c.cpuid_res[CPUID_FEAT24_EBX] & 0xff;
+					} break;
+					default:
+						break;
+				}
+				break;
+			default:
+				if ((c.cpuid_res[min(CPUID_LAST - 1, place)] & fbit) == fbit) {
+					switch (exts[featInd]._xcr0) {
+						case _XCR0_EMPTY:
+							f[f_high] |= f_low;
+							break;
+						case _KEYLOCK:
+							if (IsFeat(ISA_KEYLOCK))
+								f[f_high] |= f_low;
+							break;
+						default:
+							if ((c.xcr0 & exts[featInd]._xcr0) == exts[featInd]._xcr0)
+								f[f_high] |= f_low;
+							else
+								f_disabled[f_high] |= f_low;
+							break;
+					}
+				}
+				break;
+		}
+	}
+	if (IsFeat(ISA_AMX_TILE)) {
+		AMX_palette[0].total_tile_bytes	= c.cpuid_res[CPUID_FEAT1D01_EAX] & 0xffff;
+		AMX_palette[0].bytes_per_tile	= c.cpuid_res[CPUID_FEAT1D01_EAX] >> 16;
+		AMX_palette[0].bytes_per_row	= c.cpuid_res[CPUID_FEAT1D01_EBX] & 0xffff;
+		AMX_palette[0].max_names		= c.cpuid_res[CPUID_FEAT1D01_EBX] >> 16;
+		AMX_palette[0].max_rows			= c.cpuid_res[CPUID_FEAT1D01_ECX] & 0xffff;
+
+		AMX_TMUL.tmul_maxk	= c.cpuid_res[CPUID_FEAT1E_EBX] & 0xff;
+		AMX_TMUL.tmul_maxn	= (c.cpuid_res[CPUID_FEAT1E_EBX] >> 8) & 0xffff;
+	}
 }
 
 void CPU_Props::PrintCPUIDDump(void) const {

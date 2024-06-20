@@ -427,6 +427,8 @@ private:
 	void						PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf) const;
 	void						PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf, cpuidStr str, int strInd) const;
 	bool						HybridMasks(DWORD_PTR &bigCoreMask, DWORD_PTR &littleCoreMask, DWORD_PTR &systemAffMask) const;
+	void						SetFeats(_CPUID_RES& c);
+	void						GetNativeCPUID(UINT64 arg_xcr0);
 public:
 	CPU_Props(UINT64 arg_xcr0);
 	void						PrintFeats(void) const;
@@ -443,6 +445,7 @@ public:
 	bool						IsZen2(void) const;
 	bool						IsZen3(void) const;
 	int							GetFamMod(void) const;
+	int							GetFam(void) const;
 	int							GetStepping(void) const;
 	_VENDOR						GetVendor(void) const;
 	bool						IsInBrand(const char* str) const;
@@ -453,6 +456,7 @@ public:
 	DWORD_PTR					GetBigCoreMask() const;
 	DWORD_PTR					GetLittleCoreMask() const;
 	DWORD_PTR					GetSystemAffMask() const;
+	bool						GetFileCPUID(char * fname, UINT64 arg_xcr0);
 #if defined (_M_X64)
 	int							Get_512bFMA_DP_Ports(void) const;
 #endif

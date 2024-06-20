@@ -59,35 +59,42 @@ int main(void)
 			}
 			cout << endl;
 		}
-
-		if (args.IsCPUProps()) {
-			cpu_props.PrintVendor();
-			cpu_props.PrintBrand();
-			cpu_props.PrintFeats();
-			if (cpu_props.IsFeat(ISA_HYBRID))
-				cpu_props.PrintHybridMasks();
-#if defined (_M_X64)
-			if (cpu_props.IsFeat(ISA_AVX512F))
-				cpu_props.Print_512bFMA_DP_Ports();
-#endif
-			//cpu_props.ForcedAVX512();
-			cpu_props.PrintXCR0();
+		bool fileRead = true;
+		if (args.IsCPUIDFile()) {
+			fileRead = cpu_props.GetFileCPUID(args.GetCPUIDFileName(), args.GetXCR0());
 		}
+		if (fileRead) {
+			if (args.IsCPUProps()) {
+				cpu_props.PrintVendor();
+				cpu_props.PrintBrand();
+				cpu_props.PrintFeats();
+				if (cpu_props.IsFeat(ISA_HYBRID))
+					cpu_props.PrintHybridMasks();
+#if defined (_M_X64)
+				if (cpu_props.IsFeat(ISA_AVX512F))
+					cpu_props.Print_512bFMA_DP_Ports();
+#endif
+				//cpu_props.ForcedAVX512();
+				cpu_props.PrintXCR0();
+			}
 
-		if (args.IsCPUIDDump())
-			cpu_props.PrintCPUIDDump();
+			if (args.IsCPUIDDump())
+				cpu_props.PrintCPUIDDump();
 	
-		for (uint32_t demo = 0; demo <= args.GetMaxDemo(); demo++) {
-			if (args.IsSelected(demo)) {
-				cout << "===================================" << endl;
-				cout << demos[demo].demoName << endl;
-				if (cpu_props.IsFeat(demos[demo].isa)) {
-					(demos[demo].func)();
-				} else {
-					cpu_props.PrintFeat(demos[demo].isa);
-					cout << " unspported." << endl;
+			for (uint32_t demo = 0; demo <= args.GetMaxDemo(); demo++) {
+				if (args.IsSelected(demo)) {
+					cout << "===================================" << endl;
+					cout << demos[demo].demoName << endl;
+					if (cpu_props.IsFeat(demos[demo].isa)) {
+						(demos[demo].func)();
+					} else {
+						cpu_props.PrintFeat(demos[demo].isa);
+						cout << " unspported." << endl;
+					}
 				}
 			}
+		} else {
+			cout << "CPUID file open error: " << args.GetCPUIDFileName();
 		}
 	}
 	return 0;
