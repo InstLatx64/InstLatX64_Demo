@@ -415,7 +415,7 @@ void CPU_Props::PrintFeats(void) const {
 			bool disabled = (f_disabled[f_high] & f_low) != 0;
 			switch(exts[featInd]._xcr0) {
 				case _XCR0_AVX:
-					PrintFeat(IsFeat(ISA_AVX), enabled, disabled);
+					PrintFeat(IsFeatBit(ISA_AVX), enabled, disabled);
 					break;
 				case _XCR0_AVX512:
 					switch (featInd) {
@@ -423,13 +423,13 @@ void CPU_Props::PrintFeats(void) const {
 						case ISA_AVX10_128:
 						case ISA_AVX10_256:
 						case ISA_AVX10_512:
-							PrintFeat(IsFeat(ISA_AVX10), enabled, disabled);
+							PrintFeat(IsFeatBit(ISA_AVX10), enabled, disabled);
 							break;
 						case ISA_AVX10_LEVEL:
-							PrintFeat(IsFeat(ISA_AVX10), (avx10level != 0), false, avx10level);
+							PrintFeat(IsFeatBit(ISA_AVX10), (avx10level != 0), false, avx10level);
 							break;
 						default:
-							PrintFeat(IsFeat(ISA_AVX512F), enabled, disabled);
+							PrintFeat(IsFeatBit(ISA_AVX512F), enabled, disabled);
 							break;
 					}
 					break;
@@ -451,6 +451,12 @@ bool CPU_Props::IsFeat(int feat) const {
 	const unsigned __int64 f_low	= 1ULL << (feat & 0x3f);
 	const unsigned __int64 f_high	= (feat & ~0x3f) >> 6;
 	return ((f[f_high] & f_low) == f_low);
+}
+
+bool CPU_Props::IsFeatBit(int feat) const {
+	const unsigned __int64 f_low	= 1ULL << (feat & 0x3f);
+	const unsigned __int64 f_high	= (feat & ~0x3f) >> 6;
+	return (((f[f_high] & f_low) == f_low) || ((f_disabled[f_high] & f_low) == f_low));
 }
 
 bool CPU_Props::IsZen2(void) const {

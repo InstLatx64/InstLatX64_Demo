@@ -439,6 +439,7 @@ public:
 	void						PrintXCR0(void) const;
 	void						ForcedAVX512(void) const;
 	bool						IsFeat(int) const;
+	bool						IsFeatBit(int) const;
 	bool						IsZen2(void) const;
 	bool						IsZen3(void) const;
 	int							GetFamMod(void) const;
