@@ -84,6 +84,9 @@
     <ClCompile Include="LZCNT_Demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AVX_VNNI_INT16_Saturated_AddSub.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
 </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -156,6 +159,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LZCNT_Demo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AVX_VNNI_INT16_Saturated_AddSub.h">
       <Filter>Header Files</Filter>
     </ClInclude>
 </ItemGroup>

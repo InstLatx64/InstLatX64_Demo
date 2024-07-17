@@ -92,6 +92,8 @@ Byte-Granularity Variable Shift on Entire Register
     _(mm256|mm512))_palign(l|r)_epi(256|512)
     _(mm256|mm512))_rotate(l|r)_epi(256|512)
 ```    
+# AVX_VNNI_INT16_Saturated_AddSub.* 
+AVX_VNNI_INT16 based _(mm|mm256)_(adds|subs)_epi32 emulation proposal
 
 ## References
 *  Geoff Langdale [Why Ice Lake is Important (a bit-basher’s perspective)](https://branchfree.org/2019/05/29/why-ice-lake-is-important-a-bit-bashers-perspective/)

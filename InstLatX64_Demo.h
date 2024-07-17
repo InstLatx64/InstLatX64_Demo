@@ -3,6 +3,9 @@
 enum demoType {
 	DEMO_GFNI,
 	DEMO_VPCLMLQDQ,
+#if defined (__AVX2__)
+	DEMO_VNNI_SADD,
+#endif
 #if defined (_M_X64)
 	#if defined (__AVX2__)
 		DEMO_PEXT_PDEP_EMU,
@@ -10,7 +13,7 @@ enum demoType {
 	#endif
 	#if defined(__AVX512F__)
 		DEMO_RADD,
-		DEMO_SADD,
+		DEMO_AVX512_SADD,
 		DEMO_KMEMDST,
 		DEMO_ZEN4,
 		DEMO_INTRINSICS,
@@ -65,3 +68,4 @@ void Kmov_Test(void);
 void AMX_Test(void);
 void AVX512_DecimalPrint_Test(void);
 void AVX512_BGVSER_Test(void);
+void AVX_VNNI_Saturated_AddSub_Demo(void);

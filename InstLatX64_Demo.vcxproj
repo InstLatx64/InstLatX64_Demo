@@ -507,6 +507,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SSE|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="AVX_VNNI_INT16_Saturated_AddSub.cpp">
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">NoListing</AssemblerOutput>
+    </ClCompile>
     <ClCompile Include="Byte2Byte.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_AVX512|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_AVX2|Win32'">true</ExcludedFromBuild>
@@ -655,6 +658,7 @@
     <ClInclude Include="AVX512_Reduce_Add.h" />
     <ClInclude Include="AVX512_Saturated_AddSub.h" />
     <ClInclude Include="AVX512_String_Table.h" />
+    <ClInclude Include="AVX_VNNI_INT16_Saturated_AddSub.h" />
     <ClInclude Include="Byte2Byte.h" />
     <ClInclude Include="Compiler_Intrinsic_Test.h" />
     <ClInclude Include="ConsoleColor.h" />
