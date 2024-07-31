@@ -87,7 +87,16 @@
     <ClCompile Include="AVX_VNNI_INT16_Saturated_AddSub.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-</ItemGroup>
+    <ClCompile Include="AVX512_BGVSER.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AVX512_Saturated_AddSub.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Zen5_Demo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
@@ -164,7 +173,46 @@
     <ClInclude Include="AVX_VNNI_INT16_Saturated_AddSub.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-</ItemGroup>
+    <ClInclude Include="Zen5_Demo_AVX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Zen5_Demo_AVX512.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Zen5_Demo_Imm8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Zen5_Demo_Port.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Zen5_Demo_SSE.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Zen5_Demo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AVX512_BGVSER.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AVX512_Saturated_AddSub.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InstLatX64_LatMacros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InstLatX64_PortMacros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Zen4_Demo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Zen4_Demo_Imm8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Zen4_Demo_Port.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
   <ItemGroup>
     <MASM Include="512bFMA_DP_Ports_Asm.asm">
       <Filter>Source Files</Filter>
@@ -194,6 +242,18 @@
       <Filter>Source Files</Filter>
     </MASM>
     <MASM Include="LZCNT_Demo_Asm.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="Zen5_Demo_AVX.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="Zen5_Demo_AVX512.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="Zen5_Demo_Imm8.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="Zen5_Demo_SSE.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>

@@ -16,6 +16,7 @@ enum demoType {
 		DEMO_AVX512_SADD,
 		DEMO_KMEMDST,
 		DEMO_ZEN4,
+		DEMO_ZEN5,
 		DEMO_INTRINSICS,
 		DEMO_VBMI2,
 		DEMO_BYTE2BYTE,
@@ -58,6 +59,7 @@ void AVX512_Reduce_Add_Demo(void);
 void AVX512_Saturated_AddSub_Demo(void);
 void AVX512_KMemDst_Demo(void);
 void Zen4_Demo(void);
+void Zen5_Demo(void);
 void AVX512_InstrincTest(void);
 void VBMI2_Demo(void);
 void Byte2ByteTest(void);
