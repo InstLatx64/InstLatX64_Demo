@@ -746,42 +746,42 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 						else
 							return 2;
 						} break;
-					case 0x00060660:	//Palm Cove                / CANNONLAKE_L 
-					case 0x00060670:	//Palm Cove                / CANNONLAKE - cancelled ?
-					case 0x000606C0:	//Sunny Cove               / ICELAKE_D
-					case 0x000706D0: 	//Sunny Cove               / ICELAKE - cancelled ?
-					case 0x000706E0: 	//Sunny Cove               / ICELAKE_L
-					case 0x00080650:	//Silvermont               / XEON_PHI_KNM 1 for DP, 2 for SP
-					case 0x000806C0: 	//Willow Cove              / TIGERLAKE_L
-					case 0x000806D0: 	//Willow Cove              / TIGERLAKE
-					case 0x00090650:	//Golden Cove              / SAPPHIRERAPIDS
-					case 0x00090670:	//Golden Cove + Gracemont  / ALDERLAKE
-					case 0x000906A0:	//Golden Cove + Gracemont  / ALDERLAKE_L
-					case 0x000A0670: 	//Cypress Cove             / ROCKETLAKE
-					case 0x000A0680: 	//Cypress Cove             / ROCKETLAKE_L - cancelled ?
-					case 0x000A06A0:	//Redwood Cove + Crestmont / METEORLAKE_L
-					case 0x000A06C0:	//Redwood Cove + Crestmont / METEORLAKE
-					case 0x000A06E0:	//Redwood Cove             / GRANITERAPIDS_D
+					case 0x00060660:	//Palm Cove                         / CANNONLAKE_L 
+					case 0x00060670:	//Palm Cove                         / CANNONLAKE - cancelled ?
+					case 0x000606C0:	//Sunny Cove                        / ICELAKE_D
+					case 0x000706D0: 	//Sunny Cove                        / ICELAKE - cancelled ?
+					case 0x000706E0: 	//Sunny Cove                        / ICELAKE_L
+					case 0x00080650:	//Silvermont                        / XEON_PHI_KNM 1 for DP, 2 for SP
+					case 0x000806C0: 	//Willow Cove                       / TIGERLAKE_L
+					case 0x000806D0: 	//Willow Cove                       / TIGERLAKE
+					case 0x00090650:	//Golden Cove                       / SAPPHIRERAPIDS
+					case 0x00090670:	//Golden Cove + Gracemont           / ALDERLAKE
+					case 0x000906A0:	//Golden Cove + Gracemont           / ALDERLAKE_L
+					case 0x000A0670: 	//Cypress Cove                      / ROCKETLAKE
+					case 0x000A0680: 	//Cypress Cove                      / ROCKETLAKE_L - cancelled ?
+					case 0x000A06A0:	//Redwood Cove + Crestmont          / METEORLAKE_L
+					case 0x000A06C0:	//Redwood Cove + Crestmont          / METEORLAKE
+					case 0x000A06E0:	//Redwood Cove                      / GRANITERAPIDS_D
 						return 1;
-					case 0x00050670:	//Silvermont               / XEON_PHI_KNL
-					case 0x000606A0:	//Sunny Cove               / ICELAKE_X
-					case 0x000A06D0:	//Redwood Cove             / GRANITERAPIDS_X
-					case 0x000C06F0:	//Raptor Cove              / EMERALDRAPIDS_X
+					case 0x00050670:	//Silvermont                        / XEON_PHI_KNL
+					case 0x000606A0:	//Sunny Cove                        / ICELAKE_X
+					case 0x000A06D0:	//Redwood Cove                      / GRANITERAPIDS_X
+					case 0x000C06F0:	//Raptor Cove                       / EMERALDRAPIDS_X
 						return 2;
-					case 0x000806A0:	//Sunny Cove + Tremont     / LAKEFIELD, AVX512 disabled
-					case 0x000A06F0:	//Crestmont                / SIERRAFOREST_X
-					case 0x000B0650:	//?                        / ARROWLAKE_P
-					case 0x000B0660:	//Crestmont                / GRANDRIDGE
-					case 0x000B0670:	//Raptor Cove + Gracemont  / RAPTORLAKE
-					case 0x000B06A0:	//Raptor Cove + Gracemont  / RAPTORLAKE_P
-					case 0x000B06C0:	//Lion Cove + Skymont      / LUNARLAKE
-					case 0x000B06D0:	//Lion Cove + Skymont      / LUNARLAKE_M
-					case 0x000B06E0:	//Gracemont                / ALDERLAKE_N
-					case 0x000B06F0:	//Raptor Cove + Gracemont  / RAPTORLAKE_S
-					case 0x000C0650:	//Lion Cove + Crestmont?   / ARROW_LAKE_H
-					case 0x000C0660:	//Lion Cove + Skymont      / ARROW_LAKE_S
-					case 0x000C06C0:	//?                        / PANTHER_LAKE
-					case 0x000D06D0:	//Darkmont                 / CLEARWATERFOREST_X
+					case 0x000806A0:	//Sunny Cove + Tremont              / LAKEFIELD, AVX512 disabled
+					case 0x000A06F0:	//Crestmont                         / SIERRAFOREST_X
+					case 0x000B0650:	//?                                 / ARROWLAKE_P
+					case 0x000B0660:	//Crestmont                         / GRANDRIDGE
+					case 0x000B0670:	//Raptor Cove + Gracemont           / RAPTORLAKE
+					case 0x000B06A0:	//Raptor Cove + Gracemont           / RAPTORLAKE_P
+					case 0x000B06C0:	//Lion Cove + Skymont               / LUNARLAKE
+					case 0x000B06D0:	//Lion Cove + Skymont               / LUNARLAKE_M
+					case 0x000B06E0:	//Gracemont                         / ALDERLAKE_N
+					case 0x000B06F0:	//Raptor Cove + Gracemont           / RAPTORLAKE_S
+					case 0x000C0650:	//Lion Cove + + Skymont + Crestmont / ARROW_LAKE_H
+					case 0x000C0660:	//Lion Cove + Skymont               / ARROW_LAKE_S
+					case 0x000C06C0:	//?                                 / PANTHER_LAKE
+					case 0x000D06D0:	//Darkmont                          / CLEARWATERFOREST_X
 					default:			//on other cores, AVX512F unsupported
 						return 0;
 					//future
