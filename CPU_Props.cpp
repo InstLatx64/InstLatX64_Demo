@@ -799,11 +799,11 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x00AA0F00:	//Zen4/Bergamo
 					case 0x00B20F00:	//Zen5/Strix Point
 					case 0x00B60F00:	//Zen5/Krackan		https://x.com/Kepler_L2/status/1751280179576488037
-					case 0x00B70F00:	//Zen5/Strix Halo	https://www.spinics.net/lists/linux-tip-commits/msg64230.html
 						return 1;
 					case 0x00B00F00:	//Zen5/Turin		https://gcc.gnu.org/pipermail/gcc-patches/attachments/20240210/b2991675/attachment-0001.obj
 					case 0x00B10F00:	//Zen5/Turin Dense	https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/programmer-references/58088-0.75-pub.pdf
 					case 0x00B40F00:	//Zen5/Granite Ridge
+					case 0x00B70F00:	//Zen5/Strix Halo	https://www.spinics.net/lists/linux-tip-commits/msg64230.html
 						return 2;
 					default:
 						return 0;
