@@ -177,7 +177,7 @@ const char * CPU_Props::_cpuid_names[MAX_CPUIDSTR][CPUID_STR_LAST + 1] = {
 CPU_Props::CPU_Props(UINT64 arg_xcr0) : family(0), model(0), stepping(0), fms(0) {
 	GetNativeCPUID(arg_xcr0);
 	if (IsFeat(ISA_HYBRID)) {
-		HybridMasks(bigCoreMask, littleCoreMask, systemAffMask);
+		HybridMasks(PCoreMask, ECoreMask, LPECoreMask, systemAffMask);
 	}
 }
 
@@ -544,7 +544,7 @@ unsigned int CPU_Props::GetAMXCols() const {
 	return AMX_TMUL.tmul_maxn;
 };
 
-bool CPU_Props::HybridMasks(DWORD_PTR &bigCoreMask, DWORD_PTR &littleCoreMask, DWORD_PTR &systemMask) const {
+bool CPU_Props::HybridMasks(DWORD_PTR& PCoreMask, DWORD_PTR& ECoreMask, DWORD_PTR& LPECoreMask, DWORD_PTR& systemMask) const {
 	DWORD_PTR processMask = 0, systemAffMask = 0;
 	BOOL affFlag = GetProcessAffinityMask(GetCurrentProcess(), &processMask, &systemAffMask);
 	if (affFlag != 0) {
@@ -556,15 +556,51 @@ bool CPU_Props::HybridMasks(DWORD_PTR &bigCoreMask, DWORD_PTR &littleCoreMask, D
 #endif
 		DWORD_PTR origThreadMask = SetThreadAffinityMask(GetCurrentThread(), 1);
 		for (unsigned int th = 0; th < threads; th++) {
-			DWORD_PTR testMask = ((DWORD_PTR) 1 << th);
+			DWORD_PTR testMask = ((DWORD_PTR)1 << th);
 			SetThreadAffinityMask(GetCurrentThread(), testMask);
 			Sleep(0);
 			int level1A[4] = {0, 0, 0, 0};
 			__cpuid(level1A, 0x1A);
 			switch (level1A[_REG_EAX] >> 24) {
-				case 0x20: littleCoreMask	|= testMask;  break;
-				case 0x40: bigCoreMask		|= testMask; break;
-				default:break;
+				case 0x20: {
+					switch (GetFamMod()) {
+						case 0x000A06A0:  //METEORLAKE_L
+						case 0x000A06C0: {//METEORLAKE
+							int leafData[4] = { 0, 0, 0, 0 };
+							int _cacheleaf = 0x4;
+							int _L3subleaf = 0x3;
+							__cpuidex(leafData, _cacheleaf, _L3subleaf); //L3 cache test
+							if (leafData[_REG_EAX] != 0) {
+								ECoreMask |= testMask;
+							} else {
+								LPECoreMask |= testMask;
+							}
+						} break;
+						case 0x000B06D0: { //LUNARLAKE_M
+							LPECoreMask |= testMask;
+						}
+						case 0x000C0650: { //ARROW_LAKE_H
+							switch (level1A[_REG_EAX] & 0xffffff) {
+								case 0x02: {	//Crestmont
+									LPECoreMask |= testMask;
+								} break;
+								case 0x3:		//Skymont
+								default: {
+									ECoreMask |= testMask;
+								} break;
+							}
+						}
+						default: {
+							ECoreMask |= testMask;
+						} break;
+					}
+				} break;
+				case 0x40: {
+					PCoreMask |= testMask;
+				} break;
+				default: {
+					break;
+				}
 			}
 		}
 		SetThreadAffinityMask(GetCurrentThread(), origThreadMask);
@@ -602,8 +638,9 @@ void CPU_Props::PrintHybridMasks(void) const {
 	if (IsFeat(ISA_HYBRID)) {
 		cout << "--Hybrid info--" << endl;
 		cout << "systemAffinityMask: 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << systemAffMask << endl;
-		cout << "littleCoreMask    : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << littleCoreMask << endl;
-		cout << "bigCoreMask       : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << bigCoreMask << endl;
+		cout << "PCoreMask         : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << PCoreMask << endl;
+		cout << "ECoreMask         : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << ECoreMask << endl;
+		cout << "LPECoreMask       : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << LPECoreMask << endl;
 		cout << setfill(' ');
 	}
 }
@@ -612,12 +649,12 @@ void CPU_Props::PrintXCR0(void) const {
 	cout << "XCR0: 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << xcr0 << endl;
 }
 
-DWORD_PTR CPU_Props::GetBigCoreMask(void) const {
-	return bigCoreMask;
+DWORD_PTR CPU_Props::GetPCoreMask(void) const {
+	return PCoreMask;
 };
 
-DWORD_PTR CPU_Props::GetLittleCoreMask(void) const {
-	return littleCoreMask;
+DWORD_PTR CPU_Props::GetECoreMask(void) const {
+	return ECoreMask;
 };
 
 DWORD_PTR CPU_Props::GetSystemAffMask(void) const {

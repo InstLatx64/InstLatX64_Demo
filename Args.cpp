@@ -64,9 +64,9 @@ void Args::SetParam(argType paramType, char * tempStr, char* errorPlace, int * e
 			case ARG_PCORE: {
 				if (cpu_props.IsFeat(ISA_HYBRID)) {
 #if defined(_M_X64)
-					_BitScanReverse64((unsigned long*)&threadIndex, cpu_props.GetBigCoreMask());
+					_BitScanReverse64((unsigned long*)&threadIndex, cpu_props.GetPCoreMask());
 #else
-					BitScanReverse((unsigned long*)&threadIndex, cpu_props.GetBigCoreMask());
+					BitScanReverse((unsigned long*)&threadIndex, cpu_props.GetPCoreMask());
 #endif
 				} else {
 					threadIndex = 0;
@@ -76,9 +76,9 @@ void Args::SetParam(argType paramType, char * tempStr, char* errorPlace, int * e
 			case ARG_ECORE: {
 				if (cpu_props.IsFeat(ISA_HYBRID)) {
 #if defined(_M_X64)
-					threadIndex = _tzcnt_u64(cpu_props.GetLittleCoreMask());
+					threadIndex = _tzcnt_u64(cpu_props.GetECoreMask());
 #else
-					threadIndex = _tzcnt_u32(cpu_props.GetLittleCoreMask());
+					threadIndex = _tzcnt_u32(cpu_props.GetECoreMask());
 #endif
 				} else {
 					threadIndex = 0;

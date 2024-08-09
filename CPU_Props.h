@@ -399,8 +399,9 @@ private:
 	_AMX_TMUL					AMX_TMUL;
 	UINT64						f[FEATSIZE]				= {0ULL, 0ULL};
 	UINT64						f_disabled[FEATSIZE]	= {0ULL, 0ULL};
-	DWORD_PTR					bigCoreMask				= 0;
-	DWORD_PTR					littleCoreMask			= 0;
+	DWORD_PTR					PCoreMask				= 0;
+	DWORD_PTR					ECoreMask				= 0;
+	DWORD_PTR					LPECoreMask				= 0;
 	DWORD_PTR					systemAffMask			= 0;
 	_VENDOR						vendor					= _VENDOR_EMPTY;
 	UINT64						xcr0					= 0;
@@ -426,7 +427,7 @@ private:
 	void						PrintSingleLeaf(uint32_t leafs, int* leaf) const;
 	void						PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf) const;
 	void						PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf, cpuidStr str, int strInd) const;
-	bool						HybridMasks(DWORD_PTR &bigCoreMask, DWORD_PTR &littleCoreMask, DWORD_PTR &systemAffMask) const;
+	bool						HybridMasks(DWORD_PTR& pCoreMask, DWORD_PTR& eCoreMask, DWORD_PTR& LPECoreMask, DWORD_PTR& systemAffMask) const;
 	void						SetFeats(_CPUID_RES& c);
 	void						GetNativeCPUID(UINT64 arg_xcr0);
 public:
@@ -453,8 +454,8 @@ public:
 	unsigned int				GetAMXPalette_MaxName(unsigned int p) const;
 	unsigned int				GetAMXRows() const;
 	unsigned int				GetAMXCols() const;
-	DWORD_PTR					GetBigCoreMask() const;
-	DWORD_PTR					GetLittleCoreMask() const;
+	DWORD_PTR					GetPCoreMask() const;
+	DWORD_PTR					GetECoreMask() const;
 	DWORD_PTR					GetSystemAffMask() const;
 	bool						GetFileCPUID(char * fname, UINT64 arg_xcr0);
 #if defined (_M_X64)
