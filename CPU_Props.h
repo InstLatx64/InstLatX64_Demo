@@ -353,7 +353,7 @@ typedef struct {
 } _CPUID_RES;
 
 typedef struct _EXT_Tag {
-	const char 			name[FEAT_NAME_SIZE] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	const char 			name[FEAT_NAME_SIZE] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	_XCR0				_xcr0;
 	unsigned __int64	featbit;
 } _EXT;
