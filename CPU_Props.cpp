@@ -796,18 +796,19 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x000906A0:	//Golden Cove + Gracemont           / ALDERLAKE_L
 					case 0x000A0670: 	//Cypress Cove                      / ROCKETLAKE
 					case 0x000A0680: 	//Cypress Cove                      / ROCKETLAKE_L - cancelled ?
-					case 0x000A06A0:	//Redwood Cove + Crestmont          / METEORLAKE_L
-					case 0x000A06C0:	//Redwood Cove + Crestmont          / METEORLAKE
-					case 0x000A06E0:	//Redwood Cove                      / GRANITERAPIDS_D
 						return 1;
 					case 0x00050670:	//Silvermont                        / XEON_PHI_KNL
 					case 0x000606A0:	//Sunny Cove                        / ICELAKE_X
 					case 0x000A06D0:	//Redwood Cove                      / GRANITERAPIDS_X
 					case 0x000C06F0:	//Raptor Cove                       / EMERALDRAPIDS_X
+					case 0x00400F10:	//Panther Cove                      / DIAMONDRAPIDS_X, AVX10.2/512
 						return 2;
 					case 0x000806A0:	//Sunny Cove + Tremont              / LAKEFIELD, AVX512 disabled
+					case 0x000A06A0:	//Redwood Cove + Crestmont          / METEORLAKE_L
+					case 0x000A06C0:	//Redwood Cove + Crestmont          / METEORLAKE
+					case 0x000A06E0:	//Redwood Cove                      / GRANITERAPIDS_D, AVX10.1/256
 					case 0x000A06F0:	//Crestmont                         / SIERRAFOREST_X
-					case 0x000B0650:	//?                                 / ARROWLAKE_P
+					case 0x000B0650:	//Redwood Cove + Crestmont          / ARROWLAKE_U
 					case 0x000B0660:	//Crestmont                         / GRANDRIDGE
 					case 0x000B0670:	//Raptor Cove + Gracemont           / RAPTORLAKE
 					case 0x000B06A0:	//Raptor Cove + Gracemont           / RAPTORLAKE_P
@@ -817,8 +818,9 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x000B06F0:	//Raptor Cove + Gracemont           / RAPTORLAKE_S
 					case 0x000C0650:	//Lion Cove + + Skymont + Crestmont / ARROW_LAKE_H
 					case 0x000C0660:	//Lion Cove + Skymont               / ARROW_LAKE_S
-					case 0x000C06C0:	//?                                 / PANTHER_LAKE
+					case 0x000C06C0:	//Cougar Cove + Darkmont            / PANTHER_LAKE
 					case 0x000D06D0:	//Darkmont                          / CLEARWATERFOREST_X
+					case 0x00400F00:	//Panther Cove + Arctic Wolf?       / NOVALAKE, AVX10.2/256?
 					default:			//on other cores, AVX512F unsupported
 						return 0;
 					//future
@@ -834,13 +836,16 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x00A80F00:	//Zen4/MI300C
 					case 0x00A90F00:	//Zen4/MI300A
 					case 0x00AA0F00:	//Zen4/Bergamo
+					//Zen5 CPUID source: https://github.com/ganeshgit/llvm-project/blob/cedee6b46865b0ca560364193ffec2c1366b06e6/llvm/lib/TargetParser/Host.cpp
 					case 0x00B20F00:	//Zen5/Strix Point
-					case 0x00B60F00:	//Zen5/Krackan		https://x.com/Kepler_L2/status/1751280179576488037
+					case 0x00B30F00:	//Zen5/Strix Point2, Strix Point3
+					case 0x00B60F00:	//Zen5/Krackan
 						return 1;
-					case 0x00B00F00:	//Zen5/Turin		https://gcc.gnu.org/pipermail/gcc-patches/attachments/20240210/b2991675/attachment-0001.obj
-					case 0x00B10F00:	//Zen5/Turin Dense	https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/programmer-references/58088-0.75-pub.pdf
+					case 0x00B00F00:	//Zen5/Turin
+					case 0x00B10F00:	//Zen5/Turin Dense
 					case 0x00B40F00:	//Zen5/Granite Ridge
-					case 0x00B70F00:	//Zen5/Strix Halo	https://www.spinics.net/lists/linux-tip-commits/msg64230.html
+					case 0x00B50F00:	//Zen5/Weisshorn
+					case 0x00B70F00:	//Zen5/Strix Halo
 						return 2;
 					default:
 						return 0;
