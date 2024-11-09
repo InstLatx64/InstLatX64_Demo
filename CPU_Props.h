@@ -178,11 +178,11 @@ enum _CPUID_Feats : unsigned long long {
 
 enum _XCR0  : unsigned long long {
 	_XCR0_EMPTY											=	0,
-	_XCR0_X87											=	0x1,
-	_XCR0_AVX											=	0x6,
-	_XCR0_AVX512										=	0xe6,
-	_XCR0_AMX											=	(0x3 << 17),
-	_XCR0_APX											=	(0x1 << 19),
+	_XCR0_X87											=	0x00001,
+	_XCR0_AVX											=	0x00006,
+	_XCR0_AVX512										=	0x000e6,
+	_XCR0_AMX											=	0x60000,
+	_XCR0_APX											=	0x80000,
 	_KEYLOCK,
 };
 
