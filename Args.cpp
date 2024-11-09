@@ -88,6 +88,10 @@ void Args::SetParam(argType paramType, char * tempStr, char* errorPlace, int * e
 			case ARG_CPUIDDUMP: {
 				dumpFlag = true;
 			} break;
+			case ARG_CPUIDFILE: {
+				cpuidFileFlag = true;
+				cpuidFileName = tempStr;
+			} break;
 			case ARG_XCR0: {
 				char* endPtr = 0;
 				xcr0 = strtol(tempStr, &endPtr, 16);
