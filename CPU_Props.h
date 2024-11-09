@@ -1,145 +1,145 @@
 #pragma once
 
-#define		CPUPROPS_VERS					0x0101
+#define		CPUPROPS_VERS					0x0102
 
-enum ISAs {
+enum Feats {
 //	GPR									//Introduced by..
-	ISA_GROUP_GPR,
-	ISA_RDTSC,							//Pentium
-	ISA_RDTSCP,							//AMD K8 E rev
-	ISA_CMOV,							//Pentium Pro
-	ISA_CMPX8,							//Pentium 
-	ISA_CMPX16,							//AMD K8 E rev, Intel Prescott X64
-	ISA_AMD64,							//K8 
-	ISA_LAHF,							//Prescott x64
-	ISA_MOVBE,							//Bonnell
-	ISA_ABM,							//AMD K10, Haswell
-	ISA_POPCNT,							//AMD K10, Nehalem
-	ISA_RDRAND,							//Ivy Bridge
-	ISA_RDSEED,							//Broadwell
-	ISA_ADX,							//Broadwell
-	ISA_BMI,							//Haswell, Piledriver
-	ISA_BMI2,							//Haswell, Excavator
-	ISA_MOVDIRI,						//Tremont
-	ISA_MOVDIR64B,						//Tremont
-	ISA_RAO_INT,						//Crestmont
-	ISA_CMPCCXADD,						//Crestmont
-	ISA_APX,							//?
+	FEAT_GROUP_GPR,
+	FEAT_RDTSC,							//Pentium
+	FEAT_RDTSCP,						//AMD K8 E rev
+	FEAT_CMOV,							//Pentium Pro
+	FEAT_CMPX8,							//Pentium 
+	FEAT_CMPX16,						//AMD K8 E rev, Intel Prescott X64
+	FEAT_AMD64,							//K8 
+	FEAT_LAHF,							//Prescott x64
+	FEAT_MOVBE,							//Bonnell
+	FEAT_ABM,							//AMD K10, Haswell
+	FEAT_POPCNT,						//AMD K10, Nehalem
+	FEAT_RDRAND,						//Ivy Bridge
+	FEAT_RDSEED,						//Broadwell
+	FEAT_ADX,							//Broadwell
+	FEAT_BMI,							//Haswell, Piledriver
+	FEAT_BMI2,							//Haswell, Excavator
+	FEAT_MOVDIRI,						//Tremont
+	FEAT_MOVDIR64B,						//Tremont
+	FEAT_RAO_INT,						//Crestmont
+	FEAT_CMPCCXADD,						//Crestmont
+	FEAT_APX,							//?
 //SIMD
-	ISA_GROUP_SIMD,
-	ISA_SSE,							//Pentium III
-	ISA_SSE2,							//Willamette
-	ISA_SSE3,							//Pentium 4 Prescott
-	ISA_SSSE3,							//Conroe
-	ISA_SSE41,							//Penryn
-	ISA_SSE42,							//Nehalem
-	ISA_SSE4A,							//AMD only, K10
-	ISA_CLMUL,							//Westmere
-	ISA_AES,							//Westmere
-	ISA_SHA,							//Goldmont
-	ISA_GFNI,							//Tremont
+	FEAT_GROUP_SIMD,
+	FEAT_SSE,							//Pentium III
+	FEAT_SSE2,							//Willamette
+	FEAT_SSE3,							//Pentium 4 Prescott
+	FEAT_SSSE3,							//Conroe
+	FEAT_SSE41,							//Penryn
+	FEAT_SSE42,							//Nehalem
+	FEAT_SSE4A,							//AMD only, K10
+	FEAT_CLMUL,							//Westmere
+	FEAT_AES,							//Westmere
+	FEAT_SHA,							//Goldmont
+	FEAT_GFNI,							//Tremont
 //VEX SIMD
-	ISA_GROUP_VEX,
-	ISA_AVX,							//Sandy Bridge
-	ISA_AVX2,							//Haswell
-	ISA_FMA,							//Haswell
-	ISA_F16C,							//Ivy Bridge
-	ISA_AVX_GFNI,						//IceLake-U/Y
-	ISA_AVX_VAES,						//IceLake-U/Y
-	ISA_AVX_VPCLMULQDQ,					//IceLake-U/Y
-	ISA_AVX_VNNI,						//AlderLake
-	ISA_AVX_VNNI_INT8,					//Crestmont
-	ISA_AVX_VNNI_INT16,					//Arrow Lake
-	ISA_AVX_IFMA,						//Crestmont
-	ISA_AVX_NE_CONVERT,					//Crestmont
-	ISA_SHA512,							//Arrow Lake
-	ISA_SM3,							//Arrow Lake
-	ISA_SM4,							//Arrow Lake
+	FEAT_GROUP_VEX,
+	FEAT_AVX,							//Sandy Bridge
+	FEAT_AVX2,							//Haswell
+	FEAT_FMA,							//Haswell
+	FEAT_F16C,							//Ivy Bridge
+	FEAT_AVX_GFNI,						//IceLake-U/Y
+	FEAT_AVX_VAES,						//IceLake-U/Y
+	FEAT_AVX_VPCLMULQDQ,				//IceLake-U/Y
+	FEAT_AVX_VNNI,						//AlderLake
+	FEAT_AVX_VNNI_INT8,					//Crestmont
+	FEAT_AVX_VNNI_INT16,				//Arrow Lake
+	FEAT_AVX_IFMA,						//Crestmont
+	FEAT_AVX_NE_CONVERT,				//Crestmont
+	FEAT_SHA512,						//Arrow Lake
+	FEAT_SM3,							//Arrow Lake
+	FEAT_SM4,							//Arrow Lake
 //EVEX SIMD
-	ISA_GROUP_EVEX,
-	ISA_AVX512F,						//Knights Landing
-	ISA_AVX512CD,						//Knights Landing
-	ISA_AVX512ER,						//Knights Landing
-	ISA_AVX512PF,						//Knights Landing
-	ISA_AVX512BW,						//Skylake-X
-	ISA_AVX512DQ,						//Skylake-X
-	ISA_AVX512VL,						//Skylake-X
-	ISA_AVX512VBMI,						//Cannon Lake
-	ISA_AVX512IFMA,						//Cannon Lake
-	ISA_AVX512VNNI,						//Cascade Lake
-	ISA_AVX512_4VNNIW,					//Knights Mill
-	ISA_AVX512_4FMAPS,					//Knights Mill
-	ISA_AVX512_VPOPCNTDQ,				//Knights Mill
-	ISA_AVX512_GFNI,					//IceLake-U/Y
-	ISA_AVX512_VAES,					//IceLake-U/Y
-	ISA_AVX512_VPCLMULQDQ,				//IceLake-U/Y
-	ISA_AVX512_BITALG,					//IceLake-U/Y
-	ISA_AVX512_VBMI2,					//IceLake-U/Y
-	ISA_AVX512_BF16,					//Cooper Lake
-	ISA_AVX512_VP2INTERSECT,			//Tiger Lake
-	ISA_AVX512_FP16,					//Sapphire Rapids
+	FEAT_GROUP_EVEX,
+	FEAT_AVX512F,						//Knights Landing
+	FEAT_AVX512CD,						//Knights Landing
+	FEAT_AVX512ER,						//Knights Landing
+	FEAT_AVX512PF,						//Knights Landing
+	FEAT_AVX512BW,						//Skylake-X
+	FEAT_AVX512DQ,						//Skylake-X
+	FEAT_AVX512VL,						//Skylake-X
+	FEAT_AVX512VBMI,					//Cannon Lake
+	FEAT_AVX512IFMA,					//Cannon Lake
+	FEAT_AVX512VNNI,					//Cascade Lake
+	FEAT_AVX512_4VNNIW,					//Knights Mill
+	FEAT_AVX512_4FMAPS,					//Knights Mill
+	FEAT_AVX512_VPOPCNTDQ,				//Knights Mill
+	FEAT_AVX512_GFNI,					//IceLake-U/Y
+	FEAT_AVX512_VAES,					//IceLake-U/Y
+	FEAT_AVX512_VPCLMULQDQ,				//IceLake-U/Y
+	FEAT_AVX512_BITALG,					//IceLake-U/Y
+	FEAT_AVX512_VBMI2,					//IceLake-U/Y
+	FEAT_AVX512_BF16,					//Cooper Lake
+	FEAT_AVX512_VP2INTERSECT,			//Tiger Lake
+	FEAT_AVX512_FP16,					//Sapphire Rapids
 //AMX
-	ISA_GROUP_AMX,
-	ISA_AMX_BF16,						//Sapphire Rapids
-	ISA_AMX_INT8,						//Sapphire Rapids
-	ISA_AMX_TILE,						//Sapphire Rapids
-	ISA_AMX_FP16,						//Granite Rapids
-	ISA_AMX_COMPLEX,					//Granite Rapids
+	FEAT_GROUP_AMX,
+	FEAT_AMX_BF16,						//Sapphire Rapids
+	FEAT_AMX_INT8,						//Sapphire Rapids
+	FEAT_AMX_TILE,						//Sapphire Rapids
+	FEAT_AMX_FP16,						//Granite Rapids
+	FEAT_AMX_COMPLEX,					//Granite Rapids
 //AVX10
-	ISA_GROUP_AVX10,
-	ISA_AVX10,							//Granite Rapids
-	ISA_AVX10_128,						//Granite Rapids
-	ISA_AVX10_256,						//Granite Rapids
-	ISA_AVX10_512,						//Granite Rapids X
-	ISA_AVX10_LEVEL,					//Granite Rapids
+	FEAT_GROUP_AVX10,
+	FEAT_AVX10,							//Granite Rapids
+	FEAT_AVX10_128,						//Granite Rapids
+	FEAT_AVX10_256,						//Granite Rapids
+	FEAT_AVX10_512,						//Granite Rapids X
+	FEAT_AVX10_LEVEL,					//Granite Rapids
 //cacheline
-	ISA_GROUP_CACHELINE,
-	ISA_PREFETCHW,						//K6
-	ISA_PREFETCHWT1,					//Knights Landing
-	ISA_PREFETCHI,						//Crestmont
-	ISA_CLFLUSH,						//Willamette
-	ISA_CLFLUSHOPT,						//Skylake
-	ISA_CLWB,							//Skylake-X
-	ISA_CLZERO,							//Zen1, AMD Only
-	ISA_CLDEMOTE,						//Tremont
+	FEAT_GROUP_CACHELINE,
+	FEAT_PREFETCHW,						//K6
+	FEAT_PREFETCHWT1,					//Knights Landing
+	FEAT_PREFETCHI,						//Crestmont
+	FEAT_CLFLUSH,						//Willamette
+	FEAT_CLFLUSHOPT,					//Skylake
+	FEAT_CLWB,							//Skylake-X
+	FEAT_CLZERO,						//Zen1, AMD Only
+	FEAT_CLDEMOTE,						//Tremont
 //uCode
-	ISA_GROUP_UCODE,
-	ISA_ERMS_ENH_REP_MOVSB_STOSB,		//Haswell
-	ISA_FSRM_FAST_SHORT_RRP_MOV,		//IceLake-U/Y
-	ISA_FZLM_FAST_ZERO_LEN_MOVSB,		//Sapphire Rapids
-	ISA_FSRS_FAST_SHORT_REP_STOSB,		//Sapphire Rapids
-	ISA_FSCS_FAST_SHORT_CMPSB_SCASB,	//Sapphire Rapids
-	ISA_FSRC_FAST_SHORT_REPE_CMPSB,		//Zen4
-	ISA_FSRS_FAST_SHORT_REP_STOSB_AMD,	//Zen4
+	FEAT_GROUP_UCODE,
+	FEAT_ERMS_ENH_REP_MOVSB_STOSB,		//Haswell
+	FEAT_FSRM_FAST_SHORT_RRP_MOV,		//IceLake-U/Y
+	FEAT_FZLM_FAST_ZERO_LEN_MOVSB,		//Sapphire Rapids
+	FEAT_FSRS_FAST_SHORT_REP_STOSB,		//Sapphire Rapids
+	FEAT_FSCS_FAST_SHORT_CMPSB_SCASB,	//Sapphire Rapids
+	FEAT_FSRC_FAST_SHORT_REPE_CMPSB,	//Zen4
+	FEAT_FSRS_FAST_SHORT_REP_STOSB_AMD,	//Zen4
 //KeyLocker
-	ISA_GROUP_KEYLOCKER,
-	ISA_KEYLOCK,						//Tiger Lake
-	ISA_AESKLE,							//Tiger Lake
-	ISA_WIDE_KL,						//Tiger Lake
+	FEAT_GROUP_KEYLOCKER,
+	FEAT_KEYLOCK,						//Tiger Lake
+	FEAT_AESKLE,						//Tiger Lake
+	FEAT_WIDE_KL,						//Tiger Lake
 //Uncategorized
-	ISA_GROUP_UNCATEGORIZED,
-	ISA_X86,							//8086
-	ISA_LNOP,							//Pentium Pro, K7
-	ISA_SERIALIZE,						//Sapphire Rapids
-	ISA_HYBRID,							//Lakefield
-	ISA_RDPID,							//Goldmont
-	ISA_RDPRU,							//Zen2
-	ISA_MCOMMIT,						//Zen2
-	ISA_PCONFIG,						//IceLake-X
+	FEAT_GROUP_UNCATEGORIZED,
+	FEAT_X86,							//8086
+	FEAT_LNOP,							//Pentium Pro, K7
+	FEAT_SERIALIZE,						//Sapphire Rapids
+	FEAT_HYBRID,						//Lakefield
+	FEAT_RDPID,							//Goldmont
+	FEAT_RDPRU,							//Zen2
+	FEAT_MCOMMIT,						//Zen2
+	FEAT_PCONFIG,						//IceLake-X
 //Deprecated
-	ISA_GROUP_DEPRECATED,
-	ISA_X87,							//8087
-	ISA_MMX,							//Pentium MMX
-	ISA_MMXP,							//AMD only, AMD K7
-	ISA_3DNOW,							//AMD only, AMD K6-2
-	ISA_3DNOWP,							//AMD only, AMD K6-2+
-	ISA_XOP,							//AMD only, K15 Bulldozer
-	ISA_FMA4,							//AMD only, K15 Bulldozer
-	ISA_TBM,							//AMD only, K15.1 Piledriver
-	ISA_MPX,							//Skylake
-	ISA_HLE,							//Haswell
-	ISA_PCOMMIT,						//DOA
-	ISA_LAST
+	FEAT_GROUP_DEPRECATED,
+	FEAT_X87,							//8087
+	FEAT_MMX,							//Pentium MMX
+	FEAT_MMXP,							//AMD only, AMD K7
+	FEAT_3DNOW,							//AMD only, AMD K6-2
+	FEAT_3DNOWP,						//AMD only, AMD K6-2+
+	FEAT_XOP,							//AMD only, K15 Bulldozer
+	FEAT_FMA4,							//AMD only, K15 Bulldozer
+	FEAT_TBM,							//AMD only, K15.1 Piledriver
+	FEAT_MPX,							//Skylake
+	FEAT_HLE,							//Haswell
+	FEAT_PCOMMIT,						//DOA
+	FEAT_LAST
 };
 
 enum x86_regs {
@@ -395,7 +395,7 @@ enum cpuidStr {
 
 class CPU_Props {
 private:
-	static const _EXT			exts[ISA_LAST];
+	static const _EXT			exts[FEAT_LAST];
 	static const _CPUID_VENDOR	vendors[_VENDOR_LAST];
 	static const char*			_cpuid_names[][CPUID_STR_LAST + 1];
 	_AMX_palette				AMX_palette[MAX_AMX_PALETTE];

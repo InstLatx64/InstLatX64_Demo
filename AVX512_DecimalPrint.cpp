@@ -600,43 +600,43 @@ void to_string_avx2(uint64_t v, char *out) {
 }
 
 AVX512_decimalprint_methods<U32_PRINT_PTR> decprints_u32[] = {
-	{"_ultoa                        ",	"X64",			_ultoa_wrap,					ISA_AMD64,		true},
-	{"_ultoa_avx512f_asm            ",	"AVX512F",		_ultoa_avx512f_asm,		 		ISA_AVX512F,	false},
-	{"_ultoa_avx512f_intrin         ",	"AVX512F",		_ultoa_avx512f_intrin,			ISA_AVX512F,	false},
-	{"_ultoa_avx512ifma_asm         ",	"AVX512IFMA",	_ultoa_avx512ifma_asm,			ISA_AVX512IFMA,	false},
-	{"_ultoa_avx512ifma_intrin      ",	"AVX512IFMA",	_ultoa_avx512ifma_intrin,		ISA_AVX512IFMA,	false},
+	{"_ultoa                        ",	"X64",			_ultoa_wrap,					FEAT_AMD64,			true},
+	{"_ultoa_avx512f_asm            ",	"AVX512F",		_ultoa_avx512f_asm,		 		FEAT_AVX512F,		false},
+	{"_ultoa_avx512f_intrin         ",	"AVX512F",		_ultoa_avx512f_intrin,			FEAT_AVX512F,		false},
+	{"_ultoa_avx512ifma_asm         ",	"AVX512IFMA",	_ultoa_avx512ifma_asm,			FEAT_AVX512IFMA,	false},
+	{"_ultoa_avx512ifma_intrin      ",	"AVX512IFMA",	_ultoa_avx512ifma_intrin,		FEAT_AVX512IFMA,	false},
 };
 
 AVX512_decimalprint_methods<S32_PRINT_PTR> decprints_s32[] = {
-	{"_ltoa                         ",	"X64",			_ltoa_wrap,						ISA_AMD64,		true},
-	{"_ltoa_avx512f_asm             ",	"AVX512F",		_ltoa_avx512f_asm,				ISA_AVX512F,	false},
-	{"_ltoa_avx512f_intrin          ",	"AVX512F",		_ltoa_avx512f_intrin,			ISA_AVX512F,	false},
-	{"_ltoa_avx512ifma_asm          ",	"AVX512IFMA",	_ltoa_avx512ifma_asm,			ISA_AVX512IFMA,	false},
-	{"_ltoa_avx512ifma_intrin       ",	"AVX512IFMA",	_ltoa_avx512ifma_intrin,		ISA_AVX512IFMA,	false},
+	{"_ltoa                         ",	"X64",			_ltoa_wrap,						FEAT_AMD64,			true},
+	{"_ltoa_avx512f_asm             ",	"AVX512F",		_ltoa_avx512f_asm,				FEAT_AVX512F,		false},
+	{"_ltoa_avx512f_intrin          ",	"AVX512F",		_ltoa_avx512f_intrin,			FEAT_AVX512F,		false},
+	{"_ltoa_avx512ifma_asm          ",	"AVX512IFMA",	_ltoa_avx512ifma_asm,			FEAT_AVX512IFMA,	false},
+	{"_ltoa_avx512ifma_intrin       ",	"AVX512IFMA",	_ltoa_avx512ifma_intrin,		FEAT_AVX512IFMA,	false},
 };
 
 AVX512_decimalprint_methods<U64_PRINT_PTR> decprints_u64[] = {
-	{"_ui64toa                      ",	"X64",			_ui64toa_wrap,					ISA_AMD64,		true},
-	{"_ui64toa_avx512f_asm          ",	"AVX512F",		_ui64toa_avx512f_asm,			ISA_AVX512F,	false},
-	{"_ui64toa_avx512f_intrin       ",	"AVX512F",		_ui64toa_avx512f_intrin,		ISA_AVX512F,	false},
-	{"_ui64toa_avx512ifma_asm       ",	"AVX512IFMA",	_ui64toa_avx512ifma_asm,		ISA_AVX512IFMA,	false},
-	{"_ui64toa_avx512ifma_intrin    ",	"AVX512IFMA",	_ui64toa_avx512ifma_intrin,		ISA_AVX512IFMA,	false},
+	{"_ui64toa                      ",	"X64",			_ui64toa_wrap,					FEAT_AMD64,			true},
+	{"_ui64toa_avx512f_asm          ",	"AVX512F",		_ui64toa_avx512f_asm,			FEAT_AVX512F,		false},
+	{"_ui64toa_avx512f_intrin       ",	"AVX512F",		_ui64toa_avx512f_intrin,		FEAT_AVX512F,		false},
+	{"_ui64toa_avx512ifma_asm       ",	"AVX512IFMA",	_ui64toa_avx512ifma_asm,		FEAT_AVX512IFMA,	false},
+	{"_ui64toa_avx512ifma_intrin    ",	"AVX512IFMA",	_ui64toa_avx512ifma_intrin,		FEAT_AVX512IFMA,	false},
 };
 
 AVX512_decimalprint_methods<S64_PRINT_PTR> decprints_s64[] = {
-	{"_i64toa                       ",	"X64",			_i64toa_wrap,					ISA_AMD64,		true},
-	{"_i64toa_avx512f_asm           ",	"AVX512F",		_i64toa_avx512f_asm,			ISA_AVX512F,	false},
-	{"_i64toa_avx512f_intrin        ",	"AVX512F",		_i64toa_avx512f_intrin,			ISA_AVX512F,	false},
-	{"_i64toa_avx512ifma_asm        ",	"AVX512IFMA",	_i64toa_avx512ifma_asm,			ISA_AVX512IFMA,	false},
-	{"_i64toa_avx512ifma_intrin     ",	"AVX512IFMA",	_i64toa_avx512ifma_intrin,		ISA_AVX512IFMA,	false},
+	{"_i64toa                       ",	"X64",			_i64toa_wrap,					FEAT_AMD64,			true},
+	{"_i64toa_avx512f_asm           ",	"AVX512F",		_i64toa_avx512f_asm,			FEAT_AVX512F,		false},
+	{"_i64toa_avx512f_intrin        ",	"AVX512F",		_i64toa_avx512f_intrin,			FEAT_AVX512F,		false},
+	{"_i64toa_avx512ifma_asm        ",	"AVX512IFMA",	_i64toa_avx512ifma_asm,			FEAT_AVX512IFMA,	false},
+	{"_i64toa_avx512ifma_intrin     ",	"AVX512IFMA",	_i64toa_avx512ifma_intrin,		FEAT_AVX512IFMA,	false},
 };
 
 AVX512_decimalprint_methods<U64_PRINT_PTR>  decprints2_u64[] = {
-	{"to_string_avx2                ",	"X64",			to_string_avx2,					ISA_AMD64,		true},
-	{"to_string_avx512f_intrin      ",	"AVX512F",		to_string_avx512f_intrin,		ISA_AVX512F,	false},
-	{"to_string_avx512f_asm         ",	"AVX512F",		to_string_avx512f_asm,			ISA_AVX512F,	false},
-	{"to_string_avx512ifma_asm      ",	"AVX512IFMA",	to_string_avx512ifma_asm,		ISA_AVX512IFMA,	false},
-	{"to_string_avx512ifma_intrin   ",	"AVX512IFMA",	to_string_avx512ifma_intrin,	ISA_AVX512IFMA,	false},
+	{"to_string_avx2                ",	"X64",			to_string_avx2,					FEAT_AMD64,			true},
+	{"to_string_avx512f_intrin      ",	"AVX512F",		to_string_avx512f_intrin,		FEAT_AVX512F,		false},
+	{"to_string_avx512f_asm         ",	"AVX512F",		to_string_avx512f_asm,			FEAT_AVX512F,		false},
+	{"to_string_avx512ifma_asm      ",	"AVX512IFMA",	to_string_avx512ifma_asm,		FEAT_AVX512IFMA,	false},
+	{"to_string_avx512ifma_intrin   ",	"AVX512IFMA",	to_string_avx512ifma_intrin,	FEAT_AVX512IFMA,	false},
 };
 
 
@@ -829,7 +829,7 @@ bool print_check(AVX512_decimalprint_methods<T_FUNC> (&table)[N], T_DATA data, b
 			testCase &= testCase % 10000000000000000;
 		}
 		for (int b = 0; b < (sizeof(table) / sizeof(AVX512_decimalprint_methods<T_FUNC>)); b++) {
-			if (cpu_props.IsFeat(table[b].isa)) {
+			if (cpu_props.IsFeat(table[b].feats)) {
 				if (table[b].refFlag) {
 					(table[b].func)(testCase, buff_reference);
 					if (print) {
@@ -883,7 +883,7 @@ void print_test(AVX512_decimalprint_methods<T_FUNC> (&table)[N], T_DATA data, bo
 		std::cout << "(zmmMode=" << zmmMode << ')';
 	std::cout << endl;
 	for (int b = 0; b < (sizeof(table) / sizeof(AVX512_decimalprint_methods<T_FUNC>)); b++) {
-		if (cpu_props.IsFeat(table[b].isa)) {
+		if (cpu_props.IsFeat(table[b].feats)) {
 			if (table[b].refFlag) {
 				start = serialized_tsc();
 				for (unsigned int i = starti; i < endi; i++) {
@@ -918,7 +918,7 @@ void print_test(AVX512_decimalprint_methods<T_FUNC> (&table)[N], T_DATA data, bo
 
 	bestTime = ULLONG_MAX;
 	for (int b = 0; b < (sizeof(table) / sizeof(AVX512_decimalprint_methods<T_FUNC>)); b++) {
-		if (cpu_props.IsFeat(table[b].isa)) {
+		if (cpu_props.IsFeat(table[b].feats)) {
 			if (table[b].refFlag) {
 				start = serialized_tsc();
 				for (unsigned int i = starti; i < endi; i++) {

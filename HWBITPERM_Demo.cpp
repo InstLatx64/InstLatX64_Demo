@@ -6,17 +6,17 @@ extern CPU_Props cpu_props;
 using namespace std;
 
 bitperm_methods hw_reference[] = {
-	{"PEXT32_HW zmm, zmm, zmm      ",	"SKX       ",	32, BEXT32_HW_Lat,	BEXT32_HW_Tp,			BEXT32_HW,		ISA_AVX512BW,		BEXT, 0},
-	{"PDEP32_HW zmm, zmm, zmm      ",	"SKX       ",	32, BDEP32_HW_Lat,	BDEP32_HW_Tp,			BDEP32_HW,		ISA_AVX512BW,		BDEP, 1},
-	{"BGRP32_HW zmm, zmm, zmm      ",	"SKX       ",	32, BGRP32_HW_Lat,	BGRP32_HW_Tp,			BGRP32_HW,		ISA_AVX512BW,		BGRP, 2},
-	{"PEXT64_HW zmm, zmm, zmm      ",	"SKX       ",	64, BEXT64_HW_Lat,	BEXT64_HW_Tp,			BEXT64_HW,		ISA_AVX512BW,		BEXT, 3},
-	{"PDEP64_HW zmm, zmm, zmm      ",	"SKX       ",	64, BDEP64_HW_Lat,	BDEP64_HW_Tp,			BDEP64_HW,		ISA_AVX512BW,		BDEP, 4},
-	{"BGRP64_HW zmm, zmm, zmm      ",	"SKX       ",	64, BGRP64_HW_Lat,	BGRP64_HW_Tp,			BGRP64_HW,		ISA_AVX512BW,		BGRP, 5},
+	{"PEXT32_HW zmm, zmm, zmm      ",	"SKX       ",	32, BEXT32_HW_Lat,	BEXT32_HW_Tp,			BEXT32_HW,		FEAT_AVX512BW,		BEXT, 0},
+	{"PDEP32_HW zmm, zmm, zmm      ",	"SKX       ",	32, BDEP32_HW_Lat,	BDEP32_HW_Tp,			BDEP32_HW,		FEAT_AVX512BW,		BDEP, 1},
+	{"BGRP32_HW zmm, zmm, zmm      ",	"SKX       ",	32, BGRP32_HW_Lat,	BGRP32_HW_Tp,			BGRP32_HW,		FEAT_AVX512BW,		BGRP, 2},
+	{"PEXT64_HW zmm, zmm, zmm      ",	"SKX       ",	64, BEXT64_HW_Lat,	BEXT64_HW_Tp,			BEXT64_HW,		FEAT_AVX512BW,		BEXT, 3},
+	{"PDEP64_HW zmm, zmm, zmm      ",	"SKX       ",	64, BDEP64_HW_Lat,	BDEP64_HW_Tp,			BDEP64_HW,		FEAT_AVX512BW,		BDEP, 4},
+	{"BGRP64_HW zmm, zmm, zmm      ",	"SKX       ",	64, BGRP64_HW_Lat,	BGRP64_HW_Tp,			BGRP64_HW,		FEAT_AVX512BW,		BGRP, 5},
 };
 
 void HWBITPERM_Compare(__m512i p, __m512i mask, __m512i ref, int bitness, BITPERM type) {
 	for (int b = 0; b < (sizeof(hw_reference) / sizeof(bitperm_methods)); b++) {
-		if (cpu_props.IsFeat(hw_reference[b].isa) && (bitness == hw_reference[b].bitness) && (type == hw_reference[b].type)) {
+		if (cpu_props.IsFeat(hw_reference[b].feats) && (bitness == hw_reference[b].bitness) && (type == hw_reference[b].type)) {
 			__m512i res = (hw_reference[b].func)(p, mask);
 			__mmask64 test	= _mm512_cmpeq_epi8_mask(res, ref);
 			if (test != ~0ULL)
@@ -188,7 +188,7 @@ void HWBITPERM_Test() {
 	cout << setw(5) << fixed << setprecision(2);
 	cout << endl<< "HW/Scalar TSC CLKs:----------------------" << endl;
 	for (int b = 0; b < (sizeof(hw_reference) / sizeof(bitperm_methods)); b++) {
-		if ((cpu_props.IsFeat(hw_reference[b].isa)) && (hw_reference[b].lat != NULL) && (hw_reference[b].tp != NULL))
+		if ((cpu_props.IsFeat(hw_reference[b].feats)) && (hw_reference[b].lat != NULL) && (hw_reference[b].tp != NULL))
 			HWBITPERM_Time(b);
 	}
 }

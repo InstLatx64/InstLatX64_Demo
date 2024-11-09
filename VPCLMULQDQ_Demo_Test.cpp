@@ -20,7 +20,7 @@ void VPCLMULQDQ_Demo_prefix_xor(void) {
 	while (!_rdrand64_step(&q64_1));
 #endif
 
-	if (cpu_props.IsFeat(ISA_CLMUL)) {
+	if (cpu_props.IsFeat(FEAT_CLMUL)) {
 		__m128i x128 = _mm_set_epi64x(q64_0, _rotl64(q64_0, q64_0 & 0x3f));
 		__m128i y128 = _mm_set_epi64x(q64_1, _rotl64(q64_1, q64_1 & 0x3f));
 
@@ -32,7 +32,7 @@ void VPCLMULQDQ_Demo_prefix_xor(void) {
 		printRes("_mm_prefix_xor_clmul_si128      ", _mm_prefix_xor_clmul_si128(x128));
 	}
 #if defined(__AVX2__)
-	if (cpu_props.IsFeat(ISA_AVX_VPCLMULQDQ)) {
+	if (cpu_props.IsFeat(FEAT_AVX_VPCLMULQDQ)) {
 		unsigned long long q64_2 = 0, q64_3 = 0;
 #if !defined(_M_X64)
 		while (!_rdrand32_step((unsigned int *)&q64_2));
@@ -56,7 +56,7 @@ void VPCLMULQDQ_Demo_prefix_xor(void) {
 	}
 #endif
 #if defined(__AVX512F__)
-	if (cpu_props.IsFeat(ISA_AVX512_VPCLMULQDQ)) {
+	if (cpu_props.IsFeat(FEAT_AVX512_VPCLMULQDQ)) {
 		unsigned long long q64_2 = 0, q64_3 = 0;
 #if !defined(_M_X64)
 		while (!_rdrand32_step((unsigned int *)&q64_2));

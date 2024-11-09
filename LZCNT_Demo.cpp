@@ -75,7 +75,7 @@ void LZCNT_Test(void) {
 	printRes("_mm_lzcnt_gfni_epi8_asm      :", _mm_lzcnt_gfni_epi8_asm(x128));
 	printRes("_mm_lzcnt_epi16              :", _mm_lzcnt_epi16(x128));
 	printRes("_mm_lzcnt_epi16_asm          :", _mm_lzcnt_epi16_asm(x128));
-	if (cpu_props.IsFeat(ISA_AVX512_FP16)) {
+	if (cpu_props.IsFeat(FEAT_AVX512_FP16)) {
 		printRes("_mm_lzcnt_fp16_epi16         :", _mm_lzcnt_fp16_epi16(x128));
 		printRes("_mm_lzcnt_fp16_epi16_asm     :", _mm_lzcnt_fp16_epi16_asm(x128));
 	}
@@ -87,7 +87,7 @@ void LZCNT_Test(void) {
 	printRes("_mm256_lzcnt_gfni_epi8_asm   :", _mm256_lzcnt_gfni_epi8_asm(x256));
 	printRes("_mm256_lzcnt_epi16           :", _mm256_lzcnt_epi16(x256));
 	printRes("_mm256_lzcnt_epi16_asm       :", _mm256_lzcnt_epi16_asm(x256));
-	if (cpu_props.IsFeat(ISA_AVX512_FP16)) {
+	if (cpu_props.IsFeat(FEAT_AVX512_FP16)) {
 		printRes("_mm256_lzcnt_fp16_epi16      :", _mm256_lzcnt_fp16_epi16(x256));
 		printRes("_mm256_lzcnt_fp16_epi16_asm  :", _mm256_lzcnt_fp16_epi16_asm(x256));
 	}
@@ -99,7 +99,7 @@ void LZCNT_Test(void) {
 	printRes("_mm512_lzcnt_gfni_epi8       :", _mm512_lzcnt_gfni_epi8_asm(x512));
 	printRes("_mm512_lzcnt_epi16           :", _mm512_lzcnt_epi16(x512));
 	printRes("_mm512_lzcnt_epi16_asm       :", _mm512_lzcnt_epi16_asm(x512));
-	if (cpu_props.IsFeat(ISA_AVX512_FP16)) {
+	if (cpu_props.IsFeat(FEAT_AVX512_FP16)) {
 		printRes("_mm512_lzcnt_fp16_epi16      :", _mm512_lzcnt_fp16_epi16(x512));
 		printRes("_mm512_lzcnt_fp16_epi16_asm  :", _mm512_lzcnt_fp16_epi16_asm(x512));
 	}
@@ -114,14 +114,14 @@ void LZCNT_Test(void) {
 	cout << "_mm512_lzcnt_gfni_epi8_asm    :" << (double)_mm512_lzcnt_gfni_epi8_asm_timed() / (double)LZCNT_REPEATS << endl;
 
 	cout << "_mm_lzcnt_epi16_asm           :" << (double)_mm_lzcnt_epi16_asm_timed() / (double)LZCNT_REPEATS << endl;
-	if (cpu_props.IsFeat(ISA_AVX512_FP16))
+	if (cpu_props.IsFeat(FEAT_AVX512_FP16))
 		cout << "_mm_lzcnt_fp16_epi16_asm      :" << (double)_mm_lzcnt_fp16_epi16_asm_timed() / (double)LZCNT_REPEATS << endl;
 
 	cout << "_mm256_lzcnt_epi16_asm        :" << (double)_mm256_lzcnt_epi16_asm_timed() / (double)LZCNT_REPEATS << endl;
-	if (cpu_props.IsFeat(ISA_AVX512_FP16))
+	if (cpu_props.IsFeat(FEAT_AVX512_FP16))
 		cout << "_mm256_lzcnt_fp16_epi16_asm   :" << (double)_mm256_lzcnt_fp16_epi16_asm_timed() / (double)LZCNT_REPEATS << endl;
 
 	cout << "_mm512_lzcnt_epi16_asm        :" << (double)_mm512_lzcnt_epi16_asm_timed() / (double)LZCNT_REPEATS << endl;
-	if (cpu_props.IsFeat(ISA_AVX512_FP16))
+	if (cpu_props.IsFeat(FEAT_AVX512_FP16))
 		cout << "_mm512_lzcnt_fp16_epi16_asm   :" << (double)_mm512_lzcnt_fp16_epi16_asm_timed() / (double)LZCNT_REPEATS << endl;
 }

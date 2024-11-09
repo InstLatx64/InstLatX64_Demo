@@ -492,13 +492,13 @@ void GFNI_Demo_inverse_epi8(void) {
 	printRes("_mm_inverse_epi8              ", _mm_inverse_epi8(x128));
 
 #if defined(__AVX512F__)
-	if (cpu_props.IsFeat(ISA_AVX512F)) {
+	if (cpu_props.IsFeat(FEAT_AVX512F)) {
 		printRes("_mm_maskz_inverse_epi8        ", _mm_maskz_inverse_epi8((__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 		printRes("_mm_mask_inverse_epi8         ", _mm_mask_inverse_epi8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 	}
 #endif
 #if defined(__AVX2__)
-	if (cpu_props.IsFeat(ISA_AVX)) {
+	if (cpu_props.IsFeat(FEAT_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 		__m256i test256	= _mm256_xor_si256(x256, _mm256_inverse_epi8(_mm256_inverse_epi8(x256)));
 		assert(_mm256_testz_si256(test256, test256));
@@ -506,7 +506,7 @@ void GFNI_Demo_inverse_epi8(void) {
 		printRes("x256                          ", x256);
 		printRes("_mm256_inverse_epi8           ", _mm256_inverse_epi8(x256));
 #if defined(__AVX512F__)
-		if (cpu_props.IsFeat(ISA_AVX512F)) {
+		if (cpu_props.IsFeat(FEAT_AVX512F)) {
 			printRes("_mm256_maskz_inverse_epi8     ", _mm256_maskz_inverse_epi8((__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
 			printRes("_mm256_mask_inverse_epi8      ", _mm256_mask_inverse_epi8(y256, (__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
 
@@ -533,13 +533,13 @@ void GFNI_Demo_set1_epi8(void) {
 	printRes("_mm_set1_gfni_epi8            ", _mm_set1_gfni_epi8(0xbd));
 
 #if defined(__AVX512F__)
-	if (cpu_props.IsFeat(ISA_AVX512F)) {
+	if (cpu_props.IsFeat(FEAT_AVX512F)) {
 		printRes("_mm_maskz_set1_gfni_epi8      ", _mm_maskz_set1_gfni_epi8((__mmask16)_INSTLATX64_DEMO_TESTMASK_16, 0xbd));
 		printRes("_mm_mask_set1_gfni_epi8       ", _mm_mask_set1_gfni_epi8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, 0xbd));
 	}
 #endif
 #if defined(__AVX2__)
-	if (cpu_props.IsFeat(ISA_AVX)) {
+	if (cpu_props.IsFeat(FEAT_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 		//__m256i test256	= _mm256_xor_si256(x256, _mm256_set1_gfni_epi8(_mm256_set1_gfni_epi8(x256)));
 		//assert(_mm256_testz_si256(test256, test256));
@@ -547,7 +547,7 @@ void GFNI_Demo_set1_epi8(void) {
 		printRes("x256                          ", x256);
 		printRes("_mm256_set1_gfni_epi8         ", _mm256_set1_gfni_epi8(0xbd));
 #if defined(__AVX512F__)
-		if (cpu_props.IsFeat(ISA_AVX512F)) {
+		if (cpu_props.IsFeat(FEAT_AVX512F)) {
 			printRes("_mm256_maskz_set1_gfni_epi8   ", _mm256_maskz_set1_gfni_epi8((__mmask32)_INSTLATX64_DEMO_TESTMASK_32, 0xbd));
 			printRes("_mm256_mask_set1_gfni_epi8    ", _mm256_mask_set1_gfni_epi8(y256, (__mmask32)_INSTLATX64_DEMO_TESTMASK_32, 0xbd));
 
@@ -574,13 +574,13 @@ void GFNI_Demo_revbit_epi8(void) {
 	printRes("_mm_revbit_epi8               ", _mm_revbit_epi8(x128));
 
 #if defined(__AVX512F__)
-	if (cpu_props.IsFeat(ISA_AVX512F)) {
+	if (cpu_props.IsFeat(FEAT_AVX512F)) {
 		printRes("_mm_maskz_revbit_epi8         ", _mm_maskz_revbit_epi8((__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 		printRes("_mm_mask_revbit_epi8          ", _mm_mask_revbit_epi8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 	}
 #endif
 #if defined(__AVX2__)
-	if (cpu_props.IsFeat(ISA_AVX)) {
+	if (cpu_props.IsFeat(FEAT_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 		__m256i test256	= _mm256_xor_si256(x256,  _mm256_revbit_epi8(_mm256_revbit_epi8(x256)));
 		assert(_mm256_testz_si256(test256, test256));
@@ -588,7 +588,7 @@ void GFNI_Demo_revbit_epi8(void) {
 		printRes("x256                          ", x256);
 		printRes("_mm256_revbit_epi8            ", _mm256_revbit_epi8(x256));
 #if defined(__AVX512F__)
-		if (cpu_props.IsFeat(ISA_AVX512F)) {
+		if (cpu_props.IsFeat(FEAT_AVX512F)) {
 			printRes("_mm256_maskz_revbit_epi8      ", _mm256_maskz_revbit_epi8((__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
 			printRes("_mm256_mask_revbit_epi8       ", _mm256_mask_revbit_epi8(y256, (__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
 
@@ -613,19 +613,19 @@ void GFNI_Demo_bcstbit_epi8(void) {
 	printRes("_mm_bcstbit_epi8              ", _mm_bcstbit_epi8(x128, 0));
 
 #if defined(__AVX512F__)
-	if (cpu_props.IsFeat(ISA_AVX512F)) {
+	if (cpu_props.IsFeat(FEAT_AVX512F)) {
 		printRes("_mm_maskz_bcstbit_epi8        ", _mm_maskz_bcstbit_epi8((__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128, 0));
 		printRes("_mm_mask_bcstbit_epi8         ", _mm_mask_bcstbit_epi8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128, 0));
 	}
 #endif
 #if defined(__AVX2__)
-	if (cpu_props.IsFeat(ISA_AVX)) {
+	if (cpu_props.IsFeat(FEAT_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 
 		printRes("x256                          ", x256);
 		printRes("_mm256_bcstbit_epi8           ", _mm256_bcstbit_epi8(x256, 1));
 #if defined(__AVX512F__)
-		if (cpu_props.IsFeat(ISA_AVX512F)) {
+		if (cpu_props.IsFeat(FEAT_AVX512F)) {
 			printRes("_mm256_maskz_bcstbit_epi8     ", _mm256_maskz_bcstbit_epi8((__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256, 1));
 			printRes("_mm256_mask_bcstbit_epi8      ", _mm256_mask_bcstbit_epi8(y256, (__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256, 1));
 
@@ -649,13 +649,13 @@ void GFNI_Demo_rotate_8x8(void) {
 	printRes("x128                          ", x128);
 	printRes("_mm_rotate_8x8                ", _mm_rotate_8x8(x128));
 #if defined(__AVX512F__)
-	if (cpu_props.IsFeat(ISA_AVX512F)) {
+	if (cpu_props.IsFeat(FEAT_AVX512F)) {
 		printRes("_mm_maskz_rotate_8x8          ", _mm_maskz_rotate_8x8((__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 		printRes("_mm_mask_rotate_8x8           ", _mm_mask_rotate_8x8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 	}
 #endif
 #if defined(__AVX2__)
-	if (cpu_props.IsFeat(ISA_AVX)) {
+	if (cpu_props.IsFeat(FEAT_AVX)) {
 		__m256i x256	= _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_04, _INSTLATX64_DEMO_TESTVECT_05), y256 = _mm256_set1_epi8(0x7f);
 		__m256i test256 = _mm256_xor_si256(x256, _mm256_rotate_8x8(_mm256_rotate_8x8(_mm256_rotate_8x8(_mm256_rotate_8x8(x256)))));
 		assert (_mm256_testz_si256(test256, test256));
@@ -663,7 +663,7 @@ void GFNI_Demo_rotate_8x8(void) {
 		printRes("x256                          ", x256);
 		printRes("_mm256_rotate_8x8             ", _mm256_rotate_8x8(x256));
 #if defined(__AVX512F__)
-		if (cpu_props.IsFeat(ISA_AVX512F)) {
+		if (cpu_props.IsFeat(FEAT_AVX512F)) {
 			printRes("_mm256_maskz_rotate_8x8       ", _mm256_maskz_rotate_8x8((__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
 			printRes("_mm256_mask_rotate_8x8        ", _mm256_mask_rotate_8x8(y256, (__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
 
@@ -689,14 +689,14 @@ void GFNI_Demo_mirror_8x8(void) {
 	printRes("x128                          ", x128);
 	printRes("_mm_mirror_8x8                ", _mm_mirror_8x8(x128));
 #if defined(__AVX512F__)
-	if (cpu_props.IsFeat(ISA_AVX512F)) {
+	if (cpu_props.IsFeat(FEAT_AVX512F)) {
 		printRes("_mm_maskz_mirror_8x8          ", _mm_maskz_mirror_8x8((__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 		printRes("_mm_mask_mirror_8x8           ", _mm_mask_mirror_8x8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 	}
 #endif
 
 #if defined(__AVX2__)
-	if (cpu_props.IsFeat(ISA_AVX)) {
+	if (cpu_props.IsFeat(FEAT_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03, _INSTLATX64_DEMO_TESTVECT_04, _INSTLATX64_DEMO_TESTVECT_05), y256 = _mm256_set1_epi8(0x7f);
 		__m256i test256 = _mm256_xor_si256(x256, _mm256_mirror_8x8(_mm256_mirror_8x8(x256)));
 		assert (_mm256_testz_si256(test256, test256));
@@ -704,7 +704,7 @@ void GFNI_Demo_mirror_8x8(void) {
 		printRes("x256                          ", x256);
 		printRes("_mm256_mirror_8x8             ", _mm256_mirror_8x8(x256));
 #if defined(__AVX512F__)
-		if (cpu_props.IsFeat(ISA_AVX512F)) {
+		if (cpu_props.IsFeat(FEAT_AVX512F)) {
 			printRes("_mm256_maskz_mirror_8x8       ", _mm256_maskz_mirror_8x8((__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
 			printRes("_mm256_mask_mirror_8x8        ", _mm256_mask_mirror_8x8(y256, (__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
 
@@ -730,19 +730,19 @@ void GFNI_Demo_multiplication_8x8(void) {
 	printRes("_mm_multiplication_8x8 xu       ", _mm_multiplication_8x8(x128, unit128));
 	printRes("_mm_multiplication_8x8 ux       ", _mm_multiplication_8x8(unit128, x128));
 #if defined(__AVX512F__)
-	if (cpu_props.IsFeat(ISA_AVX512F)) {
+	if (cpu_props.IsFeat(FEAT_AVX512F)) {
 		printRes("_mm_maskz_multiplication_8x8    ", _mm_maskz_multiplication_8x8((__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128, x128));
 		printRes("_mm_mask_multiplication_8x8     ", _mm_mask_multiplication_8x8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128, x128));
 	}
 #endif
 
 #if defined(__AVX2__)
-	if (cpu_props.IsFeat(ISA_AVX)) {
+	if (cpu_props.IsFeat(FEAT_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_04, _INSTLATX64_DEMO_TESTVECT_05, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f), z256 = _mm256_set1_epi64x(0x0102040810204080), w256 = _mm256_set1_epi64x(0x8040201008040201);
 		printRes("x256                            ", x256);
 		printRes("_mm256_multiplication_8x8       ", _mm256_multiplication_8x8(x256, z256));
 #if defined(__AVX512F__)
-		if (cpu_props.IsFeat(ISA_AVX512F)) {
+		if (cpu_props.IsFeat(FEAT_AVX512F)) {
 			printRes("_mm256_maskz_multiplication_8x8 ", _mm256_maskz_multiplication_8x8((__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256, x256));
 			printRes("_mm256_mask_multiplication_8x8  ", _mm256_mask_multiplication_8x8(y256, (__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256, x256));
 
@@ -763,19 +763,19 @@ void GFNI_Demo_prefix_xor_epi8(void) {
 	printRes("x128                          ", x128);
 	printRes("_mm_prefix_xor_epi8           ", _mm_prefix_xor_epi8(x128));
 #if defined(__AVX512F__)
-	if (cpu_props.IsFeat(ISA_AVX512F)) {
+	if (cpu_props.IsFeat(FEAT_AVX512F)) {
 		printRes("_mm_maskz_prefix_xor_epi8     ", _mm_maskz_prefix_xor_epi8((__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 		printRes("_mm_mask_prefix_xor_epi8      ", _mm_mask_prefix_xor_epi8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 	}
 #endif
 
 #if defined(__AVX2__)
-	if (cpu_props.IsFeat(ISA_AVX)) {
+	if (cpu_props.IsFeat(FEAT_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 		printRes("x256                          ", x256);
 		printRes("_mm256_prefix_xor_epi8        ", _mm256_prefix_xor_epi8(x256));
 #if defined(__AVX512F__)
-		if (cpu_props.IsFeat(ISA_AVX512F)) {
+		if (cpu_props.IsFeat(FEAT_AVX512F)) {
 			printRes("_mm256_maskz_prefix_xor_epi8  ", _mm256_maskz_prefix_xor_epi8((__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
 			printRes("_mm256_mask_prefix_xor_epi8   ", _mm256_mask_prefix_xor_epi8(y256, (__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
 
@@ -796,19 +796,19 @@ void GFNI_Demo_tzcnt_epi8(void) {
 	printRes("x128                          ", x128);
 	printRes("_mm_tzcnt_gfni_epi8           ", _mm_tzcnt_gfni_epi8(x128));
 #if defined(__AVX512F__)
-	if (cpu_props.IsFeat(ISA_AVX512F)) {
+	if (cpu_props.IsFeat(FEAT_AVX512F)) {
 		printRes("_mm_maskz_tzcnt_gfni_epi8     ", _mm_maskz_tzcnt_gfni_epi8((__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 		printRes("_mm_mask_tzcnt_gfni_epi8      ", _mm_mask_tzcnt_gfni_epi8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 	}
 #endif
 
 #if defined(__AVX2__)
-	if (cpu_props.IsFeat(ISA_AVX)) {
+	if (cpu_props.IsFeat(FEAT_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 		printRes("x256                          ", x256);
 		printRes("_mm256_tzcnt_gfni_epi8        ", _mm256_tzcnt_gfni_epi8(x256));
 #if defined(__AVX512F__)
-		if (cpu_props.IsFeat(ISA_AVX512F)) {
+		if (cpu_props.IsFeat(FEAT_AVX512F)) {
 			printRes("_mm256_maskz_tzcnt_gfni_epi8  ", _mm256_maskz_tzcnt_gfni_epi8((__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
 			printRes("_mm256_mask_tzcnt_gfni_epi8   ", _mm256_mask_tzcnt_gfni_epi8(y256, (__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
 
@@ -829,19 +829,19 @@ void GFNI_Demo_lzcnt_epi8(void) {
 	printRes("x128                          ", x128);
 	printRes("_mm_lzcnt_gfni_epi8           ", _mm_lzcnt_gfni_epi8(x128));
 #if defined(__AVX512F__)
-	if (cpu_props.IsFeat(ISA_AVX512F)) {
+	if (cpu_props.IsFeat(FEAT_AVX512F)) {
 		printRes("_mm_maskz_lzcnt_gfni_epi8     ", _mm_maskz_lzcnt_gfni_epi8((__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 		printRes("_mm_mask_lzcnt_gfni_epi8      ", _mm_mask_lzcnt_gfni_epi8(y128, (__mmask16)_INSTLATX64_DEMO_TESTMASK_16, x128));
 	}
 #endif
 
 #if defined(__AVX2__)
-	if (cpu_props.IsFeat(ISA_AVX)) {
+	if (cpu_props.IsFeat(FEAT_AVX)) {
 		__m256i x256 = _mm256_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01, _INSTLATX64_DEMO_TESTVECT_02, _INSTLATX64_DEMO_TESTVECT_03), y256 = _mm256_set1_epi8(0x7f);
 		printRes("x256                          ", x256);
 		printRes("_mm256_lzcnt_gfni_epi8        ", _mm256_lzcnt_gfni_epi8(x256));
 #if defined(__AVX512F__)
-		if (cpu_props.IsFeat(ISA_AVX512F)) {
+		if (cpu_props.IsFeat(FEAT_AVX512F)) {
 			printRes("_mm256_maskz_lzcnt_gfni_epi8  ", _mm256_maskz_lzcnt_gfni_epi8((__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
 			printRes("_mm256_mask_lzcnt_gfni_epi8   ", _mm256_mask_lzcnt_gfni_epi8(y256, (__mmask32)_INSTLATX64_DEMO_TESTMASK_32, x256));
 
@@ -1077,10 +1077,10 @@ void GFNI_Demo(void) {
 
 #if defined(__AVX512F__) && (_M_X64)
 	cout << "-----------------------------------" << endl;
-	if (cpu_props.IsFeat(ISA_AVX512_VPOPCNTDQ) && cpu_props.IsFeat(ISA_AVX512_BITALG))
+	if (cpu_props.IsFeat(FEAT_AVX512_VPOPCNTDQ) && cpu_props.IsFeat(FEAT_AVX512_BITALG))
 			GFNI_Demo_pospopcount_u8();
 	cout << "-----------------------------------" << endl;
-	if (cpu_props.IsFeat(ISA_AVX512_VPOPCNTDQ) && cpu_props.IsFeat(ISA_AVX512_BITALG))
+	if (cpu_props.IsFeat(FEAT_AVX512_VPOPCNTDQ) && cpu_props.IsFeat(FEAT_AVX512_BITALG))
 			GFNI_Demo_pospopcount_u16();
 	cout << "-----------------------------------" << endl;
 	GFNISpeedTest();

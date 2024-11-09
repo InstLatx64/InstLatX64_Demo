@@ -44,7 +44,7 @@ typedef struct {
 	const char*			demoName;
 	const char*			alias;
 	uint64_t			demoMask;
-	ISAs				isa;
+	Feats				feats;
 	bool				publicFlag;
 	void				(*func)(void);
 	const char*			comment;

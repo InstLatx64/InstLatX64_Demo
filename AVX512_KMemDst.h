@@ -14,7 +14,7 @@ extern "C" unsigned __int64 __fastcall KMemDst_##INST##_##OPERANDS##_lat(uint64_
 
 #define KMEMDST_FUNCDECL0(NAME)	\
 	{#NAME, {\
-	nullptr}, ISA_AVX512F},
+	nullptr}, FEAT_AVX512F},
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,7 +29,7 @@ typedef unsigned __int64(__fastcall* KMEMDST_PTR)(uint64_t);
 typedef struct {
 	const char 	name[64];
 	KMEMDST_PTR	funcs[KMEMDST_FUNCS];
-	ISAs		isa;
+	Feats		feats;
 } kmemdst_methods_memdst;
 
 #pragma once

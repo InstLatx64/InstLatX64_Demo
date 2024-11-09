@@ -10,7 +10,7 @@ using namespace std;
 #if defined(__AVX512F__)
 
 void VBMI2_Demo_rotate_epi16(void) {
-	if (cpu_props.IsFeat(ISA_AVX512VL)) {
+	if (cpu_props.IsFeat(FEAT_AVX512VL)) {
 		__m128i x128	= _mm_set_epi64x(_INSTLATX64_DEMO_TESTVECT_00, _INSTLATX64_DEMO_TESTVECT_01);
 		__m128i y128	= _mm_set_epi64x(_INSTLATX64_DEMO_TESTVECT_FE, _INSTLATX64_DEMO_TESTVECT_FF);
 		__m128i one128	= _mm_set1_epi64x(_INSTLATX64_DEMO_TESTVECT_0B * 4);

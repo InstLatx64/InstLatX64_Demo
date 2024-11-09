@@ -14,7 +14,7 @@ extern "C" unsigned __int64 __fastcall B2B_##METHOD##(void);
 
 #define B2B_FUNCDECL0(NAME)	\
 	{#NAME, {\
-	nullptr}, ISA_AVX512F},
+	nullptr}, FEAT_AVX512F},
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,7 +29,7 @@ typedef unsigned __int64(__fastcall* B2B_PTR)(void);
 typedef struct {
 	const char 	name[64];
 	B2B_PTR		funcs[B2B_FUNCS];
-	ISAs		isa;
+	Feats		feats;
 } b2b_methods;
 
 B2B_FUNCDEF(MASKEDVPERMI2B_LAT)

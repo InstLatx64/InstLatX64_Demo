@@ -21,7 +21,7 @@ typedef struct {
 	BITPERM_PTR		lat;
 	BITPERM_PTR		tp;
 	BITPERM_PTR2	func;
-	ISAs			isa;
+	Feats			feats;
 	BITPERM			type;
 	int				ref;
 } bitperm_methods;

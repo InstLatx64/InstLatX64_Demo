@@ -94,7 +94,7 @@ __m512i _mm512_firstbyte_epu64(__m512i a, char c) {
 
 void FirstByte_Demo(void) {
 #if defined(__AVX2__)
-		if (cpu_props.IsFeat(ISA_AVX_VNNI)) {
+		if (cpu_props.IsFeat(FEAT_AVX_VNNI)) {
 			__m256i dword_testcase		= _mm256_set_epi32(0xfedcba98, 0x76543210, 0xbd000000, 0xbd0000, 0xbd00, 0xbd, 0, 0xbdbd);
 			printRes32("DWORD Testcase          :", dword_testcase);
 			printRes32("_mm256_firstbyte_epu32  :", _mm256_firstbyte_epu32(dword_testcase, (char)0xbd));
@@ -103,12 +103,12 @@ void FirstByte_Demo(void) {
 		printRes("QWORD Testcase          :", qword_testcase);
 		printRes("_mm256_firstbyte_epu64  :", _mm256_firstbyte_epu64(qword_testcase, (char)0xbd));
 #if defined(__AVX512BW__)
-		if (cpu_props.IsFeat(ISA_AVX512VNNI)) {
+		if (cpu_props.IsFeat(FEAT_AVX512VNNI)) {
 			__m512i dword_testcase2		= _mm512_and_si512(_mm512_movm_epi8(0xfedcba9876543210), _mm512_set1_epi8((char)0xbd));
 			printRes32("DWORD Testcase2         :", dword_testcase2);
 			printRes32("_mm512_firstbyte_epu32  :", _mm512_firstbyte_epu32(dword_testcase2, (char)0xbd));
 		}
-		if (cpu_props.IsFeat(ISA_GFNI)) {
+		if (cpu_props.IsFeat(FEAT_GFNI)) {
 			__m512i qword_testcase2		= _mm512_setr_epi64(0xbd, 0xbd00, 0xbd0000, 0xbd000000, 0xbd00000000, 0xbd0000000000, 0xbd000000000000, 0xbd00000000000000);
 			printRes("QWORD Testcase2         :", qword_testcase2);
 			printRes("_mm512_firstbyte_epu64  :", _mm512_firstbyte_epu64(qword_testcase2, (char)0xbd));

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-const _EXT CPU_Props::exts[ISA_LAST] = {
+const _EXT CPU_Props::exts[FEAT_LAST] = {
 // Name								xcr0			feat
 	{"---GPR----------",			_XCR0_EMPTY,	_FEAT_SKIP},
 	{"RDTSC",						_XCR0_EMPTY,	_FEAT01_EDX_RDTSC},
@@ -176,7 +176,7 @@ const char * CPU_Props::_cpuid_names[MAX_CPUIDSTR][CPUID_STR_LAST + 1] = {
 
 CPU_Props::CPU_Props(UINT64 arg_xcr0) : family(0), model(0), stepping(0), fms(0) {
 	GetNativeCPUID(arg_xcr0);
-	if (IsFeat(ISA_HYBRID)) {
+	if (IsFeat(FEAT_HYBRID)) {
 		HybridMasks(PCoreMask, ECoreMask, LPECoreMask, systemAffMask);
 	}
 }
@@ -456,21 +456,21 @@ void CPU_Props::PrintFeats(void) const {
 			bool disabled = (f_disabled[f_high] & f_low) != 0;
 			switch(exts[featInd]._xcr0) {
 				case _XCR0_AVX:
-					PrintFeat(IsFeatBit(ISA_AVX), enabled, disabled);
+					PrintFeat(IsFeatBit(FEAT_AVX), enabled, disabled);
 					break;
 				case _XCR0_AVX512:
 					switch (featInd) {
-						case ISA_AVX10:	
-						case ISA_AVX10_128:
-						case ISA_AVX10_256:
-						case ISA_AVX10_512:
-							PrintFeat(IsFeatBit(ISA_AVX10), enabled, disabled);
+						case FEAT_AVX10:	
+						case FEAT_AVX10_128:
+						case FEAT_AVX10_256:
+						case FEAT_AVX10_512:
+							PrintFeat(IsFeatBit(FEAT_AVX10), enabled, disabled);
 							break;
-						case ISA_AVX10_LEVEL:
-							PrintFeat(IsFeatBit(ISA_AVX10), (avx10level != 0), false, avx10level);
+						case FEAT_AVX10_LEVEL:
+							PrintFeat(IsFeatBit(FEAT_AVX10), (avx10level != 0), false, avx10level);
 							break;
 						default:
-							PrintFeat(IsFeatBit(ISA_AVX512F), enabled, disabled);
+							PrintFeat(IsFeatBit(FEAT_AVX512F), enabled, disabled);
 							break;
 					}
 					break;
@@ -611,7 +611,7 @@ bool CPU_Props::HybridMasks(DWORD_PTR& PCoreMask, DWORD_PTR& ECoreMask, DWORD_PT
 }
 
 void CPU_Props::ForcedAVX512(void) const {
-	if (IsFeat(ISA_AVX512F)) {
+	if (IsFeat(FEAT_AVX512F)) {
 		DWORD_PTR processMask = 0, systemAffMask = 0;
 		BOOL affFlag = GetProcessAffinityMask(GetCurrentProcess(), &processMask, &systemAffMask);
 		if (affFlag != 0) {
@@ -635,7 +635,7 @@ void CPU_Props::ForcedAVX512(void) const {
 }
 
 void CPU_Props::PrintHybridMasks(void) const {
-	if (IsFeat(ISA_HYBRID)) {
+	if (IsFeat(FEAT_HYBRID)) {
 		cout << "--Hybrid info--" << endl;
 		cout << "systemAffinityMask: 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << systemAffMask << endl;
 		cout << "PCoreMask         : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << PCoreMask << endl;
@@ -729,7 +729,7 @@ void CPU_Props::Print_512bFMA_DP_Ports(void) const {
 //"" <empty>
 
 int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
-	if (IsFeat(ISA_AVX512F)) {
+	if (IsFeat(FEAT_AVX512F)) {
 		switch(GetVendor()) {
 			case _VENDOR_INTEL:
 				switch(GetFamMod()) {
@@ -862,7 +862,7 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 			default:
 				return 0;
 		} // switch(GetVendor()) 
-	} else { //if (IsFeat(ISA_AVX512F)) 
+	} else { //if (IsFeat(FEAT_AVX512F)) 
 		return 0;
 	}
 }
@@ -918,7 +918,7 @@ void CPU_Props::SetFeats(_CPUID_RES& c) {
 				continue;
 			case CPUID_NOPLACE:
 				switch (featInd) { //special LNOP detection
-					case ISA_LNOP: {
+					case FEAT_LNOP: {
 						switch (GetFam()) {
 							case 0x6:
 							case 0x7:
@@ -929,7 +929,7 @@ void CPU_Props::SetFeats(_CPUID_RES& c) {
 								break;
 							}
 						} break;
-					case ISA_X86: { //ISA_X86 always present
+					case FEAT_X86: { //FEAT_X86 always present
 						f[f_high] |= f_low;
 					} break;
 					default:
@@ -938,8 +938,8 @@ void CPU_Props::SetFeats(_CPUID_RES& c) {
 				break;
 			case CPUID_NUMFIELD: //non-binary CPUID info
 				switch (featInd) {
-					case ISA_AVX10_LEVEL: {
-						if (IsFeat(ISA_AVX10))
+					case FEAT_AVX10_LEVEL: {
+						if (IsFeat(FEAT_AVX10))
 							avx10level = c.cpuid_res[CPUID_FEAT24_EBX] & 0xff;
 					} break;
 					default:
@@ -953,7 +953,7 @@ void CPU_Props::SetFeats(_CPUID_RES& c) {
 							f[f_high] |= f_low;
 							break;
 						case _KEYLOCK:
-							if (IsFeat(ISA_KEYLOCK))
+							if (IsFeat(FEAT_KEYLOCK))
 								f[f_high] |= f_low;
 							break;
 						default:
@@ -967,7 +967,7 @@ void CPU_Props::SetFeats(_CPUID_RES& c) {
 				break;
 		}
 	}
-	if (IsFeat(ISA_AMX_TILE)) {
+	if (IsFeat(FEAT_AMX_TILE)) {
 		AMX_palette[0].total_tile_bytes	= c.cpuid_res[CPUID_FEAT1D01_EAX] & 0xffff;
 		AMX_palette[0].bytes_per_tile	= c.cpuid_res[CPUID_FEAT1D01_EAX] >> 16;
 		AMX_palette[0].bytes_per_row	= c.cpuid_res[CPUID_FEAT1D01_EBX] & 0xffff;
@@ -1188,7 +1188,7 @@ void CPU_Props::PrintCPUIDDump(void) const {
 							} break;
 							case 0x1A:	{//Native Model ID Enumeration Leaf
 								PrintLeaf(leafs, leaf);
-								if (cpu_props.IsFeat(ISA_HYBRID)) {
+								if (cpu_props.IsFeat(FEAT_HYBRID)) {
 									int hybrid = leaf[_REG_EAX];
 									int type = hybrid & 0xff;
 									switch (hybrid >> 24) {

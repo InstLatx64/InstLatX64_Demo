@@ -3087,7 +3087,7 @@ void Zen5_Demo(void)
 	for (int b = 0; b < sizeof(zen5_avx512) / sizeof(zen5_methods); b++) {
 		Zen5_Test(zen5_avx512, b);
 	}
-	if (cpu_props.IsFeat(ISA_AVX512_VP2INTERSECT)) {
+	if (cpu_props.IsFeat(FEAT_AVX512_VP2INTERSECT)) {
 		for (int b = 0; b < sizeof(zen5_vp2) / sizeof(zen5_methods); b++) {
 			Zen5_Test(zen5_vp2, b);
 		}
@@ -3101,7 +3101,7 @@ void Zen5_Demo(void)
 	for (int b = 0; b < sizeof(zen5_imm8) / sizeof(zen5_methods); b++) {
 		Zen5_Test(zen5_imm8, b);
 	}
-	if (cpu_props.IsFeat(ISA_SSE4A)) {
+	if (cpu_props.IsFeat(FEAT_SSE4A)) {
 		for (int b = 0; b < sizeof(zen5_sse4a) / sizeof(zen5_methods); b++) {
 			Zen5_Test(zen5_sse4a, b);
 		}

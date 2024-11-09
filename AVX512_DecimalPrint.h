@@ -13,7 +13,7 @@ struct AVX512_decimalprint_methods {
 	const char 		name[32];
 	const char 		isaName[16];
 	T_FUNC			func;
-	ISAs			isa;
+	Feats			feats;
 	bool			refFlag;
 };
 
