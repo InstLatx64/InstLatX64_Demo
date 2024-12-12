@@ -187,13 +187,17 @@ void CPU_Props::GetNativeCPUID(UINT64 arg_xcr0) {
 	int level07[4]			= {0, 0, 0, 0};
 	int level0701[4]		= {0, 0, 0, 0};
 	int level0702[4]		= {0, 0, 0, 0};
+	int level15[4]			= {0, 0, 0, 0};
+	int level16[4]			= {0, 0, 0, 0};
 	int level19[4]			= {0, 0, 0, 0};
 	int level1D[4]			= {0, 0, 0, 0};
 	int level1D01[4]		= {0, 0, 0, 0};
 	int level1E[4]			= {0, 0, 0, 0};
+	int level1E01[4]		= {0, 0, 0, 0};
 	int level24[4]			= {0, 0, 0, 0};
 	int extLevel00[4]		= {0, 0, 0, 0};
 	int extLevel01[4]		= {0, 0, 0, 0};
+	int extLevel07[4]		= {0, 0, 0, 0};
 	int extLevel08[4]		= {0, 0, 0, 0};
 	int extLevel21[4]		= {0, 0, 0, 0};
 
@@ -206,6 +210,10 @@ void CPU_Props::GetNativeCPUID(UINT64 arg_xcr0) {
 		__cpuidex(level0701, 0x7, 1);
 	if (level07[_REG_EAX] > 1)
 		__cpuidex(level0702, 0x7, 2);
+	if (level00[_REG_EAX] >= 0x15)
+		__cpuid(level15, 0x15);
+	if (level00[_REG_EAX] >= 0x16)
+		__cpuid(level16, 0x16);
 	if (level00[_REG_EAX] >= 0x19)
 		__cpuid(level19, 0x19);
 	if (level00[_REG_EAX] >= 0x1D) {
@@ -216,6 +224,7 @@ void CPU_Props::GetNativeCPUID(UINT64 arg_xcr0) {
 		}
 		if (level00[_REG_EAX] >= 0x1E) {
 			__cpuid(level1E, 0x1E);
+			__cpuidex(level1E01, 0x1E, 1);
 		}
 	}
 	if (level00[_REG_EAX] >= 0x24)
@@ -224,6 +233,8 @@ void CPU_Props::GetNativeCPUID(UINT64 arg_xcr0) {
 	__cpuid(extLevel00, 0x80000000);
 	if (extLevel00[_REG_EAX] >= 0x80000001)
 		__cpuid(extLevel01, 0x80000001);
+	if (extLevel00[_REG_EAX] >= 0x80000007)
+		__cpuid(extLevel07, 0x80000007);
 	if (extLevel00[_REG_EAX] >= 0x80000008)
 		__cpuid(extLevel08, 0x80000008);
 	if (extLevel00[_REG_EAX] >= 0x80000021)
@@ -245,12 +256,14 @@ void CPU_Props::GetNativeCPUID(UINT64 arg_xcr0) {
 	_CPUID_RES c = {xcr0, 
 					level01[_REG_EAX], level01[_REG_ECX], level01[_REG_EDX], 
 					level07[_REG_EBX], level07[_REG_ECX], level07[_REG_EDX], 
-					level0701[_REG_EAX], level0701[_REG_EDX],
+					level0701[_REG_EAX], level0701[_REG_EBX], level0701[_REG_ECX], level0701[_REG_EDX],
 					level0702[_REG_EAX], level0702[_REG_EDX],
+					level15[_REG_EAX], level15[_REG_EBX], level15[_REG_ECX], 
+					level16[_REG_EAX], level16[_REG_EBX], level16[_REG_ECX], 
 					level19[_REG_EBX], level1D[_REG_EAX], 
 					level1D01[_REG_EAX], level1D01[_REG_EBX], level1D01[_REG_ECX],
-					level1E[_REG_EAX], level24[_REG_EBX],
-					extLevel01[_REG_ECX], extLevel01[_REG_EDX], 
+					level1E[_REG_EAX], level1E01[_REG_EAX], level24[_REG_EBX],
+					extLevel01[_REG_ECX], extLevel01[_REG_EDX], extLevel07[_REG_EDX], 
 					extLevel08[_REG_EAX], extLevel08[_REG_EBX],
 					extLevel21[_REG_EAX]};
 	SetFeats(c);
@@ -304,6 +317,8 @@ bool CPU_Props::GetFileCPUID(char * fname, UINT64 arg_xcr0) {
 								break;
 							case 1:
 								c.cpuid_res[CPUID_FEAT0701_EAX] = out_EAX;
+								c.cpuid_res[CPUID_FEAT0701_EBX] = out_EBX;
+								c.cpuid_res[CPUID_FEAT0701_ECX] = out_ECX;
 								c.cpuid_res[CPUID_FEAT0701_EDX] = out_EDX;
 								break;
 							case 2:
@@ -314,6 +329,15 @@ bool CPU_Props::GetFileCPUID(char * fname, UINT64 arg_xcr0) {
 									break;
 							}
 							break;
+					case 0x00000015:
+						c.cpuid_res[CPUID_FEAT15_EAX] = out_EAX;
+						c.cpuid_res[CPUID_FEAT15_EBX] = out_EBX;
+						c.cpuid_res[CPUID_FEAT15_ECX] = out_ECX;
+					case 0x00000016:
+						c.cpuid_res[CPUID_FEAT16_EAX] = out_EAX;
+						c.cpuid_res[CPUID_FEAT16_EBX] = out_EBX;
+						c.cpuid_res[CPUID_FEAT16_ECX] = out_ECX;
+						break;
 					case 0x00000019:
 						c.cpuid_res[CPUID_FEAT19_EBX] = out_EBX;
 						break;
@@ -332,7 +356,16 @@ bool CPU_Props::GetFileCPUID(char * fname, UINT64 arg_xcr0) {
 						}
 						break;
 					case 0x0000001E:
-						c.cpuid_res[CPUID_FEAT1E_EBX] = out_EBX;
+						switch (in_ECX) {
+							case 0:
+								c.cpuid_res[CPUID_FEAT1E_EBX] = out_EBX;
+								break;
+							case 1:
+								c.cpuid_res[CPUID_FEAT1E01_EAX] = out_EAX;
+								break;
+							default:
+								break;
+						}
 						break;
 					case 0x00000024:
 						c.cpuid_res[CPUID_FEAT24_EBX] = out_EBX;
@@ -349,6 +382,8 @@ bool CPU_Props::GetFileCPUID(char * fname, UINT64 arg_xcr0) {
 						brand_num[in_EAX - 0x80000002][2] = out_ECX;
 						brand_num[in_EAX - 0x80000002][3] = out_EDX;
 						break;
+					case 0x80000007:
+						c.cpuid_res[CPUID_EFEAT07_EDX] = out_EDX;
 					case 0x80000008:
 						c.cpuid_res[CPUID_EFEAT08_EAX] = out_EAX;
 						c.cpuid_res[CPUID_EFEAT08_EBX] = out_EBX;
