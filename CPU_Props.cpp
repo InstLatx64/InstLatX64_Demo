@@ -565,7 +565,8 @@ bool CPU_Props::HybridMasks(DWORD_PTR& PCoreMask, DWORD_PTR& ECoreMask, DWORD_PT
 				case 0x20: {
 					switch (GetFamMod()) {
 						case 0x000A06A0:  //METEORLAKE_L
-						case 0x000A06C0: {//METEORLAKE
+						case 0x000A06C0:  //METEORLAKE
+						case 0x000B0650: {//ARROWLAKE_U
 							int leafData[4] = { 0, 0, 0, 0 };
 							int _cacheleaf = 0x4;
 							int _L3subleaf = 0x3;
@@ -576,6 +577,7 @@ bool CPU_Props::HybridMasks(DWORD_PTR& PCoreMask, DWORD_PTR& ECoreMask, DWORD_PT
 								LPECoreMask |= testMask;
 							}
 						} break;
+						case 0x000B06C0:   //LUNARLAKE?
 						case 0x000B06D0: { //LUNARLAKE_M
 							LPECoreMask |= testMask;
 						}
@@ -590,6 +592,16 @@ bool CPU_Props::HybridMasks(DWORD_PTR& PCoreMask, DWORD_PTR& ECoreMask, DWORD_PT
 								} break;
 							}
 						}
+						//other known Hybrids
+						//case 0x000806A0:   //LAKEFIELD
+						//case 0x00090670:   //ALDERLAKE_S
+						//case 0x000906A0:   //ALDERLAKE_L
+						//case 0x000B0670:   //RAPTORLAKE_S
+						//case 0x000B06A0:   //RAPTORLAKE_L
+						//case 0x000C0660:   //ARROWLAKE_S
+						//case 0x000C06A0:   //ARROWLAKE_R
+						//case 0x000C06C0:   //PANTHERLAKE_L
+						//case 0x00400F00:   //NOVALAKE_S?
 						default: {
 							ECoreMask |= testMask;
 						} break;
