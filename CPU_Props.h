@@ -24,7 +24,7 @@ enum Feats {
 	FEAT_MOVDIR64B,						//Tremont
 	FEAT_RAO_INT,						//Crestmont
 	FEAT_CMPCCXADD,						//Crestmont
-	FEAT_APX,							//?
+	FEAT_APX,							//Diamond Rapids
 //SIMD
 	FEAT_GROUP_SIMD,
 	FEAT_SSE,							//Pentium III
@@ -85,6 +85,11 @@ enum Feats {
 	FEAT_AMX_TILE,						//Sapphire Rapids
 	FEAT_AMX_FP16,						//Granite Rapids
 	FEAT_AMX_COMPLEX,					//Granite Rapids
+	FEAT_AMX_FP8,						//Diamond Rapids
+	FEAT_AMX_TRANSPOSE,					//Diamond Rapids
+	FEAT_AMX_TF32,						//Diamond Rapids
+	FEAT_AMX_AVX512,					//Diamond Rapids
+	FEAT_AMX_MOVRS,						//Diamond Rapids
 //AVX10
 	FEAT_GROUP_AVX10,
 	FEAT_AVX10,							//Granite Rapids
@@ -326,6 +331,17 @@ enum _VENDOR  : uint32_t {
 
 #define _FEAT19_EBX_AESKLE								_FEAT_PLACE(0, FEAT19_EBX)
 #define _FEAT19_EBX_WIDE_KL								_FEAT_PLACE(2, FEAT19_EBX)
+
+#define _FEAT1E01_EAX_AMX_INT8							_FEAT_PLACE( 0, FEAT1E01_EAX)
+#define _FEAT1E01_EAX_AMX_BF16							_FEAT_PLACE( 1, FEAT1E01_EAX)
+#define _FEAT1E01_EAX_AMX_COMPLEX						_FEAT_PLACE( 2, FEAT1E01_EAX)
+#define _FEAT1E01_EAX_AMX_FP16							_FEAT_PLACE( 3, FEAT1E01_EAX)
+
+#define _FEAT1E01_EAX_AMX_FP8							_FEAT_PLACE( 4, FEAT1E01_EAX)
+#define _FEAT1E01_EAX_AMX_TRANPOSE						_FEAT_PLACE( 5, FEAT1E01_EAX)
+#define _FEAT1E01_EAX_AMX_TF32							_FEAT_PLACE( 6, FEAT1E01_EAX)
+#define _FEAT1E01_EAX_AMX_AVX512						_FEAT_PLACE( 7, FEAT1E01_EAX)
+#define _FEAT1E01_EAX_AMX_MOVRS							_FEAT_PLACE( 8, FEAT1E01_EAX)
 
 #define _FEAT24_EBX_AVX10_128							_FEAT_PLACE(16, FEAT24_EBX)
 #define _FEAT24_EBX_AVX10_256							_FEAT_PLACE(17, FEAT24_EBX)
