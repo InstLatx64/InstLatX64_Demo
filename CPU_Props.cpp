@@ -1071,9 +1071,32 @@ void CPU_Props::PrintCPUIDDump(void) const {
 
 									PrintLeaf(leafs, leaf);
 									cout << "[SL " << hex << uppercase << setw(2) << right << setfill('0') << subleaf;
-									cout << "] [L" << clevel << ' ';
-									cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, type)][CPUID_CACHE_TYPE] << ' ';
-									cout << dec << setw(8) << right << setfill(' ') << cacheSize << " KiB ";
+									switch(GetFamMod()) {
+										//case 0xB00B0650:		//ARL-P = MTL-U
+										case 0x0B06C0:		//LNL
+										case 0x0B06D0:		//LNL-M
+										case 0x0C0650:		//ARL-H
+										case 0x0C0660:		//ARL-S
+										case 0x0C06A0:		//ARL-R
+										case 0x0C06C0:		//PTL-H
+										case 0x400F00:	{	//NVL
+											if ((type == 1) && (clevel == 1) && (cacheSize == 48)) {
+												cout << "] [L0 + L" << clevel << ' ';
+												cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, type)][CPUID_CACHE_TYPE] << ' ';
+												cout << dec << setw(2) << right << setfill(' ') << cacheSize << " + 192 KiB ";
+											} else {
+												cout << "] [L" << clevel << "      ";
+												cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, type)][CPUID_CACHE_TYPE] << ' ';
+												cout << dec << setw(8) << right << setfill(' ') << cacheSize << " KiB ";
+											}
+											break;
+										default:
+											cout << "] [L" << clevel << ' ';
+											cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, type)][CPUID_CACHE_TYPE] << ' ';
+											cout << dec << setw(8) << right << setfill(' ') << cacheSize << " KiB ";
+											break;
+										}
+									}
 									cout << dec << setw(3) << right << setfill(' ') << cacheAssoc << "-way ";
 									cout << dec << setw(3) << right << setfill(' ') << cacheLine << "-byte Line ";
 									cout << (leaf[_REG_EDX] & 0x001 ? 'W' : '-'); //EDX Bit 00: Write-Back Invalidate/Invalidate.
