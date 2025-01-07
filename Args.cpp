@@ -9,6 +9,9 @@ const paramsType Args::params[] = {
 	{false,	"pcore",	'\0',	ARG_PCORE,			NULL,					"using performance core on hybrid CPU"},
 	{false,	"ecore",	'\0',	ARG_ECORE,			NULL,					"using efficient core on hybrid CPU"},
 	{false, "dump",		'm',	ARG_CPUIDDUMP,		NULL,					"native CPUID dump"},
+#if defined (_M_X64) && defined(__AVX512F__)
+	{false,	"512bFMA",	'5',	ARG_512BFMADP,		NULL,					"print number of 512b FMA double precision ports"},
+#endif
 	{true,	"demo",		'd',	ARG_DEMOTYPE,		ARGERR_MISS_DEMO,		"demo type"},
 	{true,	"thread",	't',	ARG_THREADINDEX,	ARGERR_MISS_THREAD,		"thread index"},
 	{true,	"file",		'f',	ARG_CPUIDFILE,		ARGERR_MISS_CPUIDFILE,	"CPUID from file"},
@@ -41,6 +44,11 @@ void Args::SetParam(argType paramType, char * tempStr, char* errorPlace, int * e
 			case ARG_CPUPROPS: {
 				cpuPropsFlag = true;
 			} break;
+#if defined (_M_X64) && defined(__AVX512F__)
+			case ARG_512BFMADP: {
+				_512bFMA_DP_Flag = true;
+			} break;
+#endif
 			case ARG_DEMOTYPE: {
 				uint32_t demo = 0;
 				for (demo = 0; demo < demoCount; demo++)
@@ -142,6 +150,12 @@ bool Args::IsCPUProps(void) const {
 	return cpuPropsFlag;
 };
 
+#if defined (_M_X64) && defined(__AVX512F__)
+bool Args::Is_512bFMA_DP_Ports(void) const {
+	return _512bFMA_DP_Flag;
+}
+#endif
+
 bool Args::IsCPUIDDump(void) const {
 	return dumpFlag;
 };
@@ -176,8 +190,11 @@ bool Args::IsSelected(size_t i) const {
 
 Args::Args(const demoTypeList* demos, size_t size, int argc, char** argv) :
 	demoList(demos), demoCount(size), paramCount(sizeof(params) / sizeof(paramsType)),
-	versionFlag(0), helpFlag(0), listFlag(0), cpuPropsFlag(0), errorFlag(0), dumpFlag(0), cpuidFileFlag(0), 
-	paramType(ARG_NOTHING), threadIndex(0), cpuidFileName(0), xcr0(0) {
+	versionFlag(0), helpFlag(0), listFlag(0), cpuPropsFlag(0), 
+#if defined (_M_X64) && defined(__AVX512F__)
+	_512bFMA_DP_Flag(0), 
+#endif
+	errorFlag(0), dumpFlag(0), cpuidFileFlag(0), paramType(ARG_NOTHING), threadIndex(0), cpuidFileName(0), xcr0(0) {
 	validFlag = Init(argc, argv);
 };
 

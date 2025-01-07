@@ -471,7 +471,9 @@ public:
 	void						PrintFeat(uint64_t) const;
 	void						PrintVendor(void) const;
 	void						PrintBrand(void) const;
+#if defined (_M_X64) && defined(__AVX512F__)
 	void						Print_512bFMA_DP_Ports(void) const;
+#endif
 	void						PrintHybridMasks(void) const;
 	void						PrintCPUIDDump(void) const;
 	void						PrintXCR0(void) const;
@@ -493,7 +495,7 @@ public:
 	DWORD_PTR					GetECoreMask() const;
 	DWORD_PTR					GetSystemAffMask() const;
 	bool						GetFileCPUID(char * fname, UINT64 arg_xcr0);
-#if defined (_M_X64)
+#if defined (_M_X64) && defined(__AVX512F__)
 	int							Get_512bFMA_DP_Ports(void) const;
 #endif
 };

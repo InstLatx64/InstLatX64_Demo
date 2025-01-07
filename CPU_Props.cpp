@@ -716,9 +716,9 @@ DWORD_PTR CPU_Props::GetSystemAffMask(void) const {
 	return systemAffMask;
 };
 
-#if defined (_M_X64)
+#if defined (_M_X64) && defined(__AVX512F__)
 void CPU_Props::Print_512bFMA_DP_Ports(void) const {
-	cout << "512b FPU DP ports: " << Get_512bFMA_DP_Ports() << endl;
+	cout << "512b double precision FMA ports: " << Get_512bFMA_DP_Ports() << endl;
 }
 
 //based on 

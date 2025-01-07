@@ -47,6 +47,9 @@ enum argType {
 	ARG_PCORE,
 	ARG_ECORE,
 	ARG_CPUIDDUMP,
+#if defined (_M_X64) && defined(__AVX512F__)
+	ARG_512BFMADP,
+#endif
 	ARG_DEMOTYPE,
 	ARG_THREADINDEX,
 	ARG_CPUIDFILE,
@@ -77,6 +80,9 @@ private:
 	bool						versionFlag;
 	bool						listFlag;
 	bool						cpuPropsFlag;
+#if defined (_M_X64) && defined(__AVX512F__)
+	bool						_512bFMA_DP_Flag;
+#endif
 	bool						errorFlag;
 	bool						dumpFlag;
 	bool						cpuidFileFlag;
@@ -93,6 +99,9 @@ public:
 	bool						IsCPUProps(void) const;
 	bool						IsCPUIDDump(void) const;
 	bool						IsCPUIDFile(void) const;
+#if defined (_M_X64) && defined(__AVX512F__)
+	bool						Is_512bFMA_DP_Ports(void) const;
+#endif
 	bool						IsValid(void) const;
 	void						PrintUsage(void) const;
 	void						PrintVersion(void) const;

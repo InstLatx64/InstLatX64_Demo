@@ -74,14 +74,14 @@ int main(void)
 				cpu_props.PrintFeats();
 				if (cpu_props.IsFeat(FEAT_HYBRID))
 					cpu_props.PrintHybridMasks();
-#if defined (_M_X64)
-				if (cpu_props.IsFeat(FEAT_AVX512F))
-					cpu_props.Print_512bFMA_DP_Ports();
-#endif
 				//cpu_props.ForcedAVX512();
 				cpu_props.PrintXCR0();
 			}
 
+#if defined (_M_X64) && defined(__AVX512F__)
+			if (args.Is_512bFMA_DP_Ports() && cpu_props.IsFeat(FEAT_AVX512F))
+				cpu_props.Print_512bFMA_DP_Ports();
+#endif
 			if (args.IsCPUIDDump())
 				cpu_props.PrintCPUIDDump();
 	
