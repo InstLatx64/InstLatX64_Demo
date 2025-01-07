@@ -39,6 +39,10 @@
 #define ARGERR_MISS_CPUIDFILE			"Missing CPUID filename: "
 #define ARGERR_MISS_XCR0				"Missing XCR0 register value: "
 
+#define DEFAULT_PCORE_INDEX				~0
+#define DEFAULT_ECORE_INDEX				(DEFAULT_PCORE_INDEX - 1)
+#define DEFAULT_LPECORE_INDEX			(DEFAULT_ECORE_INDEX - 1)
+
 enum argType {
 	ARG_HELP,
 	ARG_VERSION,
@@ -46,7 +50,9 @@ enum argType {
 	ARG_CPUPROPS,
 	ARG_PCORE,
 	ARG_ECORE,
+	ARG_LPECORE,
 	ARG_CPUIDDUMP,
+	ARG_PROCMASK,
 #if defined (_M_X64) && defined(__AVX512F__)
 	ARG_512BFMADP,
 #endif
@@ -80,6 +86,7 @@ private:
 	bool						versionFlag;
 	bool						listFlag;
 	bool						cpuPropsFlag;
+	bool						procMaskFlag;
 #if defined (_M_X64) && defined(__AVX512F__)
 	bool						_512bFMA_DP_Flag;
 #endif
@@ -99,6 +106,7 @@ public:
 	bool						IsCPUProps(void) const;
 	bool						IsCPUIDDump(void) const;
 	bool						IsCPUIDFile(void) const;
+	bool						IsProcMask(void) const;
 #if defined (_M_X64) && defined(__AVX512F__)
 	bool						Is_512bFMA_DP_Ports(void) const;
 #endif
@@ -106,7 +114,7 @@ public:
 	void						PrintUsage(void) const;
 	void						PrintVersion(void) const;
 	size_t						GetMaxDemo(void) const;
-	size_t						GetThreadIndex(void) const;
+	size_t						GetThreadIndex(CPU_Props) const;
 	char*						GetCPUIDFileName() const;
 	bool						IsSelected(size_t) const;
 	UINT64						GetXCR0(void) const;

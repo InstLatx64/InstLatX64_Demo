@@ -6,9 +6,11 @@ const paramsType Args::params[] = {
 	{false,	"version",	'v',	ARG_VERSION,		NULL,					"version info"},
 	{false,	"list",		'l',	ARG_DEMOLIST,		NULL,					"list of demo types"},
 	{false,	"cpu",		'c',	ARG_CPUPROPS,		NULL,					"list of CPU properties"},
-	{false,	"pcore",	'\0',	ARG_PCORE,			NULL,					"using performance core on hybrid CPU"},
-	{false,	"ecore",	'\0',	ARG_ECORE,			NULL,					"using efficient core on hybrid CPU"},
+	{false,	"pcore",	'\0',	ARG_PCORE,			NULL,					"using Performance core on hybrid CPU"},
+	{false,	"ecore",	'\0',	ARG_ECORE,			NULL,					"using Efficient core on hybrid CPU"},
+	{false,	"lcore",	'\0',	ARG_LPECORE,		NULL,					"using LP-E core on hybrid CPU"},
 	{false, "dump",		'm',	ARG_CPUIDDUMP,		NULL,					"native CPUID dump"},
+	{false,	"procmask",	'k',	ARG_PROCMASK,		NULL,					"list of P/E/LPE procmasks"},
 #if defined (_M_X64) && defined(__AVX512F__)
 	{false,	"512bFMA",	'5',	ARG_512BFMADP,		NULL,					"print number of 512b FMA double precision ports"},
 #endif
@@ -44,6 +46,9 @@ void Args::SetParam(argType paramType, char * tempStr, char* errorPlace, int * e
 			case ARG_CPUPROPS: {
 				cpuPropsFlag = true;
 			} break;
+			case ARG_PROCMASK: {
+				procMaskFlag = true;
+			} break;
 #if defined (_M_X64) && defined(__AVX512F__)
 			case ARG_512BFMADP: {
 				_512bFMA_DP_Flag = true;
@@ -70,27 +75,15 @@ void Args::SetParam(argType paramType, char * tempStr, char* errorPlace, int * e
 			}
 			break;
 			case ARG_PCORE: {
-				if (cpu_props.IsFeat(FEAT_HYBRID)) {
-#if defined(_M_X64)
-					_BitScanReverse64((unsigned long*)&threadIndex, cpu_props.GetPCoreMask());
-#else
-					BitScanReverse((unsigned long*)&threadIndex, cpu_props.GetPCoreMask());
-#endif
-				} else {
-					threadIndex = 0;
-				}
+				threadIndex = DEFAULT_PCORE_INDEX;
 			}
 			break;
 			case ARG_ECORE: {
-				if (cpu_props.IsFeat(FEAT_HYBRID)) {
-#if defined(_M_X64)
-					threadIndex = _tzcnt_u64(cpu_props.GetECoreMask());
-#else
-					threadIndex = _tzcnt_u32(cpu_props.GetECoreMask());
-#endif
-				} else {
-					threadIndex = 0;
-				}
+				threadIndex = DEFAULT_ECORE_INDEX;
+			}
+			break;
+			case ARG_LPECORE: {
+				threadIndex = DEFAULT_LPECORE_INDEX;
 			}
 			break;
 			case ARG_CPUIDDUMP: {
@@ -150,6 +143,10 @@ bool Args::IsCPUProps(void) const {
 	return cpuPropsFlag;
 };
 
+bool Args::IsProcMask(void) const {
+	return procMaskFlag;
+};
+
 #if defined (_M_X64) && defined(__AVX512F__)
 bool Args::Is_512bFMA_DP_Ports(void) const {
 	return _512bFMA_DP_Flag;
@@ -168,8 +165,14 @@ size_t Args::GetMaxDemo(void) const {
 	return DEMO_LAST;
 };
 
-size_t Args::GetThreadIndex(void) const {
-	return threadIndex;
+size_t Args::GetThreadIndex(CPU_Props c) const {
+	switch (threadIndex) {
+		case DEFAULT_PCORE_INDEX: return c.GetPCoreIndex();
+		case DEFAULT_ECORE_INDEX: return c.GetECoreIndex();
+		case DEFAULT_LPECORE_INDEX: return c.GetLPECoreIndex();
+		default: 
+			return threadIndex;
+	}
 };
 
 char* Args::GetCPUIDFileName() const {
@@ -190,7 +193,7 @@ bool Args::IsSelected(size_t i) const {
 
 Args::Args(const demoTypeList* demos, size_t size, int argc, char** argv) :
 	demoList(demos), demoCount(size), paramCount(sizeof(params) / sizeof(paramsType)),
-	versionFlag(0), helpFlag(0), listFlag(0), cpuPropsFlag(0), 
+	versionFlag(0), helpFlag(0), listFlag(0), cpuPropsFlag(0), procMaskFlag(0), 
 #if defined (_M_X64) && defined(__AVX512F__)
 	_512bFMA_DP_Flag(0), 
 #endif

@@ -4,6 +4,7 @@
 #include "Zen4_Demo_Imm8.h"
 
 extern CPU_Props cpu_props;
+extern Args args;
 
 using namespace std;
 
@@ -192,7 +193,7 @@ void Zen4_Test(zen4_methods *insts, int index) {
 
 void Zen4_Demo(void)
 {
-	SetThread(3);
+	SetThread(args.GetThreadIndex(cpu_props));
 
 	for (int b = 0; b < sizeof(zen4_imm8) / sizeof(zen4_methods); b++) {
 		Zen4_Test(zen4_imm8, b);

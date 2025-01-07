@@ -380,6 +380,7 @@ enum _VENDOR  : uint32_t {
 #define MAX_AMX_PALETTE									1
 #define	MAX_STARTLEAF									6
 #define	MAX_CPUIDSTR									20
+#define	DEFAULT_COREINFO								(MAX_CPUIDSTR - 1)
 
 
 typedef struct {
@@ -434,13 +435,19 @@ private:
 	_AMX_TMUL					AMX_TMUL;
 	UINT64						f[FEATSIZE]				= {0ULL, 0ULL};
 	UINT64						f_disabled[FEATSIZE]	= {0ULL, 0ULL};
-	DWORD_PTR					PCoreMask				= 0;
-	DWORD_PTR					ECoreMask				= 0;
-	DWORD_PTR					LPECoreMask				= 0;
+	DWORD_PTR					pCoreMask				= 0;
+	DWORD_PTR					eCoreMask				= 0;
+	DWORD_PTR					lpeCoreMask				= 0;
 	DWORD_PTR					systemAffMask			= 0;
 	_VENDOR						vendor					= _VENDOR_EMPTY;
 	UINT64						xcr0					= 0;
 	int							avx10level				= 0;
+	DWORD						pCoreInfo				= DEFAULT_COREINFO;
+	DWORD						eCoreInfo				= DEFAULT_COREINFO;
+	DWORD						lpeCoreInfo				= DEFAULT_COREINFO;
+	DWORD						pCoreIndex				= 0;
+	DWORD						eCoreIndex				= 0;
+	DWORD						lpeCoreIndex			= 0;
 	union {
 		char					vendor_string[VENDOR_STRING_SIZE];
 		unsigned long			vendor_num[VENDOR_NUM_SIZE]  = {0, 0, 0, 0};
@@ -462,7 +469,7 @@ private:
 	void						PrintSingleLeaf(uint32_t leafs, int* leaf) const;
 	void						PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf) const;
 	void						PrintSubLeaf(uint32_t leafs, int* leaf, int subLeaf, cpuidStr str, int strInd) const;
-	bool						HybridMasks(DWORD_PTR& pCoreMask, DWORD_PTR& eCoreMask, DWORD_PTR& LPECoreMask, DWORD_PTR& systemAffMask) const;
+	bool						HybridMasks(DWORD_PTR& pCoreMask, DWORD_PTR& eCoreMask, DWORD_PTR& lpeCoreMask, DWORD_PTR& systemAffMask);
 	void						SetFeats(_CPUID_RES& c);
 	void						GetNativeCPUID(UINT64 arg_xcr0);
 public:
@@ -475,6 +482,7 @@ public:
 	void						Print_512bFMA_DP_Ports(void) const;
 #endif
 	void						PrintHybridMasks(void) const;
+	void						PrintHybridType(int) const;
 	void						PrintCPUIDDump(void) const;
 	void						PrintXCR0(void) const;
 	void						ForcedAVX512(void) const;
@@ -493,6 +501,10 @@ public:
 	unsigned int				GetAMXCols() const;
 	DWORD_PTR					GetPCoreMask() const;
 	DWORD_PTR					GetECoreMask() const;
+	DWORD_PTR					GetLPECoreMask() const;
+	DWORD_PTR					GetPCoreIndex() const;
+	DWORD_PTR					GetECoreIndex() const;
+	DWORD_PTR					GetLPECoreIndex() const;
 	DWORD_PTR					GetSystemAffMask() const;
 	bool						GetFileCPUID(char * fname, UINT64 arg_xcr0);
 #if defined (_M_X64) && defined(__AVX512F__)

@@ -72,8 +72,6 @@ int main(void)
 				cpu_props.PrintVendor();
 				cpu_props.PrintBrand();
 				cpu_props.PrintFeats();
-				if (cpu_props.IsFeat(FEAT_HYBRID))
-					cpu_props.PrintHybridMasks();
 				//cpu_props.ForcedAVX512();
 				cpu_props.PrintXCR0();
 			}
@@ -84,6 +82,8 @@ int main(void)
 #endif
 			if (args.IsCPUIDDump())
 				cpu_props.PrintCPUIDDump();
+			if (args.IsProcMask())
+				cpu_props.PrintHybridMasks();
 	
 			for (uint32_t demo = 0; demo <= args.GetMaxDemo(); demo++) {
 				if (args.IsSelected(demo)) {

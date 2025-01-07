@@ -3082,7 +3082,7 @@ void Zen5_Test(zen5_methods *insts, int index) {
 
 void Zen5_Demo(void)
 {
-	SetThread(args.GetThreadIndex());
+	SetThread(args.GetThreadIndex(cpu_props));
 
 	for (int b = 0; b < sizeof(zen5_avx512) / sizeof(zen5_methods); b++) {
 		Zen5_Test(zen5_avx512, b);

@@ -184,9 +184,7 @@ const char * CPU_Props::_cpuid_names[MAX_CPUIDSTR][CPUID_STR_LAST + 1] = {
 
 CPU_Props::CPU_Props(UINT64 arg_xcr0) : family(0), model(0), stepping(0), fms(0) {
 	GetNativeCPUID(arg_xcr0);
-	if (IsFeat(FEAT_HYBRID)) {
-		HybridMasks(PCoreMask, ECoreMask, LPECoreMask, systemAffMask);
-	}
+	HybridMasks(pCoreMask, eCoreMask, lpeCoreMask, systemAffMask);
 }
 
 void CPU_Props::GetNativeCPUID(UINT64 arg_xcr0) {
@@ -587,7 +585,7 @@ unsigned int CPU_Props::GetAMXCols() const {
 	return AMX_TMUL.tmul_maxn;
 };
 
-bool CPU_Props::HybridMasks(DWORD_PTR& PCoreMask, DWORD_PTR& ECoreMask, DWORD_PTR& LPECoreMask, DWORD_PTR& systemMask) const {
+bool CPU_Props::HybridMasks(DWORD_PTR& pCoreMask, DWORD_PTR& eCoreMask, DWORD_PTR& lpeCoreMask, DWORD_PTR& systemMask) {
 	DWORD_PTR processMask = 0, systemAffMask = 0;
 	BOOL affFlag = GetProcessAffinityMask(GetCurrentProcess(), &processMask, &systemAffMask);
 	if (affFlag != 0) {
@@ -598,65 +596,118 @@ bool CPU_Props::HybridMasks(DWORD_PTR& PCoreMask, DWORD_PTR& ECoreMask, DWORD_PT
 		const DWORD_PTR threads = _mm_popcnt_u32(systemAffMask);
 #endif
 		DWORD_PTR origThreadMask = SetThreadAffinityMask(GetCurrentThread(), 1);
-		for (unsigned int th = 0; th < threads; th++) {
-			DWORD_PTR testMask = ((DWORD_PTR)1 << th);
-			SetThreadAffinityMask(GetCurrentThread(), testMask);
-			Sleep(0);
-			int level1A[4] = {0, 0, 0, 0};
-			__cpuid(level1A, 0x1A);
-			switch (level1A[_REG_EAX] >> 24) {
-				case 0x20: {
-					switch (GetFamMod()) {
-						case 0x000A06A0:  //METEORLAKE_L
-						case 0x000A06C0:  //METEORLAKE
-						case 0x000B0650: {//ARROWLAKE_U
-							int leafData[4] = { 0, 0, 0, 0 };
-							int _cacheleaf = 0x4;
-							int _L3subleaf = 0x3;
-							__cpuidex(leafData, _cacheleaf, _L3subleaf); //L3 cache test
-							if (leafData[_REG_EAX] != 0) {
-								ECoreMask |= testMask;
-							} else {
-								LPECoreMask |= testMask;
+		switch(GetVendor()) {
+			case _VENDOR_INTEL: {
+				int level00[4]			= {0, 0, 0, 0};
+				__cpuid(level00, 0x0);
+				if (level00[_REG_EAX] >= 0x1A) {
+					for (unsigned int th = 0; th < threads; th++) {
+						DWORD_PTR testMask = ((DWORD_PTR)1 << th);
+						SetThreadAffinityMask(GetCurrentThread(), testMask);
+						Sleep(0);
+						int level1A[4] = {0, 0, 0, 0};
+						__cpuid(level1A, 0x1A);
+						switch (level1A[_REG_EAX] >> 24) {
+							case 0x20: {
+								switch (GetFamMod()) {
+									case 0x000A06A0:  //METEORLAKE_L
+									case 0x000A06C0:  //METEORLAKE
+									case 0x000B0650: {//ARROWLAKE_U
+										int leafData[4] = { 0, 0, 0, 0 };
+										int _cacheleaf = 0x4;
+										int _L3subleaf = 0x3;
+										__cpuidex(leafData, _cacheleaf, _L3subleaf); //L3 cache test
+										if (leafData[_REG_EAX] != 0) {
+											eCoreMask	|= testMask;
+											eCoreInfo	= level1A[_REG_EAX];
+											eCoreIndex	= th;
+										} else {
+											lpeCoreMask		|= testMask;
+											lpeCoreInfo		= level1A[_REG_EAX];
+											lpeCoreIndex	= th;
+										}
+									} break;
+									case 0x000B06C0:   //LUNARLAKE?
+									case 0x000B06D0: { //LUNARLAKE_M
+										lpeCoreMask		|= testMask;
+										lpeCoreInfo		= level1A[_REG_EAX];
+										lpeCoreIndex	= th;
+									}
+									case 0x000C0650: { //ARROW_LAKE_H
+										switch (level1A[_REG_EAX] & 0xffffff) {
+											case 0x02: {	//Crestmont
+												lpeCoreMask		|= testMask;
+												lpeCoreInfo		= level1A[_REG_EAX];
+												lpeCoreIndex	= th;
+											} break;
+											case 0x3:		//Skymont
+											default: {
+												eCoreMask	|= testMask;
+												eCoreInfo	= level1A[_REG_EAX];
+												eCoreIndex	= th;
+											} break;
+										}
+									}
+									//other known Hybrids
+									//case 0x000806A0:   //LAKEFIELD
+									//case 0x00090670:   //ALDERLAKE_S
+									//case 0x000906A0:   //ALDERLAKE_L
+									//case 0x000B0670:   //RAPTORLAKE_S
+									//case 0x000B06A0:   //RAPTORLAKE_L
+									//case 0x000C0660:   //ARROWLAKE_S
+									//case 0x000C06A0:   //ARROWLAKE_R
+									//case 0x000C06C0:   //PANTHERLAKE_L
+									//case 0x00400F00:   //NOVALAKE_S?
+									default: {
+										eCoreMask	|= testMask;
+										eCoreInfo	= level1A[_REG_EAX];
+										eCoreIndex	= th;
+									} break;
+								}
+							} break;
+							case 0x40: {
+								pCoreMask	|= testMask;
+								pCoreInfo	= level1A[_REG_EAX];
+								pCoreIndex	= th;
+							} break;
+							default: {
+								pCoreMask	|= testMask;
+								pCoreInfo	= level1A[_REG_EAX];
+								pCoreIndex	= th;
+								break;
 							}
-						} break;
-						case 0x000B06C0:   //LUNARLAKE?
-						case 0x000B06D0: { //LUNARLAKE_M
-							LPECoreMask |= testMask;
 						}
-						case 0x000C0650: { //ARROW_LAKE_H
-							switch (level1A[_REG_EAX] & 0xffffff) {
-								case 0x02: {	//Crestmont
-									LPECoreMask |= testMask;
-								} break;
-								case 0x3:		//Skymont
-								default: {
-									ECoreMask |= testMask;
-								} break;
-							}
+					} //for (unsigned int th = 0; th < threads; th++) 
+				} // if (level00[_REG_EAX] >= 0x1A) 
+			} break;
+			case _VENDOR_AMD: {
+				int extLevel00[4]		= {0, 0, 0, 0};
+				__cpuid(extLevel00, 0x80000000);
+				if (extLevel00[_REG_EAX] >= 0x80000026) {
+					for (unsigned int th = 0; th < threads; th++) {
+						DWORD_PTR testMask = ((DWORD_PTR)1 << th);
+						SetThreadAffinityMask(GetCurrentThread(), testMask);
+						Sleep(0);
+						int extlevel26[4] = {0, 0, 0, 0};
+						__cpuid(extlevel26, 0x80000026);
+						switch (extlevel26[_REG_EBX] >> 24) {
+							default:
+							case 0x0: {
+								pCoreMask	|= testMask;
+								pCoreInfo	= extlevel26[_REG_EBX];
+								pCoreIndex	= th;
+							} break;
+							case 0x1: {
+								eCoreMask	|= testMask;
+								eCoreInfo	= extlevel26[_REG_EBX];
+								eCoreIndex	= th;
+							} break;
 						}
-						//other known Hybrids
-						//case 0x000806A0:   //LAKEFIELD
-						//case 0x00090670:   //ALDERLAKE_S
-						//case 0x000906A0:   //ALDERLAKE_L
-						//case 0x000B0670:   //RAPTORLAKE_S
-						//case 0x000B06A0:   //RAPTORLAKE_L
-						//case 0x000C0660:   //ARROWLAKE_S
-						//case 0x000C06A0:   //ARROWLAKE_R
-						//case 0x000C06C0:   //PANTHERLAKE_L
-						//case 0x00400F00:   //NOVALAKE_S?
-						default: {
-							ECoreMask |= testMask;
-						} break;
 					}
-				} break;
-				case 0x40: {
-					PCoreMask |= testMask;
-				} break;
-				default: {
-					break;
 				}
-			}
+			} break;
+			default:
+				break;
 		}
 		SetThreadAffinityMask(GetCurrentThread(), origThreadMask);
 		return true;
@@ -690,13 +741,63 @@ void CPU_Props::ForcedAVX512(void) const {
 }
 
 void CPU_Props::PrintHybridMasks(void) const {
-	if (IsFeat(FEAT_HYBRID)) {
-		cout << "--Hybrid info--" << endl;
-		cout << "systemAffinityMask: 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << systemAffMask << endl;
-		cout << "PCoreMask         : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << PCoreMask << endl;
-		cout << "ECoreMask         : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << ECoreMask << endl;
-		cout << "LPECoreMask       : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << LPECoreMask << endl;
-		cout << setfill(' ');
+	cout << "--Hybrid info--" << endl;
+	cout << "systemAffinityMask: 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << systemAffMask << endl;
+	cout << "PCoreMask         : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << pCoreMask << ' ';
+	if ((pCoreMask != 0) && (pCoreInfo != DEFAULT_COREINFO))
+		PrintHybridType(pCoreInfo);
+	cout << endl;
+	cout << "ECoreMask         : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << eCoreMask << ' ';
+	if ((eCoreMask != 0) && (eCoreInfo != DEFAULT_COREINFO))
+		PrintHybridType(eCoreInfo);
+	cout << endl;
+	cout << "LPECoreMask       : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << lpeCoreMask << ' ';
+	if ((lpeCoreMask != 0) && (lpeCoreInfo != DEFAULT_COREINFO))
+		PrintHybridType(lpeCoreInfo);
+	cout << endl;
+	cout << setfill(' ');
+}
+
+void CPU_Props::PrintHybridType(int hybrid) const {
+	switch(GetVendor()) {
+		default:
+		case _VENDOR_INTEL: {
+			int type = hybrid & 0xff;
+			switch (hybrid >> 24) {
+				case 0x20:
+					cout << "[Atom: ";
+					cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, type)][CPUID_ATOM_NAME];
+					cout << ']';
+					break;
+				case 0x40:
+					cout << "[Core: ";
+					switch(GetFamMod()) {
+						default:
+							cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, type)][CPUID_CORE_NAME];
+							break;
+						case 0x000B0670:
+						case 0x000B06A0:
+						case 0x000B06F0:
+							cout << "Raptor Cove";
+							break;
+					}
+					cout << ']';
+					break;
+				default:
+					break;
+			}
+		} break;
+		case _VENDOR_AMD: {
+			switch (hybrid >> 24) {
+				default:
+				case 0x00:
+					cout << "[P-core]";
+					break;
+				case 0x01:
+					cout << "[E-core]";
+					break;
+			}
+		} break;
 	}
 }
 
@@ -705,11 +806,27 @@ void CPU_Props::PrintXCR0(void) const {
 }
 
 DWORD_PTR CPU_Props::GetPCoreMask(void) const {
-	return PCoreMask;
+	return pCoreMask;
 };
 
 DWORD_PTR CPU_Props::GetECoreMask(void) const {
-	return ECoreMask;
+	return eCoreMask;
+};
+
+DWORD_PTR CPU_Props::GetLPECoreMask(void) const {
+	return lpeCoreMask;
+};
+
+DWORD_PTR CPU_Props::GetPCoreIndex(void) const {
+	return pCoreIndex;
+};
+
+DWORD_PTR CPU_Props::GetECoreIndex(void) const {
+	return eCoreIndex;
+};
+
+DWORD_PTR CPU_Props::GetLPECoreIndex(void) const {
+	return lpeCoreIndex;
 };
 
 DWORD_PTR CPU_Props::GetSystemAffMask(void) const {
@@ -1268,30 +1385,7 @@ void CPU_Props::PrintCPUIDDump(void) const {
 								PrintLeaf(leafs, leaf);
 								if (cpu_props.IsFeat(FEAT_HYBRID)) {
 									int hybrid = leaf[_REG_EAX];
-									int type = hybrid & 0xff;
-									switch (hybrid >> 24) {
-										case 0x20:
-											cout << "[Atom: ";
-											cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, type)][CPUID_ATOM_NAME];
-											cout << ']';
-											break;
-										case 0x40:
-											cout << "[Core: ";
-											switch(GetFamMod()) {
-												default:
-													cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, type)][CPUID_CORE_NAME];
-													break;
-												case 0x000B0670:
-												case 0x000B06A0:
-												case 0x000B06F0:
-													cout << "Raptor Cove";
-													break;
-											}
-											cout << ']';
-											break;
-										default:
-											break;
-									}
+									PrintHybridType(hybrid);
 								}
 								cout << endl;
 							} break;
