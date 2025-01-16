@@ -13,6 +13,7 @@ const demoTypeList demos[] = {
 #endif
 #if defined (_M_X64)
 #if defined (__AVX2__)
+	{"P06P1",					"P06P1",	DEMO_P06P1,				FEAT_BMI2,				false,	P0601_Test,						"Golden Cove P06P1 anomaly"},
 	{"PEXT_PDEP",				"PEXT",		DEMO_PEXT_PDEP_EMU,		FEAT_BMI2,				true,	PEXT_PDEP_Emu_Test,				"Fast GPR PEXT/PDEP instruction emulation for AMDs"},
 	{"FirstByte",				"",			DEMO_FIRSTBBYTE,		FEAT_AVX2,				true,	FirstByte_Demo,					"Finding first byte in lanes"},
 #endif

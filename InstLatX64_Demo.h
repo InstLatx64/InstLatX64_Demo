@@ -8,6 +8,7 @@ enum demoType {
 #endif
 #if defined (_M_X64)
 	#if defined (__AVX2__)
+		DEMO_P06P1,
 		DEMO_PEXT_PDEP_EMU,
 		DEMO_FIRSTBBYTE,
 	#endif
@@ -71,3 +72,4 @@ void AMX_Test(void);
 void AVX512_DecimalPrint_Test(void);
 void AVX512_BGVSER_Test(void);
 void AVX_VNNI_Saturated_AddSub_Demo(void);
+void P0601_Test(void);

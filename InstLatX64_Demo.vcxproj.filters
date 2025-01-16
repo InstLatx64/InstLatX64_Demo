@@ -96,6 +96,9 @@
     <ClCompile Include="Zen5_Demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="P06P1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -197,6 +200,9 @@
     <ClInclude Include="AVX512_Saturated_AddSub.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="P06P1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="InstLatX64_LatMacros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -254,6 +260,9 @@
       <Filter>Source Files</Filter>
     </MASM>
     <MASM Include="Zen5_Demo_SSE.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="P06P1_Asm_x64.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>

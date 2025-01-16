@@ -94,6 +94,8 @@ Byte-Granularity Variable Shift on Entire Register
 ```    
 # AVX_VNNI_INT16_Saturated_AddSub.* 
 AVX_VNNI_INT16 based _(mm|mm256)_(adds|subs)_epi32 emulation proposal
+# P06P1.* 
+Test code for an Intel Golden Cove / Raptor Cove / Redwood Cove / Lion Cove imm64-related anomaly
 
 ## References
 *  Geoff Langdale [Why Ice Lake is Important (a bit-basher’s perspective)](https://branchfree.org/2019/05/29/why-ice-lake-is-important-a-bit-bashers-perspective/)
@@ -110,3 +112,4 @@ AVX_VNNI_INT16 based _(mm|mm256)_(adds|subs)_epi32 emulation proposal
 *  A list of “out-of-band” uses for the GF2P8AFFINEQB instruction I haven't seen documented elsewhere: [idea of tzcnt/lzcnt_gfni_epi8, sllv/srlv_gfni_epi8](https://gist.github.com/animetosho/6cb732ccb5ecd86675ca0a442b3c0622)
 *  [FirstByte inspiration](http://0x80.pl/notesen/2023-02-06-avx512-find-first-byte-in-lane.html)
 *  Robert Clausecker [BGVSER inspiration](https://twitter.com/FUZxxl/status/1696448029358801311)
+*  Tavian Barnes: [The Alder Lake anomaly, explained](https://tavianator.com/2025/shlxplained.html) 
