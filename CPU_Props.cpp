@@ -589,11 +589,7 @@ bool CPU_Props::HybridMasks(DWORD_PTR& pCoreMask, DWORD_PTR& eCoreMask, DWORD_PT
 	BOOL affFlag = GetProcessAffinityMask(GetCurrentProcess(), &processMask, &systemAffMask);
 	if (affFlag != 0) {
 		systemMask = systemAffMask;
-#if defined (_M_X64)
-		const DWORD_PTR threads = _mm_popcnt_u64(systemAffMask);
-#else
-		const DWORD_PTR threads = _mm_popcnt_u32(systemAffMask);
-#endif
+		const DWORD_PTR threads = _ild_popcnt(systemAffMask);
 		DWORD_PTR origThreadMask = SetThreadAffinityMask(GetCurrentThread(), 1);
 		switch(GetVendor()) {
 			case _VENDOR_INTEL: {
@@ -720,11 +716,7 @@ void CPU_Props::ForcedAVX512(void) const {
 		DWORD_PTR processMask = 0, systemAffMask = 0;
 		BOOL affFlag = GetProcessAffinityMask(GetCurrentProcess(), &processMask, &systemAffMask);
 		if (affFlag != 0) {
-#if defined (_M_X64)
-			const DWORD_PTR threads = _mm_popcnt_u64(systemAffMask);
-#else
-			const DWORD_PTR threads = _mm_popcnt_u32(systemAffMask);
-#endif
+			const DWORD_PTR threads = _ild_popcnt(systemAffMask);
 			DWORD_PTR origThreadMask = SetThreadAffinityMask(GetCurrentThread(), 1);
 			for (unsigned int th = 0; th < threads; th++) {
 				DWORD_PTR testMask = ((DWORD_PTR) 1 << th);

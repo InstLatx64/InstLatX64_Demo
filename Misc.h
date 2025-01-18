@@ -59,3 +59,9 @@ uint64_t serialized_tsc(void);
 
 void SetThread(size_t threadindex);
 
+#if defined (_M_X64)
+#define _ild_popcnt  _mm_popcnt_u64
+#else
+#define _ild_popcnt  _mm_popcnt_u32
+#endif
+
