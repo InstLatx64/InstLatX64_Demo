@@ -1,140 +1,137 @@
 #include "stdafx.h"
 
 const _EXT CPU_Props::exts[FEAT_LAST] = {
-// Name								xcr0			feat
-	{"---GPR----------",			_XCR0_EMPTY,	_FEAT_SKIP},
-	{"RDTSC",						_XCR0_EMPTY,	_FEAT01_EDX_RDTSC},
-	{"RDTSCP",						_XCR0_EMPTY,	_EFEAT01_EDX_RDTSCP},
-	{"CMOV",						_XCR0_EMPTY,	_FEAT01_EDX_CMOV},
-	{"CMPX8",						_XCR0_EMPTY,	_FEAT01_EDX_CMPX8},
-	{"CMPX16",						_XCR0_EMPTY,	_FEAT01_ECX_CMPX16},
-	{"AMD64",						_XCR0_EMPTY,	_EFEAT01_EDX_AMD64},
-	{"LAHF",						_XCR0_EMPTY,	_EFEAT01_ECX_LAHF},
-	{"MOVBE",						_XCR0_EMPTY,	_FEAT01_ECX_MOVBE},
-	{"ABM",							_XCR0_EMPTY,	_EFEAT01_ECX_ABM},
-	{"POPCNT",						_XCR0_EMPTY,	_FEAT01_ECX_POPCNT},
-	{"RDRAND",						_XCR0_EMPTY,	_FEAT01_ECX_RDRAND},
-	{"RDSEED",						_XCR0_EMPTY,	_FEAT07_EBX_RDSEED},
-	{"ADX",							_XCR0_EMPTY,	_FEAT07_EBX_ADX},
-	{"BMI",							_XCR0_EMPTY,	_FEAT07_EBX_BMI},
-	{"BMI2",						_XCR0_EMPTY,	_FEAT07_EBX_BMI2},
-	{"MOVDIRI",						_XCR0_EMPTY,	_FEAT07_ECX_MOVDIRI},
-	{"MOVDIR64B",					_XCR0_EMPTY,	_FEAT07_ECX_MOVDIR64B},
-	{"RAO-INT",						_XCR0_EMPTY,	_FEAT0701_EAX_RAO_INT},
-	{"CMPCCXADD",					_XCR0_EMPTY,	_FEAT0701_EAX_CMPCCXADD},
-	{"APX_F",						_XCR0_APX,		_FEAT0701_EDX_APX_F},
-	{"---SIMD---------",			_XCR0_EMPTY,	_FEAT_SKIP},
-	{"SSE",							_XCR0_EMPTY,	_FEAT01_EDX_SSE},
-	{"SSE2",						_XCR0_EMPTY,	_FEAT01_EDX_SSE2},
-	{"SSE3",						_XCR0_EMPTY,	_FEAT01_ECX_SSE3},
-	{"SSSE3",						_XCR0_EMPTY,	_FEAT01_ECX_SSSE3},
-	{"SSE41",						_XCR0_EMPTY,	_FEAT01_ECX_SSE41},
-	{"SSE42",						_XCR0_EMPTY,	_FEAT01_ECX_SSE42},
-	{"SSE4A",						_XCR0_EMPTY,	_EFEAT01_ECX_SSE4A},
-	{"CLMUL",						_XCR0_EMPTY,	_FEAT01_ECX_CLMUL},
-	{"AES",							_XCR0_EMPTY,	_FEAT01_ECX_AESNI},
-	{"SHA",							_XCR0_EMPTY,	_FEAT07_EBX_SHA},
-	{"GFNI",						_XCR0_EMPTY,	_FEAT07_ECX_GFNI},
-	{"--VEX-SIMD------",			_XCR0_EMPTY,	_FEAT_SKIP},
-	{"AVX",							_XCR0_AVX,		_FEAT01_ECX_AVX},
-	{"AVX2",						_XCR0_AVX,		_FEAT07_EBX_AVX2},
-	{"FMA",							_XCR0_AVX,		_FEAT01_ECX_FMA3},
-	{"F16C",						_XCR0_AVX,		_FEAT01_ECX_F16C},
-	{"AVX+GFNI",					_XCR0_AVX,		_FEAT07_ECX_GFNI},
-	{"AVX+VAES",					_XCR0_AVX,		_FEAT07_ECX_VAES},
-	{"AVX+VPCLMULQDQ",				_XCR0_AVX,		_FEAT07_ECX_VPCLMULQDQ},
-	{"AVX_VNNI",					_XCR0_AVX,		_FEAT0701_EAX_AVX_VNNI},
-	{"AVX_VNNI_INT8",				_XCR0_AVX,		_FEAT0701_EDX_AVX_VNNI_INT8},
-	{"AVX_VNNI_INT16",				_XCR0_AVX,		_FEAT0701_EDX_AVX_VNNI_INT16},
-	{"AVX_IFMA",					_XCR0_AVX,		_FEAT0701_EAX_AVX_IFMA},
-	{"AVX_NE_CONVERT",				_XCR0_AVX,		_FEAT0701_EDX_AVX_NE_CONVERT},
-	{"SHA512",						_XCR0_AVX,		_FEAT0701_EAX_SHA512},
-	{"SM3",							_XCR0_AVX,		_FEAT0701_EAX_SM3},
-	{"SM4",							_XCR0_AVX,		_FEAT0701_EAX_SM4},
-	{"--EVEX-SIMD-----",			_XCR0_EMPTY,	_FEAT_SKIP},
-	{"AVX512F",						_XCR0_AVX512,	_FEAT07_EBX_AVX512F},
-	{"AVX512CD",					_XCR0_AVX512,	_FEAT07_EBX_AVX512CD},
-	{"AVX512ER",					_XCR0_AVX512,	_FEAT07_EBX_AVX512ER},
-	{"AVX512PF",					_XCR0_AVX512,	_FEAT07_EBX_AVX512PF},
-	{"AVX512BW",					_XCR0_AVX512,	_FEAT07_EBX_AVX512BW},
-	{"AVX512DQ",					_XCR0_AVX512,	_FEAT07_EBX_AVX512DQ},
-	{"AVX512VL",					_XCR0_AVX512,	_FEAT07_EBX_AVX512VL},
-	{"AVX512VBMI",					_XCR0_AVX512,	_FEAT07_ECX_AVX512_VBMI},
-	{"AVX512IFMA",					_XCR0_AVX512,	_FEAT07_EBX_AVX512_IFMA},
-	{"AVX512VNNI",					_XCR0_AVX512,	_FEAT07_ECX_AVX512_VNNI},
-	{"AVX512_4VNNIW",				_XCR0_AVX512,	_FEAT07_EDX_AVX512_4VNNIW},
-	{"AVX512_4FMAPS",				_XCR0_AVX512,	_FEAT07_EDX_AVX512_4FMAPS},
-	{"AVX512_VPOPCNTDQ",			_XCR0_AVX512,	_FEAT07_ECX_AVX512_VPOPCNTDQ},
-	{"AVX512+GFNI",					_XCR0_AVX512,	_FEAT07_ECX_GFNI},
-	{"AVX512+VAES",					_XCR0_AVX512,	_FEAT07_ECX_VAES},
-	{"AVX512+VPCLMULQDQ",			_XCR0_AVX512,	_FEAT07_ECX_VPCLMULQDQ},
-	{"AVX512_BITALG",				_XCR0_AVX512,	_FEAT07_ECX_AVX512_BITALG},
-	{"AVX512_VBMI2",				_XCR0_AVX512,	_FEAT07_ECX_AVX512_VBMI2},
-	{"AVX512_BF16",					_XCR0_AVX512,	_FEAT0701_EAX_AVX512_BF16},
-	{"AVX512_VP2INTERSECT",			_XCR0_AVX512,	_FEAT07_EDX_AVX512_VP2INTERSECT},
-	{"AVX512_FP16",					_XCR0_AVX512,	_FEAT07_EDX_AVX512_FP16},
-	{"---AMX----------",			_XCR0_EMPTY,	_FEAT_SKIP},
-	{"AMX-BF16",					_XCR0_AMX,		_FEAT07_EDX_AMX_BF16},
-	{"AMX-INT8",					_XCR0_AMX,		_FEAT07_EDX_AMX_INT8},
-	{"AMX-TILE",					_XCR0_AMX,		_FEAT07_EDX_AMX_TILE},
-	{"AMX-FP16",					_XCR0_AMX,		_FEAT0701_EAX_AMX_FP16},
-	{"AMX-COMPLEX",					_XCR0_AMX,		_FEAT0701_EDX_AMX_COMPLEX},
-	{"AMX-FP8",						_XCR0_AMX,		_FEAT1E01_EAX_AMX_FP8},
-	{"AMX-TRANSPOSE",				_XCR0_AMX,		_FEAT1E01_EAX_AMX_TRANPOSE},
-	{"AMX-TF32",					_XCR0_AMX,		_FEAT1E01_EAX_AMX_TF32},
-	{"AMX-AVX512",					_XCR0_AMX,		_FEAT1E01_EAX_AMX_AVX512},
-	{"AMX-MOVRS",					_XCR0_AMX,		_FEAT1E01_EAX_AMX_MOVRS},
-	{"---AVX10--------",			_XCR0_EMPTY,	_FEAT_SKIP},
-	{"AVX10",						_XCR0_AVX512,	_FEAT0701_EDX_AVX10},
-	{"AVX10/128",					_XCR0_AVX512,	_FEAT24_EBX_AVX10_128},
-	{"AVX10/256",					_XCR0_AVX512,	_FEAT24_EBX_AVX10_256},
-	{"AVX10/512",					_XCR0_AVX512,	_FEAT24_EBX_AVX10_512},
-	{"AVX10.level",					_XCR0_AVX512,	_FEAT24_EBX_AVX10_LEVEL},
-	{"---CacheLine----",			_XCR0_EMPTY,	_FEAT_SKIP},
-	{"PREFETCHW",					_XCR0_EMPTY,	_EFEAT01_ECX_3DNOWPREF},
-	{"PREFETCHWT1",					_XCR0_EMPTY,	_FEAT07_ECX_PWT1},
-	{"PREFETCHI",					_XCR0_EMPTY,	_FEAT0701_EDX_PREFETCHI},
-	{"PREFETCHI_AMD",				_XCR0_EMPTY,	_EFEAT21_EAX_PREFETCHI},
-	{"CLFLUSH",						_XCR0_EMPTY,	_FEAT01_EDX_CLFLUSH},
-	{"CLFLUSHOPT",					_XCR0_EMPTY,	_FEAT07_EBX_CLFLUSHOPT},
-	{"CLWB",						_XCR0_EMPTY,	_FEAT07_EBX_CLWB},
-	{"CLZERO",						_XCR0_EMPTY,	_EFEAT08_EBX_CLZERO},
-	{"CLDEMOTE",					_XCR0_EMPTY,	_FEAT07_ECX_CLDEMOTE},
-	{"---uCode--------",			_XCR0_EMPTY,	_FEAT_SKIP},
-	{"Enh REP MOVSB/STOSB",			_XCR0_EMPTY,	_FEAT07_EBX_ERMS_ENH_REP_MOVSB_STOSB},
-	{"Enh REP MOVSB/STOSB_AMD",		_XCR0_EMPTY,	_EFEAT21_EAX_AMD_ERMSB},
-	{"Fast short REP MOV",			_XCR0_EMPTY,	_FEAT07_EDX_FSRM_FAST_SHORT_RRP_MOV},
-	{"Fast zero-length MOVSB",		_XCR0_EMPTY,	_FEAT0701_EAX_FZLM_FAST_ZERO_LEN_MOVSB},
-	{"Fast short REP STOSB",		_XCR0_EMPTY,	_FEAT0701_EAX_FSRS_FAST_SHORT_REP_STOSB},
-	{"Fast short REP CMPSB/SCASB",	_XCR0_EMPTY,	_FEAT0701_EAX_FSRC_FAST_SHORT_REP_CMPSB_SCASB},
-	{"Fast Short REPE CMPSB",		_XCR0_EMPTY,	_EFEAT21_EAX_FSRC_FAST_SHORT_REPE_CMPSB},
-	{"Fast Short REP STOSB/AMD",	_XCR0_EMPTY,	_EFEAT21_EAX_FSRS_FAST_SHORT_REP_STOSB},
-	{"Fast Short REP SCASB/AMD",	_XCR0_EMPTY,	_EFEAT21_EAX_FSRS_FAST_SHORT_REP_SCASB},
-	{"---Keylocker----",			_XCR0_EMPTY,	_FEAT_SKIP},
-	{"KEYLOCK",						_XCR0_EMPTY,	_FEAT07_ECX_KEYLOCK},
-	{"AESKLE",						_KEYLOCK,		_FEAT19_EBX_AESKLE},
-	{"WIDE_KL",						_KEYLOCK,		_FEAT19_EBX_WIDE_KL},
-	{"---Uncategorized",			_XCR0_EMPTY,	_FEAT_SKIP},
-	{"X86",							_XCR0_EMPTY,	_FEAT_NOFEAT},
-	{"LNOP",						_XCR0_EMPTY,	_FEAT_NOFEAT},
-	{"SERIALIZE",					_XCR0_EMPTY,	_FEAT07_EDX_SERIALIZE},
-	{"HYBRID",						_XCR0_EMPTY,	_FEAT07_EDX_HYBRID},
-	{"RDPID",						_XCR0_EMPTY,	_FEAT07_ECX_RDPID},
-	{"RDPRU",						_XCR0_EMPTY,	_EFEAT08_EBX_RDPRU},
-	{"MCOMMIT",						_XCR0_EMPTY,	_EFEAT08_EBX_MCOMMIT},
-	{"PCONFIG",						_XCR0_EMPTY,	_FEAT07_EDX_PCONFIG},
-	{"---Deprecated---",			_XCR0_EMPTY,	_FEAT_SKIP},
-	{"X87",							_XCR0_EMPTY,	_FEAT01_EDX_X87},
-	{"MMX",							_XCR0_EMPTY,	_FEAT01_EDX_MMX},
-	{"MMX+",						_XCR0_EMPTY,	_EFEAT01_EDX_MMXP},
-	{"3DNow!",						_XCR0_EMPTY,	_EFEAT01_EDX_3DNOW},
-	{"3DNow!+",						_XCR0_EMPTY,	_EFEAT01_EDX_3DNOWP},
-	{"XOP",							_XCR0_AVX,		_EFEAT01_ECX_XOP},
-	{"FMA4",						_XCR0_AVX,		_EFEAT01_ECX_FMA4},
-	{"TBM",							_XCR0_EMPTY,	_EFEAT01_ECX_TBM},
-	{"MPX",							_XCR0_EMPTY,	_FEAT07_EBX_MPX},
-	{"HLE",							_XCR0_EMPTY,	_FEAT07_EBX_HLE},
-	{"PCOMMIT",						_XCR0_EMPTY,	_FEAT07_EBX_PCOMMIT},
+// Name									xcr0			feat								cpuidPlace0										cpuidPlace1
+	{"---GPR----------",				_XCR0_EMPTY,	FEAT_GROUP_GPR,						_FEAT_SKIP,										_FEAT_SKIP								},
+	{"RDTSC",							_XCR0_EMPTY,	FEAT_RDTSC,							_FEAT01_EDX_RDTSC,								_FEAT_SKIP								},
+	{"RDTSCP",							_XCR0_EMPTY,	FEAT_RDTSCP,						_EFEAT01_EDX_RDTSCP,							_FEAT_SKIP								},
+	{"CMOV",							_XCR0_EMPTY,	FEAT_CMOV,							_FEAT01_EDX_CMOV,								_FEAT_SKIP								},
+	{"CMPX8",							_XCR0_EMPTY,	FEAT_CMPX8,							_FEAT01_EDX_CMPX8,								_FEAT_SKIP								},
+	{"CMPX16",							_XCR0_EMPTY,	FEAT_CMPX16,						_FEAT01_ECX_CMPX16,								_FEAT_SKIP								},
+	{"AMD64",							_XCR0_EMPTY,	FEAT_AMD64,							_EFEAT01_EDX_AMD64,								_FEAT_SKIP								},
+	{"LAHF",							_XCR0_EMPTY,	FEAT_LAHF,							_EFEAT01_ECX_LAHF,								_FEAT_SKIP								},
+	{"MOVBE",							_XCR0_EMPTY,	FEAT_MOVBE,							_FEAT01_ECX_MOVBE,								_FEAT_SKIP								},
+	{"ABM",								_XCR0_EMPTY,	FEAT_ABM,							_EFEAT01_ECX_ABM,								_FEAT_SKIP								},
+	{"POPCNT",							_XCR0_EMPTY,	FEAT_POPCNT,						_FEAT01_ECX_POPCNT,								_FEAT_SKIP								},
+	{"RDRAND",							_XCR0_EMPTY,	FEAT_RDRAND,						_FEAT01_ECX_RDRAND,								_FEAT_SKIP								},
+	{"RDSEED",							_XCR0_EMPTY,	FEAT_RDSEED,						_FEAT07_EBX_RDSEED,								_FEAT_SKIP								},
+	{"ADX",								_XCR0_EMPTY,	FEAT_ADX,							_FEAT07_EBX_ADX,								_FEAT_SKIP								},
+	{"BMI",								_XCR0_EMPTY,	FEAT_BMI,							_FEAT07_EBX_BMI,								_FEAT_SKIP								},
+	{"BMI2",							_XCR0_EMPTY,	FEAT_BMI2,							_FEAT07_EBX_BMI2,								_FEAT_SKIP								},
+	{"MOVDIRI",							_XCR0_EMPTY,	FEAT_MOVDIRI,						_FEAT07_ECX_MOVDIRI,							_FEAT_SKIP								},
+	{"MOVDIR64B",						_XCR0_EMPTY,	FEAT_MOVDIR64B,						_FEAT07_ECX_MOVDIR64B,							_FEAT_SKIP								},
+	{"RAO-INT",							_XCR0_EMPTY,	FEAT_RAO_INT,						_FEAT0701_EAX_RAO_INT,							_FEAT_SKIP								},
+	{"CMPCCXADD",						_XCR0_EMPTY,	FEAT_CMPCCXADD,						_FEAT0701_EAX_CMPCCXADD,						_FEAT_SKIP								},
+	{"APX_F",							_XCR0_APX,		FEAT_APX,							_FEAT0701_EDX_APX_F,							_FEAT_SKIP								},
+	{"---SIMD---------",				_XCR0_EMPTY,	FEAT_GROUP_SIMD,					_FEAT_SKIP,										_FEAT_SKIP								},
+	{"SSE",								_XCR0_EMPTY,	FEAT_SSE,							_FEAT01_EDX_SSE,								_FEAT_SKIP								},
+	{"SSE2",							_XCR0_EMPTY,	FEAT_SSE2,							_FEAT01_EDX_SSE2,								_FEAT_SKIP								},
+	{"SSE3",							_XCR0_EMPTY,	FEAT_SSE3,							_FEAT01_ECX_SSE3,								_FEAT_SKIP								},
+	{"SSSE3",							_XCR0_EMPTY,	FEAT_SSSE3,							_FEAT01_ECX_SSSE3,								_FEAT_SKIP								},
+	{"SSE41",							_XCR0_EMPTY,	FEAT_SSE41,							_FEAT01_ECX_SSE41,								_FEAT_SKIP								},
+	{"SSE42",							_XCR0_EMPTY,	FEAT_SSE42,							_FEAT01_ECX_SSE42,								_FEAT_SKIP								},
+	{"SSE4A",							_XCR0_EMPTY,	FEAT_SSE4A,							_EFEAT01_ECX_SSE4A,								_FEAT_SKIP								},
+	{"CLMUL",							_XCR0_EMPTY,	FEAT_CLMUL,							_FEAT01_ECX_CLMUL,								_FEAT_SKIP								},
+	{"AES",								_XCR0_EMPTY,	FEAT_AES,							_FEAT01_ECX_AESNI,								_FEAT_SKIP								},
+	{"SHA",								_XCR0_EMPTY,	FEAT_SHA,							_FEAT07_EBX_SHA,								_FEAT_SKIP								},
+	{"GFNI",							_XCR0_EMPTY,	FEAT_GFNI,							_FEAT07_ECX_GFNI,								_FEAT_SKIP								},
+	{"--VEX-SIMD------",				_XCR0_EMPTY,	FEAT_GROUP_VEX,						_FEAT_SKIP,										_FEAT_SKIP								},
+	{"AVX",								_XCR0_AVX,		FEAT_AVX,							_FEAT01_ECX_AVX,								_FEAT_SKIP								},
+	{"AVX2",							_XCR0_AVX,		FEAT_AVX2,							_FEAT07_EBX_AVX2,								_FEAT_SKIP								},
+	{"FMA",								_XCR0_AVX,		FEAT_FMA,							_FEAT01_ECX_FMA3,								_FEAT_SKIP								},
+	{"F16C",							_XCR0_AVX,		FEAT_F16C,							_FEAT01_ECX_F16C,								_FEAT_SKIP								},
+	{"AVX+GFNI",						_XCR0_AVX,		FEAT_AVX_GFNI,						_FEAT07_ECX_GFNI,								_FEAT_SKIP								},
+	{"AVX+VAES",						_XCR0_AVX,		FEAT_AVX_VAES,						_FEAT07_ECX_VAES,								_FEAT_SKIP								},
+	{"AVX+VPCLMULQDQ",					_XCR0_AVX,		FEAT_AVX_VPCLMULQDQ,				_FEAT07_ECX_VPCLMULQDQ,							_FEAT_SKIP								},
+	{"AVX_VNNI",						_XCR0_AVX,		FEAT_AVX_VNNI,						_FEAT0701_EAX_AVX_VNNI,							_FEAT_SKIP								},
+	{"AVX_VNNI_INT8",					_XCR0_AVX,		FEAT_AVX_VNNI_INT8,					_FEAT0701_EDX_AVX_VNNI_INT8,					_FEAT_SKIP								},
+	{"AVX_VNNI_INT16",					_XCR0_AVX,		FEAT_AVX_VNNI_INT16,				_FEAT0701_EDX_AVX_VNNI_INT16,					_FEAT_SKIP								},
+	{"AVX_IFMA",						_XCR0_AVX,		FEAT_AVX_IFMA,						_FEAT0701_EAX_AVX_IFMA,							_FEAT_SKIP								},
+	{"AVX_NE_CONVERT",					_XCR0_AVX,		FEAT_AVX_NE_CONVERT,				_FEAT0701_EDX_AVX_NE_CONVERT,					_FEAT_SKIP								},
+	{"SHA512",							_XCR0_AVX,		FEAT_SHA512,						_FEAT0701_EAX_SHA512,							_FEAT_SKIP								},
+	{"SM3",								_XCR0_AVX,		FEAT_SM3,							_FEAT0701_EAX_SM3,								_FEAT_SKIP								},
+	{"SM4",								_XCR0_AVX,		FEAT_SM4,							_FEAT0701_EAX_SM4,								_FEAT_SKIP								},
+	{"--EVEX-SIMD-----",				_XCR0_EMPTY,	FEAT_GROUP_EVEX,					_FEAT_SKIP,										_FEAT_SKIP								},
+	{"AVX512F",							_XCR0_AVX512,	FEAT_AVX512F,						_FEAT07_EBX_AVX512F,							_FEAT_SKIP								},
+	{"AVX512CD",						_XCR0_AVX512,	FEAT_AVX512CD,						_FEAT07_EBX_AVX512CD,							_FEAT_SKIP								},
+	{"AVX512ER",						_XCR0_AVX512,	FEAT_AVX512ER,						_FEAT07_EBX_AVX512ER,							_FEAT_SKIP								},
+	{"AVX512PF",						_XCR0_AVX512,	FEAT_AVX512PF,						_FEAT07_EBX_AVX512PF,							_FEAT_SKIP								},
+	{"AVX512BW",						_XCR0_AVX512,	FEAT_AVX512BW,						_FEAT07_EBX_AVX512BW,							_FEAT_SKIP								},
+	{"AVX512DQ",						_XCR0_AVX512,	FEAT_AVX512DQ,						_FEAT07_EBX_AVX512DQ,							_FEAT_SKIP								},
+	{"AVX512VL",						_XCR0_AVX512,	FEAT_AVX512VL,						_FEAT07_EBX_AVX512VL,							_FEAT_SKIP								},
+	{"AVX512VBMI",						_XCR0_AVX512,	FEAT_AVX512VBMI,					_FEAT07_ECX_AVX512_VBMI,						_FEAT_SKIP								},
+	{"AVX512IFMA",						_XCR0_AVX512,	FEAT_AVX512IFMA,					_FEAT07_EBX_AVX512_IFMA,						_FEAT_SKIP								},
+	{"AVX512VNNI",						_XCR0_AVX512,	FEAT_AVX512VNNI,					_FEAT07_ECX_AVX512_VNNI,						_FEAT_SKIP								},
+	{"AVX512_4VNNIW",					_XCR0_AVX512,	FEAT_AVX512_4VNNIW,					_FEAT07_EDX_AVX512_4VNNIW,						_FEAT_SKIP								},
+	{"AVX512_4FMAPS",					_XCR0_AVX512,	FEAT_AVX512_4FMAPS,					_FEAT07_EDX_AVX512_4FMAPS,						_FEAT_SKIP								},
+	{"AVX512_VPOPCNTDQ",				_XCR0_AVX512,	FEAT_AVX512_VPOPCNTDQ,				_FEAT07_ECX_AVX512_VPOPCNTDQ,					_FEAT_SKIP								},
+	{"AVX512+GFNI",						_XCR0_AVX512,	FEAT_AVX512_GFNI,					_FEAT07_ECX_GFNI,								_FEAT_SKIP								},
+	{"AVX512+VAES",						_XCR0_AVX512,	FEAT_AVX512_VAES,					_FEAT07_ECX_VAES,								_FEAT_SKIP								},
+	{"AVX512+VPCLMULQDQ",				_XCR0_AVX512,	FEAT_AVX512_VPCLMULQDQ,				_FEAT07_ECX_VPCLMULQDQ,							_FEAT_SKIP								},
+	{"AVX512_BITALG",					_XCR0_AVX512,	FEAT_AVX512_BITALG,					_FEAT07_ECX_AVX512_BITALG,						_FEAT_SKIP								},
+	{"AVX512_VBMI2",					_XCR0_AVX512,	FEAT_AVX512_VBMI2,					_FEAT07_ECX_AVX512_VBMI2,						_FEAT_SKIP								},
+	{"AVX512_BF16",						_XCR0_AVX512,	FEAT_AVX512_BF16,					_FEAT0701_EAX_AVX512_BF16,						_FEAT_SKIP								},
+	{"AVX512_VP2INTERSECT",				_XCR0_AVX512,	FEAT_AVX512_VP2INTERSECT,			_FEAT07_EDX_AVX512_VP2INTERSECT,				_FEAT_SKIP								},
+	{"AVX512_FP16",						_XCR0_AVX512,	FEAT_AVX512_FP16,					_FEAT07_EDX_AVX512_FP16,						_FEAT_SKIP								},
+	{"---AMX----------",				_XCR0_EMPTY,	FEAT_GROUP_AMX,						_FEAT_SKIP,										_FEAT_SKIP								},
+	{"AMX-TILE",						_XCR0_AMX,		FEAT_AMX_TILE,						_FEAT07_EDX_AMX_TILE,							_FEAT_SKIP								},
+	{"AMX-INT8",						_XCR0_AMX,		FEAT_AMX_INT8,						_FEAT07_EDX_AMX_INT8,							_FEAT1E01_EAX_AMX_INT8					},
+	{"AMX-BF16",						_XCR0_AMX,		FEAT_AMX_BF16,						_FEAT07_EDX_AMX_BF16,							_FEAT1E01_EAX_AMX_BF16					},
+	{"AMX-COMPLEX",						_XCR0_AMX,		FEAT_AMX_COMPLEX,					_FEAT0701_EDX_AMX_COMPLEX,						_FEAT1E01_EAX_AMX_COMPLEX				},
+	{"AMX-FP16",						_XCR0_AMX,		FEAT_AMX_FP16,						_FEAT0701_EAX_AMX_FP16,							_FEAT1E01_EAX_AMX_FP16					},
+	{"AMX-FP8",							_XCR0_AMX,		FEAT_AMX_FP8,						_FEAT1E01_EAX_AMX_FP8,							_FEAT_SKIP								},
+	{"AMX-TRANSPOSE",					_XCR0_AMX,		FEAT_AMX_TRANSPOSE,					_FEAT1E01_EAX_AMX_TRANPOSE,						_FEAT_SKIP								},
+	{"AMX-TF32",						_XCR0_AMX,		FEAT_AMX_TF32,						_FEAT1E01_EAX_AMX_TF32,							_FEAT_SKIP								},
+	{"AMX-AVX512",						_XCR0_AMX,		FEAT_AMX_AVX512,					_FEAT1E01_EAX_AMX_AVX512,						_FEAT_SKIP								},
+	{"AMX-MOVRS",						_XCR0_AMX,		FEAT_AMX_MOVRS,						_FEAT1E01_EAX_AMX_MOVRS,						_FEAT_SKIP								},
+	{"---AVX10--------",				_XCR0_EMPTY,	FEAT_GROUP_AVX10,					_FEAT_SKIP,										_FEAT_SKIP								},
+	{"AVX10",							_XCR0_AVX512,	FEAT_AVX10,							_FEAT0701_EDX_AVX10,							_FEAT_SKIP								},
+	{"AVX10/128",						_XCR0_AVX512,	FEAT_AVX10_128,						_FEAT24_EBX_AVX10_128,							_FEAT_SKIP								},
+	{"AVX10/256",						_XCR0_AVX512,	FEAT_AVX10_256,						_FEAT24_EBX_AVX10_256,							_FEAT_SKIP								},
+	{"AVX10/512",						_XCR0_AVX512,	FEAT_AVX10_512,						_FEAT24_EBX_AVX10_512,							_FEAT_SKIP								},
+	{"AVX10.level",						_XCR0_AVX512,	FEAT_AVX10_LEVEL,					_FEAT24_EBX_AVX10_LEVEL,						_FEAT_SKIP								},
+	{"---CacheLine----",				_XCR0_EMPTY,	FEAT_GROUP_CACHELINE,				_FEAT_SKIP,										_FEAT_SKIP								},
+	{"PREFETCHW",						_XCR0_EMPTY,	FEAT_PREFETCHW,						_EFEAT01_ECX_3DNOWPREF,							_FEAT_SKIP								},
+	{"PREFETCHWT1",						_XCR0_EMPTY,	FEAT_PREFETCHWT1,					_FEAT07_ECX_PWT1,								_FEAT_SKIP								},
+	{"PREFETCHI",						_XCR0_EMPTY,	FEAT_PREFETCHI,						_FEAT0701_EDX_PREFETCHI,						_EFEAT21_EAX_PREFETCHI					},
+	{"CLFLUSH",							_XCR0_EMPTY,	FEAT_CLFLUSH,						_FEAT01_EDX_CLFLUSH,							_FEAT_SKIP								},
+	{"CLFLUSHOPT",						_XCR0_EMPTY,	FEAT_CLFLUSHOPT,					_FEAT07_EBX_CLFLUSHOPT,							_FEAT_SKIP								},
+	{"CLWB",							_XCR0_EMPTY,	FEAT_CLWB,							_FEAT07_EBX_CLWB,								_FEAT_SKIP								},
+	{"CLZERO",							_XCR0_EMPTY,	FEAT_CLZERO,						_EFEAT08_EBX_CLZERO,							_FEAT_SKIP								},
+	{"CLDEMOTE",						_XCR0_EMPTY,	FEAT_CLDEMOTE,						_FEAT07_ECX_CLDEMOTE,							_FEAT_SKIP								},
+	{"---uCode--------",				_XCR0_EMPTY,	FEAT_GROUP_UCODE,					_FEAT_SKIP,										_FEAT_SKIP								},
+	{"Enh REP MOVSB/STOSB",				_XCR0_EMPTY,	FEAT_ERMS_ENH_REP_MOVSB_STOSB,		_FEAT07_EBX_ERMS_ENH_REP_MOVSB_STOSB,			_EFEAT21_EAX_AMD_ERMSB					},
+	{"Fast short REP MOV",				_XCR0_EMPTY,	FEAT_FSRM_FAST_SHORT_RRP_MOV,		_FEAT07_EDX_FSRM_FAST_SHORT_RRP_MOV,			_FEAT_SKIP								},
+	{"Fast zero-length MOVSB",			_XCR0_EMPTY,	FEAT_FZLM_FAST_ZERO_LEN_MOVSB,		_FEAT0701_EAX_FZLM_FAST_ZERO_LEN_MOVSB,			_FEAT_SKIP								},
+	{"Fast short REP STOSB",			_XCR0_EMPTY,	FEAT_FSRS_FAST_SHORT_REP_STOSB,		_FEAT0701_EAX_FSRS_FAST_SHORT_REP_STOSB,		_EFEAT21_EAX_FSRS_FAST_SHORT_REP_STOSB	},
+	{"Fast short REP CMPSB/SCASB",		_XCR0_EMPTY,	FEAT_FSCS_FAST_SHORT_CMPSB_SCASB,	_FEAT0701_EAX_FSRC_FAST_SHORT_REP_CMPSB_SCASB,	_FEAT_SKIP								},
+	{"Fast Short REPE CMPSB",			_XCR0_EMPTY,	FEAT_FSRC_FAST_SHORT_REPE_CMPSB,	_EFEAT21_EAX_FSRC_FAST_SHORT_REPE_CMPSB,		_FEAT_SKIP								},
+	{"Fast Short REP SCASB/AMD",		_XCR0_EMPTY,	FEAT_FSRS_FAST_SHORT_REP_SCASB_AMD,	_EFEAT21_EAX_FSRS_FAST_SHORT_REP_SCASB,			_FEAT_SKIP								},
+	{"---Keylocker----",				_XCR0_EMPTY,	FEAT_GROUP_KEYLOCKER,				_FEAT_SKIP,										_FEAT_SKIP								},
+	{"KEYLOCK",							_XCR0_EMPTY,	FEAT_KEYLOCK,						_FEAT07_ECX_KEYLOCK,							_FEAT_SKIP								},
+	{"AESKLE",							_KEYLOCK,		FEAT_AESKLE,						_FEAT19_EBX_AESKLE,								_FEAT_SKIP								},
+	{"WIDE_KL",							_KEYLOCK,		FEAT_WIDE_KL,						_FEAT19_EBX_WIDE_KL,							_FEAT_SKIP								},
+	{"---Uncategorized",				_XCR0_EMPTY,	FEAT_GROUP_UNCATEGORIZED,			_FEAT_SKIP,										_FEAT_SKIP								},
+	{"X86",								_XCR0_EMPTY,	FEAT_X86,							_FEAT_NOFEAT,									_FEAT_SKIP								},
+	{"LNOP",							_XCR0_EMPTY,	FEAT_LNOP,							_FEAT_NOFEAT,									_FEAT_SKIP								},
+	{"SERIALIZE",						_XCR0_EMPTY,	FEAT_SERIALIZE,						_FEAT07_EDX_SERIALIZE,							_FEAT_SKIP								},
+	{"HYBRID",							_XCR0_EMPTY,	FEAT_HYBRID,						_FEAT07_EDX_HYBRID,								_FEAT_SKIP								},
+	{"RDPID",							_XCR0_EMPTY,	FEAT_RDPID,							_FEAT07_ECX_RDPID,								_FEAT_SKIP								},
+	{"RDPRU",							_XCR0_EMPTY,	FEAT_RDPRU,							_EFEAT08_EBX_RDPRU,								_FEAT_SKIP								},
+	{"MCOMMIT",							_XCR0_EMPTY,	FEAT_MCOMMIT,						_EFEAT08_EBX_MCOMMIT,							_FEAT_SKIP								},
+	{"PCONFIG",							_XCR0_EMPTY,	FEAT_PCONFIG,						_FEAT07_EDX_PCONFIG,							_FEAT_SKIP								},
+	{"---Deprecated---",				_XCR0_EMPTY,	FEAT_GROUP_DEPRECATED,				_FEAT_SKIP,										_FEAT_SKIP								},
+	{"X87",								_XCR0_EMPTY,	FEAT_X87,							_FEAT01_EDX_X87,								_FEAT_SKIP								},
+	{"MMX",								_XCR0_EMPTY,	FEAT_MMX,							_FEAT01_EDX_MMX,								_FEAT_SKIP								},
+	{"MMX+",							_XCR0_EMPTY,	FEAT_MMXP,							_EFEAT01_EDX_MMXP,								_FEAT_SKIP								},
+	{"3DNow!",							_XCR0_EMPTY,	FEAT_3DNOW,							_EFEAT01_EDX_3DNOW,								_FEAT_SKIP								},
+	{"3DNow!+",							_XCR0_EMPTY,	FEAT_3DNOWP,						_EFEAT01_EDX_3DNOWP,							_FEAT_SKIP								},
+	{"XOP",								_XCR0_AVX,		FEAT_XOP,							_EFEAT01_ECX_XOP,								_FEAT_SKIP								},
+	{"FMA4",							_XCR0_AVX,		FEAT_FMA4,							_EFEAT01_ECX_FMA4,								_FEAT_SKIP								},
+	{"TBM",								_XCR0_EMPTY,	FEAT_TBM,							_EFEAT01_ECX_TBM,								_FEAT_SKIP								},
+	{"MPX",								_XCR0_EMPTY,	FEAT_MPX,							_FEAT07_EBX_MPX,								_FEAT_SKIP								},
+	{"HLE",								_XCR0_EMPTY,	FEAT_HLE,							_FEAT07_EBX_HLE,								_FEAT_SKIP								},
+	{"PCOMMIT",							_XCR0_EMPTY,	FEAT_PCOMMIT,						_FEAT07_EBX_PCOMMIT,							_FEAT_SKIP								},
 };
 
 const _CPUID_VENDOR CPU_Props::vendors[_VENDOR_LAST] = {
@@ -489,7 +486,7 @@ void CPU_Props::PrintFeats(void) const {
 	for (int featInd = 0; featInd < sizeof(exts) / sizeof(_EXT); featInd++) {
 		cout << left << std::setw(FEAT_NAME_SIZE) << exts[featInd].name;
 
-		if(exts[featInd].featbit != _FEAT_SKIP) {
+		if (exts[featInd].cpuidPlace[0] != _FEAT_SKIP) {
 			unsigned __int64 f_low	= 1ULL << (featInd & 0x3f);
 			unsigned __int64 f_high	= (featInd & ~0x3f) >> 6;
 			bool enabled = (f[f_high] & f_low) != 0;
@@ -1072,62 +1069,64 @@ void CPU_Props::SetFeats(_CPUID_RES& c) {
 	for (int featInd = 0; featInd < sizeof(exts) / sizeof(_EXT); featInd++) {
 		if (*exts[featInd].name == 0)
 			continue;
-		unsigned long place = (unsigned long)(exts[featInd].featbit >> 32);
-		unsigned long fbit = (unsigned long)(exts[featInd].featbit & ~0UL);
-		unsigned __int64 f_low = 1ULL << (featInd & 0x3f);
-		unsigned __int64 f_high = (featInd & ~0x3f) >> 6;
-		switch (place) {
-			case _FEAT_SKIP:
-				continue;
-			case CPUID_NOPLACE:
-				switch (featInd) { //special LNOP detection
-					case FEAT_LNOP: {
-						switch (GetFam()) {
-							case 0x6:
-							case 0x7:
-							case 0xf:
+		for (int cpuidPlaces = 0; cpuidPlaces < CPUID_MAXPLACE; cpuidPlaces++) {
+			unsigned long place = (unsigned long)(exts[featInd].cpuidPlace[cpuidPlaces] >> 32);
+			unsigned long fbit = (unsigned long)(exts[featInd].cpuidPlace[cpuidPlaces] & ~0UL);
+			unsigned __int64 f_low = 1ULL << (featInd & 0x3f);
+			unsigned __int64 f_high = (featInd & ~0x3f) >> 6;
+			switch (place) {
+				case _FEAT_SKIP:
+					continue;
+				case CPUID_NOPLACE:
+					switch (exts[featInd]._feats) { //special LNOP detection
+						case FEAT_LNOP: {
+							switch (GetFam()) {
+								case 0x6:
+								case 0x7:
+								case 0xf:
+									f[f_high] |= f_low;
+									break;
+								default:
+									break;
+								}
+							} break;
+						case FEAT_X86: { //FEAT_X86 always present
+							f[f_high] |= f_low;
+						} break;
+						default:
+							break;
+						}
+					break;
+				case CPUID_NUMFIELD: //non-binary CPUID info
+					switch (exts[featInd]._feats) {
+						case FEAT_AVX10_LEVEL: {
+							if (IsFeat(FEAT_AVX10))
+								avx10level = c.cpuid_res[CPUID_FEAT24_EBX] & 0xff;
+						} break;
+						default:
+							break;
+					}
+					break;
+				default:
+					if ((c.cpuid_res[min(CPUID_LAST - 1, place)] & fbit) == fbit) {
+						switch (exts[featInd]._xcr0) {
+							case _XCR0_EMPTY:
 								f[f_high] |= f_low;
+								break;
+							case _KEYLOCK:
+								if (IsFeat(FEAT_KEYLOCK))
+									f[f_high] |= f_low;
 								break;
 							default:
+								if ((c.xcr0 & exts[featInd]._xcr0) == exts[featInd]._xcr0)
+									f[f_high] |= f_low;
+								else
+									f_disabled[f_high] |= f_low;
 								break;
-							}
-						} break;
-					case FEAT_X86: { //FEAT_X86 always present
-						f[f_high] |= f_low;
-					} break;
-					default:
-						break;
+						}
 					}
-				break;
-			case CPUID_NUMFIELD: //non-binary CPUID info
-				switch (featInd) {
-					case FEAT_AVX10_LEVEL: {
-						if (IsFeat(FEAT_AVX10))
-							avx10level = c.cpuid_res[CPUID_FEAT24_EBX] & 0xff;
-					} break;
-					default:
-						break;
-				}
-				break;
-			default:
-				if ((c.cpuid_res[min(CPUID_LAST - 1, place)] & fbit) == fbit) {
-					switch (exts[featInd]._xcr0) {
-						case _XCR0_EMPTY:
-							f[f_high] |= f_low;
-							break;
-						case _KEYLOCK:
-							if (IsFeat(FEAT_KEYLOCK))
-								f[f_high] |= f_low;
-							break;
-						default:
-							if ((c.xcr0 & exts[featInd]._xcr0) == exts[featInd]._xcr0)
-								f[f_high] |= f_low;
-							else
-								f_disabled[f_high] |= f_low;
-							break;
-					}
-				}
-				break;
+					break;
+			}
 		}
 	}
 	if (IsFeat(FEAT_AMX_TILE)) {

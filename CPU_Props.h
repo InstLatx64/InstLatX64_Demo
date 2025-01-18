@@ -1,6 +1,6 @@
 #pragma once
 
-#define		CPUPROPS_VERS					0x0102
+#define		CPUPROPS_VERS					0x0103
 
 enum Feats {
 //	GPR									//Introduced by..
@@ -80,11 +80,11 @@ enum Feats {
 	FEAT_AVX512_FP16,					//Sapphire Rapids
 //AMX
 	FEAT_GROUP_AMX,
-	FEAT_AMX_BF16,						//Sapphire Rapids
-	FEAT_AMX_INT8,						//Sapphire Rapids
 	FEAT_AMX_TILE,						//Sapphire Rapids
-	FEAT_AMX_FP16,						//Granite Rapids
+	FEAT_AMX_INT8,						//Sapphire Rapids
+	FEAT_AMX_BF16,						//Sapphire Rapids
 	FEAT_AMX_COMPLEX,					//Granite Rapids
+	FEAT_AMX_FP16,						//Granite Rapids
 	FEAT_AMX_FP8,						//Diamond Rapids
 	FEAT_AMX_TRANSPOSE,					//Diamond Rapids
 	FEAT_AMX_TF32,						//Diamond Rapids
@@ -101,8 +101,7 @@ enum Feats {
 	FEAT_GROUP_CACHELINE,
 	FEAT_PREFETCHW,						//K6
 	FEAT_PREFETCHWT1,					//Knights Landing
-	FEAT_PREFETCHI,						//Crestmont
-	FEAT_PREFETCHI_AMD,					//Zen5
+	FEAT_PREFETCHI,						//Crestmont, Zen5
 	FEAT_CLFLUSH,						//Willamette
 	FEAT_CLFLUSHOPT,					//Skylake
 	FEAT_CLWB,							//Skylake-X
@@ -110,14 +109,12 @@ enum Feats {
 	FEAT_CLDEMOTE,						//Tremont
 //uCode
 	FEAT_GROUP_UCODE,
-	FEAT_ERMS_ENH_REP_MOVSB_STOSB,		//Haswell
-	FEAT_ERMS_ENH_REP_MOVSB_STOSB_AMD,	//Zen5
+	FEAT_ERMS_ENH_REP_MOVSB_STOSB,		//Haswell, Zen5
 	FEAT_FSRM_FAST_SHORT_RRP_MOV,		//IceLake-U/Y
 	FEAT_FZLM_FAST_ZERO_LEN_MOVSB,		//Sapphire Rapids
-	FEAT_FSRS_FAST_SHORT_REP_STOSB,		//Sapphire Rapids
+	FEAT_FSRS_FAST_SHORT_REP_STOSB,		//Sapphire Rapids, Zen4
 	FEAT_FSCS_FAST_SHORT_CMPSB_SCASB,	//Sapphire Rapids
 	FEAT_FSRC_FAST_SHORT_REPE_CMPSB,	//Zen4
-	FEAT_FSRS_FAST_SHORT_REP_STOSB_AMD,	//Zen4
 	FEAT_FSRS_FAST_SHORT_REP_SCASB_AMD,	//Zen5
 //KeyLocker
 	FEAT_GROUP_KEYLOCKER,
@@ -226,6 +223,7 @@ enum _VENDOR  : uint32_t {
 #define _FEAT_NOFEAT									~0ULL
 
 #define CPUID_NOPLACE									(_FEAT_NOFEAT >> 32)
+#define CPUID_MAXPLACE									2
 
 #define _FEAT_SKIP										0
 
@@ -391,7 +389,8 @@ typedef struct {
 typedef struct _EXT_Tag {
 	const char 			name[FEAT_NAME_SIZE] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	_XCR0				_xcr0;
-	unsigned __int64	featbit;
+	Feats				_feats;
+	unsigned __int64	cpuidPlace[CPUID_MAXPLACE];
 } _EXT;
 
 typedef struct _VENDOR_Tag {
