@@ -372,7 +372,7 @@ enum _VENDOR  : uint32_t {
 #define _EFEAT21_EAX_FSRS_FAST_SHORT_REP_SCASB			_FEAT_PLACE( 19, EFEAT21_EAX)
 #define _EFEAT21_EAX_PREFETCHI							_FEAT_PLACE( 20, EFEAT21_EAX)
 
-#define FEATSIZE										2
+#define FEATBITARRAYSIZE								4
 #define FEAT_NAME_SIZE									31
 #define VENDOR_STRING_SIZE								12
 #define VENDOR_NUM_SIZE									4
@@ -433,21 +433,21 @@ private:
 	static const char*			_cpuid_names[][CPUID_STR_LAST + 1];
 	_AMX_palette				AMX_palette[MAX_AMX_PALETTE];
 	_AMX_TMUL					AMX_TMUL;
-	UINT64						f[FEATSIZE]				= {0ULL, 0ULL};
-	UINT64						f_disabled[FEATSIZE]	= {0ULL, 0ULL};
-	DWORD_PTR					pCoreMask				= 0;
-	DWORD_PTR					eCoreMask				= 0;
-	DWORD_PTR					lpeCoreMask				= 0;
-	DWORD_PTR					systemAffMask			= 0;
-	_VENDOR						vendor					= _VENDOR_EMPTY;
-	UINT64						xcr0					= 0;
-	int							avx10level				= 0;
-	DWORD						pCoreInfo				= DEFAULT_COREINFO;
-	DWORD						eCoreInfo				= DEFAULT_COREINFO;
-	DWORD						lpeCoreInfo				= DEFAULT_COREINFO;
-	DWORD						pCoreIndex				= 0;
-	DWORD						eCoreIndex				= 0;
-	DWORD						lpeCoreIndex			= 0;
+	UINT64						f[FEATBITARRAYSIZE]				= {0ULL, 0ULL, 0ULL, 0ULL};
+	UINT64						f_disabled[FEATBITARRAYSIZE]	= {0ULL, 0ULL, 0ULL, 0ULL};
+	DWORD_PTR					pCoreMask						= 0;
+	DWORD_PTR					eCoreMask						= 0;
+	DWORD_PTR					lpeCoreMask						= 0;
+	DWORD_PTR					systemAffMask					= 0;
+	_VENDOR						vendor							= _VENDOR_EMPTY;
+	UINT64						xcr0							= 0;
+	int							avx10level						= 0;
+	DWORD						pCoreInfo						= DEFAULT_COREINFO;
+	DWORD						eCoreInfo						= DEFAULT_COREINFO;
+	DWORD						lpeCoreInfo						= DEFAULT_COREINFO;
+	DWORD						pCoreIndex						= 0;
+	DWORD						eCoreIndex						= 0;
+	DWORD						lpeCoreIndex					= 0;
 	union {
 		char					vendor_string[VENDOR_STRING_SIZE];
 		unsigned long			vendor_num[VENDOR_NUM_SIZE]  = {0, 0, 0, 0};
