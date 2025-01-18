@@ -98,7 +98,7 @@ const _EXT CPU_Props::exts[FEAT_LAST] = {
 	{"CLFLUSH",						_XCR0_EMPTY,	_FEAT01_EDX_CLFLUSH},
 	{"CLFLUSHOPT",					_XCR0_EMPTY,	_FEAT07_EBX_CLFLUSHOPT},
 	{"CLWB",						_XCR0_EMPTY,	_FEAT07_EBX_CLWB},
-	{"CLZERO",						_XCR0_EMPTY,	_EFEAT008_EBX_CLZERO},
+	{"CLZERO",						_XCR0_EMPTY,	_EFEAT08_EBX_CLZERO},
 	{"CLDEMOTE",					_XCR0_EMPTY,	_FEAT07_ECX_CLDEMOTE},
 	{"---uCode--------",			_XCR0_EMPTY,	_FEAT_SKIP},
 	{"Enh REP MOVSB/STOSB",			_XCR0_EMPTY,	_FEAT07_EBX_ERMS_ENH_REP_MOVSB_STOSB},
@@ -120,8 +120,8 @@ const _EXT CPU_Props::exts[FEAT_LAST] = {
 	{"SERIALIZE",					_XCR0_EMPTY,	_FEAT07_EDX_SERIALIZE},
 	{"HYBRID",						_XCR0_EMPTY,	_FEAT07_EDX_HYBRID},
 	{"RDPID",						_XCR0_EMPTY,	_FEAT07_ECX_RDPID},
-	{"RDPRU",						_XCR0_EMPTY,	_EFEAT008_EBX_RDPRU},
-	{"MCOMMIT",						_XCR0_EMPTY,	_EFEAT008_EBX_MCOMMIT},
+	{"RDPRU",						_XCR0_EMPTY,	_EFEAT08_EBX_RDPRU},
+	{"MCOMMIT",						_XCR0_EMPTY,	_EFEAT08_EBX_MCOMMIT},
 	{"PCONFIG",						_XCR0_EMPTY,	_FEAT07_EDX_PCONFIG},
 	{"---Deprecated---",			_XCR0_EMPTY,	_FEAT_SKIP},
 	{"X87",							_XCR0_EMPTY,	_FEAT01_EDX_X87},
@@ -424,7 +424,7 @@ void CPU_Props::PrintVendor(void) const {
 } 
 
 void CPU_Props::PrintBrand(void) const {
-	cout << "Brand: \"" << std::setw(48) << gold << brand_string << white << "\"" << endl;
+	cout << "Brand: \"" << std::setw(48) << gold << left << brand_string << white << "\"" << endl;
 }
 
 void CPU_Props::PrintSupportStatus(bool supp, WORD col) const {
@@ -476,8 +476,7 @@ void CPU_Props::PrintFeat(bool required_feat, bool xsave_enabled, bool xsave_dis
 	} else {
 		if (!xsave_enabled && !xsave_disabled) {
 			PrintSupportStatus(false, COLOR_RED);
-		} 
-		else if (num != -1) {
+		} else if (num != -1) {
 			CharColor col = xsave_enabled ? COLOR_GREEN : COLOR_YELLOW;
 			PrintSupportStatus(num, col);
 			if (!xsave_enabled)
@@ -988,7 +987,7 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x000B06D0:	//Lion Cove + Skymont               / LUNARLAKE_M
 					case 0x000B06E0:	//Gracemont                         / ALDERLAKE_N
 					case 0x000B06F0:	//Raptor Cove + Gracemont           / RAPTORLAKE_S
-					case 0x000C0650:	//Lion Cove + + Skymont + Crestmont / ARROW_LAKE_H
+					case 0x000C0650:	//Lion Cove + Skymont + Crestmont   / ARROW_LAKE_H
 					case 0x000C0660:	//Lion Cove + Skymont               / ARROW_LAKE_S
 					case 0x000C06C0:	//Cougar Cove + Darkmont            / PANTHER_LAKE
 					case 0x000D06D0:	//Darkmont                          / CLEARWATERFOREST_X
