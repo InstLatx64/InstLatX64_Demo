@@ -965,14 +965,14 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 						return 1;
 					case 0x00050670:	//Silvermont                        / XEON_PHI_KNL
 					case 0x000606A0:	//Sunny Cove                        / ICELAKE_X
-					case 0x000A06D0:	//Redwood Cove                      / GRANITERAPIDS_X
+					case 0x000A06D0:	//Redwood Cove                      / GRANITERAPIDS_X AVX10.1/512
+					case 0x000A06E0:	//Redwood Cove                      / GRANITERAPIDS_D
 					case 0x000C06F0:	//Raptor Cove                       / EMERALDRAPIDS_X
 					case 0x00400F10:	//Panther Cove                      / DIAMONDRAPIDS_X, AVX10.2/512
 						return 2;
 					case 0x000806A0:	//Sunny Cove + Tremont              / LAKEFIELD, AVX512 disabled
 					case 0x000A06A0:	//Redwood Cove + Crestmont          / METEORLAKE_L
 					case 0x000A06C0:	//Redwood Cove + Crestmont          / METEORLAKE
-					case 0x000A06E0:	//Redwood Cove                      / GRANITERAPIDS_D, AVX10.1/256
 					case 0x000A06F0:	//Crestmont                         / SIERRAFOREST_X
 					case 0x000B0650:	//Redwood Cove + Crestmont          / ARROWLAKE_U
 					case 0x000B0660:	//Crestmont                         / GRANDRIDGE
