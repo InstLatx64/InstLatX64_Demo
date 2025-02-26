@@ -624,7 +624,7 @@ bool CPU_Props::HybridMasks(DWORD_PTR& pCoreMask, DWORD_PTR& eCoreMask, DWORD_PT
 										lpeCoreMask		|= testMask;
 										lpeCoreInfo		= level1A[_REG_EAX];
 										lpeCoreIndex	= th;
-									}
+									} break;
 									case 0x000C0650: { //ARROW_LAKE_H
 										switch (level1A[_REG_EAX] & 0xffffff) {
 											case 0x02: {	//Crestmont
@@ -639,7 +639,7 @@ bool CPU_Props::HybridMasks(DWORD_PTR& pCoreMask, DWORD_PTR& eCoreMask, DWORD_PT
 												eCoreIndex	= th;
 											} break;
 										}
-									}
+									} break;
 									//other known Hybrids
 									//case 0x000806A0:   //LAKEFIELD
 									//case 0x00090670:   //ALDERLAKE_S
@@ -731,18 +731,24 @@ void CPU_Props::ForcedAVX512(void) const {
 void CPU_Props::PrintHybridMasks(void) const {
 	cout << "--Hybrid info--" << endl;
 	cout << "systemAffinityMask: 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << systemAffMask << endl;
-	cout << "PCoreMask         : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << pCoreMask << ' ';
-	if ((pCoreMask != 0) && (pCoreInfo != DEFAULT_COREINFO))
-		PrintHybridType(pCoreInfo);
-	cout << endl;
-	cout << "ECoreMask         : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << eCoreMask << ' ';
-	if ((eCoreMask != 0) && (eCoreInfo != DEFAULT_COREINFO))
-		PrintHybridType(eCoreInfo);
-	cout << endl;
-	cout << "LPECoreMask       : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << lpeCoreMask << ' ';
-	if ((lpeCoreMask != 0) && (lpeCoreInfo != DEFAULT_COREINFO))
-		PrintHybridType(lpeCoreInfo);
-	cout << endl;
+	if (pCoreMask != 0) {
+		cout << "PCoreMask         : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << pCoreMask << ' ';
+		if (pCoreInfo != DEFAULT_COREINFO)
+			PrintHybridType(pCoreInfo);
+		cout << endl;
+	}
+	if (eCoreMask != 0) {
+		cout << "ECoreMask         : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << eCoreMask << ' ';
+		if (eCoreInfo != DEFAULT_COREINFO)
+			PrintHybridType(eCoreInfo);
+		cout << endl;
+	}
+	if (lpeCoreMask != 0) {
+		cout << "LPECoreMask       : 0x" << hex << setw(sizeof(DWORD_PTR) * 2) << setfill('0') << right << lpeCoreMask << ' ';
+		if (lpeCoreInfo != DEFAULT_COREINFO)
+			PrintHybridType(lpeCoreInfo);
+		cout << endl;
+	}
 	cout << setfill(' ');
 }
 
