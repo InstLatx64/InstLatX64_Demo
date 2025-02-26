@@ -968,6 +968,7 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x000A06D0:	//Redwood Cove                      / GRANITERAPIDS_X AVX10.1/512
 					case 0x000A06E0:	//Redwood Cove                      / GRANITERAPIDS_D
 					case 0x000C06F0:	//Raptor Cove                       / EMERALDRAPIDS_X
+					case 0x000D0660:	//Panther Cove                      / DIAMONDRAPIDS_X, AVX10.2/512
 					case 0x00400F10:	//Panther Cove                      / DIAMONDRAPIDS_X, AVX10.2/512
 						return 2;
 					case 0x000806A0:	//Sunny Cove + Tremont              / LAKEFIELD, AVX512 disabled
