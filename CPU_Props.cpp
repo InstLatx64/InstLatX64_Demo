@@ -207,6 +207,7 @@ void CPU_Props::GetNativeCPUID(UINT64 arg_xcr0) {
 	int extLevel01[4]		= {0, 0, 0, 0};
 	int extLevel07[4]		= {0, 0, 0, 0};
 	int extLevel08[4]		= {0, 0, 0, 0};
+	int extLevel1E[4]		= {0, 0, 0, 0};
 	int extLevel21[4]		= {0, 0, 0, 0};
 
 	__cpuid(level00, 0x0);
@@ -245,6 +246,8 @@ void CPU_Props::GetNativeCPUID(UINT64 arg_xcr0) {
 		__cpuid(extLevel07, 0x80000007);
 	if (extLevel00[_REG_EAX] >= 0x80000008)
 		__cpuid(extLevel08, 0x80000008);
+	if (extLevel00[_REG_EAX] >= 0x8000001E)
+		__cpuid(extLevel1E, 0x8000001E);
 	if (extLevel00[_REG_EAX] >= 0x80000021)
 		__cpuid(extLevel21, 0x80000021);
 
@@ -262,6 +265,7 @@ void CPU_Props::GetNativeCPUID(UINT64 arg_xcr0) {
 	}
 
 	_CPUID_RES c = {xcr0, 
+					level00[_REG_EAX], 
 					level01[_REG_EAX], level01[_REG_ECX], level01[_REG_EDX], 
 					level07[_REG_EBX], level07[_REG_ECX], level07[_REG_EDX], 
 					level0701[_REG_EAX], level0701[_REG_EBX], level0701[_REG_ECX], level0701[_REG_EDX],
@@ -271,9 +275,10 @@ void CPU_Props::GetNativeCPUID(UINT64 arg_xcr0) {
 					level19[_REG_EBX], level1D[_REG_EAX], 
 					level1D01[_REG_EAX], level1D01[_REG_EBX], level1D01[_REG_ECX],
 					level1E[_REG_EAX], level1E01[_REG_EAX], level24[_REG_EBX],
+					extLevel00[_REG_EAX], 
 					extLevel01[_REG_ECX], extLevel01[_REG_EDX], extLevel07[_REG_EDX], 
 					extLevel08[_REG_EAX], extLevel08[_REG_EBX],
-					extLevel21[_REG_EAX]};
+					extLevel1E[_REG_EBX], extLevel21[_REG_EAX]};
 	SetFeats(c);
 }
 
@@ -307,6 +312,7 @@ bool CPU_Props::GetFileCPUID(char * fname, UINT64 arg_xcr0) {
 				}		
 				switch (in_EAX) {
 					case 0x00000000:
+						c.cpuid_res[CPUID_FEAT00_EAX] = out_EAX;
 						vendor_num[0] = out_EBX;
 						vendor_num[1] = out_EDX;
 						vendor_num[2] = out_ECX;
@@ -378,6 +384,9 @@ bool CPU_Props::GetFileCPUID(char * fname, UINT64 arg_xcr0) {
 					case 0x00000024:
 						c.cpuid_res[CPUID_FEAT24_EBX] = out_EBX;
 						break;
+					case 0x80000000:
+						c.cpuid_res[CPUID_EFEAT00_EAX] = out_EAX;
+						break;
 					case 0x80000001:
 						c.cpuid_res[CPUID_EFEAT01_ECX] = out_ECX;
 						c.cpuid_res[CPUID_EFEAT01_EDX] = out_EDX;
@@ -396,6 +405,8 @@ bool CPU_Props::GetFileCPUID(char * fname, UINT64 arg_xcr0) {
 						c.cpuid_res[CPUID_EFEAT08_EAX] = out_EAX;
 						c.cpuid_res[CPUID_EFEAT08_EBX] = out_EBX;
 						break;
+					case 0x8000001E:
+						c.cpuid_res[CPUID_EFEAT1E_EBX] = out_EBX;
 					case 0x80000021:
 						c.cpuid_res[CPUID_EFEAT21_EAX] = out_EAX;
 						break;
@@ -1098,11 +1109,6 @@ void CPU_Props::SetFeats(_CPUID_RES& c) {
 			break;
 		}
 	}
-	family		= ((c.cpuid_res[CPUID_FEAT01_EAX] >> 8) & 0xf) + ((c.cpuid_res[CPUID_FEAT01_EAX] >> 20) & 0xf);
-	model		= ((c.cpuid_res[CPUID_FEAT01_EAX] >> 4) & 0xf) | ((c.cpuid_res[CPUID_FEAT01_EAX] >> 12) & 0xf0);
-	stepping	= (c.cpuid_res[CPUID_FEAT01_EAX] & 0xf);
-	fms			= c.cpuid_res[CPUID_FEAT01_EAX];
-
 	for (int featInd = 0; featInd < sizeof(exts) / sizeof(_EXT); featInd++) {
 		if (*exts[featInd].name == 0)
 			continue;
