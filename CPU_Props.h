@@ -3,14 +3,20 @@
 #define		CPUPROPS_VERS					0x0103
 
 enum Feats {
-//	GPR									//Introduced by..
+//	Identification						//Introduced by..
+	FEAT_GROUP_ID,						
+	FEAT_VENDOR,						//486
+	FEAT_FAMILY,						//486
+	FEAT_MODEL,							//486
+	FEAT_STEPPING,						//486
+	FEAT_FMS,							//486
+	FEAT_BRAND,							//AMD K5 Model 1, Intel Banias
+//	GPR
 	FEAT_GROUP_GPR,
-	FEAT_RDTSC,							//Pentium
-	FEAT_RDTSCP,						//AMD K8 E rev
+	FEAT_LNOP,							//Pentium Pro, K7
 	FEAT_CMOV,							//Pentium Pro
 	FEAT_CMPX8,							//Pentium 
 	FEAT_CMPX16,						//AMD K8 E rev, Intel Prescott X64
-	FEAT_AMD64,							//K8 
 	FEAT_LAHF,							//Prescott x64
 	FEAT_MOVBE,							//Bonnell
 	FEAT_ABM,							//AMD K10, Haswell
@@ -22,6 +28,8 @@ enum Feats {
 	FEAT_BMI2,							//Haswell, Excavator
 	FEAT_MOVDIRI,						//Tremont
 	FEAT_MOVDIR64B,						//Tremont
+	FEAT_RDPID,							//Goldmont
+	FEAT_RDPRU,							//Zen2
 	FEAT_RAO_INT,						//Crestmont
 	FEAT_CMPCCXADD,						//Crestmont
 	FEAT_APX,							//Diamond Rapids
@@ -116,6 +124,10 @@ enum Feats {
 	FEAT_FSCS_FAST_SHORT_CMPSB_SCASB,	//Sapphire Rapids
 	FEAT_FSRC_FAST_SHORT_REPE_CMPSB,	//Zen4
 	FEAT_FSRS_FAST_SHORT_REP_SCASB_AMD,	//Zen5
+//	TSC
+	FEAT_GROUP_TSC,
+	FEAT_RDTSC,							//Pentium
+	FEAT_RDTSCP,						//AMD K8 E rev
 //KeyLocker
 	FEAT_GROUP_KEYLOCKER,
 	FEAT_KEYLOCK,						//Tiger Lake
@@ -124,11 +136,9 @@ enum Feats {
 //Uncategorized
 	FEAT_GROUP_UNCATEGORIZED,
 	FEAT_X86,							//8086
-	FEAT_LNOP,							//Pentium Pro, K7
+	FEAT_AMD64,							//K8 
 	FEAT_SERIALIZE,						//Sapphire Rapids
 	FEAT_HYBRID,						//Lakefield
-	FEAT_RDPID,							//Goldmont
-	FEAT_RDPRU,							//Zen2
 	FEAT_MCOMMIT,						//Zen2
 	FEAT_PCONFIG,						//IceLake-X
 //Deprecated
@@ -187,6 +197,8 @@ enum _CPUID_Feats : unsigned long long {
 	CPUID_EFEAT08_EAX,
 	CPUID_EFEAT08_EBX,
 	CPUID_EFEAT21_EAX,
+	CPUID_VENDOR,
+	CPUID_BRAND,
 	CPUID_NUMFIELD,
 	CPUID_LAST = CPUID_NUMFIELD
 };
@@ -229,6 +241,11 @@ enum _VENDOR  : uint32_t {
 
 #define _FEAT_PLACE(BIT, REG)							((1ULL << BIT) | (CPUID_##REG << 32))
 
+#define _FEAT00_VENDOR									                (CPUID_VENDOR << 32)
+#define _FEAT01_FAMILY									                (CPUID_NUMFIELD << 32)
+#define _FEAT01_MODEL									                (CPUID_NUMFIELD << 32)
+#define _FEAT01_STEPPING								                (CPUID_NUMFIELD << 32)
+#define _FEAT01_FMS										                (CPUID_NUMFIELD << 32)
 
 #define _FEAT01_EDX_X87									_FEAT_PLACE( 0, FEAT01_EDX)
 #define _FEAT01_EDX_RDTSC								_FEAT_PLACE( 4, FEAT01_EDX)
@@ -476,6 +493,8 @@ public:
 	CPU_Props(UINT64 arg_xcr0);
 	void						PrintFeats(void) const;
 	void						PrintFeat(uint64_t) const;
+	void						PrintFeatHex(int value, WORD col) const;
+	void						PrintFeatDecHex(int value, WORD col) const;
 	void						PrintVendor(void) const;
 	void						PrintBrand(void) const;
 #if defined (_M_X64) && defined(__AVX512F__)

@@ -2,13 +2,18 @@
 
 const _EXT CPU_Props::exts[FEAT_LAST] = {
 // Name									xcr0			feat								cpuidPlace0										cpuidPlace1
+	{"---Ident--------",				_XCR0_EMPTY,	FEAT_GROUP_ID,						_FEAT_SKIP,										_FEAT_SKIP								},
+	{"Vendor",							_XCR0_EMPTY,	FEAT_VENDOR,						_FEAT00_VENDOR,									_FEAT_SKIP								},
+	{"Family",							_XCR0_EMPTY,	FEAT_FAMILY,						_FEAT01_FAMILY,									_FEAT_SKIP								},
+	{"Model",							_XCR0_EMPTY,	FEAT_MODEL,							_FEAT01_MODEL,									_FEAT_SKIP								},
+	{"Stepping",						_XCR0_EMPTY,	FEAT_STEPPING,						_FEAT01_STEPPING,								_FEAT_SKIP								},
+	{"FMS",								_XCR0_EMPTY,	FEAT_FMS,							_FEAT01_FMS,									_FEAT_SKIP								},
+	{"Brand",							_XCR0_EMPTY,	FEAT_BRAND,							_FEAT_NOFEAT,									_FEAT_SKIP								},
 	{"---GPR----------",				_XCR0_EMPTY,	FEAT_GROUP_GPR,						_FEAT_SKIP,										_FEAT_SKIP								},
-	{"RDTSC",							_XCR0_EMPTY,	FEAT_RDTSC,							_FEAT01_EDX_RDTSC,								_FEAT_SKIP								},
-	{"RDTSCP",							_XCR0_EMPTY,	FEAT_RDTSCP,						_EFEAT01_EDX_RDTSCP,							_FEAT_SKIP								},
+	{"LNOP",							_XCR0_EMPTY,	FEAT_LNOP,							_FEAT_NOFEAT,									_FEAT_SKIP								},
 	{"CMOV",							_XCR0_EMPTY,	FEAT_CMOV,							_FEAT01_EDX_CMOV,								_FEAT_SKIP								},
 	{"CMPX8",							_XCR0_EMPTY,	FEAT_CMPX8,							_FEAT01_EDX_CMPX8,								_FEAT_SKIP								},
 	{"CMPX16",							_XCR0_EMPTY,	FEAT_CMPX16,						_FEAT01_ECX_CMPX16,								_FEAT_SKIP								},
-	{"AMD64",							_XCR0_EMPTY,	FEAT_AMD64,							_EFEAT01_EDX_AMD64,								_FEAT_SKIP								},
 	{"LAHF",							_XCR0_EMPTY,	FEAT_LAHF,							_EFEAT01_ECX_LAHF,								_FEAT_SKIP								},
 	{"MOVBE",							_XCR0_EMPTY,	FEAT_MOVBE,							_FEAT01_ECX_MOVBE,								_FEAT_SKIP								},
 	{"ABM",								_XCR0_EMPTY,	FEAT_ABM,							_EFEAT01_ECX_ABM,								_FEAT_SKIP								},
@@ -20,6 +25,8 @@ const _EXT CPU_Props::exts[FEAT_LAST] = {
 	{"BMI2",							_XCR0_EMPTY,	FEAT_BMI2,							_FEAT07_EBX_BMI2,								_FEAT_SKIP								},
 	{"MOVDIRI",							_XCR0_EMPTY,	FEAT_MOVDIRI,						_FEAT07_ECX_MOVDIRI,							_FEAT_SKIP								},
 	{"MOVDIR64B",						_XCR0_EMPTY,	FEAT_MOVDIR64B,						_FEAT07_ECX_MOVDIR64B,							_FEAT_SKIP								},
+	{"RDPID",							_XCR0_EMPTY,	FEAT_RDPID,							_FEAT07_ECX_RDPID,								_FEAT_SKIP								},
+	{"RDPRU",							_XCR0_EMPTY,	FEAT_RDPRU,							_EFEAT08_EBX_RDPRU,								_FEAT_SKIP								},
 	{"RAO-INT",							_XCR0_EMPTY,	FEAT_RAO_INT,						_FEAT0701_EAX_RAO_INT,							_FEAT_SKIP								},
 	{"CMPCCXADD",						_XCR0_EMPTY,	FEAT_CMPCCXADD,						_FEAT0701_EAX_CMPCCXADD,						_FEAT_SKIP								},
 	{"APX_F",							_XCR0_APX,		FEAT_APX,							_FEAT0701_EDX_APX_F,							_FEAT_SKIP								},
@@ -107,17 +114,18 @@ const _EXT CPU_Props::exts[FEAT_LAST] = {
 	{"Fast short REP CMPSB/SCASB",		_XCR0_EMPTY,	FEAT_FSCS_FAST_SHORT_CMPSB_SCASB,	_FEAT0701_EAX_FSRC_FAST_SHORT_REP_CMPSB_SCASB,	_FEAT_SKIP								},
 	{"Fast Short REPE CMPSB",			_XCR0_EMPTY,	FEAT_FSRC_FAST_SHORT_REPE_CMPSB,	_EFEAT21_EAX_FSRC_FAST_SHORT_REPE_CMPSB,		_FEAT_SKIP								},
 	{"Fast Short REP SCASB/AMD",		_XCR0_EMPTY,	FEAT_FSRS_FAST_SHORT_REP_SCASB_AMD,	_EFEAT21_EAX_FSRS_FAST_SHORT_REP_SCASB,			_FEAT_SKIP								},
+	{"---TSC----------",				_XCR0_EMPTY,	FEAT_GROUP_GPR,						_FEAT_SKIP,										_FEAT_SKIP								},
+	{"RDTSC",							_XCR0_EMPTY,	FEAT_RDTSC,							_FEAT01_EDX_RDTSC,								_FEAT_SKIP								},
+	{"RDTSCP",							_XCR0_EMPTY,	FEAT_RDTSCP,						_EFEAT01_EDX_RDTSCP,							_FEAT_SKIP								},
 	{"---Keylocker----",				_XCR0_EMPTY,	FEAT_GROUP_KEYLOCKER,				_FEAT_SKIP,										_FEAT_SKIP								},
 	{"KEYLOCK",							_XCR0_EMPTY,	FEAT_KEYLOCK,						_FEAT07_ECX_KEYLOCK,							_FEAT_SKIP								},
 	{"AESKLE",							_KEYLOCK,		FEAT_AESKLE,						_FEAT19_EBX_AESKLE,								_FEAT_SKIP								},
 	{"WIDE_KL",							_KEYLOCK,		FEAT_WIDE_KL,						_FEAT19_EBX_WIDE_KL,							_FEAT_SKIP								},
 	{"---Uncategorized",				_XCR0_EMPTY,	FEAT_GROUP_UNCATEGORIZED,			_FEAT_SKIP,										_FEAT_SKIP								},
 	{"X86",								_XCR0_EMPTY,	FEAT_X86,							_FEAT_NOFEAT,									_FEAT_SKIP								},
-	{"LNOP",							_XCR0_EMPTY,	FEAT_LNOP,							_FEAT_NOFEAT,									_FEAT_SKIP								},
+	{"AMD64",							_XCR0_EMPTY,	FEAT_AMD64,							_EFEAT01_EDX_AMD64,								_FEAT_SKIP								},
 	{"SERIALIZE",						_XCR0_EMPTY,	FEAT_SERIALIZE,						_FEAT07_EDX_SERIALIZE,							_FEAT_SKIP								},
 	{"HYBRID",							_XCR0_EMPTY,	FEAT_HYBRID,						_FEAT07_EDX_HYBRID,								_FEAT_SKIP								},
-	{"RDPID",							_XCR0_EMPTY,	FEAT_RDPID,							_FEAT07_ECX_RDPID,								_FEAT_SKIP								},
-	{"RDPRU",							_XCR0_EMPTY,	FEAT_RDPRU,							_EFEAT08_EBX_RDPRU,								_FEAT_SKIP								},
 	{"MCOMMIT",							_XCR0_EMPTY,	FEAT_MCOMMIT,						_EFEAT08_EBX_MCOMMIT,							_FEAT_SKIP								},
 	{"PCONFIG",							_XCR0_EMPTY,	FEAT_PCONFIG,						_FEAT07_EDX_PCONFIG,							_FEAT_SKIP								},
 	{"---Deprecated---",				_XCR0_EMPTY,	FEAT_GROUP_DEPRECATED,				_FEAT_SKIP,										_FEAT_SKIP								},
@@ -412,16 +420,11 @@ bool CPU_Props::GetFileCPUID(char * fname, UINT64 arg_xcr0) {
 using namespace std;
 
 void CPU_Props::PrintVendor(void) const {
-	cout << "Vendor: \"" << std::setw(VENDOR_STRING_SIZE) << magenta << vendor_string << white << "\"" << endl;
-	cout << "Family:" << family;
-	cout << " Model:" << model;
-	cout << " Stepping:" << stepping;
-	cout << " (" << hex << fms << ')';
-	cout << endl;
+	cout << ": \"" << std::setw(VENDOR_STRING_SIZE) << magenta << vendor_string << white << "\"" << "          ";
 } 
 
 void CPU_Props::PrintBrand(void) const {
-	cout << "Brand: \"" << std::setw(48) << gold << left << brand_string << white << "\"" << endl;
+	cout << ": \"" << std::setw(48) << gold << left << brand_string << white << "\"";
 }
 
 void CPU_Props::PrintSupportStatus(bool supp, WORD col) const {
@@ -438,6 +441,15 @@ void CPU_Props::PrintOSStatus(bool enadisa, WORD col) const {
 
 void CPU_Props::PrintFeat(uint64_t f) const {
 	cout << left << exts[f].name;
+}
+
+void CPU_Props::PrintFeatHex(int value, WORD col) const {
+	cout << ": " << color(col) << left << hex << setw(10) << value << "              " <<  white;
+}
+
+void CPU_Props::PrintFeatDecHex(int value, WORD col) const {
+	cout << ": "   << color(col) << right << dec << setw(3) << value;
+	cout << " (0x" <<                        hex << setw(2) << setfill('0') << value << ")              " << setfill(' ') << white;
 }
 
 //req.  XSAVE    XSAVE
@@ -517,7 +529,29 @@ void CPU_Props::PrintFeats(void) const {
 					break;
 				case _XCR0_EMPTY:
 				default:
-					PrintSupportStatus(enabled, enabled ? COLOR_GREEN : COLOR_RED);
+					switch (exts[featInd]._feats) {
+						case FEAT_VENDOR:
+							PrintVendor();
+							break;
+						case FEAT_FAMILY:
+							PrintFeatDecHex(family, COLOR_AQUA);
+							break;
+						case FEAT_MODEL:
+							PrintFeatDecHex(model, COLOR_AQUA);
+							break;
+						case FEAT_STEPPING:
+							PrintFeatDecHex(stepping, COLOR_AQUA);
+							break;
+						case FEAT_FMS:
+							PrintFeatHex(fms, COLOR_AQUA);
+							break;
+						case FEAT_BRAND:
+							PrintBrand();
+							break;
+						default:
+							PrintSupportStatus(enabled, enabled ? COLOR_GREEN : COLOR_RED);
+							break;
+					}
 					break;
 			}
 		}
@@ -1106,6 +1140,18 @@ void CPU_Props::SetFeats(_CPUID_RES& c) {
 					break;
 				case CPUID_NUMFIELD: //non-binary CPUID info
 					switch (exts[featInd]._feats) {
+						case FEAT_FAMILY: {
+							family		= ((c.cpuid_res[CPUID_FEAT01_EAX] >> 8) & 0xf) + ((c.cpuid_res[CPUID_FEAT01_EAX] >> 20) & 0xf);
+						} break;
+						case FEAT_MODEL: {
+							model		= ((c.cpuid_res[CPUID_FEAT01_EAX] >> 4) & 0xf) | ((c.cpuid_res[CPUID_FEAT01_EAX] >> 12) & 0xf0);
+						} break;
+						case FEAT_STEPPING: {
+							stepping	= c.cpuid_res[CPUID_FEAT01_EAX] & 0xf;
+						} break;
+						case FEAT_FMS: {
+							fms			= c.cpuid_res[CPUID_FEAT01_EAX];
+						} break;
 						case FEAT_AVX10_LEVEL: {
 							if (IsFeat(FEAT_AVX10))
 								avx10level = c.cpuid_res[CPUID_FEAT24_EBX] & 0xff;

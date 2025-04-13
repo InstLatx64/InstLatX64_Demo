@@ -70,8 +70,6 @@ int main(void)
 		}
 		if (fileRead) {
 			if (args.IsCPUProps()) {
-				cpu_props.PrintVendor();
-				cpu_props.PrintBrand();
 				cpu_props.PrintFeats();
 				//cpu_props.ForcedAVX512();
 				cpu_props.PrintXCR0();
