@@ -86,6 +86,10 @@ enum Feats {
 	FEAT_AVX512_BF16,					//Cooper Lake
 	FEAT_AVX512_VP2INTERSECT,			//Tiger Lake
 	FEAT_AVX512_FP16,					//Sapphire Rapids
+//AVX10
+	FEAT_GROUP_AVX10,
+	FEAT_AVX10,							//Granite Rapids
+	FEAT_AVX10_LEVEL,					//Granite Rapids
 //AMX
 	FEAT_GROUP_AMX,
 	FEAT_AMX_TILE,						//Sapphire Rapids
@@ -98,13 +102,6 @@ enum Feats {
 	FEAT_AMX_TF32,						//Diamond Rapids
 	FEAT_AMX_AVX512,					//Diamond Rapids
 	FEAT_AMX_MOVRS,						//Diamond Rapids
-//AVX10
-	FEAT_GROUP_AVX10,
-	FEAT_AVX10,							//Granite Rapids
-	FEAT_AVX10_128,						//Granite Rapids
-	FEAT_AVX10_256,						//Granite Rapids
-	FEAT_AVX10_512,						//Granite Rapids X
-	FEAT_AVX10_LEVEL,					//Granite Rapids
 //cacheline
 	FEAT_GROUP_CACHELINE,
 	FEAT_PREFETCHW,						//K6

@@ -80,6 +80,9 @@ const _EXT CPU_Props::exts[FEAT_LAST] = {
 	{"AVX512_BF16",						_XCR0_AVX512,	FEAT_AVX512_BF16,					_FEAT0701_EAX_AVX512_BF16,						_FEAT_SKIP								},
 	{"AVX512_VP2INTERSECT",				_XCR0_AVX512,	FEAT_AVX512_VP2INTERSECT,			_FEAT07_EDX_AVX512_VP2INTERSECT,				_FEAT_SKIP								},
 	{"AVX512_FP16",						_XCR0_AVX512,	FEAT_AVX512_FP16,					_FEAT07_EDX_AVX512_FP16,						_FEAT_SKIP								},
+	{"---AVX10--------",				_XCR0_EMPTY,	FEAT_GROUP_AVX10,					_FEAT_SKIP,										_FEAT_SKIP								},
+	{"AVX10",							_XCR0_AVX512,	FEAT_AVX10,							_FEAT0701_EDX_AVX10,							_FEAT_SKIP								},
+	{"AVX10.level",						_XCR0_AVX512,	FEAT_AVX10_LEVEL,					_FEAT24_EBX_AVX10_LEVEL,						_FEAT_SKIP								},
 	{"---AMX----------",				_XCR0_EMPTY,	FEAT_GROUP_AMX,						_FEAT_SKIP,										_FEAT_SKIP								},
 	{"AMX-TILE",						_XCR0_AMX,		FEAT_AMX_TILE,						_FEAT07_EDX_AMX_TILE,							_FEAT_SKIP								},
 	{"AMX-INT8",						_XCR0_AMX,		FEAT_AMX_INT8,						_FEAT07_EDX_AMX_INT8,							_FEAT1E01_EAX_AMX_INT8					},
@@ -91,12 +94,6 @@ const _EXT CPU_Props::exts[FEAT_LAST] = {
 	{"AMX-TF32",						_XCR0_AMX,		FEAT_AMX_TF32,						_FEAT1E01_EAX_AMX_TF32,							_FEAT_SKIP								},
 	{"AMX-AVX512",						_XCR0_AMX,		FEAT_AMX_AVX512,					_FEAT1E01_EAX_AMX_AVX512,						_FEAT_SKIP								},
 	{"AMX-MOVRS",						_XCR0_AMX,		FEAT_AMX_MOVRS,						_FEAT1E01_EAX_AMX_MOVRS,						_FEAT_SKIP								},
-	{"---AVX10--------",				_XCR0_EMPTY,	FEAT_GROUP_AVX10,					_FEAT_SKIP,										_FEAT_SKIP								},
-	{"AVX10",							_XCR0_AVX512,	FEAT_AVX10,							_FEAT0701_EDX_AVX10,							_FEAT_SKIP								},
-	{"AVX10/128",						_XCR0_AVX512,	FEAT_AVX10_128,						_FEAT24_EBX_AVX10_128,							_FEAT_SKIP								},
-	{"AVX10/256",						_XCR0_AVX512,	FEAT_AVX10_256,						_FEAT24_EBX_AVX10_256,							_FEAT_SKIP								},
-	{"AVX10/512",						_XCR0_AVX512,	FEAT_AVX10_512,						_FEAT24_EBX_AVX10_512,							_FEAT_SKIP								},
-	{"AVX10.level",						_XCR0_AVX512,	FEAT_AVX10_LEVEL,					_FEAT24_EBX_AVX10_LEVEL,						_FEAT_SKIP								},
 	{"---CacheLine----",				_XCR0_EMPTY,	FEAT_GROUP_CACHELINE,				_FEAT_SKIP,										_FEAT_SKIP								},
 	{"PREFETCHW",						_XCR0_EMPTY,	FEAT_PREFETCHW,						_EFEAT01_ECX_3DNOWPREF,							_FEAT_SKIP								},
 	{"PREFETCHWT1",						_XCR0_EMPTY,	FEAT_PREFETCHWT1,					_FEAT07_ECX_PWT1,								_FEAT_SKIP								},
@@ -510,9 +507,6 @@ void CPU_Props::PrintFeats(void) const {
 				case _XCR0_AVX512:
 					switch (featInd) {
 						case FEAT_AVX10:	
-						case FEAT_AVX10_128:
-						case FEAT_AVX10_256:
-						case FEAT_AVX10_512:
 							PrintFeat(IsFeatBit(FEAT_AVX10), enabled, disabled);
 							break;
 						case FEAT_AVX10_LEVEL:
@@ -999,11 +993,11 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 						return 1;
 					case 0x00050670:	//Silvermont                        / XEON_PHI_KNL
 					case 0x000606A0:	//Sunny Cove                        / ICELAKE_X
-					case 0x000A06D0:	//Redwood Cove                      / GRANITERAPIDS_X AVX10.1/512
+					case 0x000A06D0:	//Redwood Cove                      / GRANITERAPIDS_X AVX10.1
 					case 0x000A06E0:	//Redwood Cove                      / GRANITERAPIDS_D
 					case 0x000C06F0:	//Raptor Cove                       / EMERALDRAPIDS_X
-					case 0x000D0660:	//Panther Cove                      / DIAMONDRAPIDS_X, AVX10.2/512
-					case 0x00400F10:	//Panther Cove                      / DIAMONDRAPIDS_X, AVX10.2/512
+					case 0x000D0660:	//Panther Cove                      / DIAMONDRAPIDS_X, AVX10.2
+					case 0x00400F10:	//Panther Cove                      / DIAMONDRAPIDS_X, AVX10.2
 						return 2;
 					case 0x000806A0:	//Sunny Cove + Tremont              / LAKEFIELD, AVX512 disabled
 					case 0x000A06A0:	//Redwood Cove + Crestmont          / METEORLAKE_L
@@ -1021,7 +1015,7 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x000C0660:	//Lion Cove + Skymont               / ARROW_LAKE_S
 					case 0x000C06C0:	//Cougar Cove + Darkmont            / PANTHER_LAKE
 					case 0x000D06D0:	//Darkmont                          / CLEARWATERFOREST_X
-					case 0x00400F00:	//Panther Cove + Arctic Wolf?       / NOVALAKE, AVX10.2/256?
+					case 0x00400F00:	//Panther Cove + Arctic Wolf?       / NOVALAKE, AVX10.2
 					default:			//on other cores, AVX512F unsupported
 						return 0;
 					//future
