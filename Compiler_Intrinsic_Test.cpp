@@ -14,7 +14,7 @@
 //MSVC++ 15.0 _MSC_VER == 1910 (Visual Studio 2017RC)
 
 //https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=vs-2019
-//Visual Studio 2017 RTW (15.0)	1910
+//Visual Studio 2017 RTW (15.0)		1910
 //Visual Studio 2017 version 15.3	1911
 //Visual Studio 2017 version 15.5	1912
 //Visual Studio 2017 version 15.6	1913
@@ -44,6 +44,9 @@
 //Visual Studio 2022 version 17.9	1939
 //Visual Studio 2022 version 17.10	1940
 //Visual Studio 2022 version 17.11	1941
+//Visual Studio 2022 version 17.12	1942
+//Visual Studio 2022 version 17.13	1943
+//Visual Studio 2022 version 17.14	1944
 
 void AVX512_InstrincTest(void)
 {
