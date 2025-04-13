@@ -677,6 +677,7 @@ bool CPU_Props::HybridMasks(DWORD_PTR& pCoreMask, DWORD_PTR& eCoreMask, DWORD_PT
 									//case 0x000C0660:   //ARROWLAKE_S
 									//case 0x000C06A0:   //ARROWLAKE_R
 									//case 0x000C06C0:   //PANTHERLAKE_L
+									//case 0x000D0650:   //WILDCATLAKE
 									//case 0x00400F00:   //NOVALAKE_S?
 									default: {
 										eCoreMask	|= testMask;
@@ -1013,7 +1014,8 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x000B06F0:	//Raptor Cove + Gracemont           / RAPTORLAKE_S
 					case 0x000C0650:	//Lion Cove + Skymont + Crestmont   / ARROW_LAKE_H
 					case 0x000C0660:	//Lion Cove + Skymont               / ARROW_LAKE_S
-					case 0x000C06C0:	//Cougar Cove + Darkmont            / PANTHER_LAKE
+					case 0x000C06C0:	//Cougar Cove + Darkmont            / PANTHER_LAKE_L
+					case 0x000D0650:	//Cougar Cove + Darkmont            / WILDCAT_LAKE
 					case 0x000D06D0:	//Darkmont                          / CLEARWATERFOREST_X
 					case 0x00400F00:	//Panther Cove + Arctic Wolf?       / NOVALAKE, AVX10.2
 					default:			//on other cores, AVX512F unsupported
