@@ -488,7 +488,7 @@ private:
 	bool						HybridMasks(DWORD_PTR& pCoreMask, DWORD_PTR& eCoreMask, DWORD_PTR& lpeCoreMask, DWORD_PTR& systemAffMask);
 	void						SetFeats(_CPUID_RES& c);
 	void						GetNativeCPUID(UINT64 arg_xcr0);
-	bool						IsLionCove() const;
+	bool						_2levelL1D() const;
 public:
 	CPU_Props(UINT64 arg_xcr0);
 	void						PrintFeats(void) const;

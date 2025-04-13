@@ -1194,14 +1194,14 @@ void CPU_Props::SetFeats(_CPUID_RES& c) {
 	}
 }
 
-bool CPU_Props::IsLionCove() const {
+bool CPU_Props::_2levelL1D() const {
 	bool	retVal = false;
 	int		leaf[4] = {0, 0, 0, 0};
 	__cpuid(leaf, 0x00);
 	if (leaf[0] >= 0x1A) {
 		__cpuid(leaf, 0x1A);
 		switch (leaf[0]) {
-			case 0x40000003: //LionCove
+			case 0x40000003: //Lion Cove
 				retVal = true;
 				break;
 			default:
@@ -1291,7 +1291,7 @@ void CPU_Props::PrintCPUIDDump(void) const {
 
 									PrintLeaf(leafs, leaf);
 									cout << "[SL " << hex << uppercase << setw(2) << right << setfill('0') << subleaf;
-									if (IsLionCove() && (type == 1) && (clevel == 1)) {
+									if (_2levelL1D() && (type == 1) && (clevel == 1)) {
 										cout << "] [L0 + L" << clevel << ' ';
 										cout <<  _cpuid_names[min(MAX_CPUIDSTR - 1, type)][CPUID_CACHE_TYPE] << ' ';
 										cout << dec << setw(2) << right << setfill(' ') << cacheSize << " + 192 KiB ";
