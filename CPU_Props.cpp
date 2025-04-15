@@ -166,7 +166,7 @@ const char * CPU_Props::_cpuid_names[MAX_CPUIDSTR][CPUID_STR_LAST + 1] = {
 /* 01 */	{"SSE",					"Data        TLB",	"4K          ",	"Data       ",		"Gracemont",	"Golden Cove"	},
 /* 02 */	{"AVX",					"Instruction TLB",	"   2M       ",	"Instruction",		"Crestmont",	"Redwood Cove"	},
 /* 03 */	{"MPX BNDREGS",			"Unified     TLB",	"4K+2M       ",	"Unified    ",		"Skymont",		"Lion Cove"		},
-/* 04 */	{"MPX BNDCSR",			"Load Only   TLB",	"      4M    ",	"",					"",				""				},
+/* 04 */	{"MPX BNDCSR",			"Load Only   TLB",	"      4M    ",	"",					"Darkmont",		"Cougar Cove"	},
 /* 05 */	{"AVX-512 Opmask",		"Store Only  TLB",	"4K+   4M    ",	"",					"",				""				},
 /* 06 */	{"AVX-512 Hi256",		"",					"   2M/4M    ",	"",					"",				""				},
 /* 07 */	{"AVX-512 Hi16",		"",					"4K+2M/4M    ",	"",					"",				""				},
@@ -641,9 +641,10 @@ bool CPU_Props::HybridMasks(DWORD_PTR& pCoreMask, DWORD_PTR& eCoreMask, DWORD_PT
 						switch (level1A[_REG_EAX] >> 24) {
 							case 0x20: {
 								switch (GetFamMod()) {
-									case 0x000A06A0:  //METEORLAKE_L
-									case 0x000A06C0:  //METEORLAKE
-									case 0x000B0650: {//ARROWLAKE_U
+									case 0x000A06A0:	//METEORLAKE_L
+									case 0x000A06C0:	//METEORLAKE
+									case 0x000B0650:	//ARROWLAKE_U
+									case 0x000C06C0: {	//PANTHERLAKE_L
 										int leafData[4] = { 0, 0, 0, 0 };
 										int _cacheleaf = 0x4;
 										int _L3subleaf = 0x3;
@@ -658,8 +659,9 @@ bool CPU_Props::HybridMasks(DWORD_PTR& pCoreMask, DWORD_PTR& eCoreMask, DWORD_PT
 											lpeCoreIndex	= th;
 										}
 									} break;
-									case 0x000B06C0:   //LUNARLAKE?
-									case 0x000B06D0: { //LUNARLAKE_M
+									case 0x000B06C0:	//LUNARLAKE?
+									case 0x000B06D0:	//LUNARLAKE_M
+									case 0x000D0650: {	//WILDCATLAKE
 										lpeCoreMask		|= testMask;
 										lpeCoreInfo		= level1A[_REG_EAX];
 										lpeCoreIndex	= th;
@@ -687,8 +689,6 @@ bool CPU_Props::HybridMasks(DWORD_PTR& pCoreMask, DWORD_PTR& eCoreMask, DWORD_PT
 									//case 0x000B06A0:   //RAPTORLAKE_L
 									//case 0x000C0660:   //ARROWLAKE_S
 									//case 0x000C06A0:   //ARROWLAKE_R
-									//case 0x000C06C0:   //PANTHERLAKE_L
-									//case 0x000D0650:   //WILDCATLAKE
 									//case 0x00400F00:   //NOVALAKE_S?
 									default: {
 										eCoreMask	|= testMask;
@@ -1204,6 +1204,7 @@ bool CPU_Props::_2levelL1D() const {
 		__cpuid(leaf, 0x1A);
 		switch (leaf[0]) {
 			case 0x40000003: //Lion Cove
+			case 0x40000004: //Cougar Cove
 				retVal = true;
 				break;
 			default:
