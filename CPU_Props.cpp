@@ -16,7 +16,7 @@ const _EXT CPU_Props::exts[FEAT_LAST] = {
 	{"CMPX16",							_XCR0_EMPTY,	FEAT_CMPX16,						_FEAT01_ECX_CMPX16,								_FEAT_SKIP								},
 	{"LAHF",							_XCR0_EMPTY,	FEAT_LAHF,							_EFEAT01_ECX_LAHF,								_FEAT_SKIP								},
 	{"MOVBE",							_XCR0_EMPTY,	FEAT_MOVBE,							_FEAT01_ECX_MOVBE,								_FEAT_SKIP								},
-	{"ABM",								_XCR0_EMPTY,	FEAT_ABM,							_EFEAT01_ECX_ABM,								_FEAT_SKIP								},
+	{"ABM (LZCNT)",						_XCR0_EMPTY,	FEAT_ABM,							_EFEAT01_ECX_ABM,								_FEAT_SKIP								},
 	{"POPCNT",							_XCR0_EMPTY,	FEAT_POPCNT,						_FEAT01_ECX_POPCNT,								_FEAT_SKIP								},
 	{"RDRAND",							_XCR0_EMPTY,	FEAT_RDRAND,						_FEAT01_ECX_RDRAND,								_FEAT_SKIP								},
 	{"RDSEED",							_XCR0_EMPTY,	FEAT_RDSEED,						_FEAT07_EBX_RDSEED,								_FEAT_SKIP								},
