@@ -687,6 +687,7 @@ bool CPU_Props::HybridMasks(DWORD_PTR& pCoreMask, DWORD_PTR& eCoreMask, DWORD_PT
 									//case 0x000906A0:   //ALDERLAKE_L
 									//case 0x000B0670:   //RAPTORLAKE_S
 									//case 0x000B06A0:   //RAPTORLAKE_L
+									//case 0x000B06F0:   //RAPTORLAKE_S, BARTLETTLAKE_P_E
 									//case 0x000C0660:   //ARROWLAKE_S
 									//case 0x000C06A0:   //ARROWLAKE_R
 									//case 0x00400F00:   //NOVALAKE_S?
@@ -1022,7 +1023,7 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x000B06C0:	//Lion Cove + Skymont               / LUNARLAKE
 					case 0x000B06D0:	//Lion Cove + Skymont               / LUNARLAKE_M
 					case 0x000B06E0:	//Gracemont                         / ALDERLAKE_N
-					case 0x000B06F0:	//Raptor Cove + Gracemont           / RAPTORLAKE_S
+					case 0x000B06F0:	//Raptor Cove + Gracemont           / RAPTORLAKE_S, BARTLETTLAKE_P_E
 					case 0x000C0650:	//Lion Cove + Skymont + Crestmont   / ARROW_LAKE_H
 					case 0x000C0660:	//Lion Cove + Skymont               / ARROW_LAKE_S
 					case 0x000C06C0:	//Cougar Cove + Darkmont            / PANTHER_LAKE_L
