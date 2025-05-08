@@ -1,15 +1,15 @@
 #include "stdafx.h"
 
-const _EXT CPU_Props::exts[FEAT_LAST] = {
+const _EXT CPU_Props::exts[FEAT_MAX_COL][FEAT_MAX_ROW] = {{
 // Name									xcr0			feat								cpuidPlace0										cpuidPlace1
-	{"---Ident--------",				_XCR0_EMPTY,	FEAT_GROUP_ID,						_FEAT_SKIP,										_FEAT_SKIP								},
+	{"--------------- Identification",	_XCR0_EMPTY,	FEAT_GROUP_ID,						_FEAT_SKIP,										_FEAT_SKIP								},
 	{"Vendor",							_XCR0_EMPTY,	FEAT_VENDOR,						_FEAT00_VENDOR,									_FEAT_SKIP								},
 	{"Family",							_XCR0_EMPTY,	FEAT_FAMILY,						_FEAT01_FAMILY,									_FEAT_SKIP								},
 	{"Model",							_XCR0_EMPTY,	FEAT_MODEL,							_FEAT01_MODEL,									_FEAT_SKIP								},
 	{"Stepping",						_XCR0_EMPTY,	FEAT_STEPPING,						_FEAT01_STEPPING,								_FEAT_SKIP								},
 	{"FMS",								_XCR0_EMPTY,	FEAT_FMS,							_FEAT01_FMS,									_FEAT_SKIP								},
 	{"Brand",							_XCR0_EMPTY,	FEAT_BRAND,							_FEAT_NOFEAT,									_FEAT_SKIP								},
-	{"---GPR----------",				_XCR0_EMPTY,	FEAT_GROUP_GPR,						_FEAT_SKIP,										_FEAT_SKIP								},
+	{"-------------------------- GPR",	_XCR0_EMPTY,	FEAT_GROUP_GPR,						_FEAT_SKIP,										_FEAT_SKIP								},
 	{"LNOP",							_XCR0_EMPTY,	FEAT_LNOP,							_FEAT_NOFEAT,									_FEAT_SKIP								},
 	{"CMOV",							_XCR0_EMPTY,	FEAT_CMOV,							_FEAT01_EDX_CMOV,								_FEAT_SKIP								},
 	{"CMPX8",							_XCR0_EMPTY,	FEAT_CMPX8,							_FEAT01_EDX_CMPX8,								_FEAT_SKIP								},
@@ -30,7 +30,7 @@ const _EXT CPU_Props::exts[FEAT_LAST] = {
 	{"RAO-INT",							_XCR0_EMPTY,	FEAT_RAO_INT,						_FEAT0701_EAX_RAO_INT,							_FEAT_SKIP								},
 	{"CMPCCXADD",						_XCR0_EMPTY,	FEAT_CMPCCXADD,						_FEAT0701_EAX_CMPCCXADD,						_FEAT_SKIP								},
 	{"APX_F",							_XCR0_APX,		FEAT_APX,							_FEAT0701_EDX_APX_F,							_FEAT_SKIP								},
-	{"---SIMD---------",				_XCR0_EMPTY,	FEAT_GROUP_SIMD,					_FEAT_SKIP,										_FEAT_SKIP								},
+	{"------------------------- SIMD",	_XCR0_EMPTY,	FEAT_GROUP_SIMD,					_FEAT_SKIP,										_FEAT_SKIP								},
 	{"SSE",								_XCR0_EMPTY,	FEAT_SSE,							_FEAT01_EDX_SSE,								_FEAT_SKIP								},
 	{"SSE2",							_XCR0_EMPTY,	FEAT_SSE2,							_FEAT01_EDX_SSE2,								_FEAT_SKIP								},
 	{"SSE3",							_XCR0_EMPTY,	FEAT_SSE3,							_FEAT01_ECX_SSE3,								_FEAT_SKIP								},
@@ -42,7 +42,7 @@ const _EXT CPU_Props::exts[FEAT_LAST] = {
 	{"AES",								_XCR0_EMPTY,	FEAT_AES,							_FEAT01_ECX_AESNI,								_FEAT_SKIP								},
 	{"SHA",								_XCR0_EMPTY,	FEAT_SHA,							_FEAT07_EBX_SHA,								_FEAT_SKIP								},
 	{"GFNI",							_XCR0_EMPTY,	FEAT_GFNI,							_FEAT07_ECX_GFNI,								_FEAT_SKIP								},
-	{"--VEX-SIMD------",				_XCR0_EMPTY,	FEAT_GROUP_VEX,						_FEAT_SKIP,										_FEAT_SKIP								},
+	{"--------------------- VEX-SIMD",	_XCR0_EMPTY,	FEAT_GROUP_VEX,						_FEAT_SKIP,										_FEAT_SKIP								},
 	{"AVX",								_XCR0_AVX,		FEAT_AVX,							_FEAT01_ECX_AVX,								_FEAT_SKIP								},
 	{"AVX2",							_XCR0_AVX,		FEAT_AVX2,							_FEAT07_EBX_AVX2,								_FEAT_SKIP								},
 	{"FMA",								_XCR0_AVX,		FEAT_FMA,							_FEAT01_ECX_FMA3,								_FEAT_SKIP								},
@@ -58,7 +58,7 @@ const _EXT CPU_Props::exts[FEAT_LAST] = {
 	{"SHA512",							_XCR0_AVX,		FEAT_SHA512,						_FEAT0701_EAX_SHA512,							_FEAT_SKIP								},
 	{"SM3",								_XCR0_AVX,		FEAT_SM3,							_FEAT0701_EAX_SM3,								_FEAT_SKIP								},
 	{"SM4",								_XCR0_AVX,		FEAT_SM4,							_FEAT0701_EAX_SM4,								_FEAT_SKIP								},
-	{"--EVEX-SIMD-----",				_XCR0_EMPTY,	FEAT_GROUP_EVEX,					_FEAT_SKIP,										_FEAT_SKIP								},
+	{"-------------------- EVEX-SIMD",	_XCR0_EMPTY,	FEAT_GROUP_EVEX,					_FEAT_SKIP,										_FEAT_SKIP								},
 	{"AVX512F",							_XCR0_AVX512,	FEAT_AVX512F,						_FEAT07_EBX_AVX512F,							_FEAT_SKIP								},
 	{"AVX512CD",						_XCR0_AVX512,	FEAT_AVX512CD,						_FEAT07_EBX_AVX512CD,							_FEAT_SKIP								},
 	{"AVX512ER",						_XCR0_AVX512,	FEAT_AVX512ER,						_FEAT07_EBX_AVX512ER,							_FEAT_SKIP								},
@@ -80,10 +80,11 @@ const _EXT CPU_Props::exts[FEAT_LAST] = {
 	{"AVX512_BF16",						_XCR0_AVX512,	FEAT_AVX512_BF16,					_FEAT0701_EAX_AVX512_BF16,						_FEAT_SKIP								},
 	{"AVX512_VP2INTERSECT",				_XCR0_AVX512,	FEAT_AVX512_VP2INTERSECT,			_FEAT07_EDX_AVX512_VP2INTERSECT,				_FEAT_SKIP								},
 	{"AVX512_FP16",						_XCR0_AVX512,	FEAT_AVX512_FP16,					_FEAT07_EDX_AVX512_FP16,						_FEAT_SKIP								},
-	{"---AVX10--------",				_XCR0_EMPTY,	FEAT_GROUP_AVX10,					_FEAT_SKIP,										_FEAT_SKIP								},
+	{"------------------------ AVX10",	_XCR0_EMPTY,	FEAT_GROUP_AVX10,					_FEAT_SKIP,										_FEAT_SKIP								},
 	{"AVX10",							_XCR0_AVX512,	FEAT_AVX10,							_FEAT0701_EDX_AVX10,							_FEAT_SKIP								},
 	{"AVX10.level",						_XCR0_AVX512,	FEAT_AVX10_LEVEL,					_FEAT24_EBX_AVX10_LEVEL,						_FEAT_SKIP								},
-	{"---AMX----------",				_XCR0_EMPTY,	FEAT_GROUP_AMX,						_FEAT_SKIP,										_FEAT_SKIP								},
+},{ // Name								xcr0			feat								cpuidPlace0										cpuidPlace1
+	{"-------------------------- AMX",	_XCR0_EMPTY,	FEAT_GROUP_AMX,						_FEAT_SKIP,										_FEAT_SKIP								},
 	{"AMX-TILE",						_XCR0_AMX,		FEAT_AMX_TILE,						_FEAT07_EDX_AMX_TILE,							_FEAT_SKIP								},
 	{"AMX-INT8",						_XCR0_AMX,		FEAT_AMX_INT8,						_FEAT07_EDX_AMX_INT8,							_FEAT1E01_EAX_AMX_INT8					},
 	{"AMX-BF16",						_XCR0_AMX,		FEAT_AMX_BF16,						_FEAT07_EDX_AMX_BF16,							_FEAT1E01_EAX_AMX_BF16					},
@@ -94,7 +95,7 @@ const _EXT CPU_Props::exts[FEAT_LAST] = {
 	{"AMX-TF32",						_XCR0_AMX,		FEAT_AMX_TF32,						_FEAT1E01_EAX_AMX_TF32,							_FEAT_SKIP								},
 	{"AMX-AVX512",						_XCR0_AMX,		FEAT_AMX_AVX512,					_FEAT1E01_EAX_AMX_AVX512,						_FEAT_SKIP								},
 	{"AMX-MOVRS",						_XCR0_AMX,		FEAT_AMX_MOVRS,						_FEAT1E01_EAX_AMX_MOVRS,						_FEAT_SKIP								},
-	{"---CacheLine----",				_XCR0_EMPTY,	FEAT_GROUP_CACHELINE,				_FEAT_SKIP,										_FEAT_SKIP								},
+	{"-------------------- CacheLine",	_XCR0_EMPTY,	FEAT_GROUP_CACHELINE,				_FEAT_SKIP,										_FEAT_SKIP								},
 	{"PREFETCHW",						_XCR0_EMPTY,	FEAT_PREFETCHW,						_EFEAT01_ECX_3DNOWPREF,							_FEAT_SKIP								},
 	{"PREFETCHWT1",						_XCR0_EMPTY,	FEAT_PREFETCHWT1,					_FEAT07_ECX_PWT1,								_FEAT_SKIP								},
 	{"PREFETCHI",						_XCR0_EMPTY,	FEAT_PREFETCHI,						_FEAT0701_EDX_PREFETCHI,						_EFEAT21_EAX_PREFETCHI					},
@@ -103,29 +104,29 @@ const _EXT CPU_Props::exts[FEAT_LAST] = {
 	{"CLWB",							_XCR0_EMPTY,	FEAT_CLWB,							_FEAT07_EBX_CLWB,								_FEAT_SKIP								},
 	{"CLZERO",							_XCR0_EMPTY,	FEAT_CLZERO,						_EFEAT08_EBX_CLZERO,							_FEAT_SKIP								},
 	{"CLDEMOTE",						_XCR0_EMPTY,	FEAT_CLDEMOTE,						_FEAT07_ECX_CLDEMOTE,							_FEAT_SKIP								},
-	{"---uCode--------",				_XCR0_EMPTY,	FEAT_GROUP_UCODE,					_FEAT_SKIP,										_FEAT_SKIP								},
-	{"Enh REP MOVSB/STOSB",				_XCR0_EMPTY,	FEAT_ERMS_ENH_REP_MOVSB_STOSB,		_FEAT07_EBX_ERMS_ENH_REP_MOVSB_STOSB,			_EFEAT21_EAX_AMD_ERMSB					},
-	{"Fast short REP MOV",				_XCR0_EMPTY,	FEAT_FSRM_FAST_SHORT_RRP_MOV,		_FEAT07_EDX_FSRM_FAST_SHORT_RRP_MOV,			_FEAT_SKIP								},
-	{"Fast zero-length MOVSB",			_XCR0_EMPTY,	FEAT_FZLM_FAST_ZERO_LEN_MOVSB,		_FEAT0701_EAX_FZLM_FAST_ZERO_LEN_MOVSB,			_FEAT_SKIP								},
-	{"Fast short REP STOSB",			_XCR0_EMPTY,	FEAT_FSRS_FAST_SHORT_REP_STOSB,		_FEAT0701_EAX_FSRS_FAST_SHORT_REP_STOSB,		_EFEAT21_EAX_FSRS_FAST_SHORT_REP_STOSB	},
-	{"Fast short REP CMPSB/SCASB",		_XCR0_EMPTY,	FEAT_FSCS_FAST_SHORT_CMPSB_SCASB,	_FEAT0701_EAX_FSRC_FAST_SHORT_REP_CMPSB_SCASB,	_FEAT_SKIP								},
-	{"Fast Short REPE CMPSB",			_XCR0_EMPTY,	FEAT_FSRC_FAST_SHORT_REPE_CMPSB,	_EFEAT21_EAX_FSRC_FAST_SHORT_REPE_CMPSB,		_FEAT_SKIP								},
-	{"Fast Short REP SCASB/AMD",		_XCR0_EMPTY,	FEAT_FSRS_FAST_SHORT_REP_SCASB_AMD,	_EFEAT21_EAX_FSRS_FAST_SHORT_REP_SCASB,			_FEAT_SKIP								},
-	{"---TSC----------",				_XCR0_EMPTY,	FEAT_GROUP_GPR,						_FEAT_SKIP,										_FEAT_SKIP								},
+	{"------------------------ uCode",	_XCR0_EMPTY,	FEAT_GROUP_UCODE,					_FEAT_SKIP,										_FEAT_SKIP								},
+	{"ERMS Enhanced REP MOVSB/STOSB",	_XCR0_EMPTY,	FEAT_ERMS_ENH_REP_MOVSB_STOSB,		_FEAT07_EBX_ERMS_ENH_REP_MOVSB_STOSB,			_EFEAT21_EAX_AMD_ERMSB					},
+	{"FSRM Fast Short REP MOV",			_XCR0_EMPTY,	FEAT_FSRM_FAST_SHORT_RRP_MOV,		_FEAT07_EDX_FSRM_FAST_SHORT_RRP_MOV,			_FEAT_SKIP								},
+	{"FZLM Fast Zero-length MOVSB",		_XCR0_EMPTY,	FEAT_FZLM_FAST_ZERO_LEN_MOVSB,		_FEAT0701_EAX_FZLM_FAST_ZERO_LEN_MOVSB,			_FEAT_SKIP								},
+	{"FSRS Fast Short REP STOSB",		_XCR0_EMPTY,	FEAT_FSRS_FAST_SHORT_REP_STOSB,		_FEAT0701_EAX_FSRS_FAST_SHORT_REP_STOSB,		_EFEAT21_EAX_FSRS_FAST_SHORT_REP_STOSB	},
+	{"FSRCS Fast Short REP CMP/SCASB",	_XCR0_EMPTY,	FEAT_FSCS_FAST_SHORT_CMPSB_SCASB,	_FEAT0701_EAX_FSRC_FAST_SHORT_REP_CMPSB_SCASB,	_FEAT_SKIP								},
+	{"FSRC Fast Short REPE CMPSB",		_XCR0_EMPTY,	FEAT_FSRC_FAST_SHORT_REPE_CMPSB,	_EFEAT21_EAX_FSRC_FAST_SHORT_REPE_CMPSB,		_FEAT_SKIP								},
+	{"FSRSC Fast Short REP SCASB/AMD",	_XCR0_EMPTY,	FEAT_FSRS_FAST_SHORT_REP_SCASB_AMD,	_EFEAT21_EAX_FSRS_FAST_SHORT_REP_SCASB,			_FEAT_SKIP								},
+	{"-------------------------- TSC",	_XCR0_EMPTY,	FEAT_GROUP_TSC,						_FEAT_SKIP,										_FEAT_SKIP								},
 	{"RDTSC",							_XCR0_EMPTY,	FEAT_RDTSC,							_FEAT01_EDX_RDTSC,								_FEAT_SKIP								},
 	{"RDTSCP",							_XCR0_EMPTY,	FEAT_RDTSCP,						_EFEAT01_EDX_RDTSCP,							_FEAT_SKIP								},
-	{"---Keylocker----",				_XCR0_EMPTY,	FEAT_GROUP_KEYLOCKER,				_FEAT_SKIP,										_FEAT_SKIP								},
+	{"-------------------- Keylocker",	_XCR0_EMPTY,	FEAT_GROUP_KEYLOCKER,				_FEAT_SKIP,										_FEAT_SKIP								},
 	{"KEYLOCK",							_XCR0_EMPTY,	FEAT_KEYLOCK,						_FEAT07_ECX_KEYLOCK,							_FEAT_SKIP								},
 	{"AESKLE",							_KEYLOCK,		FEAT_AESKLE,						_FEAT19_EBX_AESKLE,								_FEAT_SKIP								},
 	{"WIDE_KL",							_KEYLOCK,		FEAT_WIDE_KL,						_FEAT19_EBX_WIDE_KL,							_FEAT_SKIP								},
-	{"---Uncategorized",				_XCR0_EMPTY,	FEAT_GROUP_UNCATEGORIZED,			_FEAT_SKIP,										_FEAT_SKIP								},
+	{"---------------- Uncategorized",	_XCR0_EMPTY,	FEAT_GROUP_UNCATEGORIZED,			_FEAT_SKIP,										_FEAT_SKIP								},
 	{"X86",								_XCR0_EMPTY,	FEAT_X86,							_FEAT_NOFEAT,									_FEAT_SKIP								},
 	{"AMD64",							_XCR0_EMPTY,	FEAT_AMD64,							_EFEAT01_EDX_AMD64,								_FEAT_SKIP								},
 	{"SERIALIZE",						_XCR0_EMPTY,	FEAT_SERIALIZE,						_FEAT07_EDX_SERIALIZE,							_FEAT_SKIP								},
 	{"HYBRID",							_XCR0_EMPTY,	FEAT_HYBRID,						_FEAT07_EDX_HYBRID,								_FEAT_SKIP								},
 	{"MCOMMIT",							_XCR0_EMPTY,	FEAT_MCOMMIT,						_EFEAT08_EBX_MCOMMIT,							_FEAT_SKIP								},
 	{"PCONFIG",							_XCR0_EMPTY,	FEAT_PCONFIG,						_FEAT07_EDX_PCONFIG,							_FEAT_SKIP								},
-	{"---Deprecated---",				_XCR0_EMPTY,	FEAT_GROUP_DEPRECATED,				_FEAT_SKIP,										_FEAT_SKIP								},
+	{"------------------- Deprecated",	_XCR0_EMPTY,	FEAT_GROUP_DEPRECATED,				_FEAT_SKIP,										_FEAT_SKIP								},
 	{"X87",								_XCR0_EMPTY,	FEAT_X87,							_FEAT01_EDX_X87,								_FEAT_SKIP								},
 	{"MMX",								_XCR0_EMPTY,	FEAT_MMX,							_FEAT01_EDX_MMX,								_FEAT_SKIP								},
 	{"MMX+",							_XCR0_EMPTY,	FEAT_MMXP,							_EFEAT01_EDX_MMXP,								_FEAT_SKIP								},
@@ -137,7 +138,7 @@ const _EXT CPU_Props::exts[FEAT_LAST] = {
 	{"MPX",								_XCR0_EMPTY,	FEAT_MPX,							_FEAT07_EBX_MPX,								_FEAT_SKIP								},
 	{"HLE",								_XCR0_EMPTY,	FEAT_HLE,							_FEAT07_EBX_HLE,								_FEAT_SKIP								},
 	{"PCOMMIT",							_XCR0_EMPTY,	FEAT_PCOMMIT,						_FEAT07_EBX_PCOMMIT,							_FEAT_SKIP								},
-};
+} };
 
 const _CPUID_VENDOR CPU_Props::vendors[_VENDOR_LAST] = {
 	{_VENDOR_AMD,		{0x69444D41, 0x74656273, 0x21726574}},		//"AMDisbetter!"
@@ -436,19 +437,31 @@ void CPU_Props::PrintBrand(void) const {
 }
 
 void CPU_Props::PrintSupportStatus(bool supp, WORD col) const {
-	cout << ": " << color(col) << (supp ? "supported" : "unsupported") << white;
+	cout << ": " << color(col) << setw(11) << (supp ? "supported" : "unsupported") << white;
 }
 
 void CPU_Props::PrintSupportStatus(int num, WORD col) const {
-	cout << ": " << color(col) << num << white;
+	cout << ": " << color(col) << setw(11) << dec << left << num << white;
 }
 
-void CPU_Props::PrintOSStatus(bool enadisa, WORD col) const {
-	cout << ", " << color(col) << (enadisa ? "OS enabled" : "OS disabled") << white;
+void CPU_Props::PrintOSStatus(bool state, WORD col) const {
+	cout << ", " << color(col) << setw(11) << (state ? "OS enabled" : "OS disabled") << white;
 }
 
 void CPU_Props::PrintFeat(uint64_t f) const {
-	cout << left << exts[f].name;
+	cout << left << exts[0][f].name;
+}
+
+void CPU_Props::PrintFeat(int value) const {
+	cout << ": " << left << dec << setw(10) << value << "              ";
+}
+
+void CPU_Props::PrintFeat(int value, WORD col, bool dir = false) const {
+	cout << ": " << color(col) << ((dir == false) ? left : right) << dec << setw(10) << value << "              " <<  white;
+}
+
+void CPU_Props::PrintFeatUnit(int value, WORD col, const char * unit) const {
+	cout << ": " << color(col) << right << dec << setw(10) << value << ' ' << white << unit;
 }
 
 void CPU_Props::PrintFeatHex(int value, WORD col) const {
@@ -474,9 +487,11 @@ void CPU_Props::PrintFeatDecHex(int value, WORD col) const {
 void CPU_Props::PrintFeat(bool required_feat, bool xsave_enabled, bool xsave_disabled) const {
 	if (!required_feat) {
 		PrintSupportStatus(false, COLOR_RED);
+		cout << "             ";
 	} else {
 		if (!xsave_enabled && !xsave_disabled) {
 			PrintSupportStatus(false, COLOR_RED);
+			cout << "             ";
 		} else if (xsave_enabled) {
 			PrintSupportStatus(true, COLOR_GREEN);
 			PrintOSStatus(true, COLOR_GREEN);
@@ -490,78 +505,102 @@ void CPU_Props::PrintFeat(bool required_feat, bool xsave_enabled, bool xsave_dis
 void CPU_Props::PrintFeat(bool required_feat, bool xsave_enabled, bool xsave_disabled, int num) const {
 	if (!required_feat) {
 		PrintSupportStatus(false, COLOR_RED);
+		cout << "             ";
 	} else {
 		if (!xsave_enabled && !xsave_disabled) {
 			PrintSupportStatus(false, COLOR_RED);
+			cout << "             ";
 		} else if (num != -1) {
 			CharColor col = xsave_enabled ? COLOR_GREEN : COLOR_YELLOW;
 			PrintSupportStatus(num, col);
 			if (!xsave_enabled)
 				PrintOSStatus(xsave_enabled, col);
+			else
+				cout << "             ";
 		} 
 	}
 }
 
 void CPU_Props::PrintFeats(void) const {
-	for (int featInd = 0; featInd < sizeof(exts) / sizeof(_EXT); featInd++) {
-		cout << left << std::setw(FEAT_NAME_SIZE) << exts[featInd].name;
-
-		if (exts[featInd].cpuidPlace[0] != _FEAT_SKIP) {
-			unsigned __int64 f_low	= 1ULL << (featInd & 0x3f);
-			unsigned __int64 f_high	= (featInd & ~0x3f) >> 6;
-			bool enabled = (f[f_high] & f_low) != 0;
-			bool disabled = (f_disabled[f_high] & f_low) != 0;
-			switch(exts[featInd]._xcr0) {
-				case _XCR0_AVX:
-					PrintFeat(IsFeatBit(FEAT_AVX), enabled, disabled);
-					break;
-				case _XCR0_AVX512:
-					switch (featInd) {
-						case FEAT_AVX10:	
-							PrintFeat(IsFeatBit(FEAT_AVX10), enabled, disabled);
-							break;
-						case FEAT_AVX10_LEVEL:
-							PrintFeat(IsFeatBit(FEAT_AVX10), (avx10level != 0), false, avx10level);
-							break;
-						default:
-							PrintFeat(IsFeatBit(FEAT_AVX512F), enabled, disabled);
-							break;
-					}
-					break;
-				case _XCR0_AMX:
-				case _KEYLOCK:
-					PrintFeat(true, enabled, disabled);
-					break;
-				case _XCR0_EMPTY:
-				default:
-					switch (exts[featInd]._feats) {
-						case FEAT_VENDOR:
-							PrintVendor();
-							break;
-						case FEAT_FAMILY:
-							PrintFeatDecHex(family, COLOR_AQUA);
-							break;
-						case FEAT_MODEL:
-							PrintFeatDecHex(model, COLOR_AQUA);
-							break;
-						case FEAT_STEPPING:
-							PrintFeatDecHex(stepping, COLOR_AQUA);
-							break;
-						case FEAT_FMS:
-							PrintFeatHex(fms, COLOR_AQUA);
-							break;
-						case FEAT_BRAND:
-							PrintBrand();
-							break;
-						default:
-							PrintSupportStatus(enabled, enabled ? COLOR_GREEN : COLOR_RED);
-							break;
-					}
-					break;
+	for (int featInd = 0; featInd < sizeof(exts[0]) / sizeof(_EXT); featInd++) {
+		for (int featCol = 0; featCol < FEAT_MAX_COL; featCol++) {
+			if (featCol == 0)
+				cout << '|';
+			if (*exts[featCol][featInd].name != 0) {
+				if (exts[featCol][featInd]._feats != FEAT_BRAND)
+					cout << left << std::setw(FEAT_NAME_SIZE) << exts[featCol][featInd].name;
+				else
+					cout << left << std::setw(5) << exts[featCol][featInd].name;
+			} else {
+				cout << "                                                         |";
+				continue;
 			}
+			if (exts[featCol][featInd].cpuidPlace[0] != _FEAT_SKIP) {
+				unsigned __int64 f_low	= 1ULL << (exts[featCol][featInd]._feats & 0x3f);
+				unsigned __int64 f_high	= (exts[featCol][featInd]._feats & ~0x3f) >> 6;
+				bool enabled = (f[f_high] & f_low) != 0;
+				bool disabled = (f_disabled[f_high] & f_low) != 0;
+				switch(exts[featCol][featInd]._xcr0) {
+					case _XCR0_AVX:
+						PrintFeat(IsFeatBit(FEAT_AVX), enabled, disabled);
+						break;
+					case _XCR0_AVX512:
+						switch (exts[featCol][featInd]._feats) {
+							case FEAT_AVX10:	
+								PrintFeat(IsFeatBit(FEAT_AVX10), enabled, disabled);
+								break;
+							case FEAT_AVX10_LEVEL:
+								PrintFeat(IsFeatBit(FEAT_AVX10), enabled, disabled, avx10level);
+								break;
+							default:
+								PrintFeat(IsFeatBit(FEAT_AVX512F), enabled, disabled);
+								break;
+						}
+						break;
+					case _XCR0_AMX:
+					case _KEYLOCK:
+						PrintFeat(true, enabled, disabled);
+						break;
+					case _XCR0_EMPTY:
+					default:
+						switch (exts[featCol][featInd]._feats) {
+							case FEAT_VENDOR:
+								PrintVendor();
+								break;
+							case FEAT_FAMILY:
+								PrintFeatDecHex(family, COLOR_AQUA);
+								break;
+							case FEAT_MODEL:
+								PrintFeatDecHex(model, COLOR_AQUA);
+								break;
+							case FEAT_STEPPING:
+								PrintFeatDecHex(stepping, COLOR_AQUA);
+								break;
+							case FEAT_FMS:
+								PrintFeatHex(fms, COLOR_AQUA);
+								break;
+							case FEAT_BRAND:
+								PrintBrand();
+								break;
+							default:
+								PrintSupportStatus(enabled, enabled ? COLOR_GREEN : COLOR_RED);
+								cout << "             ";
+								break;
+						}
+					}
+				} else {
+					cout << "--------------------------";
+				}
+			cout << '|';
 		}
 		cout << endl;
 	}
+	for (int featCol = 0; featCol < FEAT_MAX_COL; featCol++) {
+		if (featCol == 0)
+			cout << '|';
+		cout << "---------------------------------------------------------|";
+	}
+	cout << endl;
 }
 
 bool CPU_Props::IsFeat(int feat) const {
@@ -1110,80 +1149,85 @@ void CPU_Props::SetFeats(_CPUID_RES& c) {
 			break;
 		}
 	}
-	for (int featInd = 0; featInd < sizeof(exts) / sizeof(_EXT); featInd++) {
-		if (*exts[featInd].name == 0)
-			continue;
-		for (int cpuidPlaces = 0; cpuidPlaces < CPUID_MAXPLACE; cpuidPlaces++) {
-			unsigned long place = (unsigned long)(exts[featInd].cpuidPlace[cpuidPlaces] >> 32);
-			unsigned long fbit = (unsigned long)(exts[featInd].cpuidPlace[cpuidPlaces] & ~0UL);
-			unsigned __int64 f_low = 1ULL << (featInd & 0x3f);
-			unsigned __int64 f_high = (featInd & ~0x3f) >> 6;
-			switch (place) {
-				case _FEAT_SKIP:
-					continue;
-				case CPUID_NOPLACE:
-					switch (exts[featInd]._feats) { //special LNOP detection
-						case FEAT_LNOP: {
-							switch (GetFam()) {
-								case 0x6:
-								case 0x7:
-								case 0xf:
-									f[f_high] |= f_low;
-									break;
-								default:
-									break;
-								}
-							} break;
-						case FEAT_X86: { //FEAT_X86 always present
-							f[f_high] |= f_low;
-						} break;
-						default:
-							break;
-						}
-					break;
-				case CPUID_NUMFIELD: //non-binary CPUID info
-					switch (exts[featInd]._feats) {
-						case FEAT_FAMILY: {
-							family		= ((c.cpuid_res[CPUID_FEAT01_EAX] >> 8) & 0xf) + ((c.cpuid_res[CPUID_FEAT01_EAX] >> 20) & 0xf);
-						} break;
-						case FEAT_MODEL: {
-							model		= ((c.cpuid_res[CPUID_FEAT01_EAX] >> 4) & 0xf) | ((c.cpuid_res[CPUID_FEAT01_EAX] >> 12) & 0xf0);
-						} break;
-						case FEAT_STEPPING: {
-							stepping	= c.cpuid_res[CPUID_FEAT01_EAX] & 0xf;
-						} break;
-						case FEAT_FMS: {
-							fms			= c.cpuid_res[CPUID_FEAT01_EAX];
-						} break;
-						case FEAT_AVX10_LEVEL: {
-							if (IsFeat(FEAT_AVX10))
-								avx10level = c.cpuid_res[CPUID_FEAT24_EBX] & 0xff;
-						} break;
-						default:
-							break;
-					}
-					break;
-				default:
-					if ((c.cpuid_res[min(CPUID_LAST - 1, place)] & fbit) == fbit) {
-						switch (exts[featInd]._xcr0) {
-							case _XCR0_EMPTY:
+	for (int featInd = 0; featInd < sizeof(exts[0]) / sizeof(_EXT); featInd++) {
+		for (int featCol = 0; featCol < FEAT_MAX_COL; featCol++) {
+			if (*exts[featCol][featInd].name == 0)
+				continue;
+			for (int cpuidPlaces = 0; cpuidPlaces < CPUID_MAXPLACE; cpuidPlaces++) {
+				unsigned long cpuidplace = (unsigned long)(exts[featCol][featInd].cpuidPlace[cpuidPlaces] >> 32);
+				unsigned long fbit = (unsigned long)(exts[featCol][featInd].cpuidPlace[cpuidPlaces] & ~0UL);
+				unsigned __int64 f_low = 1ULL << (exts[featCol][featInd]._feats & 0x3f);
+				unsigned __int64 f_high = (exts[featCol][featInd]._feats & ~0x3f) >> 6;
+				switch (cpuidplace) {
+					case _FEAT_SKIP:
+						continue;
+					case CPUID_NOPLACE:
+						switch (exts[featCol][featInd]._feats) { //special LNOP detection
+							case FEAT_LNOP: {
+								switch (GetFam()) {
+									case 0x6:
+									case 0x7:
+									case 0xf:
+										f[f_high] |= f_low;
+										break;
+									default:
+										break;
+									}
+								} break;
+							case FEAT_X86: { //FEAT_X86 always present
 								f[f_high] |= f_low;
-								break;
-							case _KEYLOCK:
-								if (IsFeat(FEAT_KEYLOCK))
-									f[f_high] |= f_low;
-								break;
+							} break;
 							default:
-								if ((c.xcr0 & exts[featInd]._xcr0) == exts[featInd]._xcr0)
+								break;
+							}
+						break;
+					case CPUID_NUMFIELD: //non-binary CPUID info
+						switch (exts[featCol][featInd]._feats) {
+							case FEAT_FAMILY: {
+								family		= ((c.cpuid_res[CPUID_FEAT01_EAX] >> 8) & 0xf) + ((c.cpuid_res[CPUID_FEAT01_EAX] >> 20) & 0xf);
+							} break;
+							case FEAT_MODEL: {
+								model		= ((c.cpuid_res[CPUID_FEAT01_EAX] >> 4) & 0xf) | ((c.cpuid_res[CPUID_FEAT01_EAX] >> 12) & 0xf0);
+							} break;
+							case FEAT_STEPPING: {
+								stepping	= c.cpuid_res[CPUID_FEAT01_EAX] & 0xf;
+							} break;
+							case FEAT_FMS: {
+								fms			= c.cpuid_res[CPUID_FEAT01_EAX];
+							} break;
+							case FEAT_AVX10_LEVEL: {
+								avx10level = c.cpuid_res[CPUID_FEAT24_EBX] & 0xff;
+								if ((c.xcr0 & exts[featCol][featInd]._xcr0) == exts[featCol][featInd]._xcr0)
 									f[f_high] |= f_low;
 								else
 									f_disabled[f_high] |= f_low;
+							} break;
+							default:
 								break;
 						}
-					}
-					break;
-			}
-		}
+						break;
+					default:
+						if ((c.cpuid_res[min(CPUID_LAST - 1, cpuidplace)] & fbit) == fbit) {
+							switch (exts[featCol][featInd]._xcr0) {
+								case _XCR0_EMPTY:
+									f[f_high] |= f_low;
+									break;
+								case _KEYLOCK:
+									if (IsFeat(FEAT_KEYLOCK))
+										f[f_high] |= f_low;
+									break;
+								default:
+									if ((c.xcr0 & exts[featCol][featInd]._xcr0) == exts[featCol][featInd]._xcr0)
+										f[f_high] |= f_low;
+									else
+										f_disabled[f_high] |= f_low;
+									break;
+							}
+						}
+						break;
+				}
+			} //for (int featplace = 0; featplace < CPUID_MAXPLACE; featplace++) 
+		} //for (int featCol = 0; featCol < FEAT_MAX_COL; featCol++) 
 	}
 	if (IsFeat(FEAT_AMX_TILE)) {
 		AMX_palette[0].total_tile_bytes	= c.cpuid_res[CPUID_FEAT1D01_EAX] & 0xffff;

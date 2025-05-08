@@ -2,6 +2,8 @@
 
 #define		CPUPROPS_VERS					0x0103
 
+#define		FEAT_MAX_COL					2
+
 enum Feats {
 //	Identification						//Introduced by..
 	FEAT_GROUP_ID,						
@@ -151,7 +153,7 @@ enum Feats {
 	FEAT_MPX,							//Skylake
 	FEAT_HLE,							//Haswell
 	FEAT_PCOMMIT,						//DOA
-	FEAT_LAST
+	FEAT_MAX_ROW = FEAT_AVX10_LEVEL + 1
 };
 
 enum x86_regs {
@@ -612,7 +614,7 @@ enum cpuidStr {
 
 class CPU_Props {
 private:
-	static const _EXT			exts[FEAT_LAST];
+	static const _EXT			exts[FEAT_MAX_COL][FEAT_MAX_ROW];
 	static const _CPUID_VENDOR	vendors[_VENDOR_LAST];
 	static const char*			_cpuid_names[][CPUID_STR_LAST + 1];
 	_AMX_palette				AMX_palette[MAX_AMX_PALETTE];
@@ -661,6 +663,9 @@ public:
 	CPU_Props(UINT64 arg_xcr0);
 	void						PrintFeats(void) const;
 	void						PrintFeat(uint64_t) const;
+	void						PrintFeat(int value) const;
+	void						PrintFeat(int value, WORD col, bool dir) const;
+	void						PrintFeatUnit(int value, WORD col, const char * unit) const;
 	void						PrintFeatHex(int value, WORD col) const;
 	void						PrintFeatDecHex(int value, WORD col) const;
 	void						PrintVendor(void) const;
