@@ -249,7 +249,6 @@ enum _VENDOR  : uint32_t {
 #define _FEAT01_FAMILY									                (CPUID_NUMFIELD << 32)
 #define _FEAT01_MODEL									                (CPUID_NUMFIELD << 32)
 #define _FEAT01_STEPPING								                (CPUID_NUMFIELD << 32)
-#define _FEAT01_FMS										                (CPUID_NUMFIELD << 32)
 
 #define _FEAT01_EDX_X87									_FEAT_PLACE( 0, FEAT01_EDX)
 #define _FEAT01_EDX_VME									_FEAT_PLACE( 1, FEAT01_EDX)
