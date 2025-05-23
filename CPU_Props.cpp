@@ -1065,6 +1065,7 @@ int CPU_Props::Get_512bFMA_DP_Ports(void) const { //v0100
 					case 0x000B06F0:	//Raptor Cove + Gracemont           / RAPTORLAKE_S, BARTLETTLAKE_P_E
 					case 0x000C0650:	//Lion Cove + Skymont + Crestmont   / ARROW_LAKE_H
 					case 0x000C0660:	//Lion Cove + Skymont               / ARROW_LAKE_S
+					case 0x000C06A0:	//Lion Cove + Skymont               / ARROW_LAKE_R
 					case 0x000C06C0:	//Cougar Cove + Darkmont            / PANTHER_LAKE_L
 					case 0x000D0650:	//Cougar Cove + Darkmont            / WILDCAT_LAKE
 					case 0x000D06D0:	//Darkmont                          / CLEARWATERFOREST_X
